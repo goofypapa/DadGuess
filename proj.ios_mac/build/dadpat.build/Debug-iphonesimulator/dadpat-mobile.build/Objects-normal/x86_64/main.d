@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/wusi/Projects/ToyDrumGame/proj.ios_mac/ios/Prefix.pch \
-  /Users/wusi/Projects/ToyDrumGame/proj.ios_mac/ios/main.m
+  /Users/benbaba/Project/ToyDrumGame/proj.ios_mac/ios/Prefix.pch \
+  /Users/benbaba/Project/ToyDrumGame/proj.ios_mac/ios/main.m

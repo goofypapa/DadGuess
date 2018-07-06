@@ -41,7 +41,6 @@ bin/
 obj/
 gen/
 assets/
-cocos2d_libs.build/
 local.properties
 
 
@@ -128,3 +127,6 @@ cmake_install.cmake
 
 # Ignore files build by Visual Studio Code
 .vscode/
+
+# cocos build temp
+cocos2d/build/build/

@@ -41,6 +41,7 @@ bin/
 obj/
 gen/
 assets/
+cocos2d_libs.build/
 local.properties
 
 

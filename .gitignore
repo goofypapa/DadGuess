@@ -41,6 +41,7 @@ bin/
 obj/
 gen/
 assets/
+build/build/
 local.properties
 
 

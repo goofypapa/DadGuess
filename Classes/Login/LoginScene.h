@@ -27,15 +27,20 @@ public:
     void loginSina( cocos2d::Ref* pSender );
     void loginPhone( cocos2d::Ref* pSender );
 
-    void loginBack( cocos2d::Ref* pSender );
+    void loginBack();
     
     void phoneRegister( cocos2d::Ref* pSender );
+    void forgetPassword( cocos2d::Ref* pSender );
+    
+    void sendVerificationCode( cocos2d::Ref* pSender );
 private:
     
     cocos2d::Layer * m_SelectLoginType;
     cocos2d::Layer * m_LoginPhone;
     cocos2d::Layer * m_RegisterPhone;
-    cocos2d::Menu * m_back;
+    cocos2d::Layer * m_PhoneForgetPassword;
+
+    cocos2d::Sprite * m_back;
     
     LoginState m_loginState;
 

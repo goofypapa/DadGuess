@@ -8,6 +8,8 @@
 #include "LoginScene.h"
 #include "ui/CocosGUI.h"
 #include "Common.h"
+#include "Ajax.h"
+#include "external/json/document.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -102,9 +104,9 @@ bool LoginScene::init()
         {
             t_LoginWechat->setScale( adaptation() );
             t_LoginWechat->setPosition( Vec2( visibleSize.width / 4.0f, t_iconPosY ) );
-            auto menu = Menu::create(t_LoginWechat, NULL);
-            menu->setPosition(Vec2::ZERO);
-            m_SelectLoginType->addChild(menu, 1);
+            auto menu = Menu::create( t_LoginWechat, NULL );
+            menu->setPosition( Vec2::ZERO );
+            m_SelectLoginType->addChild( menu, 1 );
             
             auto t_label = Label::createWithTTF( "微信", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f, t_titlePosY ) );
@@ -148,7 +150,7 @@ bool LoginScene::init()
     auto t_eyeSize = t_eye->getContentSize();
     static float t_eyeOpen = false;
 
-    auto t_passwordInput = TextField::create( "", PAGE_FONT, 12 );
+    auto m_loginPasswordInput = TextField::create( "", PAGE_FONT, 12 );
     {
         m_LoginPhone = Layer::create();
         m_LoginPhone->setVisible( false );
@@ -157,7 +159,6 @@ bool LoginScene::init()
        auto t_LoginPhoneBorder = Scale9Sprite::create( "LoginBorder.png" );
        float t_contentHeight = ( t_headHeightHalf * 2 - t_PaddingButtom - origin.y );
 
-       printf( "t_contentHeight: %f\n", t_contentHeight );
        Size t_LoginPhoneBorderSize = Size( windowSize.width * 0.5f, t_contentHeight * 0.4f );
        if( t_LoginPhoneBorder != nullptr )
        {
@@ -203,19 +204,18 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( t_passwordLabel );
         }
         
-        auto t_passwordInput = TextField::create( "", PAGE_FONT, 12 );
-        if( t_passwordInput != nullptr )
+        if( m_loginPasswordInput != nullptr )
         {
-            t_passwordInput->setAnchorPoint( Point(0,0.5f) );
-            t_passwordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_passwordInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
-            t_passwordInput->setPasswordEnabled( true );
-            t_passwordInput->setTouchAreaEnabled( true );
-            t_passwordInput->setTouchSize( t_phoneInputSize );
-            t_passwordInput->setPasswordStyleText( "*" );
+            m_loginPasswordInput->setAnchorPoint( Point(0,0.5f) );
+            m_loginPasswordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_loginPasswordInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_loginPasswordInput->setPasswordEnabled( true );
+            m_loginPasswordInput->setTouchAreaEnabled( true );
+            m_loginPasswordInput->setTouchSize( t_phoneInputSize );
+            m_loginPasswordInput->setPasswordStyleText( "*" );
 //            ((Label *)t_passwordInput)->setAdditionalKerning( 5.0f );
             
-            t_passwordLabel->addChild( t_passwordInput );
+            t_passwordLabel->addChild( m_loginPasswordInput );
         }
         
         if( t_eye != nullptr )
@@ -224,7 +224,7 @@ bool LoginScene::init()
             t_passwordLabel->addChild( t_eye );
         }
 
-        auto t_phoneRegister = MenuItemFont::create( "手机号注册", CC_CALLBACK_1( LoginScene::phoneRegister, this ) );
+        auto t_phoneRegister = MenuItemFont::create( "手机号注册", CC_CALLBACK_1( LoginScene::toPhoneRegister, this ) );
         if( t_phoneRegister != nullptr )
         {
             t_phoneRegister->setFontSizeObj( 10 );
@@ -235,7 +235,7 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( menu, 1 );
         }
         
-        auto t_forgetPassword = MenuItemFont::create( "忘记密码？", CC_CALLBACK_1( LoginScene::forgetPassword, this ) );
+        auto t_forgetPassword = MenuItemFont::create( "忘记密码？", CC_CALLBACK_1( LoginScene::toForgetPassword, this ) );
         if( t_forgetPassword != nullptr )
         {
             t_forgetPassword->setFontSizeObj( 10 );
@@ -246,13 +246,11 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( menu, 1 );
         }
 
-         auto t_loginButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::loginPhone, this ) );
+         auto t_loginButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::login, this ) );
          t_loginButton->setScale( adaptation() );
          auto t_loginButtonSize = t_loginButton->getContentSize();
          if( t_loginButton != nullptr )
          {
-             
-             printf( "t_loginButtonSize: { %f, %f }", t_loginButtonSize.width, t_loginButtonSize.height );
              
              float t_loginButtonMinY = t_loginButtonSize.height * 0.5f + origin.y + t_PaddingButtom;
              float t_loginButtonMaxY = t_contentHeight * 0.9 - t_LoginPhoneBorderSize.height + origin.y + t_PaddingButtom - t_loginButtonSize.height * 0.5f - 10.0f;
@@ -264,16 +262,19 @@ bool LoginScene::init()
              }else{
                 t_loginButton->setPosition( Vec2( windowSize.width * 0.5f, ( t_loginButtonMinY > t_loginButtonBestY || t_loginButtonBestY > t_loginButtonMaxY ) ? t_loginButtonMinY : t_loginButtonBestY ) );
              }
-             
-             
-             m_LoginPhone->addChild( t_loginButton );
+
+
+            auto menu = Menu::create( t_loginButton, NULL );
+            menu->setPosition( Vec2::ZERO );
+            m_LoginPhone->addChild( menu, 1 );
+
          }
         
         auto t_loginLabel = Label::createWithTTF( "登陆", PAGE_FONT, 12 );
         if( t_loginLabel != nullptr )
         {
             t_loginLabel->setPosition( t_loginButton->getPosition() );
-            m_LoginPhone->addChild( t_loginLabel );
+            m_LoginPhone->addChild( t_loginLabel, 2 );
         }
        
     }
@@ -379,7 +380,7 @@ bool LoginScene::init()
         }
         
         
-        auto t_registerButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::loginPhone, this ) );
+        auto t_registerButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::phoneRegister, this ) );
         t_registerButton->setScale( adaptation() );
         auto t_registerButtonSize = t_registerButton->getContentSize();
         if( t_registerButton != nullptr )
@@ -396,15 +397,18 @@ bool LoginScene::init()
              }else{
                 t_registerButton->setPosition( Vec2( windowSize.width * 0.5f, ( t_registerButtonMinY > t_registerButtonBestY || t_registerButtonBestY > t_registerButtonMaxY ) ? t_registerButtonMinY : t_registerButtonBestY ) );
             }
-            
-            m_RegisterPhone->addChild( t_registerButton );
+
+            auto menu = Menu::create( t_registerButton, NULL );
+            menu->setPosition( Vec2::ZERO );
+            m_RegisterPhone->addChild( menu, 1 );
+
         }
         
         auto t_registerLabel = Label::createWithTTF( "注册", PAGE_FONT, 12 );
         if( t_registerLabel != nullptr )
         {
             t_registerLabel->setPosition( t_registerButton->getPosition() );
-            m_RegisterPhone->addChild( t_registerLabel );
+            m_RegisterPhone->addChild( t_registerLabel, 2 );
         }
     }
 
@@ -544,21 +548,21 @@ bool LoginScene::init()
 
     auto t_listener = EventListenerTouchOneByOne::create();
     t_listener->setSwallowTouches( true );
-    t_listener->onTouchBegan = [=](Touch* touch, Event* event){
+    t_listener->onTouchBegan = [=]( Touch* touch, Event* event ){
         
         printf( "touch begin" );
         
-        Point locationInNode = t_eye->convertToNodeSpace(touch->getLocation());
+        Point locationInNode = t_eye->convertToNodeSpace( touch->getLocation() );
         
         Size s = t_eye->getContentSize();
         
-        Rect rect = Rect(0, 0, s.width, s.height);
+        Rect rect = Rect( 0, 0, s.width, s.height );
         
-        if (rect.containsPoint(locationInNode)) {
+        if ( rect.containsPoint( locationInNode ) ) {
 
             t_eyeOpen = true;
             t_eye->setTexture( "LoginEyeOpen.png" );
-            t_passwordInput->setPasswordEnabled( false );
+            m_loginPasswordInput->setPasswordEnabled( false );
         }
 
         if( m_back->isVisible() )
@@ -574,11 +578,11 @@ bool LoginScene::init()
         return true;
     };
     
-    t_listener->onTouchEnded = [=](Touch* touch, Event* event){
+    t_listener->onTouchEnded = [=]( Touch* touch, Event* event ){
         
         printf( "touch end \n" );
         
-        Point locationInNode = t_eye->convertToNodeSpace(touch->getLocation());
+        Point locationInNode = t_eye->convertToNodeSpace( touch->getLocation() );
 
         Size s = t_eye->getContentSize();
         
@@ -588,7 +592,7 @@ bool LoginScene::init()
         {
             t_eyeOpen = false;
             t_eye->setTexture( "LoginEyeClose.png" );
-            t_passwordInput->setPasswordEnabled( true );
+            m_loginPasswordInput->setPasswordEnabled( true );
         }
         
         return true;
@@ -619,7 +623,7 @@ void LoginScene::update( float p_delta )
 
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
-
+    
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )
@@ -659,14 +663,14 @@ void LoginScene::loginBack()
     }
 }
 
-void LoginScene::phoneRegister( cocos2d::Ref* pSender )
+void LoginScene::toPhoneRegister( cocos2d::Ref* pSender )
 {
     m_loginState = LoginState::PhoneRegister;
     m_LoginPhone->setVisible( false );
     m_RegisterPhone->setVisible( true );
 }
 
-void LoginScene::forgetPassword( cocos2d::Ref* pSender )
+void LoginScene::toForgetPassword( cocos2d::Ref* pSender )
 {
     m_loginState = LoginState::PhoneForgetPassword;
     m_LoginPhone->setVisible( false );
@@ -676,5 +680,68 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender )
 void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 {
     
+}
+
+void LoginScene::login( cocos2d::Ref* pSender )
+{
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "userMobile" ] = "13720067880";
+    t_parameter[ "userPwd" ] = "123456";
+
+    // Ajax::Post( "https://www.goofypapa.com/game/user/access.do", "{ userMobile: \"13720067880\", userPwd: \"123456\" }", []( std::string p_res ){
+    Ajax::Get( "https://www.goofypapa.com/game/user/access.do", &t_parameter, []( std::string p_res ){
+        printf( "success: %s \n", p_res.c_str() );
+    }, []( std::string p_res ){
+        printf( "final: %s \n", p_res.c_str() );
+    } );
+}
+
+void LoginScene::phoneRegister( cocos2d::Ref* pSender )
+{
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "userMobile" ] = "13720067880";
+    t_parameter[ "userName" ] = "ws";
+    t_parameter[ "userPwd" ] = "goofypapa";
+    t_parameter[ "userSex" ] = "2";
+    t_parameter[ "userBirthday" ] = "1993-02-01";
+    
+    Ajax::Get( "https://www.goofypapa.com/game/user/register.do", &t_parameter, []( std::string p_res ){
+        rapidjson::Document t_doc;
+        t_doc.Parse( p_res.c_str() );
+
+        if( t_doc.HasParseError() )
+        {
+            printf( "parse error" );
+            return;
+        }
+
+        if( !t_doc.IsObject() )
+        {
+            printf( "not is Object" );
+            return;
+        }
+
+        if( !t_doc.HasMember( "success" ) )
+        {
+            printf( "not find success" );
+            return;
+        }
+
+        float t_success = t_doc["success"].GetBool();
+
+        if( t_success )
+        {
+            printf( "result success" );
+            //注册 跳转至首页
+        }else{
+
+            //提示框
+            printf( "result final" );
+        }
+
+        printf( "success: %s \n", p_res.c_str() );
+    }, []( std::string p_res ){
+        printf( "final: %s \n", p_res.c_str() );
+    } );
 }
 

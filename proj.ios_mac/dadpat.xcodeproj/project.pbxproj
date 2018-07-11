@@ -21,6 +21,7 @@
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
 		37364EB420EF40B1002A40AE /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37364EB220EF40B1002A40AE /* Common.cpp */; };
 		37364EB620EF40B7002A40AE /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37364EB220EF40B1002A40AE /* Common.cpp */; };
+		37E6FCC120F482E60047F458 /* Ajax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCBF20F482E60047F458 /* Ajax.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
@@ -57,7 +58,6 @@
 		D8B23D4E20EB1E1900EB4F2E /* LoginWechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4A20EB1E1900EB4F2E /* LoginWechat.png */; };
 		D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8B23D5520EB3F5600EB4F2E /* LoginScene.cpp */; };
 		D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D5C20EB61D100EB4F2E /* Back.png */; };
-		D8B23D6020EB70CC00EB4F2E /* LoginPhoneLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8B23D5E20EB70CC00EB4F2E /* LoginPhoneLayer.cpp */; };
 		D8B23D6220EC71CB00EB4F2E /* LoginBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6120EC71CB00EB4F2E /* LoginBorder.png */; };
 		D8B23D6420EC8F3900EB4F2E /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6320EC8F3800EB4F2E /* LoginButton.png */; };
 		D8B23D6720ECA53000EB4F2E /* LoginEyeOpen.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6520ECA52F00EB4F2E /* LoginEyeOpen.png */; };
@@ -124,6 +124,8 @@
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
 		37364EB220EF40B1002A40AE /* Common.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
 		37364EB320EF40B1002A40AE /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		37E6FCBF20F482E60047F458 /* Ajax.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ajax.cpp; sourceTree = "<group>"; };
+		37E6FCC020F482E60047F458 /* Ajax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ajax.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -157,8 +159,6 @@
 		D8B23D5420EB3F5600EB4F2E /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		D8B23D5520EB3F5600EB4F2E /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		D8B23D5C20EB61D100EB4F2E /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
-		D8B23D5E20EB70CC00EB4F2E /* LoginPhoneLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginPhoneLayer.cpp; sourceTree = "<group>"; };
-		D8B23D5F20EB70CC00EB4F2E /* LoginPhoneLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginPhoneLayer.h; sourceTree = "<group>"; };
 		D8B23D6120EC71CB00EB4F2E /* LoginBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBorder.png; sourceTree = "<group>"; };
 		D8B23D6320EC8F3800EB4F2E /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginButton.png; sourceTree = "<group>"; };
 		D8B23D6520ECA52F00EB4F2E /* LoginEyeOpen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginEyeOpen.png; sourceTree = "<group>"; };
@@ -319,6 +319,8 @@
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
 				37364EB220EF40B1002A40AE /* Common.cpp */,
 				37364EB320EF40B1002A40AE /* Common.h */,
+				37E6FCBF20F482E60047F458 /* Ajax.cpp */,
+				37E6FCC020F482E60047F458 /* Ajax.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -347,8 +349,6 @@
 		D8B23D5120EB3F5600EB4F2E /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D8B23D5E20EB70CC00EB4F2E /* LoginPhoneLayer.cpp */,
-				D8B23D5F20EB70CC00EB4F2E /* LoginPhoneLayer.h */,
 				D8B23D5420EB3F5600EB4F2E /* LoginScene.h */,
 				D8B23D5520EB3F5600EB4F2E /* LoginScene.cpp */,
 			);
@@ -499,11 +499,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
-				D8B23D6020EB70CC00EB4F2E /* LoginPhoneLayer.cpp in Sources */,
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37364EB420EF40B1002A40AE /* Common.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				37E6FCC120F482E60047F458 /* Ajax.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 			);

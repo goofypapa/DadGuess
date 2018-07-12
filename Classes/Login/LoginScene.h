@@ -47,6 +47,7 @@ private:
 
     cocos2d::Sprite * m_back;
     
+    cocos2d::ui::TextField * m_loginPhoneInput;
     cocos2d::ui::TextField * m_loginPasswordInput;
     
     LoginState m_loginState;

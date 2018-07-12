@@ -37,22 +37,10 @@ void Ajax::Get( const std::string & p_url, AjaxParameter * p_parameter, AjaxCall
             t_url << p_url << "&";
         }
 
-        int t_index = 0;
-        for( auto item : (*p_parameter) )
-        {
-
-            t_url << item.first << "=" << item.second;
-            
-            if( ++t_index != p_parameter->size() )
-            {
-                t_url << "&";
-            }
-        }
+        t_url << parseParameter( p_parameter );
 
         t_requerstUrl = t_url.str();
     }
-
-    printf( "t_requerstUrl: %s \n", t_requerstUrl.c_str() );
 
     //    生成HttpRequest对象
     auto request = new HttpRequest();
@@ -62,7 +50,6 @@ void Ajax::Get( const std::string & p_url, AjaxParameter * p_parameter, AjaxCall
     request->setRequestType( HttpRequest::Type::GET );
     //    设置请求完成后的回调函数
     
-    printf( "obj: %d \n", t_ajax );
     request->setResponseCallback( CC_CALLBACK_2( Ajax::getHttp_handshakeResponse, t_ajax) );
     //    设置请求tag
     request->setTag("GET");
@@ -73,7 +60,7 @@ void Ajax::Get( const std::string & p_url, AjaxParameter * p_parameter, AjaxCall
 
 }
 
-void Ajax::Post( const std::string & p_url, const std::string & p_data, AjaxCallBack p_success, AjaxCallBack p_final )
+void Ajax::Post( const std::string & p_url, AjaxParameter * p_parameter, AjaxCallBack p_success, AjaxCallBack p_final )
 {
     Ajax * t_ajax = new Ajax;
 
@@ -91,12 +78,13 @@ void Ajax::Post( const std::string & p_url, const std::string & p_data, AjaxCall
     request->setResponseCallback( CC_CALLBACK_2( Ajax::getHttp_handshakeResponse, t_ajax) );
 
     std::vector<std::string> headers;
-    headers.push_back("Content-Type: application/json; charset=utf-8");
+    headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
     // 设置请求头，如果数据为键值对则不需要设置
 
     request -> setHeaders( headers );
     // 传入发送的数据及数据
-    request -> setRequestData(p_data.c_str(), p_data.size());
+    std::string t_data = parseParameter( p_parameter );
+    request -> setRequestData(t_data.c_str(), t_data.size());
 
     //    设置请求tag
     request->setTag("POST");
@@ -169,4 +157,22 @@ void Ajax::getHttp_handshakeResponse( network::HttpClient * p_sender, network::H
     }
     
     delete this;
+}
+
+std::string Ajax::parseParameter( AjaxParameter * p_parameter )
+{
+    std::stringstream sstr;
+    int t_index = 0;
+    for( auto item : (*p_parameter) )
+    {
+
+        sstr << item.first << "=" << item.second;
+        
+        if( ++t_index != p_parameter->size() )
+        {
+            sstr << "&";
+        }
+    }
+
+    return sstr.str();
 }

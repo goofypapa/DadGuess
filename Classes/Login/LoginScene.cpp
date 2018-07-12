@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "Ajax.h"
 #include "external/json/document.h"
+ #include "../DataBase/DataTableUser.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -31,6 +32,21 @@ bool LoginScene::init()
     {
         return false;
     }
+
+    auto t_dataTableUser = DataTableUser::instance();
+
+    t_dataTableUser.insert( "13720067880", "haha", "", false );
+
+    auto t_list = t_dataTableUser.list();
+
+    for( auto t_row : t_list )
+    {
+        for( auto t_column : t_row )
+        {
+            printf( "%s: %s \n", t_column.first.c_str(), t_column.second.c_str() );
+        }
+    }
+
     
     m_loginState = LoginState::SelectLogin;
 
@@ -150,7 +166,7 @@ bool LoginScene::init()
     auto t_eyeSize = t_eye->getContentSize();
     static float t_eyeOpen = false;
 
-    auto m_loginPasswordInput = TextField::create( "", PAGE_FONT, 12 );
+    m_loginPasswordInput = TextField::create( "", PAGE_FONT, 12 );
     {
         m_LoginPhone = Layer::create();
         m_LoginPhone->setVisible( false );
@@ -180,18 +196,18 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( t_phoneLabel );
         }
         
-        auto t_phoneInput = TextField::create( "", PAGE_FONT, 12 );
+        m_loginPhoneInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_phoneInputSize = Size( t_LoginPhoneBorderSize.width - 60.0f - t_phoneLabelSize.width, t_LoginPhoneBorderSize.height * 0.5f );
-        if( t_phoneInput != nullptr )
+        if( m_loginPhoneInput != nullptr )
         {
-            t_phoneInput->setAnchorPoint( Point(0,0.5f) );
-            t_phoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_phoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_loginPhoneInput->setAnchorPoint( Point(0,0.5f) );
+            m_loginPhoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_loginPhoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
             
-            t_phoneInput->setTouchAreaEnabled( true );
-            t_phoneInput->setTouchSize( t_phoneInputSize );
+            m_loginPhoneInput->setTouchAreaEnabled( true );
+            m_loginPhoneInput->setTouchSize( t_phoneInputSize );
 
-            t_phoneLabel->addChild( t_phoneInput );
+            t_phoneLabel->addChild( m_loginPhoneInput );
         }
         
         
@@ -685,11 +701,14 @@ void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 void LoginScene::login( cocos2d::Ref* pSender )
 {
     std::map< std::string, std::string > t_parameter;
-    t_parameter[ "userMobile" ] = "13720067880";
-    t_parameter[ "userPwd" ] = "123456";
 
-    // Ajax::Post( "https://www.goofypapa.com/game/user/access.do", "{ userMobile: \"13720067880\", userPwd: \"123456\" }", []( std::string p_res ){
-    Ajax::Get( "https://www.goofypapa.com/game/user/access.do", &t_parameter, []( std::string p_res ){
+    auto t_loginPhone = m_loginPhoneInput->getString();
+    auto t_loginPassword = m_loginPasswordInput->getString();
+
+    t_parameter[ "userMobile" ] = t_loginPhone;
+    t_parameter[ "userPwd" ] = t_loginPassword;
+
+    Ajax::Post( "https://www.goofypapa.com/game/user/access.do", &t_parameter, []( std::string p_res ){
         printf( "success: %s \n", p_res.c_str() );
     }, []( std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );

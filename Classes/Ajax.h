@@ -21,11 +21,14 @@ public:
     typedef std::map< std::string, std::string > AjaxParameter;
 
     static void Get( const std::string & p_url, AjaxParameter * p_parameter, AjaxCallBack p_success, AjaxCallBack p_final );
-    static void Post( const std::string & p_url, const std::string & p_data, AjaxCallBack p_success, AjaxCallBack p_final );
+    static void Post( const std::string & p_url, AjaxParameter * p_parameter, AjaxCallBack p_success, AjaxCallBack p_final );
     
     void getHttp_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
 
 private:
+
+    static std::string parseParameter( AjaxParameter * p_parameter );
+
     AjaxCallBack m_success, m_final;
 };
 

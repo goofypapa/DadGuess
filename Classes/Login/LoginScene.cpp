@@ -10,7 +10,8 @@
 #include "Common.h"
 #include "Ajax.h"
 #include "external/json/document.h"
- #include "../DataBase/DataTableUser.h"
+#include "../DataBase/DataTableUser.h"
+#include "Config.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -39,12 +40,23 @@ bool LoginScene::init()
 
     auto t_list = t_dataTableUser.list();
 
-    for( auto t_row : t_list )
+    for( auto t_user : t_list )
     {
-        for( auto t_column : t_row )
-        {
-            printf( "%s: %s \n", t_column.first.c_str(), t_column.second.c_str() );
-        }
+        printf( "id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.id, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
+    }
+
+    auto t_userInfo = t_dataTableUser.find( t_list[0].id );
+    t_userInfo.phone = "12345678";
+    t_userInfo.name = "....";
+
+    t_dataTableUser.update( t_userInfo );
+
+
+    t_list = t_dataTableUser.list();
+
+    for( auto t_user : t_list )
+    {
+        printf( "--- id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.id, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
     }
 
     
@@ -708,7 +720,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userMobile" ] = t_loginPhone;
     t_parameter[ "userPwd" ] = t_loginPassword;
 
-    Ajax::Post( "https://www.goofypapa.com/game/user/access.do", &t_parameter, []( std::string p_res ){
+    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/access.do", &t_parameter, []( std::string p_res ){
         printf( "success: %s \n", p_res.c_str() );
     }, []( std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
@@ -724,7 +736,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "1993-02-01";
     
-    Ajax::Get( "https://www.goofypapa.com/game/user/register.do", &t_parameter, []( std::string p_res ){
+    Ajax::Get( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( std::string p_res ){
         rapidjson::Document t_doc;
         t_doc.Parse( p_res.c_str() );
 

@@ -14,15 +14,28 @@
                 ")"
 #define DataTableUserDrapSql "DROP TABLE table_user"
 
+class DataUser
+{
+public:
+    int id;
+    std::string phone, name, token;
+    bool actication;
+};
+
 class DataTableUser
 {
 public:
 
     static DataTableUser & instance( void );
 
+    bool insert( const DataUser & p_userInfo );
     bool insert( const std::string & p_phone, const std::string & p_name, const std::string & p_token, const bool p_activation );
 
-    std::vector< std::map<std::string, std::string> > list( void );
+    std::vector< DataUser > list( void );
+    DataUser find( const int p_id );
+
+    bool update( const DataUser & p_userInfo );
+    bool remove( const int p_id );
 
 protected:
     bool init( void );

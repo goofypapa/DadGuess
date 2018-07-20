@@ -2,21 +2,23 @@
 #define __MESSAGE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include <string>
 
 class Message: public cocos2d::Layer
 {
 public:
-    static cocos2d::Layer * createMessage( void );
 
     CREATE_FUNC( Message );
 
     void show( const std::string & p_str );
 
-    void hide( void );
-
 protected:
     virtual bool init( void );
+    
+    cocos2d::Label * m_messageLabel;
+    
+    cocos2d::ui::Scale9Sprite * m_messageBoxBG;
 
 };
 

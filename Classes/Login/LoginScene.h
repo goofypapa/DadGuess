@@ -30,12 +30,13 @@ public:
     void loginPhone( cocos2d::Ref* pSender );
 
     void loginBack();
-
-    void login( cocos2d::Ref* pSender );
-    void phoneRegister( cocos2d::Ref* pSender );
     
     void toPhoneRegister( cocos2d::Ref* pSender );
     void toForgetPassword( cocos2d::Ref* pSender );
+    
+    void login( cocos2d::Ref* pSender );
+    void phoneRegister( cocos2d::Ref* pSender );
+    void forgetPassword( cocos2d::Ref* pSender  );
     
     void sendVerificationCode( cocos2d::Ref* pSender );
 private:
@@ -47,8 +48,16 @@ private:
 
     cocos2d::Sprite * m_back;
     
-    cocos2d::ui::TextField * m_loginPhoneInput;
-    cocos2d::ui::TextField * m_loginPasswordInput;
+    cocos2d::ui::EditBox * m_loginPhoneInput;
+    cocos2d::ui::EditBox * m_loginPasswordInput;
+    
+    cocos2d::ui::EditBox * m_RegisterPhoneInput;
+    cocos2d::ui::EditBox * m_RegisterVerificationCodeInput;
+    cocos2d::ui::EditBox * m_RegisterPasswordInput;
+    
+    cocos2d::ui::EditBox * m_ForgetPhoneInput;
+    cocos2d::ui::EditBox * m_ForgetVerificationCodeInput;
+    cocos2d::ui::EditBox * m_ForgetPasswordInput;
     
     LoginState m_loginState;
 

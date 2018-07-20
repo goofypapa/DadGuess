@@ -12,11 +12,16 @@
 #include "external/json/document.h"
 #include "../DataBase/DataTableUser.h"
 #include "Config.h"
+#include "Message.h"
+#include "../DataBase/DataValidate.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
 
 #define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
+#define PHONE_MAXLEN 13
+#define PASSWORD_MAXLEN 16
+#define VERIFICATIONCODE_MAXLEN 6
 
 cocos2d::Scene * LoginScene::CreateScene()
 {
@@ -58,6 +63,13 @@ bool LoginScene::init()
     {
         printf( "--- id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.id, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
     }
+    
+//    MessageBox( "", "哈哈" );
+    
+//    Message * t_messageBox = Message::create();
+//    this->addChild( t_messageBox, 10000 );
+//
+//    t_messageBox->show( "哈哈" );
 
     
     m_loginState = LoginState::SelectLogin;
@@ -177,8 +189,8 @@ bool LoginScene::init()
     t_eye->setScale( adaptation() );
     auto t_eyeSize = t_eye->getContentSize();
     static float t_eyeOpen = false;
-
-    m_loginPasswordInput = TextField::create( "", PAGE_FONT, 12 );
+    
+    auto t_showPassword = Label::createWithTTF( "", PAGE_FONT, 12 );
     {
         m_LoginPhone = Layer::create();
         m_LoginPhone->setVisible( false );
@@ -208,16 +220,19 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( t_phoneLabel );
         }
         
-        m_loginPhoneInput = TextField::create( "", PAGE_FONT, 12 );
+        
+        
         Size t_phoneInputSize = Size( t_LoginPhoneBorderSize.width - 60.0f - t_phoneLabelSize.width, t_LoginPhoneBorderSize.height * 0.5f );
+        m_loginPhoneInput = EditBox::create( t_phoneInputSize, Scale9Sprite::create( "Empty.png" ) );
         if( m_loginPhoneInput != nullptr )
         {
+            m_loginPhoneInput->setFontSize( 12 );
             m_loginPhoneInput->setAnchorPoint( Point(0,0.5f) );
             m_loginPhoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
             m_loginPhoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_loginPhoneInput->setMaxLength( PHONE_MAXLEN );
             
-            m_loginPhoneInput->setTouchAreaEnabled( true );
-            m_loginPhoneInput->setTouchSize( t_phoneInputSize );
+            m_loginPhoneInput->setInputMode( EditBox::InputMode::NUMERIC );
 
             t_phoneLabel->addChild( m_loginPhoneInput );
         }
@@ -232,18 +247,30 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( t_passwordLabel );
         }
         
+        m_loginPasswordInput = EditBox::create( t_phoneInputSize, Scale9Sprite::create( "Empty.png" ) );
         if( m_loginPasswordInput != nullptr )
         {
+            m_loginPasswordInput->setFontSize( 12 );
             m_loginPasswordInput->setAnchorPoint( Point(0,0.5f) );
             m_loginPasswordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            m_loginPasswordInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
-            m_loginPasswordInput->setPasswordEnabled( true );
-            m_loginPasswordInput->setTouchAreaEnabled( true );
-            m_loginPasswordInput->setTouchSize( t_phoneInputSize );
-            m_loginPasswordInput->setPasswordStyleText( "*" );
-//            ((Label *)t_passwordInput)->setAdditionalKerning( 5.0f );
+            m_loginPasswordInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f - 2.0f ) );
+            m_loginPasswordInput->setInputFlag( EditBox::InputFlag::PASSWORD );
+            m_loginPasswordInput->setInputMode(cocos2d::ui::EditBox::InputMode::ANY);
+            m_loginPasswordInput->setReturnType(EditBox::KeyboardReturnType::DONE);
+            m_loginPasswordInput->setInputMode( EditBox::InputMode::SINGLE_LINE );
+            m_loginPasswordInput->setMaxLength( PASSWORD_MAXLEN );
             
             t_passwordLabel->addChild( m_loginPasswordInput );
+        }
+        
+        if( t_showPassword != nullptr )
+        {
+            t_showPassword->setSystemFontName( m_loginPasswordInput->getFontName() );
+            t_showPassword->setAnchorPoint( Point(0,0.5f) );
+            t_showPassword->setAlignment( TextHAlignment::LEFT );
+            t_showPassword->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f - 2.0f ) );
+            t_showPassword->setVisible( false );
+            t_passwordLabel->addChild( t_showPassword );
         }
         
         if( t_eye != nullptr )
@@ -338,18 +365,18 @@ bool LoginScene::init()
             t_RegisterPhoneBorder->addChild( t_phoneLabel );
         }
         
-        auto t_phoneInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_phoneInputSize = Size( t_RegisterPhoneBorderSize.width - 60.0f - t_phoneLabelSize.width, t_RegisterPhoneBorderSize.height / 3.0f );
-        if( t_phoneInput != nullptr )
+        m_RegisterPhoneInput = EditBox::create( t_phoneInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_RegisterPhoneInput != nullptr )
         {
-            t_phoneInput->setAnchorPoint( Point(0,0.5f) );
-            t_phoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_phoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_RegisterPhoneInput->setFontSize( 12 );
+            m_RegisterPhoneInput->setAnchorPoint( Point(0,0.5f) );
+            m_RegisterPhoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_RegisterPhoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_RegisterPhoneInput->setMaxLength( PHONE_MAXLEN );
+            m_RegisterPhoneInput->setInputMode( EditBox::InputMode::NUMERIC );
             
-            t_phoneInput->setTouchAreaEnabled( true );
-            t_phoneInput->setTouchSize( t_phoneInputSize );
-            
-            t_phoneLabel->addChild( t_phoneInput );
+            t_phoneLabel->addChild( m_RegisterPhoneInput );
         }
         
         auto t_verificationCodeLabel = Label::createWithTTF( "验证码", PAGE_FONT, 12 );
@@ -360,18 +387,18 @@ bool LoginScene::init()
             t_RegisterPhoneBorder->addChild( t_verificationCodeLabel );
         }
         
-        auto t_verificationCodeInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_verificationCodeInputSize = Size( t_RegisterPhoneBorderSize.width - 110.0f - t_verificationCodeLabelSize.width, t_RegisterPhoneBorderSize.height / 3.0f );
-        if( t_verificationCodeInput != nullptr )
+        m_RegisterVerificationCodeInput = EditBox::create( t_verificationCodeInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_RegisterVerificationCodeInput != nullptr )
         {
-            t_verificationCodeInput->setAnchorPoint( Point(0,0.5f) );
-            t_verificationCodeInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_verificationCodeInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_verificationCodeLabelSize.height * 0.5f ) );
+            m_RegisterVerificationCodeInput->setFontSize( 12 );
+            m_RegisterVerificationCodeInput->setAnchorPoint( Point(0,0.5f) );
+            m_RegisterVerificationCodeInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_RegisterVerificationCodeInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_verificationCodeLabelSize.height * 0.5f ) );
             
-            t_verificationCodeInput->setTouchAreaEnabled( true );
-            t_verificationCodeInput->setTouchSize( t_verificationCodeInputSize );
-            
-            t_verificationCodeLabel->addChild( t_verificationCodeInput );
+            m_RegisterVerificationCodeInput->setInputMode( EditBox::InputMode::NUMERIC );
+            m_RegisterVerificationCodeInput->setMaxLength( VERIFICATIONCODE_MAXLEN );
+            t_verificationCodeLabel->addChild( m_RegisterVerificationCodeInput );
         }
         
         auto t_sendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::sendVerificationCode, this ) );
@@ -393,18 +420,21 @@ bool LoginScene::init()
             t_RegisterPhoneBorder->addChild( t_passwordLabel );
         }
         
-        auto t_passwordInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_passwordInputSize = Size( t_RegisterPhoneBorderSize.width - 60.0f - t_verificationCodeLabelSize.width, t_RegisterPhoneBorderSize.height / 3.0f);
-        if( t_passwordInput != nullptr )
+        m_RegisterPasswordInput = EditBox::create( t_passwordInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_RegisterPasswordInput != nullptr )
         {
-            t_passwordInput->setAnchorPoint( Point(0,0.5f) );
-            t_passwordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_passwordInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_passwordLabelSize.height * 0.5f ) );
+            m_RegisterPasswordInput->setFontSize( 12 );
+            m_RegisterPasswordInput->setAnchorPoint( Point(0,0.5f) );
+            m_RegisterPasswordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_RegisterPasswordInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_passwordLabelSize.height * 0.5f ) );
             
-            t_passwordInput->setTouchAreaEnabled( true );
-            t_passwordInput->setTouchSize( t_passwordInputSize );
+            m_RegisterPasswordInput->setInputMode(cocos2d::ui::EditBox::InputMode::ANY);
+            m_RegisterPasswordInput->setReturnType(EditBox::KeyboardReturnType::DONE);
+            m_RegisterPasswordInput->setInputMode( EditBox::InputMode::SINGLE_LINE );
+            m_RegisterPasswordInput->setMaxLength( PASSWORD_MAXLEN );
             
-            t_passwordLabel->addChild( t_passwordInput );
+            t_passwordLabel->addChild( m_RegisterPasswordInput );
         }
         
         
@@ -472,18 +502,18 @@ bool LoginScene::init()
             t_ForgetPasswordBorder->addChild( t_phoneLabel );
         }
         
-        auto t_phoneInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_phoneInputSize = Size( t_ForgetPasswordBorderSize.width - 60.0f - t_phoneLabelSize.width, t_ForgetPasswordBorderSize.height / 3.0f );
-        if( t_phoneInput != nullptr )
+        m_ForgetPhoneInput = EditBox::create( t_phoneInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_ForgetPhoneInput != nullptr )
         {
-            t_phoneInput->setAnchorPoint( Point(0,0.5f) );
-            t_phoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_phoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_ForgetPhoneInput->setFontSize( 12 );
+            m_ForgetPhoneInput->setAnchorPoint( Point(0,0.5f) );
+            m_ForgetPhoneInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_ForgetPhoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
+            m_ForgetPhoneInput->setMaxLength( PHONE_MAXLEN );
+            m_ForgetPhoneInput->setInputMode( EditBox::InputMode::NUMERIC );
             
-            t_phoneInput->setTouchAreaEnabled( true );
-            t_phoneInput->setTouchSize( t_phoneInputSize );
-            
-            t_phoneLabel->addChild( t_phoneInput );
+            t_phoneLabel->addChild( m_ForgetPhoneInput );
         }
         
         auto t_verificationCodeLabel = Label::createWithTTF( "验证码", PAGE_FONT, 12 );
@@ -494,18 +524,18 @@ bool LoginScene::init()
             t_ForgetPasswordBorder->addChild( t_verificationCodeLabel );
         }
         
-        auto t_verificationCodeInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_verificationCodeInputSize = Size( t_ForgetPasswordBorderSize.width - 110.0f - t_verificationCodeLabelSize.width, t_ForgetPasswordBorderSize.height / 3.0f );
-        if( t_verificationCodeInput != nullptr )
+        
+        m_ForgetVerificationCodeInput = EditBox::create( t_verificationCodeInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_ForgetVerificationCodeInput != nullptr )
         {
-            t_verificationCodeInput->setAnchorPoint( Point(0,0.5f) );
-            t_verificationCodeInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_verificationCodeInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_verificationCodeLabelSize.height * 0.5f ) );
-            
-            t_verificationCodeInput->setTouchAreaEnabled( true );
-            t_verificationCodeInput->setTouchSize( t_verificationCodeInputSize );
-            
-            t_verificationCodeLabel->addChild( t_verificationCodeInput );
+            m_ForgetVerificationCodeInput->setFontSize( 12 );
+            m_ForgetVerificationCodeInput->setAnchorPoint( Point(0,0.5f) );
+            m_ForgetVerificationCodeInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_ForgetVerificationCodeInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_verificationCodeLabelSize.height * 0.5f ) );
+            m_ForgetVerificationCodeInput->setInputMode( EditBox::InputMode::NUMERIC );
+            m_ForgetVerificationCodeInput->setMaxLength( VERIFICATIONCODE_MAXLEN );
+            t_verificationCodeLabel->addChild( m_ForgetVerificationCodeInput );
         }
         
         auto t_sendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::sendVerificationCode, this ) );
@@ -527,22 +557,25 @@ bool LoginScene::init()
             t_ForgetPasswordBorder->addChild( t_passwordLabel );
         }
         
-        auto t_passwordInput = TextField::create( "", PAGE_FONT, 12 );
         Size t_passwordInputSize = Size( t_ForgetPasswordBorderSize.width - 60.0f - t_verificationCodeLabelSize.width, t_ForgetPasswordBorderSize.height / 3.0f);
-        if( t_passwordInput != nullptr )
+        m_ForgetPasswordInput = EditBox::create( t_passwordInputSize, Scale9Sprite::create( "Empty.png" ) );
+        if( m_ForgetPasswordInput != nullptr )
         {
-            t_passwordInput->setAnchorPoint( Point(0,0.5f) );
-            t_passwordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
-            t_passwordInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_passwordLabelSize.height * 0.5f ) );
+            m_ForgetPasswordInput->setFontSize( 12 );
+            m_ForgetPasswordInput->setAnchorPoint( Point(0,0.5f) );
+            m_ForgetPasswordInput->setTextHorizontalAlignment( TextHAlignment::LEFT );
+            m_ForgetPasswordInput->setPosition( Vec2( t_verificationCodeLabelSize.width + 10.0f, t_passwordLabelSize.height * 0.5f ) );
             
-            t_passwordInput->setTouchAreaEnabled( true );
-            t_passwordInput->setTouchSize( t_passwordInputSize );
+            m_ForgetPasswordInput->setInputMode(cocos2d::ui::EditBox::InputMode::ANY);
+            m_ForgetPasswordInput->setReturnType(EditBox::KeyboardReturnType::DONE);
+            m_ForgetPasswordInput->setInputMode( EditBox::InputMode::SINGLE_LINE );
+            m_ForgetPasswordInput->setMaxLength( PASSWORD_MAXLEN );
             
-            t_passwordLabel->addChild( t_passwordInput );
+            t_passwordLabel->addChild( m_ForgetPasswordInput );
         }
 
 
-        auto t_ForgetPasswordButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::loginPhone, this ) );
+        auto t_ForgetPasswordButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::forgetPassword, this ) );
         t_ForgetPasswordButton->setScale( adaptation() );
         auto t_ForgetPasswordButtonSize = t_ForgetPasswordButton->getContentSize();
         if( t_ForgetPasswordButton != nullptr )
@@ -559,15 +592,17 @@ bool LoginScene::init()
             }else{
                 t_ForgetPasswordButton->setPosition( Vec2( windowSize.width * 0.5f, ( ForgetPasswordButtonMinY > ForgetPasswordButtonBestY || ForgetPasswordButtonBestY > ForgetPasswordButtonMaxY ) ? ForgetPasswordButtonMinY : ForgetPasswordButtonBestY ) );
             }
-
-            m_PhoneForgetPassword->addChild( t_ForgetPasswordButton );
+            
+            auto menu = Menu::create( t_ForgetPasswordButton, NULL );
+            menu->setPosition( Vec2::ZERO );
+            m_PhoneForgetPassword->addChild( menu, 1 );
         }
         
         auto t_rorgetPasswordLabel = Label::createWithTTF( "确认修改", PAGE_FONT, 12 );
         if( t_rorgetPasswordLabel != nullptr )
         {
             t_rorgetPasswordLabel->setPosition( t_ForgetPasswordButton->getPosition() );
-            m_PhoneForgetPassword->addChild( t_rorgetPasswordLabel );
+            m_PhoneForgetPassword->addChild( t_rorgetPasswordLabel, 2 );
         }
 
     }
@@ -590,7 +625,9 @@ bool LoginScene::init()
 
             t_eyeOpen = true;
             t_eye->setTexture( "LoginEyeOpen.png" );
-            m_loginPasswordInput->setPasswordEnabled( false );
+            t_showPassword->setString( m_loginPasswordInput->getText() );
+            m_loginPasswordInput->setVisible( false );
+            t_showPassword->setVisible( true );
         }
 
         if( m_back->isVisible() )
@@ -620,7 +657,8 @@ bool LoginScene::init()
         {
             t_eyeOpen = false;
             t_eye->setTexture( "LoginEyeClose.png" );
-            m_loginPasswordInput->setPasswordEnabled( true );
+            t_showPassword->setVisible( false );
+            m_loginPasswordInput->setVisible( true );
         }
         
         return true;
@@ -712,64 +750,186 @@ void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 
 void LoginScene::login( cocos2d::Ref* pSender )
 {
+    std::string t_loginPhone = m_loginPhoneInput->getText();
+    std::string t_loginPassword = m_loginPasswordInput->getText();
+    
+    if( t_loginPhone.size() <= 0 )
+    {
+        MessageBox( "请输入账号密码", "" );
+        return;
+    }
+    
+    if( t_loginPassword.size() <= 0 )
+    {
+        MessageBox( "请输入密码", "" );
+        return;
+    }
+    
     std::map< std::string, std::string > t_parameter;
-
-    auto t_loginPhone = m_loginPhoneInput->getString();
-    auto t_loginPassword = m_loginPasswordInput->getString();
-
     t_parameter[ "userMobile" ] = t_loginPhone;
     t_parameter[ "userPwd" ] = t_loginPassword;
 
     Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/access.do", &t_parameter, []( std::string p_res ){
         printf( "success: %s \n", p_res.c_str() );
+        
+        rapidjson::Document t_json;
+        if( !ParseApiResult( t_json, p_res ) )
+        {
+            return;
+        }
+        
+        bool t_success = t_json["success"].GetBool();
+        
+        if( t_success )
+        {
+            MessageBox( "登陆成功", "" );
+            return;
+        }
+        
+        if( !t_json.HasMember( "code" ) )
+        {
+            MessageBox( "未知错误", "" );
+            return;
+        }
+        
+        std::string t_code = t_json["code"].GetString();
+        
+        if( t_code == "USER_ERROR_PASSWORD" || t_code == "USER_NOT_FOUND" )
+        {
+            MessageBox( "账号或密码错误", "" );
+            return;
+        }
+        
+        if( t_json.HasMember( "msg" ) )
+        {
+            std::string t_msg = t_json["msg"].GetString();
+            MessageBox( t_msg.c_str(), "" );
+        }
+        
+        
     }, []( std::string p_res ){
+        MessageBox( "网络异常", "" );
         printf( "final: %s \n", p_res.c_str() );
     } );
 }
 
 void LoginScene::phoneRegister( cocos2d::Ref* pSender )
 {
-    std::map< std::string, std::string > t_parameter;
-    t_parameter[ "userMobile" ] = "13720067880";
-    t_parameter[ "userName" ] = "ws";
-    t_parameter[ "userPwd" ] = "goofypapa";
-    t_parameter[ "userSex" ] = "2";
-    t_parameter[ "userBirthday" ] = "1993-02-01";
     
-    Ajax::Get( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( std::string p_res ){
-        rapidjson::Document t_doc;
-        t_doc.Parse( p_res.c_str() );
+    std::string t_phone = m_RegisterPhoneInput->getText();
+    std::string t_verificationCode = m_RegisterVerificationCodeInput->getText();
+    std::string t_password = m_RegisterPasswordInput->getText();
+    
+    if( t_phone.size() <= 0 )
+    {
+        MessageBox( "请输入手机号", "" );
+        return;
+    }
+    
+    if( !IsPhoneNumber( t_phone ) )
+    {
+        MessageBox( "请输入合法手机号", "" );
+        return;
+    }
+    
+    if( t_password.size() <= 0 )
+    {
+        MessageBox( "请输入密码", "" );
+        return;
+    }
+    
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "userMobile" ] = t_phone;
+    t_parameter[ "userName" ] = t_phone;
+    t_parameter[ "userPwd" ] = t_password;
+    t_parameter[ "userSex" ] = "2";
+    t_parameter[ "userBirthday" ] = "";
+    
+    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( std::string p_res ){
+        rapidjson::Document t_json;
 
-        if( t_doc.HasParseError() )
+        if( !ParseApiResult( t_json, p_res ) )
         {
-            printf( "parse error" );
             return;
         }
-
-        if( !t_doc.IsObject() )
-        {
-            printf( "not is Object" );
-            return;
-        }
-
-        if( !t_doc.HasMember( "success" ) )
-        {
-            printf( "not find success" );
-            return;
-        }
-
-        float t_success = t_doc["success"].GetBool();
-
+        
+        bool t_success = t_json["success"].GetBool();
         if( t_success )
         {
-            printf( "result success" );
-            //注册 跳转至首页
-        }else{
-
-            //提示框
-            printf( "result final" );
+            MessageBox( "注册成功", "" );
+            return;
+        }
+        
+        if( !t_json.HasMember( "code" ) )
+        {
+            MessageBox( "未知错误", "" );
+            return;
+        }
+        
+        std::string t_code = t_json["code"].GetString();
+        if( t_code == "USER_ALREADY_EXIST" )
+        {
+            MessageBox( "手机号已注册", "" );
+            return;
         }
 
+        printf( "success: %s \n", p_res.c_str() );
+    }, []( std::string p_res ){
+        printf( "final: %s \n", p_res.c_str() );
+    } );
+}
+
+void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
+{
+    std::string t_phone = m_ForgetPhoneInput->getText();
+    std::string t_verificationCode = m_ForgetVerificationCodeInput->getText();
+    std::string t_password = m_ForgetPasswordInput->getText();
+    
+    if( t_phone.size() <= 0 )
+    {
+        MessageBox( "请输入手机号", "" );
+        return;
+    }
+    
+    if( !IsPhoneNumber( t_phone ) )
+    {
+        MessageBox( "请输入合法手机号", "" );
+        return;
+    }
+    
+    if( t_password.size() <= 0 )
+    {
+        MessageBox( "请输入密码", "" );
+        return;
+    }
+    
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "userMobile" ] = t_phone;
+    t_parameter[ "userPwd" ] = t_password;
+    
+    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/updatePwd.do", &t_parameter, []( std::string p_res ){
+        rapidjson::Document t_json;
+        
+        if( !ParseApiResult( t_json, p_res ) )
+        {
+            return;
+        }
+        
+        bool t_success = t_json["success"].GetBool();
+        if( t_success )
+        {
+            MessageBox( "修改密码成功", "" );
+            return;
+        }
+        
+        if( !t_json.HasMember( "code" ) )
+        {
+            MessageBox( "未知错误", "" );
+            return;
+        }
+        
+        std::string t_code = t_json["code"].GetString();
+        
         printf( "success: %s \n", p_res.c_str() );
     }, []( std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );

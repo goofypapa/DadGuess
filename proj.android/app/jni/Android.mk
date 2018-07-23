@@ -13,16 +13,21 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
+                   $(LOCAL_PATH)/../../../Classes/HelloWorldScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common.cpp \
                    $(LOCAL_PATH)/../../../Classes/Message.cpp \
                    $(LOCAL_PATH)/../../../Classes/Ajax.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Common.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataBase.cpp \
-                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp
+                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3/sqlite3.c \
+                   $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp
+                   
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/Login
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes/DataBase
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
+                    $(LOCAL_PATH)/../../../Classes/DataBase \
+                    $(LOCAL_PATH)/../../../Classes/Login \
+                    $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3
 
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END

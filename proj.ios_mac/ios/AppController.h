@@ -25,10 +25,11 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import "WechtLogin/WechtSDK1.8.2_NoPay/WXApi.h"
 
 @class RootViewController;
 
-@interface AppController : NSObject <UIApplicationDelegate> {
+@interface AppController : NSObject <UIApplicationDelegate, WXApiDelegate> {
 
 }
 

@@ -14,6 +14,7 @@
 #include "Config.h"
 #include "Message.h"
 #include "../DataBase/DataValidate.h"
+#include "LoginThirdParty.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -690,6 +691,18 @@ void LoginScene::update( float p_delta )
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
     
+    if( !installedWecht() )
+    {
+        MessageBox( "您还没有安装微信", "" );
+        return;
+    }
+    
+    if( loginWecht() )
+    {
+        printf( "注册成功" );
+    }else{
+        printf( "注册失败" );
+    }
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )

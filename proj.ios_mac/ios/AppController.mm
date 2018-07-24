@@ -28,6 +28,7 @@
 #import "cocos2d.h"
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "WechtLogin/WXApiManager.h"
 
 @implementation AppController
 
@@ -40,6 +41,9 @@
 static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    printf( "register\n" );
+    [WXApi registerApp:@"wxc6d5d8bca1f1c5a9"];
     
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
@@ -122,6 +126,22 @@ static AppDelegate s_sharedApplication;
      See also applicationDidEnterBackground:.
      */
 }
+
+
+// wecht login
+
+
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+}
+
+//---------------------------
 
 
 #pragma mark -

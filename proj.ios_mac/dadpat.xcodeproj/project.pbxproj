@@ -28,6 +28,15 @@
 		379D957E2106D5CD006DA6C1 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 379D957D2106D5CD006DA6C1 /* GameController.framework */; };
 		379D95802106D5E9006DA6C1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 379D957F2106D5E9006DA6C1 /* MediaPlayer.framework */; };
 		379D95832106EED3006DA6C1 /* WXApiManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 379D95822106EED3006DA6C1 /* WXApiManager.mm */; };
+		379D958621070A59006DA6C1 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379D958421070A59006DA6C1 /* MainScene.cpp */; };
+		379D958B21080A8E006DA6C1 /* Cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D958921080A8E006DA6C1 /* Cloud.png */; };
+		379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D958A21080A8E006DA6C1 /* BackgroundImage.png */; };
+		379D95E921081D98006DA6C1 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379D95E721081D98006DA6C1 /* Main.cpp */; };
+		379D95EC21082419006DA6C1 /* Main.plist in Resources */ = {isa = PBXBuildFile; fileRef = 379D95EA21082418006DA6C1 /* Main.plist */; };
+		379D95ED21082419006DA6C1 /* Main.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D95EB21082418006DA6C1 /* Main.png */; };
+		379D95F021083F31006DA6C1 /* Login.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379D95EE21083F30006DA6C1 /* Login.cpp */; };
+		379D95F321084A68006DA6C1 /* Login.plist in Resources */ = {isa = PBXBuildFile; fileRef = 379D95F121084A68006DA6C1 /* Login.plist */; };
+		379D95F421084A68006DA6C1 /* Login.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D95F221084A68006DA6C1 /* Login.png */; };
 		37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DD6321056A5C0088EC29 /* sqlite3.c */; };
 		37C2DDB22105DB160088EC29 /* LoginThridParty.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DDB12105DB160088EC29 /* LoginThridParty.mm */; };
 		37C2DDB72106B5210088EC29 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB52105E2460088EC29 /* libc++.tbd */; };
@@ -65,18 +74,8 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
-		D8B23D4420EB0FCB00EB4F2E /* LoginBG.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4320EB0FCB00EB4F2E /* LoginBG.png */; };
-		D8B23D4620EB19CD00EB4F2E /* LoginTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4520EB19CC00EB4F2E /* LoginTitle.png */; };
-		D8B23D4B20EB1E1900EB4F2E /* LoginCloud.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4720EB1E1900EB4F2E /* LoginCloud.png */; };
-		D8B23D4C20EB1E1900EB4F2E /* LoginPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4820EB1E1900EB4F2E /* LoginPhone.png */; };
-		D8B23D4D20EB1E1900EB4F2E /* LoginSina.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4920EB1E1900EB4F2E /* LoginSina.png */; };
-		D8B23D4E20EB1E1900EB4F2E /* LoginWechat.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D4A20EB1E1900EB4F2E /* LoginWechat.png */; };
 		D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8B23D5520EB3F5600EB4F2E /* LoginScene.cpp */; };
 		D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D5C20EB61D100EB4F2E /* Back.png */; };
-		D8B23D6220EC71CB00EB4F2E /* LoginBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6120EC71CB00EB4F2E /* LoginBorder.png */; };
-		D8B23D6420EC8F3900EB4F2E /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6320EC8F3800EB4F2E /* LoginButton.png */; };
-		D8B23D6720ECA53000EB4F2E /* LoginEyeOpen.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6520ECA52F00EB4F2E /* LoginEyeOpen.png */; };
-		D8B23D6820ECA53000EB4F2E /* LoginEyeClose.png in Resources */ = {isa = PBXBuildFile; fileRef = D8B23D6620ECA53000EB4F2E /* LoginEyeClose.png */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -153,6 +152,18 @@
 		379D957F2106D5E9006DA6C1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		379D95812106EED3006DA6C1 /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
 		379D95822106EED3006DA6C1 /* WXApiManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXApiManager.mm; sourceTree = "<group>"; };
+		379D958421070A59006DA6C1 /* MainScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
+		379D958521070A59006DA6C1 /* MainScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		379D958921080A8E006DA6C1 /* Cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cloud.png; sourceTree = "<group>"; };
+		379D958A21080A8E006DA6C1 /* BackgroundImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackgroundImage.png; sourceTree = "<group>"; };
+		379D95E721081D98006DA6C1 /* Main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		379D95E821081D98006DA6C1 /* Main.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Main.hpp; sourceTree = "<group>"; };
+		379D95EA21082418006DA6C1 /* Main.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Main.plist; sourceTree = "<group>"; };
+		379D95EB21082418006DA6C1 /* Main.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Main.png; sourceTree = "<group>"; };
+		379D95EE21083F30006DA6C1 /* Login.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Login.cpp; sourceTree = "<group>"; };
+		379D95EF21083F31006DA6C1 /* Login.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Login.hpp; sourceTree = "<group>"; };
+		379D95F121084A68006DA6C1 /* Login.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Login.plist; sourceTree = "<group>"; };
+		379D95F221084A68006DA6C1 /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
 		37C2DD6321056A5C0088EC29 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		37C2DD6521056A5C0088EC29 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		37C2DD6621056A5C0088EC29 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
@@ -197,19 +208,9 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
-		D8B23D4320EB0FCB00EB4F2E /* LoginBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBG.png; sourceTree = "<group>"; };
-		D8B23D4520EB19CC00EB4F2E /* LoginTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginTitle.png; sourceTree = "<group>"; };
-		D8B23D4720EB1E1900EB4F2E /* LoginCloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginCloud.png; sourceTree = "<group>"; };
-		D8B23D4820EB1E1900EB4F2E /* LoginPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginPhone.png; sourceTree = "<group>"; };
-		D8B23D4920EB1E1900EB4F2E /* LoginSina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginSina.png; sourceTree = "<group>"; };
-		D8B23D4A20EB1E1900EB4F2E /* LoginWechat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginWechat.png; sourceTree = "<group>"; };
 		D8B23D5420EB3F5600EB4F2E /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScene.h; sourceTree = "<group>"; };
 		D8B23D5520EB3F5600EB4F2E /* LoginScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoginScene.cpp; sourceTree = "<group>"; };
 		D8B23D5C20EB61D100EB4F2E /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
-		D8B23D6120EC71CB00EB4F2E /* LoginBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBorder.png; sourceTree = "<group>"; };
-		D8B23D6320EC8F3800EB4F2E /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginButton.png; sourceTree = "<group>"; };
-		D8B23D6520ECA52F00EB4F2E /* LoginEyeOpen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginEyeOpen.png; sourceTree = "<group>"; };
-		D8B23D6620ECA53000EB4F2E /* LoginEyeClose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginEyeClose.png; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -365,6 +366,17 @@
 			path = WechtSDK1.8.2_NoPay;
 			sourceTree = "<group>";
 		};
+		379D95E621081D47006DA6C1 /* Recources */ = {
+			isa = PBXGroup;
+			children = (
+				379D95EE21083F30006DA6C1 /* Login.cpp */,
+				379D95EF21083F31006DA6C1 /* Login.hpp */,
+				379D95E721081D98006DA6C1 /* Main.cpp */,
+				379D95E821081D98006DA6C1 /* Main.hpp */,
+			);
+			path = Recources;
+			sourceTree = "<group>";
+		};
 		37C2DD6221056A5C0088EC29 /* sqlite3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,19 +413,15 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				379D95F121084A68006DA6C1 /* Login.plist */,
+				379D95F221084A68006DA6C1 /* Login.png */,
+				379D95EA21082418006DA6C1 /* Main.plist */,
+				379D95EB21082418006DA6C1 /* Main.png */,
+				379D958A21080A8E006DA6C1 /* BackgroundImage.png */,
+				379D958921080A8E006DA6C1 /* Cloud.png */,
 				373CDF0B2100376400D77EF2 /* Empty.png */,
 				373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */,
-				D8B23D6620ECA53000EB4F2E /* LoginEyeClose.png */,
-				D8B23D6520ECA52F00EB4F2E /* LoginEyeOpen.png */,
-				D8B23D6320EC8F3800EB4F2E /* LoginButton.png */,
-				D8B23D6120EC71CB00EB4F2E /* LoginBorder.png */,
 				D8B23D5C20EB61D100EB4F2E /* Back.png */,
-				D8B23D4720EB1E1900EB4F2E /* LoginCloud.png */,
-				D8B23D4820EB1E1900EB4F2E /* LoginPhone.png */,
-				D8B23D4920EB1E1900EB4F2E /* LoginSina.png */,
-				D8B23D4A20EB1E1900EB4F2E /* LoginWechat.png */,
-				D8B23D4520EB19CC00EB4F2E /* LoginTitle.png */,
-				D8B23D4320EB0FCB00EB4F2E /* LoginBG.png */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				3EACC98E19EE6D4300EB3C5E /* res */,
 			);
@@ -424,6 +432,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				379D95E621081D47006DA6C1 /* Recources */,
 				37D0408620F8457A00C34F12 /* Config.h */,
 				37E6FCC420F6F46E0047F458 /* DataBase */,
 				D8B23D5120EB3F5600EB4F2E /* Login */,
@@ -437,6 +446,8 @@
 				37E6FCC020F482E60047F458 /* Ajax.h */,
 				373CDF0620FEE99D00D77EF2 /* Message.cpp */,
 				373CDF0520FEE99D00D77EF2 /* Message.h */,
+				379D958421070A59006DA6C1 /* MainScene.cpp */,
+				379D958521070A59006DA6C1 /* MainScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -579,25 +590,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
-				D8B23D6420EC8F3900EB4F2E /* LoginButton.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
-				D8B23D6220EC71CB00EB4F2E /* LoginBorder.png in Resources */,
-				D8B23D4B20EB1E1900EB4F2E /* LoginCloud.png in Resources */,
-				D8B23D4620EB19CD00EB4F2E /* LoginTitle.png in Resources */,
-				D8B23D6820ECA53000EB4F2E /* LoginEyeClose.png in Resources */,
+				379D95EC21082419006DA6C1 /* Main.plist in Resources */,
+				379D95F321084A68006DA6C1 /* Login.plist in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				379D95ED21082419006DA6C1 /* Main.png in Resources */,
+				379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
-				D8B23D6720ECA53000EB4F2E /* LoginEyeOpen.png in Resources */,
-				D8B23D4C20EB1E1900EB4F2E /* LoginPhone.png in Resources */,
 				373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */,
-				D8B23D4E20EB1E1900EB4F2E /* LoginWechat.png in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
+				379D958B21080A8E006DA6C1 /* Cloud.png in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
 				379D95712106BEEC006DA6C1 /* README.txt in Resources */,
-				D8B23D4D20EB1E1900EB4F2E /* LoginSina.png in Resources */,
-				D8B23D4420EB0FCB00EB4F2E /* LoginBG.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +629,7 @@
 				373CDF0720FEE99D00D77EF2 /* Message.cpp in Sources */,
 				37C2DDB22105DB160088EC29 /* LoginThridParty.mm in Sources */,
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
+				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37364EB420EF40B1002A40AE /* Common.cpp in Sources */,
@@ -629,8 +637,10 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,
 				37E6FCC120F482E60047F458 /* Ajax.cpp in Sources */,
+				379D958621070A59006DA6C1 /* MainScene.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,
 				37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

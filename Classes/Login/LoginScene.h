@@ -28,6 +28,8 @@ public:
     void loginWechat( cocos2d::Ref* pSender );
     void loginSina( cocos2d::Ref* pSender );
     void loginPhone( cocos2d::Ref* pSender );
+    
+    static void loginWechatCallBack( void );
 
     void loginBack();
     
@@ -39,6 +41,8 @@ public:
     void forgetPassword( cocos2d::Ref* pSender  );
     
     void sendVerificationCode( cocos2d::Ref* pSender );
+protected:
+    virtual ~LoginScene();
 private:
     
     cocos2d::Layer * m_SelectLoginType;

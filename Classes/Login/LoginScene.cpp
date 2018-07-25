@@ -15,6 +15,8 @@
 #include "Message.h"
 #include "../DataBase/DataValidate.h"
 #include "LoginThirdParty.h"
+#include "MainScene.h"
+#include "Login.hpp"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -39,6 +41,8 @@ bool LoginScene::init()
     {
         return false;
     }
+    
+    TexturePacker::Login::addSpriteFramesToCache();
 
     auto t_dataTableUser = DataTableUser::instance();
 
@@ -71,7 +75,6 @@ bool LoginScene::init()
 //    this->addChild( t_messageBox, 10000 );
 //
 //    t_messageBox->show( "哈哈" );
-
     
     m_loginState = LoginState::SelectLogin;
 
@@ -82,7 +85,7 @@ bool LoginScene::init()
     float t_PaddingTop = ( visibleSize.height - origin.y ) * 0.15f;
     float t_PaddingButtom = ( visibleSize.height - origin.y ) * 0.18f;
 
-    auto t_backgroud = Sprite::create( "LoginBG.png" );
+    auto t_backgroud = Sprite::create( "BackgroundImage.png" );
     if (t_backgroud != nullptr)
     {
         // position the sprite on the center of the screen
@@ -94,7 +97,7 @@ bool LoginScene::init()
         this->addChild( t_backgroud, 0 );
     }
     
-    auto t_title = Sprite::create( "LoginTitle.png" );
+    auto t_title = TexturePacker::Login::createLoginTitleSprite();
     auto t_titleSize = t_title->getContentSize();
     if( t_title != nullptr )
     {
@@ -103,7 +106,7 @@ bool LoginScene::init()
         this->addChild( t_title, 1 );
     }
 
-    m_CloundLeft = Sprite::create("LoginCloud.png");
+    m_CloundLeft = Sprite::create("Cloud.png");
     auto t_CloundLeftSize = m_CloundLeft->getContentSize();
     if( m_CloundLeft != nullptr )
     {
@@ -112,7 +115,7 @@ bool LoginScene::init()
         this->addChild( m_CloundLeft, 2 );
     }
 
-    m_CloundRight = Sprite::create("LoginCloud.png");
+    m_CloundRight = Sprite::create("Cloud.png");
     if( m_CloundRight != nullptr )
     {
         m_CloundRight->setScale( adaptation() );
@@ -140,7 +143,7 @@ bool LoginScene::init()
         m_SelectLoginType = Layer::create();
         this->addChild( m_SelectLoginType, 2 );
 
-        auto t_LoginWechat = MenuItemImage::create( "LoginWechat.png", "LoginWechat.png", CC_CALLBACK_1( LoginScene::loginWechat, this ) );
+        auto t_LoginWechat = MenuItemSprite::create( TexturePacker::Login::createLoginWechatSprite(), TexturePacker::Login::createLoginWechatSprite(), CC_CALLBACK_1( LoginScene::loginWechat, this ) );
         if( t_LoginWechat != nullptr )
         {
             t_LoginWechat->setScale( adaptation() );
@@ -155,7 +158,7 @@ bool LoginScene::init()
 
         }
 
-        auto t_LoginSina = MenuItemImage::create( "LoginSina.png", "LoginSina.png", CC_CALLBACK_1( LoginScene::loginSina, this ) );
+        auto t_LoginSina = MenuItemSprite::create( TexturePacker::Login::createLoginSinaSprite(), TexturePacker::Login::createLoginSinaSprite(), CC_CALLBACK_1( LoginScene::loginSina, this ) );
         if( t_LoginSina != nullptr )
         {
             t_LoginSina->setScale( adaptation() );
@@ -169,7 +172,7 @@ bool LoginScene::init()
             m_SelectLoginType->addChild( t_label, 2 );
         }
 
-        auto t_LoginPhone = MenuItemImage::create( "LoginPhone.png", "LoginPhone.png", CC_CALLBACK_1( LoginScene::loginPhone, this ) );
+        auto t_LoginPhone = MenuItemSprite::create( TexturePacker::Login::createLoginPhoneSprite(), TexturePacker::Login::createLoginPhoneSprite(), CC_CALLBACK_1( LoginScene::loginPhone, this ) );
         if( t_LoginPhone != nullptr )
         {
             t_LoginPhone->setScale( adaptation() );
@@ -186,7 +189,7 @@ bool LoginScene::init()
 
 
     //手机登陆
-    auto t_eye = Sprite::create( "LoginEyeClose.png" );
+    auto t_eye = TexturePacker::Login::createLoginEyeCloseSprite();
     t_eye->setScale( adaptation() );
     auto t_eyeSize = t_eye->getContentSize();
     static float t_eyeOpen = false;
@@ -197,7 +200,7 @@ bool LoginScene::init()
         m_LoginPhone->setVisible( false );
         this->addChild( m_LoginPhone, 1 );
         
-       auto t_LoginPhoneBorder = Scale9Sprite::create( "LoginBorder.png" );
+        auto t_LoginPhoneBorder = Scale9Sprite::createWithSpriteFrame( TexturePacker::Login::createLoginBorderSprite()->getSpriteFrame() );
        float t_contentHeight = ( t_headHeightHalf * 2 - t_PaddingButtom - origin.y );
 
        Size t_LoginPhoneBorderSize = Size( windowSize.width * 0.5f, t_contentHeight * 0.4f );
@@ -302,11 +305,11 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( menu, 1 );
         }
 
-         auto t_loginButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::login, this ) );
-         t_loginButton->setScale( adaptation() );
-         auto t_loginButtonSize = t_loginButton->getContentSize();
-         if( t_loginButton != nullptr )
-         {
+        auto t_loginButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::login, this ) );
+        t_loginButton->setScale( adaptation() );
+        auto t_loginButtonSize = t_loginButton->getContentSize();
+        if( t_loginButton != nullptr )
+        {
              
              float t_loginButtonMinY = t_loginButtonSize.height * 0.5f + origin.y + t_PaddingButtom;
              float t_loginButtonMaxY = t_contentHeight * 0.9 - t_LoginPhoneBorderSize.height + origin.y + t_PaddingButtom - t_loginButtonSize.height * 0.5f - 10.0f;
@@ -341,7 +344,7 @@ bool LoginScene::init()
         m_RegisterPhone->setVisible( false );
         this->addChild( m_RegisterPhone );
         
-        auto t_RegisterPhoneBorder = Scale9Sprite::create( "LoginBorder.png" );
+        auto t_RegisterPhoneBorder = Scale9Sprite::createWithSpriteFrame( TexturePacker::Login::createLoginBorderSprite()->getSpriteFrame() );
         float t_contentHeight = ( t_headHeightHalf * 2 - t_PaddingButtom - origin.y );
         Size t_RegisterPhoneBorderSize = Size( windowSize.width * 0.5f, t_contentHeight * 0.6f );
         if( t_RegisterPhoneBorder != nullptr )
@@ -439,7 +442,7 @@ bool LoginScene::init()
         }
         
         
-        auto t_registerButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::phoneRegister, this ) );
+        auto t_registerButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::phoneRegister, this ) );
         t_registerButton->setScale( adaptation() );
         auto t_registerButtonSize = t_registerButton->getContentSize();
         if( t_registerButton != nullptr )
@@ -477,7 +480,7 @@ bool LoginScene::init()
         m_PhoneForgetPassword->setVisible( false );
         this->addChild( m_PhoneForgetPassword );
 
-        auto t_ForgetPasswordBorder = Scale9Sprite::create( "LoginBorder.png" );
+        auto t_ForgetPasswordBorder = Scale9Sprite::createWithSpriteFrame( TexturePacker::Login::createLoginBorderSprite()->getSpriteFrame() );
         float t_contentHeight = ( t_headHeightHalf * 2 - t_PaddingButtom - origin.y );
         Size t_ForgetPasswordBorderSize = Size( windowSize.width * 0.5f, t_contentHeight * 0.6f );
         if( t_ForgetPasswordBorder != nullptr )
@@ -576,7 +579,7 @@ bool LoginScene::init()
         }
 
 
-        auto t_ForgetPasswordButton = MenuItemImage::create( "LoginButton.png", "LoginButton.png", CC_CALLBACK_1( LoginScene::forgetPassword, this ) );
+        auto t_ForgetPasswordButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::forgetPassword, this ) );
         t_ForgetPasswordButton->setScale( adaptation() );
         auto t_ForgetPasswordButtonSize = t_ForgetPasswordButton->getContentSize();
         if( t_ForgetPasswordButton != nullptr )
@@ -625,7 +628,7 @@ bool LoginScene::init()
         if ( rect.containsPoint( locationInNode ) ) {
 
             t_eyeOpen = true;
-            t_eye->setTexture( "LoginEyeOpen.png" );
+            t_eye->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Login::loginEyeOpen ) );
             t_showPassword->setString( m_loginPasswordInput->getText() );
             m_loginPasswordInput->setVisible( false );
             t_showPassword->setVisible( true );
@@ -657,7 +660,7 @@ bool LoginScene::init()
         if( t_eyeOpen )
         {
             t_eyeOpen = false;
-            t_eye->setTexture( "LoginEyeClose.png" );
+            t_eye->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Login::loginEyeClose ) );
             t_showPassword->setVisible( false );
             m_loginPasswordInput->setVisible( true );
         }
@@ -697,12 +700,7 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
         return;
     }
     
-    if( loginWecht() )
-    {
-        printf( "注册成功" );
-    }else{
-        printf( "注册失败" );
-    }
+    loginWecht();
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )
@@ -716,6 +714,11 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
     m_SelectLoginType->setVisible( false );
     m_back->setVisible( true );
     m_LoginPhone->setVisible( true );
+}
+
+void LoginScene::loginWechatCallBack( void )
+{
+    Director::getInstance()->replaceScene( MainScene::CreateScene() );
 }
 
 void LoginScene::loginBack()
@@ -795,7 +798,8 @@ void LoginScene::login( cocos2d::Ref* pSender )
         
         if( t_success )
         {
-            MessageBox( "登陆成功", "" );
+//            MessageBox( "登陆成功", "" );
+            Director::getInstance()->replaceScene( MainScene::CreateScene() );
             return;
         }
         
@@ -947,5 +951,10 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     }, []( std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
     } );
+}
+
+LoginScene::~LoginScene()
+{
+    TexturePacker::Login::removeSpriteFramesFromCache();
 }
 

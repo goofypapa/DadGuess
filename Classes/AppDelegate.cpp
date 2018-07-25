@@ -24,6 +24,7 @@
 
 #include "AppDelegate.h"
 #include "Login/LoginScene.h"
+#include "MainScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -118,10 +119,19 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto t_loginScene = LoginScene::CreateScene();
+    Scene * t_startScene = nullptr;
+    
+    bool t_isLogin = false;
+    
+    if( t_isLogin )
+    {
+        t_startScene = MainScene::CreateScene();
+    }else{
+        t_startScene = LoginScene::CreateScene();
+    }
 
     // run
-    director->runWithScene(t_loginScene);
+    director->runWithScene( t_startScene );
 
     return true;
 }

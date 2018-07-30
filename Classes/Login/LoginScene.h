@@ -50,7 +50,7 @@ private:
     cocos2d::Layer * m_RegisterPhone;
     cocos2d::Layer * m_PhoneForgetPassword;
 
-    cocos2d::Sprite * m_back;
+    cocos2d::ui::Button * m_back;
     
     cocos2d::ui::EditBox * m_loginPhoneInput;
     cocos2d::ui::EditBox * m_loginPasswordInput;

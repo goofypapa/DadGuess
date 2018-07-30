@@ -123,7 +123,7 @@ bool LoginScene::init()
         this->addChild( m_CloundRight, 2 );
     }
 
-    m_back = Sprite::create( "Back.png" );
+    m_back = Button::create( "Back.png", "Back.png" );
     auto t_backSize = m_back->getContentSize();
     if( m_back != nullptr )
     {
@@ -131,6 +131,10 @@ bool LoginScene::init()
         m_back->setPosition( Vec2( origin.x + t_backSize.width * 0.5f + 20.0f, visibleSize.height + origin.y - t_backSize.height * 0.5f - 20.0f ) );
         m_back->setVisible( false );
         this->addChild( m_back );
+
+        touchAnswer( m_back, [this]( Ref * p_ref ){
+            loginBack( );
+        } );
     }
 
 
@@ -143,14 +147,16 @@ bool LoginScene::init()
         m_SelectLoginType = Layer::create();
         this->addChild( m_SelectLoginType, 2 );
 
-        auto t_LoginWechat = MenuItemSprite::create( TexturePacker::Login::createLoginWechatSprite(), TexturePacker::Login::createLoginWechatSprite(), CC_CALLBACK_1( LoginScene::loginWechat, this ) );
+        auto t_LoginWechat = Button::create( TexturePacker::Login::loginWechat, TexturePacker::Login::loginWechat, "", Widget::TextureResType::PLIST );
         if( t_LoginWechat != nullptr )
         {
             t_LoginWechat->setScale( adaptation() );
             t_LoginWechat->setPosition( Vec2( visibleSize.width / 4.0f, t_iconPosY ) );
-            auto menu = Menu::create( t_LoginWechat, NULL );
-            menu->setPosition( Vec2::ZERO );
-            m_SelectLoginType->addChild( menu, 1 );
+            m_SelectLoginType->addChild( t_LoginWechat, 1 );
+
+            touchAnswer( t_LoginWechat, [this]( Ref * p_ref ){
+                loginWechat( this );
+            } );
             
             auto t_label = Label::createWithTTF( "微信", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f, t_titlePosY ) );
@@ -158,28 +164,32 @@ bool LoginScene::init()
 
         }
 
-        auto t_LoginSina = MenuItemSprite::create( TexturePacker::Login::createLoginSinaSprite(), TexturePacker::Login::createLoginSinaSprite(), CC_CALLBACK_1( LoginScene::loginSina, this ) );
+        auto t_LoginSina = Button::create( TexturePacker::Login::loginSina, TexturePacker::Login::loginSina, "", Widget::TextureResType::PLIST );
         if( t_LoginSina != nullptr )
         {
             t_LoginSina->setScale( adaptation() );
             t_LoginSina->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_iconPosY) );
-            auto menu = Menu::create(t_LoginSina, NULL);
-            menu->setPosition(Vec2::ZERO);
-            m_SelectLoginType->addChild(menu, 1);
+            m_SelectLoginType->addChild(t_LoginSina, 1);
+
+            touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
+                loginSina( this );
+            } );
             
             auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
             m_SelectLoginType->addChild( t_label, 2 );
         }
 
-        auto t_LoginPhone = MenuItemSprite::create( TexturePacker::Login::createLoginPhoneSprite(), TexturePacker::Login::createLoginPhoneSprite(), CC_CALLBACK_1( LoginScene::loginPhone, this ) );
+        auto t_LoginPhone = Button::create( TexturePacker::Login::loginPhone, TexturePacker::Login::loginPhone, "", Widget::TextureResType::PLIST );
         if( t_LoginPhone != nullptr )
         {
             t_LoginPhone->setScale( adaptation() );
             t_LoginPhone->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_iconPosY ) );
-            auto menu = Menu::create(t_LoginPhone, NULL);
-            menu->setPosition(Vec2::ZERO);
-            m_SelectLoginType->addChild(menu, 1);
+            m_SelectLoginType->addChild(t_LoginPhone, 1);
+
+            touchAnswer( t_LoginPhone, [this]( Ref * p_ref ){
+                loginPhone( this );
+            } );
             
             auto t_label = Label::createWithTTF( "手机", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_titlePosY ) );
@@ -305,7 +315,7 @@ bool LoginScene::init()
             t_LoginPhoneBorder->addChild( menu, 1 );
         }
 
-        auto t_loginButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::login, this ) );
+        auto t_loginButton = Button::create( TexturePacker::Login::loginButton, TexturePacker::Login::loginButton, "", Widget::TextureResType::PLIST );
         t_loginButton->setScale( adaptation() );
         auto t_loginButtonSize = t_loginButton->getContentSize();
         if( t_loginButton != nullptr )
@@ -322,18 +332,20 @@ bool LoginScene::init()
                 t_loginButton->setPosition( Vec2( windowSize.width * 0.5f, ( t_loginButtonMinY > t_loginButtonBestY || t_loginButtonBestY > t_loginButtonMaxY ) ? t_loginButtonMinY : t_loginButtonBestY ) );
              }
 
+            m_LoginPhone->addChild( t_loginButton, 1 );
 
-            auto menu = Menu::create( t_loginButton, NULL );
-            menu->setPosition( Vec2::ZERO );
-            m_LoginPhone->addChild( menu, 1 );
+            touchAnswer( t_loginButton, [this]( Ref * p_ref ){
+                login( this );
+            } );
 
          }
         
         auto t_loginLabel = Label::createWithTTF( "登陆", PAGE_FONT, 12 );
         if( t_loginLabel != nullptr )
         {
-            t_loginLabel->setPosition( t_loginButton->getPosition() );
-            m_LoginPhone->addChild( t_loginLabel, 2 );
+            t_loginLabel->setPosition( Vec2( t_loginButtonSize.width * 0.5f, t_loginButtonSize.height * 0.5f ) );
+            t_loginLabel->setScale( 1.0f / adaptation() );
+            t_loginButton->addChild( t_loginLabel );
         }
        
     }
@@ -442,7 +454,7 @@ bool LoginScene::init()
         }
         
         
-        auto t_registerButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::phoneRegister, this ) );
+        auto t_registerButton = Button::create( TexturePacker::Login::loginButton, TexturePacker::Login::loginButton, "", Widget::TextureResType::PLIST );
         t_registerButton->setScale( adaptation() );
         auto t_registerButtonSize = t_registerButton->getContentSize();
         if( t_registerButton != nullptr )
@@ -460,17 +472,20 @@ bool LoginScene::init()
                 t_registerButton->setPosition( Vec2( windowSize.width * 0.5f, ( t_registerButtonMinY > t_registerButtonBestY || t_registerButtonBestY > t_registerButtonMaxY ) ? t_registerButtonMinY : t_registerButtonBestY ) );
             }
 
-            auto menu = Menu::create( t_registerButton, NULL );
-            menu->setPosition( Vec2::ZERO );
-            m_RegisterPhone->addChild( menu, 1 );
+            m_RegisterPhone->addChild( t_registerButton, 1 );
+
+            touchAnswer( t_registerButton, [this]( Ref * p_ref ){
+                phoneRegister( this );
+            } );
 
         }
         
         auto t_registerLabel = Label::createWithTTF( "注册", PAGE_FONT, 12 );
         if( t_registerLabel != nullptr )
         {
-            t_registerLabel->setPosition( t_registerButton->getPosition() );
-            m_RegisterPhone->addChild( t_registerLabel, 2 );
+            t_registerLabel->setPosition( Vec2( t_registerButtonSize.width * 0.5f, t_registerButtonSize.height * 0.5f ) );
+            t_registerLabel->setScale( 1.0f / adaptation() );
+            t_registerButton->addChild( t_registerLabel, 2 );
         }
     }
 
@@ -579,7 +594,7 @@ bool LoginScene::init()
         }
 
 
-        auto t_ForgetPasswordButton = MenuItemSprite::create( TexturePacker::Login::createLoginButtonSprite(), TexturePacker::Login::createLoginButtonSprite(), CC_CALLBACK_1( LoginScene::forgetPassword, this ) );
+        auto t_ForgetPasswordButton = Button::create( TexturePacker::Login::loginButton, TexturePacker::Login::loginButton, "", Widget::TextureResType::PLIST );
         t_ForgetPasswordButton->setScale( adaptation() );
         auto t_ForgetPasswordButtonSize = t_ForgetPasswordButton->getContentSize();
         if( t_ForgetPasswordButton != nullptr )
@@ -596,17 +611,20 @@ bool LoginScene::init()
             }else{
                 t_ForgetPasswordButton->setPosition( Vec2( windowSize.width * 0.5f, ( ForgetPasswordButtonMinY > ForgetPasswordButtonBestY || ForgetPasswordButtonBestY > ForgetPasswordButtonMaxY ) ? ForgetPasswordButtonMinY : ForgetPasswordButtonBestY ) );
             }
-            
-            auto menu = Menu::create( t_ForgetPasswordButton, NULL );
-            menu->setPosition( Vec2::ZERO );
-            m_PhoneForgetPassword->addChild( menu, 1 );
+
+            m_PhoneForgetPassword->addChild( t_ForgetPasswordButton, 1 );
+
+            touchAnswer( t_ForgetPasswordButton, [this]( Ref * p_ref ){
+                forgetPassword( this );
+            } );
         }
         
         auto t_rorgetPasswordLabel = Label::createWithTTF( "确认修改", PAGE_FONT, 12 );
         if( t_rorgetPasswordLabel != nullptr )
         {
-            t_rorgetPasswordLabel->setPosition( t_ForgetPasswordButton->getPosition() );
-            m_PhoneForgetPassword->addChild( t_rorgetPasswordLabel, 2 );
+            t_rorgetPasswordLabel->setPosition( Vec2( t_ForgetPasswordButtonSize.width * 0.5f, t_ForgetPasswordButtonSize.height * 0.5f ) );
+            t_rorgetPasswordLabel->setScale( 1.0f / adaptation() );
+            t_ForgetPasswordButton->addChild( t_rorgetPasswordLabel, 2 );
         }
 
     }
@@ -615,7 +633,7 @@ bool LoginScene::init()
 
     auto t_listener = EventListenerTouchOneByOne::create();
     t_listener->setSwallowTouches( true );
-    t_listener->onTouchBegan = [=]( Touch* touch, Event* event ){
+    t_listener->onTouchBegan = [=]( Touch* touch, Event* event )->bool{
         
         printf( "touch begin" );
         
@@ -632,16 +650,6 @@ bool LoginScene::init()
             t_showPassword->setString( m_loginPasswordInput->getText() );
             m_loginPasswordInput->setVisible( false );
             t_showPassword->setVisible( true );
-        }
-
-        if( m_back->isVisible() )
-        {
-            Size t_backSize = m_back->getContentSize();
-            Rect t_backRect = Rect( 0.0f, 0.0f, t_backSize.width * 1.5f, t_backSize.height * 1.5f );
-            if( t_backRect.containsPoint( m_back->convertToNodeSpace( touch->getLocation() )  + t_backSize * 0.25f ) )
-            {
-                loginBack( );
-            }
         }
         
         return true;
@@ -664,7 +672,7 @@ bool LoginScene::init()
             t_showPassword->setVisible( false );
             m_loginPasswordInput->setVisible( true );
         }
-        
+
         return true;
     };
     

@@ -4,6 +4,7 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include <functional>
 
 class MainPersonalLayer: public cocos2d::Layer
 {
@@ -14,8 +15,10 @@ public:
 
     CREATE_FUNC( MainPersonalLayer );
 
-protected:
+    std::function<void()> hideCallBack;
 
+protected:
+    void clearAllActions();
     virtual bool init( void ) override;
 private:
     cocos2d::DrawNode * m_vague;

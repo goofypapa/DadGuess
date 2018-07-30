@@ -12,6 +12,8 @@ bool MainPersonalLayer::init()
         return false;
     }
 
+    hideCallBack = nullptr;
+
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -29,6 +31,10 @@ bool MainPersonalLayer::init()
     auto t_personalCentSaveButtonSize = m_personalContSaveButton->getContentSize();
 
     m_personalContSaveButton->setScale( adaptation() );
+
+    touchAnswer( m_personalContSaveButton, [this]( Ref * p_ref ){
+        hide();
+    } );
 
     float t_personalCentSaveButtonHeight = t_personalCentSaveButtonSize.height * adaptation();
     this->setPosition( Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y + t_personalCentSaveButtonHeight * 0.5f ) );
@@ -51,9 +57,11 @@ bool MainPersonalLayer::init()
 
 void MainPersonalLayer::show()
 {
+    clearAllActions();
+    
     m_vague->setOpacity( 0.0f );
     m_vague->setVisible( true );
-    m_vague->runAction( ActionFloat::create( 0.1f, 0.0f, 1.0f, [this]( float p_data ){
+    m_vague->runAction( ActionFloat::create( 0.2f, 0.0f, 1.0f, [this]( float p_data ){
         m_vague->setOpacity( p_data * 255 );
     } ) );
 
@@ -74,6 +82,9 @@ void MainPersonalLayer::show()
 
 void MainPersonalLayer::hide()
 {
+
+    clearAllActions();
+
     m_vague->runAction( ActionFloat::create( 0.1f, 1.0f, 0.0f, [this]( float p_data )
     {
         m_vague->setOpacity( p_data * 255 );
@@ -84,4 +95,21 @@ void MainPersonalLayer::hide()
     } ) );
     m_personalCentBackground->runAction( MoveTo::create( 0.2f, m_personalCentBackgroundHiedPos ) );
     m_personalContSaveButton->runAction( MoveTo::create( 0.2f, m_personalContSaveButtonHidePos ) );
+
+    if( hideCallBack )
+    {
+        hideCallBack();
+    }
+}
+
+void MainPersonalLayer::clearAllActions()
+{
+    m_vague->stopAllActions();
+    m_vague->getActionManager()->removeAllActions();
+
+    m_personalCentBackground->stopAllActions();
+    m_personalCentBackground->getActionManager()->removeAllActions();
+
+    m_personalContSaveButton->stopAllActions();
+    m_personalContSaveButton->getActionManager()->removeAllActions();
 }

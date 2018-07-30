@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "MainPersonalLayer.h"
+#include <functional>
 
 class MainScene: public cocos2d::Scene
 {
@@ -30,6 +31,10 @@ protected:
 private:
     cocos2d::Menu * m_mainMenu;
     MainPersonalLayer * m_personalCent;
+
+    std::vector< cocos2d::ui::Button *> m_mainSceneButtons;
+    std::function<void()> m_enableAllButton;
+    std::function<void()> m_disenableAllButton;
     
 };
 

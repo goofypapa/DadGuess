@@ -42,7 +42,6 @@ static AppDelegate s_sharedApplication;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    printf( "register\n" );
     [WXApi registerApp:@"wxc6d5d8bca1f1c5a9"];
     
     cocos2d::Application *app = cocos2d::Application::getInstance();

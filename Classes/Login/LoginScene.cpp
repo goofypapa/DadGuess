@@ -707,7 +707,7 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
         MessageBox( "您还没有安装微信", "" );
         return;
     }
-    
+
     loginWecht();
 }
 

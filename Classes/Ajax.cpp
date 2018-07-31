@@ -122,7 +122,13 @@ void Ajax::getHttp_handshakeResponse( network::HttpClient * p_sender, network::H
         {
             //解析头
             auto t_httpStateList = split( t_list[0], " " );
-            t_httpState = atoi( t_httpStateList[1].c_str() );
+
+            if( t_httpStateList[0] == "HTTP/1.1" )
+            {
+                t_httpState = atoi( t_httpStateList[1].c_str() );
+            }
+
+
         }else if( t_list.size() == 2 )
         {
             if( t_list[0] == "Content-Type"  )
@@ -146,9 +152,13 @@ void Ajax::getHttp_handshakeResponse( network::HttpClient * p_sender, network::H
             }
         }
     }
+
     
-    std::string t_strResponse = std::string( &*t_response->begin(), t_contentLength );
-    
+//    std::string t_strResponse = std::string( &*t_response->begin(), t_contentLength );
+
+    std::string t_strResponse;
+    t_strResponse.insert( t_strResponse.begin(), t_response->begin(), t_response->end() );
+
     if( t_httpState != 200 )
     {
         m_final( t_strResponse );

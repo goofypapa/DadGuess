@@ -13,6 +13,14 @@
 #include <functional>
 #include <map>
 
+#ifdef __ANDROID_NDK__
+#include "android/log.h"
+
+#define  LOG_TAG    "main"
+#define  printf(...)  __android_log_print( ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__ )
+
+#endif
+
 
 USING_NS_CC;
 

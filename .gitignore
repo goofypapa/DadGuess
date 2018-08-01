@@ -131,4 +131,3 @@ cmake_install.cmake
 # cocos build temp
 cocos2d/build/build/
 proj.ios_mac/build/
-build/

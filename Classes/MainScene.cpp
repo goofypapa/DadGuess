@@ -8,7 +8,9 @@
 #include "MainScene.h"
 #include "Common.h"
 #include "Resources/Main.hpp"
-#include "Resources/Personal.hpp"
+#include "Resources/Dialog.hpp"
+
+#include "WebViewScene.h"
 
 
 USING_NS_CC;
@@ -29,7 +31,7 @@ bool MainScene::init( void )
     
     //加载贴图
     TexturePacker::Main::addSpriteFramesToCache();
-    TexturePacker::Personal::addSpriteFramesToCache();
+    TexturePacker::Dialog::addSpriteFramesToCache();
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -114,7 +116,7 @@ bool MainScene::init( void )
     this->addChild( t_Baike );
     m_mainSceneButtons.push_back( t_Baike );
     touchAnswer( t_Baike, [this]( Ref * p_ref ){
-        dadpatCallBack( this );
+        animalCallBack();
     } );
     
     auto t_Game = Button::create( TexturePacker::Main::mainGame, TexturePacker::Main::mainGame, "", Widget::TextureResType::PLIST  );
@@ -152,11 +154,11 @@ bool MainScene::init( void )
     };
 
 
-    m_personalCent = MainPersonalLayer::create();
-    m_personalCent->setPosition( Vec2( visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y ) );
-    this->addChild( m_personalCent, 2 );
+    m_dialog = MainDialogLayer::create();
+    m_dialog->setPosition( Vec2( visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y ) );
+    this->addChild( m_dialog, 2 );
 
-    m_personalCent->hideCallBack = [this](){
+    m_dialog->hideCallBack = [this](){
         m_enableAllButton();
     };
 
@@ -206,12 +208,17 @@ bool MainScene::init( void )
 MainScene::~MainScene()
 {
     TexturePacker::Main::removeSpriteFramesFromCache();
-    TexturePacker::Personal::removeSpriteFramesFromCache();
+    TexturePacker::Dialog::removeSpriteFramesFromCache();
 }
 
 void MainScene::settingsCallBack( Ref* pSender )
 {
-    m_personalCent->show();
+    m_dialog->show();
+}
+
+void MainScene::animalCallBack( void )
+{
+    Director::getInstance()->replaceScene( WebViewScene::create() );
 }
 
 void MainScene::dadpatCallBack( Ref* pSender )

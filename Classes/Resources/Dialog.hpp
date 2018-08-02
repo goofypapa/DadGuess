@@ -7,15 +7,15 @@
 // $TexturePacker:SmartUpdate:035a8ee197957396afb827d88b2c5143:cc7b5456ea0723d50293cc819bbf0949:55515e4a88b6dd1be2e6001077894f80$
 // ---------------------------------------
 
-#ifndef __PERSONAL_H__
-#define __PERSONAL_H__
+#ifndef __DIALOG_H__
+#define __DIALOG_H__
 
 #include "cocos2d.h"
 
 namespace TexturePacker
 {
 
-class Personal
+class Dialog
 {
 public:
     /**
@@ -66,4 +66,4 @@ public:
 
 }; // namespace
 
-#endif // __PERSONAL_H__
+#endif // __DIALOG_H__

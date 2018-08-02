@@ -10,7 +10,7 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "MainPersonalLayer.h"
+#include "MainDialogLayer.h"
 #include <functional>
 
 class MainScene: public cocos2d::Scene
@@ -22,7 +22,7 @@ public:
     void settingsCallBack( cocos2d::Ref* pSender );
 
 
-
+    void animalCallBack( void );
     void dadpatCallBack( cocos2d::Ref* pSender );
     
 protected:
@@ -30,7 +30,7 @@ protected:
     virtual ~MainScene();
 private:
     cocos2d::Menu * m_mainMenu;
-    MainPersonalLayer * m_personalCent;
+    MainDialogLayer * m_dialog;
 
     std::vector< cocos2d::ui::Button *> m_mainSceneButtons;
     std::function<void()> m_enableAllButton;

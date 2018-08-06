@@ -48,6 +48,7 @@
 		37C2DDB92106B52F0088EC29 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB82106B52E0088EC29 /* CFNetwork.framework */; };
 		37C2DDBB2106B5590088EC29 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDBA2106B5590088EC29 /* SystemConfiguration.framework */; };
 		37C2DDBD2106B5840088EC29 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDBC2106B5840088EC29 /* CoreTelephony.framework */; };
+		37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DFB72112FA650086F680 /* RootViewControllerV.mm */; };
 		37E6FCC120F482E60047F458 /* Ajax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCBF20F482E60047F458 /* Ajax.cpp */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
@@ -186,6 +187,8 @@
 		37C2DDB82106B52E0088EC29 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		37C2DDBA2106B5590088EC29 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		37C2DDBC2106B5840088EC29 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		37C2DFB72112FA650086F680 /* RootViewControllerV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewControllerV.mm; sourceTree = "<group>"; };
+		37C2DFB82112FA650086F680 /* RootViewControllerV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewControllerV.h; sourceTree = "<group>"; };
 		37D0408620F8457A00C34F12 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		37E6FCBF20F482E60047F458 /* Ajax.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ajax.cpp; sourceTree = "<group>"; };
 		37E6FCC020F482E60047F458 /* Ajax.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ajax.h; sourceTree = "<group>"; };
@@ -296,6 +299,8 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				37C2DFB82112FA650086F680 /* RootViewControllerV.h */,
+				37C2DFB72112FA650086F680 /* RootViewControllerV.mm */,
 				37C2DDBE2106BC650088EC29 /* WechtLogin */,
 				1A88B2631FC3D9C9005C14AE /* Images.xcassets */,
 				1AF87B471F6F77D6007BE51C /* AppController.h */,
@@ -649,6 +654,7 @@
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
+				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
 				37364EB420EF40B1002A40AE /* Common.cpp in Sources */,
 				379D95832106EED3006DA6C1 /* WXApiManager.mm in Sources */,

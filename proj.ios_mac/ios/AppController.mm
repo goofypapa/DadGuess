@@ -28,7 +28,11 @@
 #import "cocos2d.h"
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "RootViewControllerV.h"
 #import "WechtLogin/WXApiManager.h"
+
+#import "platform/ios/CCEAGLView-ios.h"
+#import "Common.h"
 
 @implementation AppController
 
@@ -39,8 +43,11 @@
 
 // cocos2d application instance
 static AppDelegate s_sharedApplication;
+static AppController *s_self;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    s_self = self;
     
     [WXApi registerApp:@"wxc6d5d8bca1f1c5a9"];
     
@@ -58,6 +65,9 @@ static AppDelegate s_sharedApplication;
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
     _viewController.wantsFullScreenLayout = YES;
+    
+    _viewControllerV = [[RootViewControllerV alloc]init];
+    _viewControllerV.wantsFullScreenLayout = YES;
     
 
     // Set RootViewController to window
@@ -142,6 +152,59 @@ static AppDelegate s_sharedApplication;
 
 //---------------------------
 
+//------
+
++(void)changeRootViewControllerH
+{
+    CCEAGLView *__glView = (CCEAGLView *)s_self->_viewControllerV.view;
+    s_self->_viewControllerV.view = nil;
+    s_self->_viewController.view = __glView;
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 6.0)
+    {
+        [s_self->window addSubview:s_self->_viewController.view];
+    }
+    [s_self->window setRootViewController:s_self->_viewController];
+    
+    auto glview = Director::getInstance()->getOpenGLView();
+    
+//    cocos2d::Application::getInstance()->applicationScreenSizeChanged( frameSize.height, frameSize.width );
+    
+    auto frameSize = glview->getFrameSize();
+    glview->setFrameSize( frameSize.height , frameSize.width );
+    
+    auto designResolutionSize = glview->getDesignResolutionSize();
+    glview->setDesignResolutionSize( designResolutionSize.height, designResolutionSize.width, ResolutionPolicy::NO_BORDER );
+    
+
+}
+
++(void)changeRootViewControllerV
+{
+    CCEAGLView *__glView = (CCEAGLView *)s_self->_viewController.view;
+    s_self->_viewController.view = nil;
+    s_self->_viewControllerV.view = __glView;
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 6.0)
+    {
+        [s_self->window addSubview:s_self->_viewControllerV.view];
+    }
+    [s_self->window setRootViewController:s_self->_viewControllerV];
+    
+    auto glview = Director::getInstance()->getOpenGLView();
+    
+//    cocos2d::Application::getInstance()->applicationScreenSizeChanged( frameSize.height, frameSize.width );
+    
+    auto frameSize = glview->getFrameSize();
+    glview->setFrameSize( frameSize.height , frameSize.width );
+
+    auto designResolutionSize = glview->getDesignResolutionSize();
+    glview->setDesignResolutionSize( designResolutionSize.height, designResolutionSize.width, ResolutionPolicy::NO_BORDER );
+    
+}
+
+//----------------------------
+
 
 #pragma mark -
 #pragma mark Memory management
@@ -158,9 +221,20 @@ static AppDelegate s_sharedApplication;
 - (void)dealloc {
     [window release];
     [_viewController release];
+    [_viewControllerV release];
     [super dealloc];
 }
 #endif
 
 
 @end
+
+void setAppOrientation( const bool p_isPortrait )
+{
+    if( p_isPortrait )
+    {
+        [AppController changeRootViewControllerV];
+    }else{
+        [AppController changeRootViewControllerH];
+    }
+}

@@ -38,5 +38,7 @@ void touchAnswer( cocos2d::ui::Button * p_button, std::function<void( cocos2d::R
 std::vector<std::string> split( const std::string & p_str, const std::string & p_clapboard );
 std::vector<std::string> split( const std::string & p_str, const char p_clapboard );
 
+void setAppOrientation( const bool p_isPortrait );
+
 
 #endif //__COMMON_H__

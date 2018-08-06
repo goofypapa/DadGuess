@@ -24,12 +24,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#import "RootViewController.h"
+#import "RootViewControllerV.h"
 #import "cocos2d.h"
 #import "platform/ios/CCEAGLView-ios.h"
 
 
-@implementation RootViewController
+@implementation RootViewControllerV
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -55,7 +55,7 @@
     // Enable or disable multiple touches
     [eaglView setMultipleTouchEnabled:NO];
     
-    // Set EAGLView as view of RootViewController
+    // Set EAGLView as view of RootViewControllerV
     self.view = eaglView;
 }
 
@@ -76,7 +76,7 @@
 // For ios6, use supportedInterfaceOrientations & shouldAutorotate instead
 #ifdef __IPHONE_6_0
 - (NSUInteger) supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskPortrait;
 }
 #endif
 
@@ -86,7 +86,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-
+    
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
 
     if (glview)

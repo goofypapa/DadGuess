@@ -1,20 +1,20 @@
 /****************************************************************************
- Copyright (c) 2010-2013 cocos2d-x.org
+ Copyright (c) 2013      cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,20 +25,11 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
-#import "WechtLogin/WechtSDK1.8.2_NoPay/WXApi.h"
 
-@class RootViewController;
-@class RootViewControllerV;
 
-@interface AppController : NSObject <UIApplicationDelegate, WXApiDelegate> {
+@interface RootViewControllerV : UIViewController {
 
 }
-
-@property(nonatomic, readonly) RootViewController* viewController;
-@property(nonatomic, readonly) RootViewControllerV* viewControllerV;//声明实例变量
-
-+(void)changeRootViewControllerH;//静态方法(修改屏幕为横屏)
-+(void)changeRootViewControllerV;//静态方法(修改屏幕为竖屏)
+- (BOOL) prefersStatusBarHidden;
 
 @end
-

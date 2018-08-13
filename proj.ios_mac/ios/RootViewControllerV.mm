@@ -99,6 +99,13 @@
             cocos2d::Application::getInstance()->applicationScreenSizeChanged((int) s.width, (int) s.height);
         }
     }
+    
+//原生webview
+//    auto t_webview = [[UIWebView alloc]initWithFrame:self.view.bounds];
+//    auto t_url = [NSURL URLWithString:@"https://www.baidu.com"];
+//    auto t_request = [NSURLRequest requestWithURL:t_url];
+//
+//    [t_webview loadRequest:t_request];
 }
 
 //fix not hide status on ios7

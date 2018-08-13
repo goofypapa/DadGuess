@@ -1,6 +1,6 @@
 // ---------------------------------------
 // Sprite definitions for Dialog
-// Generated with TexturePacker 4.8.2
+// Generated with TexturePacker 4.8.3
 //
 // https://www.codeandweb.com/texturepacker
 // ---------------------------------------
@@ -28,22 +28,31 @@ void Dialog::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
+const std::string Dialog::confirmButton             = "ConfirmButton.png";
 const std::string Dialog::listSpaceLine             = "ListSpaceLine.png";
 const std::string Dialog::loginByPhone              = "LoginByPhone.png";
 const std::string Dialog::loginByWeChat             = "LoginByWeChat.png";
 const std::string Dialog::loginByXinlang            = "LoginByXinlang.png";
 const std::string Dialog::per_touxiang              = "per_touxiang.png";
+const std::string Dialog::personalCenterBackground  = "PersonalCenterBackground.png";
 const std::string Dialog::redioButtonNormal         = "RedioButtonNormal.png";
 const std::string Dialog::redioButtonSelectedBlue   = "RedioButtonSelectedBlue.png";
 const std::string Dialog::redioButtonSelectedOrange = "RedioButtonSelectedOrange.png";
 const std::string Dialog::saveButton                = "SaveButton.png";
 const std::string Dialog::settingBackground         = "SettingBackground.png";
 const std::string Dialog::settingsContentBackground = "SettingsContentBackground.png";
+const std::string Dialog::swichEnabled              = "SwichEnabled.png";
+const std::string Dialog::swichNormal               = "SwichNormal.png";
 const std::string Dialog::texteditBackground        = "TexteditBackground.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
 // ---------------------------------------------------------
+Sprite* Dialog::createConfirmButtonSprite()
+{
+    return Sprite::createWithSpriteFrameName(confirmButton);
+}
+
 Sprite* Dialog::createListSpaceLineSprite()
 {
     return Sprite::createWithSpriteFrameName(listSpaceLine);
@@ -67,6 +76,11 @@ Sprite* Dialog::createLoginByXinlangSprite()
 Sprite* Dialog::createPer_touxiangSprite()
 {
     return Sprite::createWithSpriteFrameName(per_touxiang);
+}
+
+Sprite* Dialog::createPersonalCenterBackgroundSprite()
+{
+    return Sprite::createWithSpriteFrameName(personalCenterBackground);
 }
 
 Sprite* Dialog::createRedioButtonNormalSprite()
@@ -97,6 +111,16 @@ Sprite* Dialog::createSettingBackgroundSprite()
 Sprite* Dialog::createSettingsContentBackgroundSprite()
 {
     return Sprite::createWithSpriteFrameName(settingsContentBackground);
+}
+
+Sprite* Dialog::createSwichEnabledSprite()
+{
+    return Sprite::createWithSpriteFrameName(swichEnabled);
+}
+
+Sprite* Dialog::createSwichNormalSprite()
+{
+    return Sprite::createWithSpriteFrameName(swichNormal);
 }
 
 Sprite* Dialog::createTexteditBackgroundSprite()

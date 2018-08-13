@@ -4,6 +4,21 @@
     <dict>
         <key>frames</key>
         <dict>
+            <key>ConfirmButton.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{258,92}</string>
+                <key>spriteSourceSize</key>
+                <string>{258,92}</string>
+                <key>textureRect</key>
+                <string>{{1,1913},{258,92}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>ListSpaceLine.png</key>
             <dict>
                 <key>aliases</key>
@@ -15,9 +30,9 @@
                 <key>spriteSourceSize</key>
                 <string>{830,2}</string>
                 <key>textureRect</key>
-                <string>{{1,1457},{830,2}}</string>
+                <string>{{995,1},{830,2}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>LoginByPhone.png</key>
             <dict>
@@ -30,9 +45,9 @@
                 <key>spriteSourceSize</key>
                 <string>{66,66}</string>
                 <key>textureRect</key>
-                <string>{{913,946},{44,54}}</string>
+                <string>{{913,1661},{44,54}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>LoginByWeChat.png</key>
             <dict>
@@ -45,7 +60,7 @@
                 <key>spriteSourceSize</key>
                 <string>{66,66}</string>
                 <key>textureRect</key>
-                <string>{{913,834},{66,54}}</string>
+                <string>{{913,1549},{66,54}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -60,71 +75,11 @@
                 <key>spriteSourceSize</key>
                 <string>{66,66}</string>
                 <key>textureRect</key>
-                <string>{{913,890},{66,54}}</string>
+                <string>{{913,1605},{66,54}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>RedioButtonNormal.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{48,48}</string>
-                <key>spriteSourceSize</key>
-                <string>{48,48}</string>
-                <key>textureRect</key>
-                <string>{{913,992},{48,48}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>RedioButtonSelectedBlue.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{48,48}</string>
-                <key>spriteSourceSize</key>
-                <string>{48,48}</string>
-                <key>textureRect</key>
-                <string>{{913,1042},{48,48}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>RedioButtonSelectedOrange.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{48,48}</string>
-                <key>spriteSourceSize</key>
-                <string>{48,48}</string>
-                <key>textureRect</key>
-                <string>{{913,1092},{48,48}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>SaveButton.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{258,92}</string>
-                <key>spriteSourceSize</key>
-                <string>{258,92}</string>
-                <key>textureRect</key>
-                <string>{{214,1244},{258,92}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>SettingBackground.png</key>
+            <key>PersonalCenterBackground.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,6 +94,81 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>RedioButtonNormal.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{48,48}</string>
+                <key>spriteSourceSize</key>
+                <string>{48,48}</string>
+                <key>textureRect</key>
+                <string>{{913,1717},{48,48}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>RedioButtonSelectedBlue.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{48,48}</string>
+                <key>spriteSourceSize</key>
+                <string>{48,48}</string>
+                <key>textureRect</key>
+                <string>{{913,1767},{48,48}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>RedioButtonSelectedOrange.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{48,48}</string>
+                <key>spriteSourceSize</key>
+                <string>{48,48}</string>
+                <key>textureRect</key>
+                <string>{{391,1923},{48,48}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>SaveButton.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{258,92}</string>
+                <key>spriteSourceSize</key>
+                <string>{258,92}</string>
+                <key>textureRect</key>
+                <string>{{404,1829},{258,92}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>SettingBackground.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{992,583}</string>
+                <key>spriteSourceSize</key>
+                <string>{992,583}</string>
+                <key>textureRect</key>
+                <string>{{1,834},{992,583}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
             <key>SettingsContentBackground.png</key>
             <dict>
                 <key>aliases</key>
@@ -150,7 +180,37 @@
                 <key>spriteSourceSize</key>
                 <string>{910,408}</string>
                 <key>textureRect</key>
-                <string>{{1,834},{910,408}}</string>
+                <string>{{1,1419},{910,408}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>SwichEnabled.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{128,68}</string>
+                <key>spriteSourceSize</key>
+                <string>{128,68}</string>
+                <key>textureRect</key>
+                <string>{{913,1419},{128,68}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>SwichNormal.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{128,68}</string>
+                <key>spriteSourceSize</key>
+                <string>{128,68}</string>
+                <key>textureRect</key>
+                <string>{{261,1913},{128,68}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -165,7 +225,7 @@
                 <key>spriteSourceSize</key>
                 <string>{401,82}</string>
                 <key>textureRect</key>
-                <string>{{214,1338},{401,82}}</string>
+                <string>{{1,1829},{401,82}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -180,7 +240,7 @@
                 <key>spriteSourceSize</key>
                 <string>{211,211}</string>
                 <key>textureRect</key>
-                <string>{{1,1244},{211,211}}</string>
+                <string>{{664,1829},{211,211}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -196,9 +256,9 @@
             <key>realTextureFileName</key>
             <string>Dialog.png</string>
             <key>size</key>
-            <string>{994,1460}</string>
+            <string>{998,2041}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:70f879688b90a754099956688c0cfa97:cc7b5456ea0723d50293cc819bbf0949:35e4deef2dc57376112494ab3d1d31c4$</string>
+            <string>$TexturePacker:SmartUpdate:eb5a6df173df219c7877f701f33b5726:cbf55cbe15e32da0bed98dc0e91fc1cf:9d5f9d777bce4db9fed050e341ff8596$</string>
             <key>textureFileName</key>
             <string>Dialog.png</string>
         </dict>

@@ -121,7 +121,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     Scene * t_startScene = nullptr;
     
-    bool t_isLogin = true;
+    bool t_isLogin = false;
+    t_isLogin = true;
     
     if( t_isLogin )
     {

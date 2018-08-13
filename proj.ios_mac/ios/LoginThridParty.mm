@@ -15,5 +15,6 @@ bool installedWecht( void )
 
 bool loginWecht( void )
 {
+    
     return [WXApiManager sendAuthRequestScope: @"snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact" State:@"xxx" OpenID:@"wxc6d5d8bca1f1c5a9" InViewController:nil];
 }

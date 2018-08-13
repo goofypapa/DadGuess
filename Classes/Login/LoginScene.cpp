@@ -46,16 +46,16 @@ bool LoginScene::init()
 
     auto t_dataTableUser = DataTableUser::instance();
 
-    t_dataTableUser.insert( "13720067880", "haha", "", false );
+    t_dataTableUser.insert( "13720067880", "haha", 1, "", "", false );
 
     auto t_list = t_dataTableUser.list();
 
     for( auto t_user : t_list )
     {
-        printf( "id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.id, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
+        printf( "id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.uid, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
     }
 
-    auto t_userInfo = t_dataTableUser.find( t_list[0].id );
+    auto t_userInfo = t_dataTableUser.find( t_list[0].uid );
     t_userInfo.phone = "12345678";
     t_userInfo.name = "....";
 
@@ -66,7 +66,7 @@ bool LoginScene::init()
 
     for( auto t_user : t_list )
     {
-        printf( "--- id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.id, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
+        printf( "--- id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.uid, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
     }
     
 //    MessageBox( "", "哈哈" );
@@ -134,7 +134,7 @@ bool LoginScene::init()
 
         touchAnswer( m_back, [this]( Ref * p_ref ){
             loginBack( );
-        } );
+        }, adaptation() * 1.1f, adaptation() );
     }
 
 
@@ -156,7 +156,7 @@ bool LoginScene::init()
 
             touchAnswer( t_LoginWechat, [this]( Ref * p_ref ){
                 loginWechat( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "微信", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f, t_titlePosY ) );
@@ -173,7 +173,7 @@ bool LoginScene::init()
 
             touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
                 loginSina( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
@@ -189,7 +189,7 @@ bool LoginScene::init()
 
             touchAnswer( t_LoginPhone, [this]( Ref * p_ref ){
                 loginPhone( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "手机", PAGE_FONT, 12 );
             t_label->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_titlePosY ) );
@@ -336,7 +336,7 @@ bool LoginScene::init()
 
             touchAnswer( t_loginButton, [this]( Ref * p_ref ){
                 login( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
 
          }
         
@@ -476,7 +476,7 @@ bool LoginScene::init()
 
             touchAnswer( t_registerButton, [this]( Ref * p_ref ){
                 phoneRegister( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
 
         }
         
@@ -616,7 +616,7 @@ bool LoginScene::init()
 
             touchAnswer( t_ForgetPasswordButton, [this]( Ref * p_ref ){
                 forgetPassword( this );
-            } );
+            }, adaptation() * 1.1f, adaptation() );
         }
         
         auto t_rorgetPasswordLabel = Label::createWithTTF( "确认修改", PAGE_FONT, 12 );
@@ -724,8 +724,36 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
     m_LoginPhone->setVisible( true );
 }
 
-void LoginScene::loginWechatCallBack( void )
+void LoginScene::loginWechatCallBack( const char * p_code )
 {
+    if( !p_code )
+    {
+        return;
+    }
+    
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "appid" ] = "wxc6d5d8bca1f1c5a9";
+    t_parameter[ "secret" ] = "c5460ffde4c1c93dcc71392108bfa01d";
+    t_parameter[ "code" ] = p_code;
+    t_parameter[ "grant_type" ] = "authorization_code";
+    
+    
+    Ajax::Post( "https://api.weixin.qq.com/sns/oauth2/access_token", &t_parameter, []( std::string p_res ){
+        printf( " tocken: %s \n", p_res.c_str() );
+        
+        rapidjson::Document t_json;
+        if( !ParseApiResult( t_json, p_res ) )
+        {
+            return;
+        }
+        
+        std::string t_access_token = t_json["access_token"].GetString();
+        std::string t_openid = t_json["openid"].GetString();
+        
+    }, []( std::string p_res ){
+        
+    });
+    
     Director::getInstance()->replaceScene( MainScene::CreateScene() );
 }
 

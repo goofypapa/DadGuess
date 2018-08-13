@@ -34,16 +34,18 @@ bool DataTableUser::init( void )
 
 bool DataTableUser::insert( const DataUser & p_userInfo )
 {
-    return insert( p_userInfo.phone, p_userInfo.name, p_userInfo.token, p_userInfo.actication );
+    return insert( p_userInfo.phone, p_userInfo.name, p_userInfo.sex, p_userInfo.birthday, p_userInfo.token, p_userInfo.actication );
 }
 
-bool DataTableUser::insert( const std::string & p_phone, const std::string & p_name, const std::string & p_token, const bool p_activation )
+bool DataTableUser::insert( const std::string & p_phone, const std::string & p_name, const unsigned int p_sex, const std::string & p_birthday, const std::string & p_token, const bool p_activation )
 {
     std::stringstream t_ssql;
 
-    t_ssql << "INSERT INTO " << DataTableUserName << "( phone, name, token, activation ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableUserName << "( phone, name, sex, birthday, token, activation ) VALUES( "
                 << "\"" << p_phone << "\", "
                 << "\"" << p_name << "\", "
+                << p_sex << ", "
+                << "\"" << p_birthday << "\", "
                 << "\"" << p_token << "\", "
                 << ( p_activation ? 1 : 0 ) << " "
                 << ");";
@@ -64,7 +66,7 @@ std::vector< DataUser > DataTableUser::list( void )
     for( auto t_row : t_list )
     {
         DataUser t_userInfo;
-        t_userInfo.id = atoi( t_row["id"].c_str() );
+        t_userInfo.uid = atoi( t_row["id"].c_str() );
         t_userInfo.phone = t_row["phone"];
         t_userInfo.name = t_row["name"];
         t_userInfo.token = t_row["token"];
@@ -79,7 +81,7 @@ std::vector< DataUser > DataTableUser::list( void )
 DataUser DataTableUser::find( const int p_id )
 {
     DataUser t_result;
-    t_result.id = -1;
+    t_result.uid = -1;
 
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM table_user WHERE id=" << p_id;
@@ -90,7 +92,7 @@ DataUser DataTableUser::find( const int p_id )
     if( t_list.size() == 1 )
     {
         auto t_dataInfo = *t_list.begin();
-        t_result.id = atoi( t_dataInfo["id"].c_str() );
+        t_result.uid = atoi( t_dataInfo["id"].c_str() );
         t_result.phone = t_dataInfo["phone"];
         t_result.name = t_dataInfo["name"];
         t_result.token = t_dataInfo["token"];
@@ -105,8 +107,8 @@ bool DataTableUser::update( const DataUser & p_userInfo )
 {
     bool t_needUpdate = false;
 
-    DataUser t_oldInfo = find( p_userInfo.id );
-    if( t_oldInfo.id < 0 )
+    DataUser t_oldInfo = find( p_userInfo.uid );
+    if( t_oldInfo.uid < 0 )
     {
         return false;
     }
@@ -167,7 +169,7 @@ bool DataTableUser::update( const DataUser & p_userInfo )
         return true;
     }
 
-    t_ssql << " WHERE id=" << p_userInfo.id;
+    t_ssql << " WHERE id=" << p_userInfo.uid;
 
     std::string t_sql = t_ssql.str();
 

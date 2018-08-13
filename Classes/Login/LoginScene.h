@@ -29,7 +29,7 @@ public:
     void loginSina( cocos2d::Ref* pSender );
     void loginPhone( cocos2d::Ref* pSender );
     
-    static void loginWechatCallBack( void );
+    static void loginWechatCallBack( const char * p_code );
 
     void loginBack();
     

@@ -122,7 +122,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     Scene * t_startScene = nullptr;
     
     bool t_isLogin = false;
-    t_isLogin = true;
+//    t_isLogin = true;
     
     if( t_isLogin )
     {

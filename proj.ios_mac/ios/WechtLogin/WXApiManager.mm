@@ -44,10 +44,9 @@
     }
     const char * code = [[authResp code] UTF8String];
     
-    LoginScene::loginWechatCallBack();
-    
-    printf( "code: %s \n", code );
     printf( "onResp\n" );
+    printf( "code: %s \n", code );
+    LoginScene::loginWechatCallBack( code );
 }
 
 - (void)onReq:(BaseReq *)req

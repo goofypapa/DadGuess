@@ -7,8 +7,10 @@
 
 #define DataTableUserCreateSql "CREATE TABLE IF NOT EXISTS table_user("\
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, "\
-                "phone TEXT NOT NULL, "\
+                "phone TEXT, "\
                 "name TEXT NOT NULL, "\
+                "sex INTEGER NOT NULL, "\
+                "birthday TEXT NOT NULL, "\
                 "token TEXT NOT NULL, "\
                 "activation INTEGER NOT NULL"\
                 ")"
@@ -17,8 +19,8 @@
 class DataUser
 {
 public:
-    int id;
-    std::string phone, name, token;
+    int uid, sex;
+    std::string phone, name, birthday, token;
     bool actication;
 };
 
@@ -29,7 +31,7 @@ public:
     static DataTableUser & instance( void );
 
     bool insert( const DataUser & p_userInfo );
-    bool insert( const std::string & p_phone, const std::string & p_name, const std::string & p_token, const bool p_activation );
+    bool insert( const std::string & p_phone, const std::string & p_name, const unsigned int p_sex, const std::string & p_birthday, const std::string & p_token, const bool p_activation );
 
     std::vector< DataUser > list( void );
     DataUser find( const int p_id );

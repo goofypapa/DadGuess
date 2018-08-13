@@ -14,7 +14,6 @@
 #include "Config.h"
 #include "Message.h"
 #include "../DataBase/DataValidate.h"
-#include "LoginThirdParty.h"
 #include "MainScene.h"
 #include "Login.hpp"
 
@@ -701,14 +700,14 @@ void LoginScene::update( float p_delta )
 
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
-    
-    if( !installedWecht() )
-    {
-        MessageBox( "您还没有安装微信", "" );
-        return;
-    }
-
-    loginWecht();
+//    
+//    if( !installedWecht() )
+//    {
+//        MessageBox( "您还没有安装微信", "" );
+//        return;
+//    }
+//
+//    loginWecht();
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )

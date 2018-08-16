@@ -18,6 +18,7 @@
 USING_NS_CC;
 using namespace cocos2d::ui;
 
+#define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
 
 Scene * MainScene:: CreateScene( void )
 {
@@ -31,7 +32,8 @@ bool MainScene::init( void )
         return false;
     }
     
-    printf( "%s \n", LoginScene::loginUser().toJson().c_str() );
+    m_loginUser = LoginScene::loginUser();
+    printf( "%s \n", m_loginUser.toJson().c_str() );
     
     //加载贴图
     TexturePacker::Main::addSpriteFramesToCache();
@@ -76,9 +78,18 @@ bool MainScene::init( void )
     auto t_personalHead = Button::create( TexturePacker::Dialog::per_touxiang, TexturePacker::Dialog::per_touxiang, "", Widget::TextureResType::PLIST  );
     t_personalHead->setScale( adaptation() );
     auto t_personalHeadSizeHelf = t_personalHead->getContentSize() * adaptation() * 0.5f;
-    t_personalHead->setPosition( Vec2( origin.x + t_personalHeadSizeHelf.width + 15.0f , origin.y + visibleSize.height - t_personalHeadSizeHelf.height - 10.0f ) );
+    auto t_personalHeadPosition = Vec2( origin.x + t_personalHeadSizeHelf.width + 15.0f , origin.y + visibleSize.height - t_personalHeadSizeHelf.height - 10.0f );
+    t_personalHead->setPosition( t_personalHeadPosition );
     this->addChild( t_personalHead );
     m_mainSceneButtons.push_back( t_personalHead );
+
+    auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
+    auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
+
+    t_personalName->setPosition( Vec2( t_personalHeadPosition.x + t_personalHeadSizeHelf.width + t_personalNameSizeHalf.width + 5.0f, t_personalHeadPosition.y ) );
+
+    this->addChild( t_personalName );
+
     
     touchAnswer( t_personalHead , [this]( Ref * p_ref ){
         m_disenableAllButton();

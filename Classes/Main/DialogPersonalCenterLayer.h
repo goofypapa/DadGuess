@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include <functional>
+#include "DataTableUser.h"
 
 class DialogPersonalCenterLayer: public cocos2d::Layer
 {
@@ -30,8 +31,8 @@ protected:
 private:
     
     void refreshSexRedio( Ref * p_girlRedio, Ref * p_boyRedio );
-    
-    bool m_isGirl;
+
+    DataUser m_loginUser;
     
     cocos2d::DrawNode * m_vague;
     cocos2d::Sprite * m_dialogCentBackground;

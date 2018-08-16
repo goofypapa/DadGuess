@@ -13,6 +13,7 @@
 #include <functional>
 #include "DialogSettingsLayer.h"
 #include "DialogPersonalCenterLayer.h"
+#include "DataTableUser.h"
 
 class MainScene: public cocos2d::Scene
 {
@@ -40,6 +41,7 @@ private:
     std::function<void()> m_enableAllButton;
     std::function<void()> m_disenableAllButton;
     
+    DataUser m_loginUser;
 };
 
 #endif /* __MAIN_SCENE_H__ */

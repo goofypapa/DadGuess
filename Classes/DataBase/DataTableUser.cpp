@@ -8,20 +8,6 @@ DataUser::DataUser() : userId(""), userName(""), userBirthday(""), userSex(2), l
     
 }
 
-DataUser::DataUser( const DataUser & p_dataUser ) :
-userId( p_dataUser.userId ),
-userName( p_dataUser.userName ),
-userBirthday( p_dataUser.userBirthday ),
-userSex( p_dataUser.userSex ),
-loginName( p_dataUser.loginName ),
-headImg( p_dataUser.headImg ),
-token( p_dataUser.token ),
-loginType( p_dataUser.loginType ),
-activation( p_dataUser.activation )
-{
-    
-}
-
 std::string DataUser::toJson( void )
 {
     std::stringstream t_sstr;
@@ -62,7 +48,7 @@ DataTableUser & DataTableUser::instance( void )
 bool DataTableUser::init( void )
 {
 
-    drop();
+//    drop();
 
     if( !DataBase::instance().exec( DataTableUserCreateSql ) )
     {

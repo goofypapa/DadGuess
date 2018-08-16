@@ -25,7 +25,6 @@ class DataUser
 public:
     
     DataUser();
-    DataUser( const DataUser & p_dataUser );
     
     std::string toJson( void );
 

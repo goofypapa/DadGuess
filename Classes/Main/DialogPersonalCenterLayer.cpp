@@ -8,6 +8,7 @@
 #include "DialogPersonalCenterLayer.h"
 #include "Dialog.hpp"
 #include "Common.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -20,8 +21,9 @@ bool DialogPersonalCenterLayer::init( void )
     {
         return false;
     }
-    
-    m_isGirl = false;
+
+    m_loginUser = DataTableUser::instance().getActivation();
+
     hideCallBack = nullptr;
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -91,7 +93,7 @@ bool DialogPersonalCenterLayer::init( void )
     
     float t_nameEditMargin = t_nameEditBackgroundSizeHalf.width * 0.1f;
     m_nameEditBoxShowPos = convertToNodeSpace( t_nameEditBackground->convertToWorldSpace( Vec2( t_nameEditMargin, t_nameEditBackgroundSizeHalf.height ) ) ) - Vec2( 0.0f, m_dialogCentBackgroundHiedPos.y - m_dialogCentBackgroundShowPos.y );
-    m_nameEditBoxHidePos = Vec2( visibleSize.width * 0.5f + 10.0f, m_nameEditBoxShowPos.y );
+    m_nameEditBoxHidePos = convertToNodeSpace( t_nameEditBackground->convertToWorldSpace( Vec2( t_nameEditMargin, t_nameEditBackgroundSizeHalf.height ) ) );
     
     m_nameEditBox = EditBox::create( Size( ( t_nameEditBackgroundSizeHalf.width - t_nameEditMargin ) * 1.6f * adaptation(), t_nameEditBackgroundSizeHalf.height * 2.0f ), Scale9Sprite::create( "Empty.png" ) );
 
@@ -101,6 +103,7 @@ bool DialogPersonalCenterLayer::init( void )
     m_nameEditBox->setPosition( m_nameEditBoxHidePos );
     m_nameEditBox->setInputMode( EditBox::InputMode::SINGLE_LINE );
     m_nameEditBox->setReturnType(EditBox::KeyboardReturnType::DONE);
+    m_nameEditBox->setText( m_loginUser.userName.c_str() );
 
     this->addChild( m_nameEditBox );
     
@@ -176,12 +179,12 @@ bool DialogPersonalCenterLayer::init( void )
     t_redioButtonBoy->addChild( t_boyLabel );
     
     touchAnswer( t_redioButtonGirl, [this, t_girlRedioButton, t_boyRedioButton]( Ref * p_ref ){
-        m_isGirl = true;
+        m_loginUser.userSex = 2;
         refreshSexRedio( t_girlRedioButton, t_boyRedioButton );
     });
     
     touchAnswer( t_redioButtonBoy , [this, t_girlRedioButton, t_boyRedioButton]( Ref * p_ref ){
-        m_isGirl = false;
+        m_loginUser.userSex = 1;
         refreshSexRedio( t_girlRedioButton, t_boyRedioButton );
     });
     
@@ -222,6 +225,20 @@ bool DialogPersonalCenterLayer::init( void )
     t_account->addChild( t_accountLabel );
     
     auto t_accountType = TexturePacker::Dialog::createLoginByWeChatSprite();
+
+    switch( m_loginUser.loginType )
+    {
+        case DataUser::LoginType::phone:
+            t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByPhone ) );
+        break;
+        case DataUser::LoginType::wechat:
+            t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByWeChat ) );
+        break;
+        case DataUser::LoginType::sina:
+            t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByXinlang ) );
+        break;
+    }
+
     auto t_accountTypeSizeHalf = t_accountType->getContentSize() * 0.5f;
     
     t_accountType->setPosition( Vec2( t_itemSize.width - t_accountTypeSizeHalf.width - t_tiemPadding, t_itemSize.height * 0.5f ) );
@@ -268,7 +285,12 @@ bool DialogPersonalCenterLayer::init( void )
     t_logoutLabel->setPosition( Vec2( t_logoutLabelSizeHalf.width + t_tiemPadding, t_itemSize.height * 0.5f ) );
     
     t_logout->addChild( t_logoutLabel );
-    
+
+    touchAnswer( t_logout, []( Ref * p_ref ){
+        DataTableUser::instance().logout();
+        Director::getInstance()->replaceScene( LoginScene::create() );
+    }, 1.05f );
+
     
     return true;
 }
@@ -332,11 +354,12 @@ void DialogPersonalCenterLayer::refreshSexRedio( Ref * p_girlRedio, Ref * p_boyR
 {
     auto girlRedioSprite = ( Sprite* )p_girlRedio;
     auto boyRedioSprite = ( Sprite* )p_boyRedio;
-    if( m_isGirl )
+    if( m_loginUser.userSex == 2 )
     {
         girlRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonSelectedOrange ) );
         boyRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonNormal ) );
-    }else{
+    }else if( m_loginUser.userSex == 1 )
+    {
         girlRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonNormal ) );
         boyRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonSelectedBlue ) );
     }

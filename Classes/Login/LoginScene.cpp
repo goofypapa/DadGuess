@@ -16,6 +16,7 @@
 #include "../DataBase/DataValidate.h"
 #include "MainScene.h"
 #include "Login.hpp"
+#include "DataTableUser.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -24,6 +25,10 @@ using namespace cocos2d::ui;
 #define PHONE_MAXLEN 13
 #define PASSWORD_MAXLEN 16
 #define VERIFICATIONCODE_MAXLEN 6
+
+DataUser::LoginType LoginScene::m_loginType = DataUser::LoginType::phone;
+
+DataUser LoginScene::m_loginUser;
 
 cocos2d::Scene * LoginScene::CreateScene()
 {
@@ -42,38 +47,6 @@ bool LoginScene::init()
     }
     
     TexturePacker::Login::addSpriteFramesToCache();
-
-    auto t_dataTableUser = DataTableUser::instance();
-
-    t_dataTableUser.insert( "13720067880", "haha", 1, "", "", false );
-
-    auto t_list = t_dataTableUser.list();
-
-    for( auto t_user : t_list )
-    {
-        printf( "id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.uid, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
-    }
-
-    auto t_userInfo = t_dataTableUser.find( t_list[0].uid );
-    t_userInfo.phone = "12345678";
-    t_userInfo.name = "....";
-
-    t_dataTableUser.update( t_userInfo );
-
-
-    t_list = t_dataTableUser.list();
-
-    for( auto t_user : t_list )
-    {
-        printf( "--- id: %d, phone: %s, name: %s, token: %s, actication: %s \n", t_user.uid, t_user.phone.c_str(), t_user.name.c_str(), t_user.token.c_str(), t_user.actication ? "true" : "false" );
-    }
-    
-//    MessageBox( "", "哈哈" );
-    
-//    Message * t_messageBox = Message::create();
-//    this->addChild( t_messageBox, 10000 );
-//
-//    t_messageBox->show( "哈哈" );
     
     m_loginState = LoginState::SelectLogin;
 
@@ -281,7 +254,7 @@ bool LoginScene::init()
             t_showPassword->setSystemFontName( m_loginPasswordInput->getFontName() );
             t_showPassword->setAnchorPoint( Point(0,0.5f) );
             t_showPassword->setAlignment( TextHAlignment::LEFT );
-            t_showPassword->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f - 2.0f ) );
+            t_showPassword->setPosition( Vec2( t_phoneLabelSize.width + 15.0f, t_phoneLabelSize.height * 0.5f - 2.0f ) );
             t_showPassword->setVisible( false );
             t_passwordLabel->addChild( t_showPassword );
         }
@@ -700,19 +673,13 @@ void LoginScene::update( float p_delta )
 
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
-//    
-//    if( !installedWecht() )
-//    {
-//        MessageBox( "您还没有安装微信", "" );
-//        return;
-//    }
-//
-//    loginWecht();
+    m_loginType = DataUser::LoginType::wechat;
+    cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )
 {
-
+    m_loginType = DataUser::LoginType::sina;
 }
 
 void LoginScene::loginPhone( cocos2d::Ref* pSender )
@@ -820,44 +787,10 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userMobile" ] = t_loginPhone;
     t_parameter[ "userPwd" ] = t_loginPassword;
 
-    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/access.do", &t_parameter, []( std::string p_res ){
-        printf( "success: %s \n", p_res.c_str() );
+    m_loginType = DataUser::LoginType::phone;
+    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/jwt/access.do", &t_parameter, []( std::string p_res ){
         
-        rapidjson::Document t_json;
-        if( !ParseApiResult( t_json, p_res ) )
-        {
-            return;
-        }
-        
-        bool t_success = t_json["success"].GetBool();
-        
-        if( t_success )
-        {
-//            MessageBox( "登陆成功", "" );
-            Director::getInstance()->replaceScene( MainScene::CreateScene() );
-            return;
-        }
-        
-        if( !t_json.HasMember( "code" ) )
-        {
-            MessageBox( "未知错误", "" );
-            return;
-        }
-        
-        std::string t_code = t_json["code"].GetString();
-        
-        if( t_code == "USER_ERROR_PASSWORD" || t_code == "USER_NOT_FOUND" )
-        {
-            MessageBox( "账号或密码错误", "" );
-            return;
-        }
-        
-        if( t_json.HasMember( "msg" ) )
-        {
-            std::string t_msg = t_json["msg"].GetString();
-            MessageBox( t_msg.c_str(), "" );
-        }
-        
+        loginCallBack( p_res );
         
     }, []( std::string p_res ){
         MessageBox( "网络异常", "" );
@@ -988,8 +921,164 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     } );
 }
 
+
+bool LoginScene::isLogined( void )
+{
+    m_loginUser = DataTableUser::instance().getActivation();
+    return m_loginUser.userId.length() > 0;
+}
+
+DataUser LoginScene::loginUser( void )
+{
+    return m_loginUser;
+}
+
 LoginScene::~LoginScene()
 {
     TexturePacker::Login::removeSpriteFramesFromCache();
+}
+
+
+void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState state, cn::sharesdk::C2DXPlatType platType, __Dictionary *result)
+{
+    
+    std::string t_result = toString( *result );
+    std::string t_loginType = "";
+    
+    rapidjson::Document t_json;
+    std::string t_sendStr = "";
+    
+    t_json.Parse( t_result.c_str() );
+    
+    if( t_json.HasParseError() )
+    {
+        return;
+    }
+    
+    std::stringstream t_sstr;
+    auto t_credential = t_json["credential"].GetObject();
+    
+    switch ( platType ) {
+        case cn::sharesdk::C2DXPlatType::C2DXPlatTypeWeChat:
+            t_loginType = "weixin";
+            
+            //weixin:openid ,token(access_token), refresh_token,expiresIn,unionid;
+
+            t_sstr << "{";
+            t_sstr << "\"openid\": \"" << t_json["openid"].GetString() << "\", ";
+            t_sstr << "\"token\": \"" << t_credential["access_token"].GetString() << "\", ";
+            t_sstr << "\"refresh_token\": \"" << t_credential["refresh_token"].GetString() << "\", ";
+            t_sstr << "\"expiresIn\": \"" << t_credential["expires_in"].GetString() << "\", ";
+            t_sstr << "\"unionid\": \"" << t_credential["unionid"].GetString() << "\"";
+            t_sstr << "}";
+            
+            t_sendStr = t_sstr.str();
+            
+            break;
+        case cn::sharesdk::C2DXPlatType::C2DXPlatTypeSinaWeibo:
+            t_loginType = "weibo";
+            break;
+        default:
+            break;
+    }
+    
+    std::map< std::string, std::string > t_parameter;
+    t_parameter[ "userType" ] = "GAME_USER";
+    t_parameter[ "data" ] = t_sendStr;
+    
+    
+    switch (state)
+    {
+        case cn::sharesdk::C2DXResponseStateSuccess:
+        {
+            Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/" + t_loginType +  "/access.do", &t_parameter, []( std::string p_res ){
+                loginCallBack( p_res );
+            }, []( std::string p_res ){
+                MessageBox( "网络异常", "" );
+            });
+        }
+            break;
+        case cn::sharesdk::C2DXResponseStateFail:
+        {
+            //回调错误信息
+            MessageBox( "登陆异常", "" );
+        }
+            break;
+        case cn::sharesdk::C2DXResponseStateCancel:
+        {
+//            log("Cancel");
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+void LoginScene::loginCallBack( const std::string & p_str )
+{
+    rapidjson::Document t_json;
+    if( !ParseApiResult( t_json, p_str ) )
+    {
+        return;
+    }
+
+    bool t_success = t_json["success"].GetBool();
+
+    if( t_success && t_json.HasMember( "data" ) )
+    {
+        auto t_data = t_json["data"].GetObject();
+        
+        if( t_data.HasMember( "user" ) && t_data.HasMember( "token" )  )
+        {
+            auto t_user = t_data["user"].GetObject();
+            
+            DataUser t_dataUser;
+            
+            t_dataUser.userId = t_user["userId"].GetString();
+            t_dataUser.userName = t_user["userName"].GetString();
+            t_dataUser.loginName = t_user["loginName"].GetType() == rapidjson::kNullType ? "" : t_user["loginName"].GetString();
+            t_dataUser.userBirthday = t_user["userBirthday"].GetType() == rapidjson::kNullType ? "" : t_user["userBirthday"].GetString();
+            t_dataUser.headImg = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
+            t_dataUser.userSex = t_user["userSex"].GetInt();
+            t_dataUser.activation = 1;
+            t_dataUser.token = t_data["token"].GetString();
+            t_dataUser.loginType = m_loginType;
+            
+            
+            if( DataTableUser::instance().find( t_dataUser.userId ).userId == t_dataUser.userId  )
+            {
+                DataTableUser::instance().update( t_dataUser );
+            }else{
+                DataTableUser::instance().insert( t_dataUser );
+            }
+            
+            m_loginUser = t_dataUser;
+            
+            Director::getInstance()->replaceScene( MainScene::CreateScene() );
+            return;
+        }
+    }
+    
+    if( !t_json.HasMember( "code" ) )
+    {
+        MessageBox( "未知错误", "" );
+        return;
+    }
+    
+    std::string t_code = t_json["code"].GetString();
+    
+    if( t_code == "USER_ERROR_PASSWORD" || t_code == "USER_NOT_FOUND" )
+    {
+        MessageBox( "账号或密码错误", "" );
+        return;
+    }
+    
+    if( t_json.HasMember( "msg" ) )
+    {
+        std::string t_msg = t_json["msg"].GetString();
+        MessageBox( t_msg.c_str(), "" );
+    }
+
 }
 

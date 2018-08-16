@@ -3,6 +3,46 @@
 #include <stdio.h>
 #include <sstream>
 
+DataUser::DataUser() : userId(""), userName(""), userBirthday(""), userSex(2), loginName(""), headImg(""), token(""), loginType(LoginType::phone), activation(0)
+{
+    
+}
+
+DataUser::DataUser( const DataUser & p_dataUser ) :
+userId( p_dataUser.userId ),
+userName( p_dataUser.userName ),
+userBirthday( p_dataUser.userBirthday ),
+userSex( p_dataUser.userSex ),
+loginName( p_dataUser.loginName ),
+headImg( p_dataUser.headImg ),
+token( p_dataUser.token ),
+loginType( p_dataUser.loginType ),
+activation( p_dataUser.activation )
+{
+    
+}
+
+std::string DataUser::toJson( void )
+{
+    std::stringstream t_sstr;
+    
+    t_sstr << "{";
+    
+    t_sstr << "\"userId\": \"" << userId << "\", ";
+    t_sstr << "\"userName\": \"" << userName << "\", ";
+    t_sstr << "\"userBirthday\": \"" << userBirthday << "\", ";
+    t_sstr << "\"userSex\": " << userSex << ", ";
+    t_sstr << "\"loginName\": \"" << loginName << "\", ";
+    t_sstr << "\"headImg\": \"" << headImg << "\", ";
+    t_sstr << "\"token\": \"" << token << "\", ";
+    t_sstr << "\"loginType\": " << loginType << ", ";
+    t_sstr << "\"activation\": " << activation ;
+    
+    t_sstr << "}";
+    
+    return t_sstr.str();
+}
+
 DataTableUser & DataTableUser::instance( void )
 {
     static DataTableUser * sm_dataTableUser = nullptr;
@@ -22,7 +62,7 @@ DataTableUser & DataTableUser::instance( void )
 bool DataTableUser::init( void )
 {
 
-    DataBase::instance().exec( DataTableUserDrapSql );
+    drop();
 
     if( !DataBase::instance().exec( DataTableUserCreateSql ) )
     {
@@ -34,19 +74,22 @@ bool DataTableUser::init( void )
 
 bool DataTableUser::insert( const DataUser & p_userInfo )
 {
-    return insert( p_userInfo.phone, p_userInfo.name, p_userInfo.sex, p_userInfo.birthday, p_userInfo.token, p_userInfo.actication );
+    return insert( p_userInfo.userId, p_userInfo.userName, p_userInfo.loginName, p_userInfo.userSex, p_userInfo.userBirthday, p_userInfo.headImg, p_userInfo.token, p_userInfo.loginType, p_userInfo.activation );
 }
 
-bool DataTableUser::insert( const std::string & p_phone, const std::string & p_name, const unsigned int p_sex, const std::string & p_birthday, const std::string & p_token, const bool p_activation )
+bool DataTableUser::insert( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, DataUser::LoginType p_loginType, const bool p_activation )
 {
     std::stringstream t_ssql;
 
-    t_ssql << "INSERT INTO " << DataTableUserName << "( phone, name, sex, birthday, token, activation ) VALUES( "
-                << "\"" << p_phone << "\", "
-                << "\"" << p_name << "\", "
-                << p_sex << ", "
-                << "\"" << p_birthday << "\", "
+    t_ssql << "INSERT INTO " << DataTableUserName << "( userId, userName, loginName, userSex, userBirthday, headImg, token, loginType, activation ) VALUES( "
+                << "\"" << p_userId << "\", "
+                << "\"" << p_userName << "\", "
+                << "\"" << p_loginName << "\", "
+                << p_userSex << ", "
+                << "\"" << p_userBirthday << "\", "
+                << "\"" << p_headImg << "\", "
                 << "\"" << p_token << "\", "
+                << p_loginType << ", "
                 << ( p_activation ? 1 : 0 ) << " "
                 << ");";
     std::string t_sql = t_ssql.str();
@@ -65,40 +108,49 @@ std::vector< DataUser > DataTableUser::list( void )
 
     for( auto t_row : t_list )
     {
-        DataUser t_userInfo;
-        t_userInfo.uid = atoi( t_row["id"].c_str() );
-        t_userInfo.phone = t_row["phone"];
-        t_userInfo.name = t_row["name"];
-        t_userInfo.token = t_row["token"];
-        t_userInfo.actication = atoi( t_row["actication"].c_str() ) == 1;
-
-        t_result.push_back( t_userInfo );
+        t_result.push_back( dataRowToDataUser( t_row ) );
     }
 
     return t_result;
 }
 
-DataUser DataTableUser::find( const int p_id )
+DataUser DataTableUser::find( const std::string & p_userId )
 {
     DataUser t_result;
-    t_result.uid = -1;
-
+    
     std::stringstream t_ssql;
-    t_ssql << "SELECT * FROM table_user WHERE id=" << p_id;
+    t_ssql << "SELECT * FROM table_user WHERE userId= \"" << p_userId << "\"";
     std::string t_sql = t_ssql.str();
 
     auto t_list = DataBase::instance().query( t_sql.c_str() );
 
     if( t_list.size() == 1 )
     {
-        auto t_dataInfo = *t_list.begin();
-        t_result.uid = atoi( t_dataInfo["id"].c_str() );
-        t_result.phone = t_dataInfo["phone"];
-        t_result.name = t_dataInfo["name"];
-        t_result.token = t_dataInfo["token"];
-        t_result.actication = ( t_dataInfo["actication"] == "1" );
+        t_result = dataRowToDataUser( *t_list.begin() );
     }
 
+    return t_result;
+}
+
+DataUser DataTableUser::getActivation( void )
+{
+    DataUser t_result;
+    
+    std::stringstream t_ssql;
+    t_ssql << "SELECT * FROM table_user WHERE activation= 1";
+    std::string t_sql = t_ssql.str();
+    
+    auto t_list = DataBase::instance().query( t_sql.c_str() );
+    
+    if( t_list.size() == 1 )
+    {
+        t_result = dataRowToDataUser( *t_list.begin() );
+
+    }else if( t_list.size() )
+    {
+        logout();
+    }
+    
     return t_result;
 }
 
@@ -107,8 +159,8 @@ bool DataTableUser::update( const DataUser & p_userInfo )
 {
     bool t_needUpdate = false;
 
-    DataUser t_oldInfo = find( p_userInfo.uid );
-    if( t_oldInfo.uid < 0 )
+    DataUser t_oldInfo = find( p_userInfo.userId );
+    if( t_oldInfo.userId.length() <= 0 )
     {
         return false;
     }
@@ -116,7 +168,7 @@ bool DataTableUser::update( const DataUser & p_userInfo )
     std::stringstream t_ssql;
     t_ssql << "UPDATE table_user SET ";
 
-    if( p_userInfo.phone != t_oldInfo.phone )
+    if( p_userInfo.userName != t_oldInfo.userName )
     {
         if( t_needUpdate )
         {
@@ -125,10 +177,10 @@ bool DataTableUser::update( const DataUser & p_userInfo )
             t_needUpdate = true;
         }
         
-        t_ssql << "phone = \"" << p_userInfo.phone << "\"";
+        t_ssql << "userName = \"" << p_userInfo.userName << "\"";
     }
 
-    if( p_userInfo.name != t_oldInfo.name )
+    if( p_userInfo.loginName != t_oldInfo.loginName )
     {
         if( t_needUpdate )
         {
@@ -137,7 +189,43 @@ bool DataTableUser::update( const DataUser & p_userInfo )
             t_needUpdate = true;
         }
 
-        t_ssql << "name = \"" << p_userInfo.name << "\"";
+        t_ssql << "loginName = \"" << p_userInfo.loginName << "\"";
+    }
+    
+    if( p_userInfo.userSex != t_oldInfo.userSex )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "userSex = " << p_userInfo.userSex;
+    }
+    
+    if( p_userInfo.userBirthday != t_oldInfo.userBirthday )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "userBirthday = \"" << p_userInfo.userBirthday << "\"";
+    }
+    
+    if( p_userInfo.headImg != t_oldInfo.headImg )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "headImg = \"" << p_userInfo.headImg << "\"";
     }
 
     if( p_userInfo.token != t_oldInfo.token )
@@ -152,7 +240,19 @@ bool DataTableUser::update( const DataUser & p_userInfo )
         t_ssql << "token = \"" << p_userInfo.token << "\"";
     }
     
-    if( p_userInfo.actication != t_oldInfo.actication )
+    if( p_userInfo.loginType != t_oldInfo.loginType )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "loginType = " << p_userInfo.loginType;
+    }
+    
+    if( p_userInfo.activation != t_oldInfo.activation )
     {
         if( t_needUpdate )
         {
@@ -161,7 +261,7 @@ bool DataTableUser::update( const DataUser & p_userInfo )
             t_needUpdate = true;
         }
 
-        t_ssql << "actication = " << ( p_userInfo.actication ? 1 : 0 );
+        t_ssql << "activation = " << ( p_userInfo.activation ? 1 : 0 );
     }
 
     if( !t_needUpdate )
@@ -169,7 +269,7 @@ bool DataTableUser::update( const DataUser & p_userInfo )
         return true;
     }
 
-    t_ssql << " WHERE id=" << p_userInfo.uid;
+    t_ssql << " WHERE userId=\"" << p_userInfo.userId << "\"";
 
     std::string t_sql = t_ssql.str();
 
@@ -179,11 +279,38 @@ bool DataTableUser::update( const DataUser & p_userInfo )
 }
 
 
-bool DataTableUser::remove( const int p_id )
+bool DataTableUser::remove( const std::string & p_userId )
 {
     std::stringstream t_ssql;
-    t_ssql << "DELETE FROM table_user WHERE id=" << p_id;
+    t_ssql << "DELETE FROM table_user WHERE userId=\"" << p_userId << "\"";
     std::string t_sql = t_ssql.str();
 
     return DataBase::instance().exec( t_sql.c_str() );
+}
+
+bool DataTableUser::logout( void )
+{
+    return DataBase::instance().exec( "UPDATE table_user SET activation=0 WHERE activation=1" );
+}
+
+bool DataTableUser::drop( void )
+{
+    return DataBase::instance().exec( DataTableUserDrapSql );
+}
+
+DataUser DataTableUser::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow )
+{
+    DataUser t_result;
+
+    t_result.userId = p_dataRow["userId"].c_str();
+    t_result.userName = p_dataRow["userName"];
+    t_result.loginName = p_dataRow["loginName"];
+    t_result.userSex = atoi( p_dataRow["userSex"].c_str() );
+    t_result.userBirthday = p_dataRow["userBirthday"];
+    t_result.headImg = p_dataRow["headImg"];
+    t_result.token = p_dataRow["token"];
+    t_result.loginType = (DataUser::LoginType)atoi( p_dataRow["loginType"].c_str() );
+    t_result.activation = atoi( p_dataRow["activation"].c_str() ) == 1;
+
+    return t_result;
 }

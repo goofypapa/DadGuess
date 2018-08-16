@@ -9,6 +9,8 @@
 #include "Common.h"
 #include "Main.hpp"
 #include "Dialog.hpp"
+#include "Config.h"
+#include "LoginScene.h"
 
 #include "WebViewScene.h"
 
@@ -28,6 +30,8 @@ bool MainScene::init( void )
     {
         return false;
     }
+    
+    printf( "%s \n", LoginScene::loginUser().toJson().c_str() );
     
     //加载贴图
     TexturePacker::Main::addSpriteFramesToCache();

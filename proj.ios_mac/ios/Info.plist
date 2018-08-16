@@ -54,6 +54,10 @@
 	<string>LaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>MOBAppKey</key>
+	<string>2669e9afe5b4c</string>
+	<key>MOBAppSecret</key>
+	<string>de63eece79f93124a555af762ac9e65d</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

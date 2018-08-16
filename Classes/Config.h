@@ -2,6 +2,7 @@
 #define __CONFIG_H__
 
 #include <string>
+#include "DataTableUser.h"
 
 #define CONFIG_GOOFYPAPA_DOMAIN std::string("https://www.goofypapa.com")
 

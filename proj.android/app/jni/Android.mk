@@ -12,20 +12,22 @@ LOCAL_MODULE := MyGame_shared
 LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
+                   $(LOCAL_PATH)/Android.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Common.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Message.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Ajax.cpp \
-                   $(LOCAL_PATH)/../../../Classes/MainScene.cpp \
-                   $(LOCAL_PATH)/../../../Classes/MainPersonalLayer.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/Common.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/Message.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/Ajax.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/WebViewScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Main/MainScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Main/DialogPersonalCenterLayer.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Main/DialogSettingsLayer.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Login.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Main.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Resources/Personal.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Resources/Dialog.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataBase.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3/sqlite3.c \
-                   $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp \
-                   $(LOCAL_PATH)/../src/org/cocos2dx/cpp/LoginThirdParty.cpp
+                   $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp
 
                    
 
@@ -33,6 +35,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
                     $(LOCAL_PATH)/../../../Classes/DataBase \
                     $(LOCAL_PATH)/../../../Classes/Login \
+                    $(LOCAL_PATH)/../../../Classes/Main \
+                    $(LOCAL_PATH)/../../../Classes/Common \
                     $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3 \
                     $(LOCAL_PATH)/../../../Classes/Resources
 

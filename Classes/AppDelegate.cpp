@@ -25,6 +25,9 @@
 #include "AppDelegate.h"
 #include "Login/LoginScene.h"
 #include "MainScene.h"
+#include "C2DXShareSDK.h"
+#include "Config.h"
+#include "DataTableUser.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -79,6 +82,37 @@ static int register_all_packages()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+    
+    //shareSDK
+    __Dictionary *totalDict = __Dictionary::create();
+    
+    //新浪微博
+//    __Dictionary *sinaWeiboConf= __Dictionary::create();
+//    sinaWeiboConf->setObject(__String::create("568898243"), "app_key");
+//    sinaWeiboConf->setObject(__String::create("38a4f8204cc784f81f9f0daaf31e0 2e3"), "app_secret");
+//    sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
+//    stringstream sina;
+//    sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
+//    totalDict->setObject(sinaWeiboConf, sina.str());
+    
+    //微信
+    __Dictionary *wechatConf = __Dictionary::create();
+    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "app_id");
+    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d "), "app_secret");
+    std::stringstream wechat;
+    wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
+    totalDict->setObject(wechatConf, wechat.str());
+    
+    //QQ
+//    __Dictionary *qqConf = __Dictionary::create();
+//    qqConf->setObject(__String::create("100371282"), "app_id");
+//    qqConf->setObject(__String::create("aed9b0303e3ed1e27bae87c33761161d"),  "app_key");
+//    stringstream qq;
+//    qq << cn::sharesdk::C2DXPlatTypeQQPlatform;
+//    totalDict->setObject(qqConf, qq.str());
+    
+    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig( "2669e9afe5b4c","de63eece79f93124a555af762ac9e65d",totalDict );
+    
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -121,8 +155,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     Scene * t_startScene = nullptr;
     
-    bool t_isLogin = false;
-//    t_isLogin = true;
+    bool t_isLogin = LoginScene::isLogined();
     
     if( t_isLogin )
     {

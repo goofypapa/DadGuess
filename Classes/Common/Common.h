@@ -12,6 +12,7 @@
 #include "ui/CocosGUI.h"
 #include <functional>
 #include <map>
+#include "C2DXShareSDK.h"
 
 #ifdef __ANDROID_NDK__
 #include "android/log.h"
@@ -23,6 +24,8 @@
 
 
 USING_NS_CC;
+
+//工具
 
 struct ButtonTouchEvents
 {
@@ -43,6 +46,12 @@ std::vector<std::string> split( const std::string & p_str, const std::string & p
 std::vector<std::string> split( const std::string & p_str, const char p_clapboard );
 
 void setAppOrientation( const bool p_isPortrait );
+
+
+//shareSDK 工具
+std::string toString( __Dictionary & p_dirtionary );
+std::string toString( Ref * p_obj );
+
 
 
 #endif //__COMMON_H__

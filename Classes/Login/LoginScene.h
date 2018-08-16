@@ -10,6 +10,8 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
+#include "C2DXShareSDK.h"
+#include "DataTableUser.h"
 
 class LoginScene : public cocos2d::Scene
 {
@@ -40,10 +42,17 @@ public:
     void phoneRegister( cocos2d::Ref* pSender );
     void forgetPassword( cocos2d::Ref* pSender  );
     
+    static bool isLogined( void );
+    static DataUser loginUser( void );
+    
+    static void getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState state, cn::sharesdk::C2DXPlatType platType, __Dictionary *result);
+    
     void sendVerificationCode( cocos2d::Ref* pSender );
 protected:
     virtual ~LoginScene();
 private:
+    
+    static void loginCallBack( const std::string & p_str );
     
     cocos2d::Layer * m_SelectLoginType;
     cocos2d::Layer * m_LoginPhone;
@@ -64,6 +73,9 @@ private:
     cocos2d::ui::EditBox * m_ForgetPasswordInput;
     
     LoginState m_loginState;
+    
+    static DataUser::LoginType m_loginType;
+    static DataUser m_loginUser;
 
     cocos2d::Sprite * m_CloundLeft, * m_CloundRight;
 };

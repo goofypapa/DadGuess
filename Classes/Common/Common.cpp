@@ -149,3 +149,86 @@ std::vector<std::string> split( const std::string & p_str, const char p_clapboar
 {
     return split( p_str, std::string( 1, p_clapboard ) );
 }
+
+
+std::string toString( __Dictionary & p_dirtionary )
+{
+    std::stringstream t_result;
+    
+    t_result << "{";
+    
+    try {
+        __Array *allKeys = p_dirtionary.allKeys();
+        allKeys->retain();
+        for (int i = 0; i < allKeys -> count(); i++)
+        {
+            __String *key = (__String *)allKeys -> getObjectAtIndex(i);
+            Ref * obj = p_dirtionary.objectForKey(key -> getCString());
+            
+            t_result << "\"" << key->getCString() << "\"" << ":" << toString( obj );
+            
+            if( i < allKeys->count() - 1 )
+            {
+                t_result << ",";
+            }
+        }
+        allKeys->release();
+    } catch (...) {
+        printf( " __Dictionary to string error\n" );
+    }
+    
+    t_result << "}";
+    return t_result.str();
+}
+
+std::string toString( Ref * p_obj )
+{
+    std::stringstream t_result;
+    
+    if (dynamic_cast<__String *>( p_obj ))
+    {
+        t_result << "\"" << dynamic_cast<__String *>( p_obj ) -> getCString() << "\"";
+    }
+    else if (dynamic_cast<__Integer *>( p_obj ))
+    {
+        t_result << dynamic_cast<__Integer *>( p_obj ) -> getValue();
+    }
+    else if (dynamic_cast<__Double *>( p_obj ))
+    {
+        t_result << dynamic_cast<__Double *>( p_obj ) -> getValue();
+    }
+    else if (dynamic_cast<__Bool *>( p_obj ))
+    {
+        t_result << ( dynamic_cast<__Bool *>( p_obj ) -> getValue() ? "true" : "false" );
+    }
+    else if (dynamic_cast<__Float *>( p_obj ))
+    {
+        t_result << dynamic_cast<__Float *>( p_obj ) -> getValue();
+    }
+    else if (dynamic_cast<__Array *>( p_obj ))
+    {
+        
+        __Array * t_array = dynamic_cast<__Array *>( p_obj );
+        
+        t_result << "[";
+        
+        for( int i = 0 ; i < t_array->count(); ++i )
+        {
+            t_result << toString( t_array->getObjectAtIndex( i ) );
+            if( i < t_array->count() - 1 )
+            {
+                t_result << ",";
+            }
+        }
+        
+        t_result << "]";
+    }
+    else if (dynamic_cast<__Dictionary *>( p_obj ))
+    {
+        t_result << toString( *dynamic_cast<__Dictionary *>( p_obj ) );
+    }else{
+        t_result << "null";
+    }
+    
+    return t_result.str();
+}

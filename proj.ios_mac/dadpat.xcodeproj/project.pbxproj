@@ -41,6 +41,7 @@
 		3705124321226DFB00F2FE1C /* MOBFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3705123421226DFB00F2FE1C /* MOBFoundation.framework */; };
 		3705125521226E7D00F2FE1C /* C2DXiOSShareSDK.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3705124921226E7D00F2FE1C /* C2DXiOSShareSDK.mm */; };
 		3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3705125421226E7D00F2FE1C /* C2DXShareSDK.cpp */; };
+		3705125D212577C700F2FE1C /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3705125C212577C600F2FE1C /* Http.cpp */; };
 		370A78A22112975000252E8D /* Dialog.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A02112975000252E8D /* Dialog.plist */; };
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
@@ -65,7 +66,6 @@
 		37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE421198F0700A101E8 /* Common.cpp */; };
 		37D7DAED21198F0700A101E8 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE521198F0700A101E8 /* Message.cpp */; };
 		37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE921198F0700A101E8 /* WebViewScene.cpp */; };
-		37D7DAEF21198F0700A101E8 /* Ajax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAEB21198F0700A101E8 /* Ajax.cpp */; };
 		37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAF121198F1200A101E8 /* MainScene.cpp */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
@@ -189,6 +189,8 @@
 		3705124821226E7D00F2FE1C /* C2DXiOSShareSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = C2DXiOSShareSDK.h; sourceTree = "<group>"; };
 		3705124921226E7D00F2FE1C /* C2DXiOSShareSDK.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = C2DXiOSShareSDK.mm; sourceTree = "<group>"; };
 		3705125421226E7D00F2FE1C /* C2DXShareSDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = C2DXShareSDK.cpp; sourceTree = "<group>"; };
+		3705125B212577C600F2FE1C /* Http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Http.h; sourceTree = "<group>"; };
+		3705125C212577C600F2FE1C /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Http.cpp; sourceTree = "<group>"; };
 		370A78A02112975000252E8D /* Dialog.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Dialog.plist; sourceTree = "<group>"; };
 		370A78A12112975000252E8D /* Dialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dialog.png; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
@@ -224,10 +226,8 @@
 		37D7DAE521198F0700A101E8 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
 		37D7DAE621198F0700A101E8 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		37D7DAE721198F0700A101E8 /* WebViewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewScene.h; sourceTree = "<group>"; };
-		37D7DAE821198F0700A101E8 /* Ajax.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ajax.h; sourceTree = "<group>"; };
 		37D7DAE921198F0700A101E8 /* WebViewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewScene.cpp; sourceTree = "<group>"; };
 		37D7DAEA21198F0700A101E8 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		37D7DAEB21198F0700A101E8 /* Ajax.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ajax.cpp; sourceTree = "<group>"; };
 		37D7DAF121198F1200A101E8 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
 		37D7DAF221198F1200A101E8 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
 		37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableUser.cpp; sourceTree = "<group>"; };
@@ -575,14 +575,14 @@
 		37D7DAE321198F0700A101E8 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3705125C212577C600F2FE1C /* Http.cpp */,
+				3705125B212577C600F2FE1C /* Http.h */,
 				37D7DAE421198F0700A101E8 /* Common.cpp */,
 				37D7DAE521198F0700A101E8 /* Message.cpp */,
 				37D7DAE621198F0700A101E8 /* Message.h */,
 				37D7DAE721198F0700A101E8 /* WebViewScene.h */,
-				37D7DAE821198F0700A101E8 /* Ajax.h */,
 				37D7DAE921198F0700A101E8 /* WebViewScene.cpp */,
 				37D7DAEA21198F0700A101E8 /* Common.h */,
-				37D7DAEB21198F0700A101E8 /* Ajax.cpp */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -828,6 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3705125D212577C700F2FE1C /* Http.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				37D7DAED21198F0700A101E8 /* Message.cpp in Sources */,
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
@@ -838,7 +839,6 @@
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
-				37D7DAEF21198F0700A101E8 /* Ajax.cpp in Sources */,
 				37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */,

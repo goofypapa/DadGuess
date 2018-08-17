@@ -9,6 +9,7 @@
 #include "Dialog.hpp"
 #include "Common.h"
 #include "LoginScene.h"
+#include "Http.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -72,6 +73,14 @@ bool DialogPersonalCenterLayer::init( void )
     auto t_personalHeadSizeHalf = t_personalHead->getContentSize() * 0.5f;
     t_personalHead->setPosition( Vec2( t_personalHeadSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadSizeHalf.height - t_padding ) );
     m_dialogCentBackground->addChild( t_personalHead );
+
+    touchAnswer( t_personalHead, [this]( Ref * p_ref ){
+
+        Http::DownloadFile( m_loginUser.headImg, "head.png", []( std::string p_url, std::string p_path ){
+            printf( "------------" );
+        }, nullptr );
+
+    }, adaptation() * 1.1f, adaptation() );
     
     float t_listPosX = t_personalHeadSizeHalf.width * 2.0f + t_padding * 1.6f;
     

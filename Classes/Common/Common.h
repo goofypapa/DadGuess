@@ -47,6 +47,7 @@ std::vector<std::string> split( const std::string & p_str, const char p_clapboar
 
 void setAppOrientation( const bool p_isPortrait );
 
+std::string createUUID( void );
 
 //shareSDK 工具
 std::string toString( __Dictionary & p_dirtionary );

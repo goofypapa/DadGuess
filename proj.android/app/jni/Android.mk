@@ -16,7 +16,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/Common.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/Message.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Common/Ajax.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/Http.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/WebViewScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/MainScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/DialogPersonalCenterLayer.cpp \

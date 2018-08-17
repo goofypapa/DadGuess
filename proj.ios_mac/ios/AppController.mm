@@ -221,3 +221,14 @@ void setAppOrientation( const bool p_isPortrait )
         [AppController changeRootViewControllerH];
     }
 }
+
+
+std::string createUUID( void )
+{
+    CFUUIDRef t_puuid = CFUUIDCreate( nil );
+    CFStringRef t_uuidString = CFUUIDCreateString( nil, t_puuid );
+    NSString * t_NSString = (NSString *)CFBridgingRelease( CFStringCreateCopy( NULL, t_uuidString) );
+
+    const char  *  t_cString = [t_NSString UTF8String];
+    return std::string( t_cString );
+}

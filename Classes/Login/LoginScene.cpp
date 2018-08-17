@@ -8,7 +8,7 @@
 #include "LoginScene.h"
 #include "ui/CocosGUI.h"
 #include "Common.h"
-#include "Ajax.h"
+#include "Http.h"
 #include "external/json/document.h"
 #include "../DataBase/DataTableUser.h"
 #include "Config.h"
@@ -704,7 +704,7 @@ void LoginScene::loginWechatCallBack( const char * p_code )
     t_parameter[ "grant_type" ] = "authorization_code";
     
     
-    Ajax::Post( "https://api.weixin.qq.com/sns/oauth2/access_token", &t_parameter, []( std::string p_res ){
+    Http::Post( "https://api.weixin.qq.com/sns/oauth2/access_token", &t_parameter, []( std::string p_res ){
         printf( " tocken: %s \n", p_res.c_str() );
         
         rapidjson::Document t_json;
@@ -788,7 +788,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userPwd" ] = t_loginPassword;
 
     m_loginType = DataUser::LoginType::phone;
-    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/jwt/access.do", &t_parameter, []( std::string p_res ){
+    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/jwt/access.do", &t_parameter, []( std::string p_res ){
         
         loginCallBack( p_res );
         
@@ -830,7 +830,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "";
     
-    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( std::string p_res ){
+    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( std::string p_res ){
         rapidjson::Document t_json;
 
         if( !ParseApiResult( t_json, p_res ) )
@@ -892,7 +892,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     t_parameter[ "userMobile" ] = t_phone;
     t_parameter[ "userPwd" ] = t_password;
     
-    Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/updatePwd.do", &t_parameter, []( std::string p_res ){
+    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/updatePwd.do", &t_parameter, []( std::string p_res ){
         rapidjson::Document t_json;
         
         if( !ParseApiResult( t_json, p_res ) )
@@ -991,7 +991,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     {
         case cn::sharesdk::C2DXResponseStateSuccess:
         {
-            Ajax::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/" + t_loginType +  "/access.do", &t_parameter, []( std::string p_res ){
+            Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/" + t_loginType +  "/access.do", &t_parameter, []( std::string p_res ){
                 loginCallBack( p_res );
             }, []( std::string p_res ){
                 MessageBox( "网络异常", "" );

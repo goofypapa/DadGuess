@@ -264,7 +264,7 @@ void MainScene::refreshSource( const DataFile & p_fileInfo )
         auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
         if( !t_fileInfo.fileName.empty() )
         {
-            m_personalHead->setSpriteFrame( t_fileInfo.fileName );
+            m_personalHead->setTexture( t_fileInfo.fileName );
         }
     }
 }

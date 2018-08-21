@@ -13,6 +13,7 @@
 #include <functional>
 #include <map>
 #include "cocos/network/CCDownloader.h"
+#include "DataTableFile.h"
 
 class Http
 {
@@ -20,12 +21,13 @@ public:
 
     typedef std::function<void( std::string )> HttpCallBack;
     typedef std::map< std::string, std::string > HttpParameter;
-    typedef std::function<void( std::string, std::string )> DownloadFileCallBack;
-    typedef std::function<void( std::string, std::string, long, long )> DownloadFileProgressCallBack;
+    typedef std::function<void( DataFile p_fileInfo )> DownloadFileCallBack;
+    typedef std::function<void( DataFile p_fileInfo, long, long )> DownloadFileProgressCallBack;
 
     static void Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
     static void Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
-    static void DownloadFile( const std::string & p_url, const std::string & p_filePath, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress = nullptr );
+
+    static void DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress = nullptr );
     
     void getHttp_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
 
@@ -36,8 +38,8 @@ public:
 private:
 
     static std::string parseParameter( HttpParameter * p_parameter );
+    static DataFile convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );
     static std::map< const std::string, Http * > sm_downloadTaskList;
-    static std::string sm_writePath;
 
     HttpCallBack m_success, m_final;
     DownloadFileCallBack m_downloadSuccessCallBack, m_downloadFinalCallBack;

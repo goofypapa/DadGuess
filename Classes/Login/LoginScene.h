@@ -12,8 +12,9 @@
 #include "ui/CocosGUI.h"
 #include "C2DXShareSDK.h"
 #include "DataTableUser.h"
+#include "BaseScene.h"
 
-class LoginScene : public cocos2d::Scene
+class LoginScene : public BaseScene
 {
 public:
     

@@ -5,6 +5,7 @@
 //  Created by 吴思 on 2018/7/6.
 //
 
+#include "cocos2d.h"
 #include "Common.h"
 #include "ui/CocosGUI.h"
 
@@ -231,4 +232,21 @@ std::string toString( Ref * p_obj )
     }
     
     return t_result.str();
+}
+
+
+const std::string & writeFilePath( void )
+{
+    static std::string sm_writeFilePath = "";
+    if( sm_writeFilePath.empty() )
+    {
+        sm_writeFilePath = cocos2d::FileUtils::getInstance()->getWritablePath();
+    }
+
+    return sm_writeFilePath;
+}
+
+std::string fullFilePath( const std::string & p_file )
+{
+    return writeFilePath() + p_file;
 }

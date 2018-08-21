@@ -19,8 +19,8 @@ public:
 
     static int callback( void *NotUsed, int argc, char **argv, char **azColName );
 
-    bool exec( const char * p_sql );
-    QueryBack query( const char * p_sql );
+    bool exec( const std::string & p_sql );
+    QueryBack query( const std::string & p_sql );
 
 protected:
     bool init( void );

@@ -12,6 +12,8 @@
 #include <string.h>
 #include "Common.h"
 #include <vector>
+#include "md5.hpp"
+#include "BaseScene.h"
 
 USING_NS_CC;
 using namespace network;
@@ -19,8 +21,6 @@ using namespace network;
 
 network::Downloader * Http::sm_downloader = nullptr;
 std::map< const std::string, Http * > Http::sm_downloadTaskList;
-
-std::string Http::sm_writePath = FileUtils::getInstance()->getWritablePath();
 
 void Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
@@ -99,8 +99,17 @@ void Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCal
     request->release();
 }
 
-void Http::DownloadFile( const std::string & p_url, const std::string & p_filePath, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress )
+void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress )
 {
+
+    auto t_fileInfo = DataTableFile::instance().findBySourceUrl( p_url );
+
+    if( !t_fileInfo.fileId.empty() && FileUtils::getInstance()->isFileExist( fullFilePath( t_fileInfo.fileName ) ) )
+    {
+        p_success( t_fileInfo );
+        return;
+    }
+
 
     Http * t_http = new Http();
 
@@ -115,7 +124,6 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
         auto & t_downloadTaskList = sm_downloadTaskList;
 
         sm_downloader->setOnFileTaskSuccess( [&t_downloadTaskList]( const network::DownloadTask & p_downloadTask ){
-            printf( "OnFileTaskSuccess \n" );
 
             auto t_currTask = t_downloadTaskList.find( p_downloadTask.identifier );
             
@@ -126,9 +134,25 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
             
             Http * p_http = t_currTask->second;
 
-            if( p_http->getDownloadSuccessCallBack() )
+            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+
+            if( DataTableFile::instance().insert( t_fileInfo ) )
             {
-                p_http->getDownloadSuccessCallBack()( p_downloadTask.requestURL, p_downloadTask.storagePath );
+                if( p_http->getDownloadSuccessCallBack() )
+                {
+                    p_http->getDownloadSuccessCallBack()( t_fileInfo );
+                }
+            }else{
+                if( p_http->getDownloadFinalCallBack() )
+                {
+                    p_http->getDownloadFinalCallBack()( t_fileInfo );
+                }
+            }
+
+            auto t_activityScene = BaseScene::activityScene();
+            if( t_activityScene )
+            {
+                t_activityScene->refreshSource( t_fileInfo );
             }
 
             t_downloadTaskList.erase( p_downloadTask.identifier );
@@ -136,7 +160,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
         } );
 
         sm_downloader->setOnTaskError( [&t_downloadTaskList]( const network::DownloadTask & p_downloadTask, int p_errorCode, int p_errorCodeInternal, const std::string & p_errorStr ){
-            printf( "OnTaskError{ p_errorCode: %d, p_errorCodeInternal: %d, p_errorStr: %s } \n", p_errorCode, p_errorCodeInternal, p_errorStr.c_str() );
+            // printf( "OnTaskError{ p_errorCode: %d, p_errorCodeInternal: %d, p_errorStr: %s } \n", p_errorCode, p_errorCodeInternal, p_errorStr.c_str() );
 
             auto t_currTask = t_downloadTaskList.find( p_downloadTask.identifier );
             
@@ -147,9 +171,11 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
             
             Http * p_http = t_currTask->second;
 
+            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+
             if( p_http->getDownloadFinalCallBack() )
             {
-                p_http->getDownloadFinalCallBack()( p_downloadTask.requestURL, p_downloadTask.storagePath );
+                p_http->getDownloadFinalCallBack()( t_fileInfo );
             }
             
             t_downloadTaskList.erase( p_downloadTask.identifier );
@@ -157,7 +183,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
         } );
 
         sm_downloader->setOnTaskProgress( [&t_downloadTaskList]( const network::DownloadTask & p_downloadTask, long p_bytesReceived, long p_totalBytesReceived, long p_totalBytesExpected ){
-            printf( "OnTaskProgress{ p_bytesReceived: %ld, p_totalBytesReceived: %ld, p_totalBytesExpected: %ld } \n", p_bytesReceived, p_totalBytesReceived, p_totalBytesExpected );
+            // printf( "OnTaskProgress{ p_bytesReceived: %ld, p_totalBytesReceived: %ld, p_totalBytesExpected: %ld } \n", p_bytesReceived, p_totalBytesReceived, p_totalBytesExpected );
 
             auto t_currTask = t_downloadTaskList.find( p_downloadTask.identifier );
             
@@ -168,9 +194,11 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
             
             Http * p_http = t_currTask->second;
 
+            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+
             if( p_http->getDownloadProgressCallBack() )
             {
-                p_http->getDownloadProgressCallBack()( p_downloadTask.requestURL, p_downloadTask.storagePath, p_totalBytesReceived, p_totalBytesExpected );
+                p_http->getDownloadProgressCallBack()( t_fileInfo, p_totalBytesReceived, p_totalBytesExpected );
             }
             
         } );
@@ -178,7 +206,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_filePa
     }
 
     std::string t_taskUUID = createUUID();
-    auto t_downloadTask = sm_downloader->createDownloadFileTask( p_url, sm_writePath + p_filePath, t_taskUUID );
+    auto t_downloadTask = sm_downloader->createDownloadFileTask( p_url, fullFilePath( t_taskUUID + "." + p_fileSuffixName ), t_taskUUID );
 
     sm_downloadTaskList[ t_taskUUID ] = t_http;
 
@@ -198,7 +226,7 @@ void Http::getHttp_handshakeResponse( network::HttpClient * p_sender, network::H
     std::vector<char> * t_response = p_response->getResponseData();
     std::string t_strHander = std::string( &*t_hander->begin() );
 
-    printf( "t_strHander: %s \n", t_strHander.c_str() );
+    // printf( "t_strHander: %s \n", t_strHander.c_str() );
 
     std::vector<std::string> t_handerList = split( t_strHander, "\n" );
     
@@ -242,9 +270,6 @@ void Http::getHttp_handshakeResponse( network::HttpClient * p_sender, network::H
             }
         }
     }
-
-    
-//    std::string t_strResponse = std::string( &*t_response->begin(), t_contentLength );
 
     std::string t_strResponse;
     t_strResponse.insert( t_strResponse.begin(), t_response->begin(), t_response->end() );
@@ -290,4 +315,25 @@ std::string Http::parseParameter( HttpParameter * p_parameter )
     }
 
     return sstr.str();
+}
+
+DataFile Http::convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask )
+{ 
+
+    auto t_filePath = split( p_downloadTask.storagePath, "/" );
+
+    DataFile t_fileInfo;
+    t_fileInfo.fileId = p_downloadTask.identifier;
+    t_fileInfo.sourceUrl = p_downloadTask.requestURL;
+    t_fileInfo.fileName = t_filePath[ t_filePath.size() - 1 ];
+    t_fileInfo.fileMd5 = "";
+
+    if( FileUtils::getInstance()->isFileExist( p_downloadTask.storagePath ) )
+    {
+        //计算文件md5
+        auto t_if = std::ifstream( p_downloadTask.storagePath, std::ios::in );
+        t_fileInfo.fileMd5 = WS_TOOLS::md5( t_if ).digest();
+    }
+
+    return t_fileInfo;
 }

@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "LoginScene.h"
 #include "Http.h"
+#include "DataTableFile.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -76,9 +77,9 @@ bool DialogPersonalCenterLayer::init( void )
 
     touchAnswer( t_personalHead, [this]( Ref * p_ref ){
 
-        Http::DownloadFile( m_loginUser.headImg, "head.png", []( std::string p_url, std::string p_path ){
-            printf( "------------" );
-        }, nullptr );
+        // Http::DownloadFile( m_loginUser.headImg, "png", []( DataFile p_fileInfo ){
+        //     printf( "------------ %s, %s, %s \n", p_fileInfo.sourceUrl.c_str(), p_fileInfo.fileName.c_str(), p_fileInfo.fileMd5.c_str() );
+        // }, nullptr );
 
     }, adaptation() * 1.1f, adaptation() );
     

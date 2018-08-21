@@ -17,6 +17,7 @@
 #include "MainScene.h"
 #include "Login.hpp"
 #include "DataTableUser.h"
+#include "DataTableFile.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -41,7 +42,7 @@ cocos2d::Scene * LoginScene::CreateScene()
 
 bool LoginScene::init()
 {
-    if ( !Scene::init() )
+    if ( !BaseScene::init() )
     {
         return false;
     }
@@ -1039,12 +1040,29 @@ void LoginScene::loginCallBack( const std::string & p_str )
             t_dataUser.userName = t_user["userName"].GetString();
             t_dataUser.loginName = t_user["loginName"].GetType() == rapidjson::kNullType ? "" : t_user["loginName"].GetString();
             t_dataUser.userBirthday = t_user["userBirthday"].GetType() == rapidjson::kNullType ? "" : t_user["userBirthday"].GetString();
-            t_dataUser.headImg = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
+            t_dataUser.headImg = "";
             t_dataUser.userSex = t_user["userSex"].GetInt();
             t_dataUser.activation = 1;
             t_dataUser.token = t_data["token"].GetString();
             t_dataUser.loginType = m_loginType;
-            
+
+            std::string t_downloadUrl = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
+
+            DataFile t_dataFile = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
+            if( t_dataFile.fileId.empty() )
+            {
+                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( DataFile p_fineInfo ){
+                    DataUser t_updateUser = t_dataUser;
+                    t_updateUser.headImg = p_fineInfo.fileId;
+
+                    DataTableUser::instance().update( t_updateUser );
+
+                },[]( DataFile p_fileInfo ){
+
+                } );
+            }else{
+                t_dataUser.headImg = t_dataFile.fileId;
+            }
             
             if( DataTableUser::instance().find( t_dataUser.userId ).userId == t_dataUser.userId  )
             {

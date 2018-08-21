@@ -79,7 +79,7 @@ bool DataTableUser::insert( const std::string & p_userId, const std::string & p_
                 << ( p_activation ? 1 : 0 ) << " "
                 << ");";
     std::string t_sql = t_ssql.str();
-    if( !DataBase::instance().exec( t_sql.c_str() ) )
+    if( !DataBase::instance().exec( t_sql ) )
     {
         return false;
     }
@@ -90,7 +90,7 @@ bool DataTableUser::insert( const std::string & p_userId, const std::string & p_
 std::vector< DataUser > DataTableUser::list( void )
 {
     std::vector< DataUser > t_result;
-    auto t_list = DataBase::instance().query( "SELECT * FROM table_user" );
+    auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableUserName );
 
     for( auto t_row : t_list )
     {
@@ -105,10 +105,10 @@ DataUser DataTableUser::find( const std::string & p_userId )
     DataUser t_result;
     
     std::stringstream t_ssql;
-    t_ssql << "SELECT * FROM table_user WHERE userId= \"" << p_userId << "\"";
+    t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE userId= \"" << p_userId << "\"";
     std::string t_sql = t_ssql.str();
 
-    auto t_list = DataBase::instance().query( t_sql.c_str() );
+    auto t_list = DataBase::instance().query( t_sql );
 
     if( t_list.size() == 1 )
     {
@@ -123,10 +123,10 @@ DataUser DataTableUser::getActivation( void )
     DataUser t_result;
     
     std::stringstream t_ssql;
-    t_ssql << "SELECT * FROM table_user WHERE activation= 1";
+    t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE activation= 1";
     std::string t_sql = t_ssql.str();
     
-    auto t_list = DataBase::instance().query( t_sql.c_str() );
+    auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
@@ -152,7 +152,7 @@ bool DataTableUser::update( const DataUser & p_userInfo )
     }
 
     std::stringstream t_ssql;
-    t_ssql << "UPDATE table_user SET ";
+    t_ssql << "UPDATE " << DataTableUserName << " SET ";
 
     if( p_userInfo.userName != t_oldInfo.userName )
     {
@@ -259,24 +259,22 @@ bool DataTableUser::update( const DataUser & p_userInfo )
 
     std::string t_sql = t_ssql.str();
 
-    printf( "sql: %s \n", t_sql.c_str() );
-
-    return DataBase::instance().exec( t_sql.c_str() );
+    return DataBase::instance().exec( t_sql );
 }
 
 
 bool DataTableUser::remove( const std::string & p_userId )
 {
     std::stringstream t_ssql;
-    t_ssql << "DELETE FROM table_user WHERE userId=\"" << p_userId << "\"";
+    t_ssql << "DELETE FROM " << DataTableUserName << " WHERE userId=\"" << p_userId << "\"";
     std::string t_sql = t_ssql.str();
 
-    return DataBase::instance().exec( t_sql.c_str() );
+    return DataBase::instance().exec( t_sql );
 }
 
 bool DataTableUser::logout( void )
 {
-    return DataBase::instance().exec( "UPDATE table_user SET activation=0 WHERE activation=1" );
+    return DataBase::instance().exec( std::string( "UPDATE " ) + DataTableUserName +  " SET activation=0 WHERE activation=1" );
 }
 
 bool DataTableUser::drop( void )
@@ -288,7 +286,7 @@ DataUser DataTableUser::dataRowToDataUser( std::map<std::string, std::string> & 
 {
     DataUser t_result;
 
-    t_result.userId = p_dataRow["userId"].c_str();
+    t_result.userId = p_dataRow["userId"];
     t_result.userName = p_dataRow["userName"];
     t_result.loginName = p_dataRow["loginName"];
     t_result.userSex = atoi( p_dataRow["userSex"].c_str() );

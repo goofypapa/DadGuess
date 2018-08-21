@@ -38,10 +38,10 @@ int DataBase::callback( void *NotUsed, int argc, char **argv, char **azColName )
     return 0;
 }
 
-bool DataBase::exec( const char * p_sql )
+bool DataBase::exec( const std::string & p_sql )
 {
     char * t_ErrMsg = nullptr;
-    int t_res = sqlite3_exec( m_dataBase, p_sql, nullptr, 0, &t_ErrMsg);
+    int t_res = sqlite3_exec( m_dataBase, p_sql.c_str(), nullptr, 0, &t_ErrMsg);
     if( t_res != SQLITE_OK )
     {
         printf( "SQL error: %s\n", t_ErrMsg);
@@ -52,12 +52,12 @@ bool DataBase::exec( const char * p_sql )
     return true;
 }
 
-DataBase::QueryBack DataBase::query( const char * p_sql )
+DataBase::QueryBack DataBase::query( const std::string & p_sql )
 {
     QueryBack t_result;
     m_queryBack = &t_result;
     char * t_ErrMsg = nullptr;
-    int t_res = sqlite3_exec( m_dataBase, p_sql, callback, 0, &t_ErrMsg);
+    int t_res = sqlite3_exec( m_dataBase, p_sql.c_str(), callback, 0, &t_ErrMsg);
     
     if( t_res != SQLITE_OK )
     {

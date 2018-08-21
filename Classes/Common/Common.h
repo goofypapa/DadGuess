@@ -53,6 +53,8 @@ std::string createUUID( void );
 std::string toString( __Dictionary & p_dirtionary );
 std::string toString( Ref * p_obj );
 
+const std::string & writeFilePath( void );
+std::string fullFilePath( const std::string & p_file );
 
 
 #endif //__COMMON_H__

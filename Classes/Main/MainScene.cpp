@@ -11,6 +11,7 @@
 #include "Dialog.hpp"
 #include "Config.h"
 #include "LoginScene.h"
+#include "DataTableFile.h"
 
 #include "WebViewScene.h"
 
@@ -27,7 +28,7 @@ Scene * MainScene:: CreateScene( void )
 
 bool MainScene::init( void )
 {
-    if( !Scene::init() )
+    if( !BaseScene::init() )
     {
         return false;
     }
@@ -75,13 +76,22 @@ bool MainScene::init( void )
     
     
     //用户头像
-    auto t_personalHead = Button::create( TexturePacker::Dialog::per_touxiang, TexturePacker::Dialog::per_touxiang, "", Widget::TextureResType::PLIST  );
-    t_personalHead->setScale( adaptation() );
-    auto t_personalHeadSizeHelf = t_personalHead->getContentSize() * adaptation() * 0.5f;
+
+    auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+
+    m_personalHead = Button::create( TexturePacker::Dialog::per_touxiang, TexturePacker::Dialog::per_touxiang, "", Widget::TextureResType::PLIST  );
+    
+    if( !t_fileInfo.fileName.empty() )
+    {
+        m_personalHead->loadTextures( fullFilePath( t_fileInfo.fileName ), fullFilePath( t_fileInfo.fileName ) );
+    }
+
+    m_personalHead->setScale( adaptation() );
+    auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * adaptation() * 0.5f;
     auto t_personalHeadPosition = Vec2( origin.x + t_personalHeadSizeHelf.width + 15.0f , origin.y + visibleSize.height - t_personalHeadSizeHelf.height - 10.0f );
-    t_personalHead->setPosition( t_personalHeadPosition );
-    this->addChild( t_personalHead );
-    m_mainSceneButtons.push_back( t_personalHead );
+    m_personalHead->setPosition( t_personalHeadPosition );
+    this->addChild( m_personalHead );
+    m_mainSceneButtons.push_back( m_personalHead );
 
     auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
     auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
@@ -90,8 +100,11 @@ bool MainScene::init( void )
 
     this->addChild( t_personalName );
 
+
     
-    touchAnswer( t_personalHead , [this]( Ref * p_ref ){
+
+    
+    touchAnswer( m_personalHead , [this]( Ref * p_ref ){
         m_disenableAllButton();
         personalHeadOnClick();
     }, adaptation() * 1.1f, adaptation() );
@@ -228,4 +241,20 @@ void MainScene::animalCallBack( void )
 void MainScene::dadpatCallBack( Ref* pSender )
 {
     printf( "dadpat click \n" );
+}
+
+void MainScene::refreshSource( const DataFile & p_fileInfo )
+{
+    auto t_loginUser = DataTableUser::instance().getActivation();
+
+    if( t_loginUser.headImg == p_fileInfo.fileId )
+    {
+        m_loginUser = t_loginUser;
+
+        auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+        if( !t_fileInfo.fileName.empty() )
+        {
+            m_personalHead->loadTextures( fullFilePath( t_fileInfo.fileName ), fullFilePath( t_fileInfo.fileName ) );
+        }
+    }
 }

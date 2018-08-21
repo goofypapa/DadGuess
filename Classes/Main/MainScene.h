@@ -14,20 +14,21 @@
 #include "DialogSettingsLayer.h"
 #include "DialogPersonalCenterLayer.h"
 #include "DataTableUser.h"
+#include "BaseScene.h"
 
-class MainScene: public cocos2d::Scene
+class MainScene: public BaseScene
 {
 public:
     static cocos2d::Scene * CreateScene( void );
     CREATE_FUNC( MainScene );
     
-    
-
     void personalHeadOnClick( void );
     void settingsOnClick( void );
     
     void animalCallBack( void );
     void dadpatCallBack( cocos2d::Ref* pSender );
+
+    virtual void refreshSource( const DataFile & p_fileInfo ) override;
     
 protected:
     virtual bool init( void ) override;
@@ -36,6 +37,8 @@ private:
     cocos2d::Menu * m_mainMenu;
     DialogSettingsLayer * m_dialogSettings;
     DialogPersonalCenterLayer * m_dialogPersonalCenter;
+
+    cocos2d::ui::Button * m_personalHead;
 
     std::vector< cocos2d::ui::Button *> m_mainSceneButtons;
     std::function<void()> m_enableAllButton;

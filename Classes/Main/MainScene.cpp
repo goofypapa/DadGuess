@@ -80,7 +80,7 @@ bool MainScene::init( void )
 
     auto t_userHeadBorder = Button::create( TexturePacker::Main::mainUserHeadBackground, TexturePacker::Main::mainUserHeadBackground, "", Widget::TextureResType::PLIST );
     auto t_userHeadBorderSizeHalf = t_userHeadBorder->getContentSize() * 0.5f;
-    auto t_userHeadBorderPosition = Vec2( origin.x + t_userHeadBorderSizeHalf.width + 15.0f , origin.y + visibleSize.height - t_userHeadBorderSizeHalf.height - 10.0f );
+    auto t_userHeadBorderPosition = Vec2( origin.x + t_userHeadBorderSizeHalf.width * adaptation() + 15.0f , origin.y + visibleSize.height - t_userHeadBorderSizeHalf.height * adaptation() - 10.0f );
 
     t_userHeadBorder->setPosition( t_userHeadBorderPosition );
     t_userHeadBorder->setScale( adaptation() );
@@ -116,7 +116,7 @@ bool MainScene::init( void )
     auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
     auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
 
-    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width + t_personalNameSizeHalf.width + 5.0f, t_userHeadBorderPosition.y ) );
+    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width * adaptation() + t_personalNameSizeHalf.width + 5.0f, t_userHeadBorderPosition.y ) );
 
     this->addChild( t_personalName );
     

@@ -1,10 +1,10 @@
 // ---------------------------------------
 // Sprite definitions for Main
-// Generated with TexturePacker 4.8.2
+// Generated with TexturePacker 4.8.3
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:aacda3f6c1d81a39ff7ff166d2cbd371:d8cf3c763e467a84d584030d57634c1c:d8d629a6b501bd991840527e921c506f$
+// $TexturePacker:SmartUpdate:6946c8cba43af226d524c4bce4e203d4:d125f2b84a4b7e8c9df714fc75e50145:d8d629a6b501bd991840527e921c506f$
 // ---------------------------------------
 
 #ifndef __MAIN_H__
@@ -40,6 +40,7 @@ public:
     static const std::string mainNewMessage;
     static const std::string mainNotice;
     static const std::string mainSetting;
+    static const std::string mainUserHeadBackground;
 
     // --------------
     // Sprite objects
@@ -51,6 +52,7 @@ public:
     static cocos2d::Sprite *createMainNewMessageSprite();
     static cocos2d::Sprite *createMainNoticeSprite();
     static cocos2d::Sprite *createMainSettingSprite();
+    static cocos2d::Sprite *createMainUserHeadBackgroundSprite();
 
 }; // class
 

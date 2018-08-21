@@ -28,6 +28,7 @@
 #include "C2DXShareSDK.h"
 #include "Config.h"
 #include "DataTableUser.h"
+#include "Common.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -149,6 +150,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     {        
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
     }
+
+    FileUtils::getInstance()->addSearchPath( "Resources/shader" );
+    FileUtils::getInstance()->addSearchPath( writeFilePath() );
 
     register_all_packages();
 

@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>per_touxiang.png</key>
+            <key>UserHeadBackground.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -258,7 +258,7 @@
             <key>size</key>
             <string>{998,2041}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:eb5a6df173df219c7877f701f33b5726:cbf55cbe15e32da0bed98dc0e91fc1cf:9d5f9d777bce4db9fed050e341ff8596$</string>
+            <string>$TexturePacker:SmartUpdate:a021f539ca174ad7f857838343253edb:21cc3f408b8fe24fc54ad60e5f5b98e8:9d5f9d777bce4db9fed050e341ff8596$</string>
             <key>textureFileName</key>
             <string>Dialog.png</string>
         </dict>

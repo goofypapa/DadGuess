@@ -33,7 +33,6 @@ const std::string Dialog::listSpaceLine             = "ListSpaceLine.png";
 const std::string Dialog::loginByPhone              = "LoginByPhone.png";
 const std::string Dialog::loginByWeChat             = "LoginByWeChat.png";
 const std::string Dialog::loginByXinlang            = "LoginByXinlang.png";
-const std::string Dialog::per_touxiang              = "per_touxiang.png";
 const std::string Dialog::personalCenterBackground  = "PersonalCenterBackground.png";
 const std::string Dialog::redioButtonNormal         = "RedioButtonNormal.png";
 const std::string Dialog::redioButtonSelectedBlue   = "RedioButtonSelectedBlue.png";
@@ -44,6 +43,7 @@ const std::string Dialog::settingsContentBackground = "SettingsContentBackground
 const std::string Dialog::swichEnabled              = "SwichEnabled.png";
 const std::string Dialog::swichNormal               = "SwichNormal.png";
 const std::string Dialog::texteditBackground        = "TexteditBackground.png";
+const std::string Dialog::userHeadBackground        = "UserHeadBackground.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
@@ -71,11 +71,6 @@ Sprite* Dialog::createLoginByWeChatSprite()
 Sprite* Dialog::createLoginByXinlangSprite()
 {
     return Sprite::createWithSpriteFrameName(loginByXinlang);
-}
-
-Sprite* Dialog::createPer_touxiangSprite()
-{
-    return Sprite::createWithSpriteFrameName(per_touxiang);
 }
 
 Sprite* Dialog::createPersonalCenterBackgroundSprite()
@@ -126,6 +121,11 @@ Sprite* Dialog::createSwichNormalSprite()
 Sprite* Dialog::createTexteditBackgroundSprite()
 {
     return Sprite::createWithSpriteFrameName(texteditBackground);
+}
+
+Sprite* Dialog::createUserHeadBackgroundSprite()
+{
+    return Sprite::createWithSpriteFrameName(userHeadBackground);
 }
 
 

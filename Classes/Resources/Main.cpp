@@ -1,6 +1,6 @@
 // ---------------------------------------
 // Sprite definitions for Main
-// Generated with TexturePacker 4.8.2
+// Generated with TexturePacker 4.8.3
 //
 // https://www.codeandweb.com/texturepacker
 // ---------------------------------------
@@ -28,13 +28,14 @@ void Main::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string Main::mainBaike      = "MainBaike.png";
-const std::string Main::mainDadpat     = "MainDadpat.png";
-const std::string Main::mainGame       = "MainGame.png";
-const std::string Main::mainMessage    = "MainMessage.png";
-const std::string Main::mainNewMessage = "MainNewMessage.png";
-const std::string Main::mainNotice     = "MainNotice.png";
-const std::string Main::mainSetting    = "MainSetting.png";
+const std::string Main::mainBaike              = "MainBaike.png";
+const std::string Main::mainDadpat             = "MainDadpat.png";
+const std::string Main::mainGame               = "MainGame.png";
+const std::string Main::mainMessage            = "MainMessage.png";
+const std::string Main::mainNewMessage         = "MainNewMessage.png";
+const std::string Main::mainNotice             = "MainNotice.png";
+const std::string Main::mainSetting            = "MainSetting.png";
+const std::string Main::mainUserHeadBackground = "MainUserHeadBackground.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
@@ -72,6 +73,11 @@ Sprite* Main::createMainNoticeSprite()
 Sprite* Main::createMainSettingSprite()
 {
     return Sprite::createWithSpriteFrameName(mainSetting);
+}
+
+Sprite* Main::createMainUserHeadBackgroundSprite()
+{
+    return Sprite::createWithSpriteFrameName(mainUserHeadBackground);
 }
 
 

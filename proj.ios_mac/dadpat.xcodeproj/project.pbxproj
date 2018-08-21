@@ -70,6 +70,9 @@
 		37D7DAED21198F0700A101E8 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE521198F0700A101E8 /* Message.cpp */; };
 		37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE921198F0700A101E8 /* WebViewScene.cpp */; };
 		37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAF121198F1200A101E8 /* MainScene.cpp */; };
+		37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE76212BE5FB00DB6912 /* UserHead.vert */; };
+		37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE77212BE5FB00DB6912 /* UserHead.frag */; };
+		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
@@ -239,6 +242,9 @@
 		37D7DAEA21198F0700A101E8 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		37D7DAF121198F1200A101E8 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
 		37D7DAF221198F1200A101E8 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		37E2AE76212BE5FB00DB6912 /* UserHead.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.vert; sourceTree = "<group>"; };
+		37E2AE77212BE5FB00DB6912 /* UserHead.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.frag; sourceTree = "<group>"; };
+		37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultHead.png; sourceTree = "<group>"; };
 		37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableUser.cpp; sourceTree = "<group>"; };
 		37E6FCC620F6F46E0047F458 /* DataTableUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableUser.h; sourceTree = "<group>"; };
 		37E6FCC720F6F46E0047F458 /* DataBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataBase.cpp; sourceTree = "<group>"; };
@@ -620,6 +626,15 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		37E2AE75212BE5FB00DB6912 /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				37E2AE76212BE5FB00DB6912 /* UserHead.vert */,
+				37E2AE77212BE5FB00DB6912 /* UserHead.frag */,
+			);
+			path = shader;
+			sourceTree = "<group>";
+		};
 		37E6FCC420F6F46E0047F458 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,6 +653,8 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */,
+				37E2AE75212BE5FB00DB6912 /* shader */,
 				370A78A02112975000252E8D /* Dialog.plist */,
 				370A78A12112975000252E8D /* Dialog.png */,
 				379D95F121084A68006DA6C1 /* Login.plist */,
@@ -814,10 +831,12 @@
 				376A5D9F212A517900510F6C /* md5.inl in Resources */,
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				370A78A32112975000252E8D /* Dialog.png in Resources */,
+				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
+				37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */,
 				379D95EC21082419006DA6C1 /* Main.plist in Resources */,
 				379D95F321084A68006DA6C1 /* Login.plist in Resources */,
 				370A78A22112975000252E8D /* Dialog.plist in Resources */,
@@ -826,6 +845,7 @@
 				3705123721226DFB00F2FE1C /* README.txt in Resources */,
 				3705123C21226DFB00F2FE1C /* ShareSDKUI.bundle in Resources */,
 				379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */,
+				37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
 				373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */,
 				3705123521226DFB00F2FE1C /* WeiboSDK.bundle in Resources */,

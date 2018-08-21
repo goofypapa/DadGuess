@@ -14,6 +14,7 @@
 #include "DataTableFile.h"
 
 #include "WebViewScene.h"
+#include "renderer/CCGLProgramStateCache.h"
 
 
 USING_NS_CC;
@@ -77,38 +78,47 @@ bool MainScene::init( void )
     
     //用户头像
 
-    auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+    auto t_userHeadBorder = Button::create( TexturePacker::Main::mainUserHeadBackground, TexturePacker::Main::mainUserHeadBackground, "", Widget::TextureResType::PLIST );
+    auto t_userHeadBorderSizeHalf = t_userHeadBorder->getContentSize() * 0.5f;
+    auto t_userHeadBorderPosition = Vec2( origin.x + t_userHeadBorderSizeHalf.width + 15.0f , origin.y + visibleSize.height - t_userHeadBorderSizeHalf.height - 10.0f );
 
-    m_personalHead = Button::create( TexturePacker::Dialog::per_touxiang, TexturePacker::Dialog::per_touxiang, "", Widget::TextureResType::PLIST  );
+    t_userHeadBorder->setPosition( t_userHeadBorderPosition );
+    t_userHeadBorder->setScale( adaptation() );
+    this->addChild( t_userHeadBorder );
+    m_mainSceneButtons.push_back( t_userHeadBorder );
     
-    if( !t_fileInfo.fileName.empty() )
-    {
-        m_personalHead->loadTextures( fullFilePath( t_fileInfo.fileName ), fullFilePath( t_fileInfo.fileName ) );
-    }
-
-    m_personalHead->setScale( adaptation() );
-    auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * adaptation() * 0.5f;
-    auto t_personalHeadPosition = Vec2( origin.x + t_personalHeadSizeHelf.width + 15.0f , origin.y + visibleSize.height - t_personalHeadSizeHelf.height - 10.0f );
-    m_personalHead->setPosition( t_personalHeadPosition );
-    this->addChild( m_personalHead );
-    m_mainSceneButtons.push_back( m_personalHead );
-
-    auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
-    auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
-
-    t_personalName->setPosition( Vec2( t_personalHeadPosition.x + t_personalHeadSizeHelf.width + t_personalNameSizeHalf.width + 5.0f, t_personalHeadPosition.y ) );
-
-    this->addChild( t_personalName );
-
-
     
-
-    
-    touchAnswer( m_personalHead , [this]( Ref * p_ref ){
+    touchAnswer( t_userHeadBorder , [this]( Ref * p_ref ){
         m_disenableAllButton();
         personalHeadOnClick();
     }, adaptation() * 1.1f, adaptation() );
     
+
+    auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+
+    m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName ) ;
+
+    auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
+    m_personalHead->setPosition( Vec2( t_userHeadBorderSizeHalf.width, t_userHeadBorderSizeHalf.height ) );
+    m_personalHead->setScale( t_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+    t_userHeadBorder->addChild( m_personalHead );
+
+    GLProgram * t_userHeadProgram = GLProgramCache::getInstance()->getGLProgram( "UserHead" );
+    if( !t_userHeadProgram )
+    {
+        t_userHeadProgram = GLProgram::createWithFilenames( "UserHead.vert", "UserHead.frag" );
+        GLProgramCache::getInstance()->addGLProgram( t_userHeadProgram, "UserHead" );
+    }
+
+    GLProgramState * t_userHeadProgramState = GLProgramState::getOrCreateWithGLProgram( t_userHeadProgram );
+    m_personalHead->setGLProgramState( t_userHeadProgramState );
+
+    auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
+    auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
+
+    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width + t_personalNameSizeHalf.width + 5.0f, t_userHeadBorderPosition.y ) );
+
+    this->addChild( t_personalName );
     
     auto t_Settings = Button::create( TexturePacker::Main::mainSetting, TexturePacker::Main::mainSetting, "", Widget::TextureResType::PLIST  );
     t_Settings->setScale( adaptation() );
@@ -254,7 +264,7 @@ void MainScene::refreshSource( const DataFile & p_fileInfo )
         auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
         if( !t_fileInfo.fileName.empty() )
         {
-            m_personalHead->loadTextures( fullFilePath( t_fileInfo.fileName ), fullFilePath( t_fileInfo.fileName ) );
+            m_personalHead->setSpriteFrame( t_fileInfo.fileName );
         }
     }
 }

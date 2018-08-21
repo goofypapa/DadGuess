@@ -70,7 +70,7 @@ bool DialogPersonalCenterLayer::init( void )
     
     float t_padding = t_DialogCentBackgroundSize.width * 0.06f;
     
-    auto t_personalHead = Button::create( TexturePacker::Dialog::per_touxiang, TexturePacker::Dialog::per_touxiang, "", Widget::TextureResType::PLIST );
+    auto t_personalHead = Button::create( "DefaultHead.png", "DefaultHead.png" );
     auto t_personalHeadSizeHalf = t_personalHead->getContentSize() * 0.5f;
     t_personalHead->setPosition( Vec2( t_personalHeadSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadSizeHalf.height - t_padding ) );
     m_dialogCentBackground->addChild( t_personalHead );

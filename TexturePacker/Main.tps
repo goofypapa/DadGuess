@@ -132,17 +132,17 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Resources/Dialog.plist</filename>
+                <filename>../Resources/Main.plist</filename>
             </struct>
             <key>header</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Classes/Resources/Dialog.hpp</filename>
+                <filename>../Classes/Resources/Main.hpp</filename>
             </struct>
             <key>source</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Classes/Resources/Dialog.cpp</filename>
+                <filename>../Classes/Resources/Main.cpp</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -191,161 +191,73 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Dialog/ConfirmButton.png</key>
-            <key type="filename">Dialog/SaveButton.png</key>
+            <key type="filename">Main/MainBaike.png</key>
+            <key type="filename">Main/MainDadpat.png</key>
+            <key type="filename">Main/MainGame.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>65,23,129,46</rect>
+                <rect>141,127,281,253</rect>
                 <key>scale9Paddings</key>
-                <rect>65,23,129,46</rect>
+                <rect>141,127,281,253</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Dialog/ListSpaceLine.png</key>
+            <key type="filename">Main/MainMessage.png</key>
+            <key type="filename">Main/MainNotice.png</key>
+            <key type="filename">Main/MainSetting.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>208,1,415,1</rect>
+                <rect>22,22,44,44</rect>
                 <key>scale9Paddings</key>
-                <rect>208,1,415,1</rect>
+                <rect>22,22,44,44</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Dialog/LoginByPhone.png</key>
-            <key type="filename">Dialog/LoginByWeChat.png</key>
-            <key type="filename">Dialog/LoginByXinlang.png</key>
+            <key type="filename">Main/MainNewMessage.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>17,17,33,33</rect>
+                <rect>8,8,15,16</rect>
                 <key>scale9Paddings</key>
-                <rect>17,17,33,33</rect>
+                <rect>8,8,15,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Dialog/PersonalCenterBackground.png</key>
+            <key type="filename">Main/MainUserHeadBackground.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>248,208,496,415</rect>
+                <rect>32,32,64,64</rect>
                 <key>scale9Paddings</key>
-                <rect>248,208,496,415</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/RedioButtonNormal.png</key>
-            <key type="filename">Dialog/RedioButtonSelectedBlue.png</key>
-            <key type="filename">Dialog/RedioButtonSelectedOrange.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/SettingBackground.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>248,146,496,291</rect>
-                <key>scale9Paddings</key>
-                <rect>248,146,496,291</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/SettingsContentBackground.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>228,102,455,204</rect>
-                <key>scale9Paddings</key>
-                <rect>228,102,455,204</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/SwichEnabled.png</key>
-            <key type="filename">Dialog/SwichNormal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,17,64,34</rect>
-                <key>scale9Paddings</key>
-                <rect>32,17,64,34</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/TexteditBackground.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>100,21,201,41</rect>
-                <key>scale9Paddings</key>
-                <rect>100,21,201,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Dialog/UserHeadBackground.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>53,53,105,105</rect>
-                <key>scale9Paddings</key>
-                <rect>53,53,105,105</rect>
+                <rect>32,32,64,64</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>Dialog/ListSpaceLine.png</filename>
-            <filename>Dialog/LoginByPhone.png</filename>
-            <filename>Dialog/LoginByWeChat.png</filename>
-            <filename>Dialog/LoginByXinlang.png</filename>
-            <filename>Dialog/RedioButtonNormal.png</filename>
-            <filename>Dialog/RedioButtonSelectedBlue.png</filename>
-            <filename>Dialog/RedioButtonSelectedOrange.png</filename>
-            <filename>Dialog/SaveButton.png</filename>
-            <filename>Dialog/ConfirmButton.png</filename>
-            <filename>Dialog/SwichNormal.png</filename>
-            <filename>Dialog/SwichEnabled.png</filename>
-            <filename>Dialog/SettingBackground.png</filename>
-            <filename>Dialog/SettingsContentBackground.png</filename>
-            <filename>Dialog/TexteditBackground.png</filename>
-            <filename>Dialog/PersonalCenterBackground.png</filename>
-            <filename>Dialog/UserHeadBackground.png</filename>
+            <filename>Main/MainBaike.png</filename>
+            <filename>Main/MainDadpat.png</filename>
+            <filename>Main/MainGame.png</filename>
+            <filename>Main/MainMessage.png</filename>
+            <filename>Main/MainNewMessage.png</filename>
+            <filename>Main/MainNotice.png</filename>
+            <filename>Main/MainSetting.png</filename>
+            <filename>Main/MainUserHeadBackground.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

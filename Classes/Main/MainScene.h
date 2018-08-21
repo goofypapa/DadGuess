@@ -38,7 +38,7 @@ private:
     DialogSettingsLayer * m_dialogSettings;
     DialogPersonalCenterLayer * m_dialogPersonalCenter;
 
-    cocos2d::ui::Button * m_personalHead;
+    cocos2d::Sprite * m_personalHead;
 
     std::vector< cocos2d::ui::Button *> m_mainSceneButtons;
     std::function<void()> m_enableAllButton;

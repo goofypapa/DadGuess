@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "LoginScene.h"
 #include "DataTableFile.h"
+#include "Http.h"
 
 #include "WebViewScene.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -34,7 +35,8 @@ bool MainScene::init( void )
         return false;
     }
     
-    m_loginUser = LoginScene::loginUser();
+    m_loginUser = DataTableUser::instance().getActivation();
+    Http::token = m_loginUser.token;
     printf( "%s \n", m_loginUser.toJson().c_str() );
     
     //加载贴图
@@ -116,7 +118,10 @@ bool MainScene::init( void )
     auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
     auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
 
-    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width * adaptation() + t_personalNameSizeHalf.width + 5.0f, t_userHeadBorderPosition.y ) );
+    t_personalName->setAlignment( TextHAlignment::LEFT );
+    t_personalName->setAnchorPoint( Point( 0.0f, 0.5f ) );
+
+    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width * adaptation() + 5.0f, t_userHeadBorderPosition.y ) );
 
     this->addChild( t_personalName );
     
@@ -220,8 +225,15 @@ bool MainScene::init( void )
     m_dialogPersonalCenter->setPosition( Vec2( visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y ) );
     this->addChild( m_dialogPersonalCenter );
     
-    m_dialogPersonalCenter->hideCallBack = [this](){
+    m_dialogPersonalCenter->hideCallBack = [this, t_personalName](){
         m_enableAllButton();
+
+        auto t_userInfo = DataTableUser::instance().getActivation();
+
+        t_personalName->initWithTTF( t_userInfo.userName, PAGE_FONT, 16 );
+        
+        updateUserInfo();
+
     };
 
     return true;
@@ -251,6 +263,11 @@ void MainScene::animalCallBack( void )
 void MainScene::dadpatCallBack( Ref* pSender )
 {
     printf( "dadpat click \n" );
+}
+
+void MainScene::updateUserInfo( void )
+{
+    m_loginUser = DataTableUser::instance().getActivation();
 }
 
 void MainScene::refreshSource( const DataFile & p_fileInfo )

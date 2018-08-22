@@ -24,12 +24,14 @@ public:
     typedef std::function<void( DataFile p_fileInfo )> DownloadFileCallBack;
     typedef std::function<void( DataFile p_fileInfo, long, long )> DownloadFileProgressCallBack;
 
+    static std::string token;
+
     static void Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
     static void Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
 
     static void DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress = nullptr );
     
-    void getHttp_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
+    void http_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
 
     DownloadFileCallBack getDownloadSuccessCallBack( void );
     DownloadFileCallBack getDownloadFinalCallBack( void );

@@ -29,8 +29,6 @@ using namespace cocos2d::ui;
 
 DataUser::LoginType LoginScene::m_loginType = DataUser::LoginType::phone;
 
-DataUser LoginScene::m_loginUser;
-
 cocos2d::Scene * LoginScene::CreateScene()
 {
     // static cocos2d::Scene * s_result = LoginScene::create();
@@ -925,13 +923,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
 
 bool LoginScene::isLogined( void )
 {
-    m_loginUser = DataTableUser::instance().getActivation();
-    return m_loginUser.userId.length() > 0;
-}
-
-DataUser LoginScene::loginUser( void )
-{
-    return m_loginUser;
+    return DataTableUser::instance().getActivation().userId.length() > 0;
 }
 
 LoginScene::~LoginScene()
@@ -1070,8 +1062,6 @@ void LoginScene::loginCallBack( const std::string & p_str )
             }else{
                 DataTableUser::instance().insert( t_dataUser );
             }
-            
-            m_loginUser = t_dataUser;
             
             Director::getInstance()->replaceScene( MainScene::CreateScene() );
             return;

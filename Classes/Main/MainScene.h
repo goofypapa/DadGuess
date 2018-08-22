@@ -28,6 +28,8 @@ public:
     void animalCallBack( void );
     void dadpatCallBack( cocos2d::Ref* pSender );
 
+    void updateUserInfo( void );
+
     virtual void refreshSource( const DataFile & p_fileInfo ) override;
     
 protected:

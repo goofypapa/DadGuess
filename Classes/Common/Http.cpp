@@ -22,6 +22,8 @@ using namespace network;
 network::Downloader * Http::sm_downloader = nullptr;
 std::map< const std::string, Http * > Http::sm_downloadTaskList;
 
+std::string Http::token = "";
+
 void Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
     Http * t_http = new Http;
@@ -49,13 +51,21 @@ void Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCall
 
     //    生成HttpRequest对象
     auto request = new HttpRequest();
+
+    std::vector<std::string> headers;
+    if( !token.empty() )
+    {
+        headers.push_back( std::string( "Authorization: " ) + token );
+    }
+    
+    request -> setHeaders( headers );
     //    设置请求
     request->setUrl( t_requerstUrl.c_str() );
     //    设置请求方式  GET类型
     request->setRequestType( HttpRequest::Type::GET );
     //    设置请求完成后的回调函数
     
-    request->setResponseCallback( CC_CALLBACK_2( Http::getHttp_handshakeResponse, t_http) );
+    request->setResponseCallback( CC_CALLBACK_2( Http::http_handshakeResponse, t_http) );
     //    设置请求tag
     request->setTag("GET");
     //    生成HttpClient对象，并且发送请求
@@ -80,15 +90,20 @@ void Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCal
     request->setRequestType( HttpRequest::Type::POST );
     //    设置请求完成后的回调函数
     
-    request->setResponseCallback( CC_CALLBACK_2( Http::getHttp_handshakeResponse, t_http ) );
+    request->setResponseCallback( CC_CALLBACK_2( Http::http_handshakeResponse, t_http ) );
 
     std::vector<std::string> headers;
     headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
     // 设置请求头，如果数据为键值对则不需要设置
 
+    if( !token.empty() )
+    {
+        headers.push_back( std::string( "Authorization: " ) + token );
+    }
+    
     request -> setHeaders( headers );
     // 传入发送的数据及数据
-    std::string t_data = parseParameter( p_parameter );
+    std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
     request -> setRequestData(t_data.c_str(), t_data.size());
 
     //    设置请求tag
@@ -212,7 +227,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
 
 }
 
-void Http::getHttp_handshakeResponse( network::HttpClient * p_sender, network::HttpResponse * p_response )
+void Http::http_handshakeResponse( network::HttpClient * p_sender, network::HttpResponse * p_response )
 {
     
     std::vector<char> * t_hander = p_response->getResponseHeader();

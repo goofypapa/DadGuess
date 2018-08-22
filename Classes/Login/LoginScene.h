@@ -44,7 +44,6 @@ public:
     void forgetPassword( cocos2d::Ref* pSender  );
     
     static bool isLogined( void );
-    static DataUser loginUser( void );
     
     static void getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState state, cn::sharesdk::C2DXPlatType platType, __Dictionary *result);
     
@@ -76,7 +75,6 @@ private:
     LoginState m_loginState;
     
     static DataUser::LoginType m_loginType;
-    static DataUser m_loginUser;
 
     cocos2d::Sprite * m_CloundLeft, * m_CloundRight;
 };

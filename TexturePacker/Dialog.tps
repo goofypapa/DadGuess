@@ -246,6 +246,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Dialog/PersonalHeadBackground.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9Paddings</key>
+                <rect>53,53,105,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Dialog/PersonalHeadBorder.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,43,85,85</rect>
+                <key>scale9Paddings</key>
+                <rect>43,43,85,85</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Dialog/RedioButtonNormal.png</key>
             <key type="filename">Dialog/RedioButtonSelectedBlue.png</key>
             <key type="filename">Dialog/RedioButtonSelectedOrange.png</key>
@@ -314,19 +340,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Dialog/UserHeadBackground.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>53,53,105,105</rect>
-                <key>scale9Paddings</key>
-                <rect>53,53,105,105</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -345,7 +358,8 @@
             <filename>Dialog/SettingsContentBackground.png</filename>
             <filename>Dialog/TexteditBackground.png</filename>
             <filename>Dialog/PersonalCenterBackground.png</filename>
-            <filename>Dialog/UserHeadBackground.png</filename>
+            <filename>Dialog/PersonalHeadBorder.png</filename>
+            <filename>Dialog/PersonalHeadBackground.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

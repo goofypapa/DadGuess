@@ -11,6 +11,7 @@
 #include "LoginScene.h"
 #include "Http.h"
 #include "DataTableFile.h"
+#include "Config.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -70,20 +71,45 @@ bool DialogPersonalCenterLayer::init( void )
     
     float t_padding = t_DialogCentBackgroundSize.width * 0.06f;
     
-    auto t_personalHead = Button::create( "DefaultHead.png", "DefaultHead.png" );
-    auto t_personalHeadSizeHalf = t_personalHead->getContentSize() * 0.5f;
-    t_personalHead->setPosition( Vec2( t_personalHeadSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadSizeHalf.height - t_padding ) );
-    m_dialogCentBackground->addChild( t_personalHead );
+    auto t_personalHeadBackground = Button::create( TexturePacker::Dialog::personalHeadBackground, TexturePacker::Dialog::personalHeadBackground, "", TextureResType::PLIST );
+    auto t_personalHeadBackgroundSizeHalf = t_personalHeadBackground->getContentSize() * 0.5f;
+    t_personalHeadBackground->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadBackgroundSizeHalf.height - t_padding ) );
+    m_dialogCentBackground->addChild( t_personalHeadBackground );
 
-    touchAnswer( t_personalHead, [this]( Ref * p_ref ){
+    touchAnswer( t_personalHeadBackground, [this]( Ref * p_ref ){
 
-        // Http::DownloadFile( m_loginUser.headImg, "png", []( DataFile p_fileInfo ){
-        //     printf( "------------ %s, %s, %s \n", p_fileInfo.sourceUrl.c_str(), p_fileInfo.fileName.c_str(), p_fileInfo.fileMd5.c_str() );
-        // }, nullptr );
 
-    }, adaptation() * 1.1f, adaptation() );
+    } );
+
+    auto t_personalHeadBorder = TexturePacker::Dialog::createPersonalHeadBorderSprite();
+    auto t_personalHeadBorderSizeHalf = t_personalHeadBorder->getContentSize() * 0.5f;
+
+    t_personalHeadBorder->setScale( t_personalHeadBackgroundSizeHalf.width * 0.82f / t_personalHeadBorderSizeHalf.width );
+    t_personalHeadBorder->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width, t_personalHeadBackgroundSizeHalf.height ) );
+    t_personalHeadBackground->addChild( t_personalHeadBorder );
+
     
-    float t_listPosX = t_personalHeadSizeHalf.width * 2.0f + t_padding * 1.6f;
+    auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+    auto t_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName );
+    auto t_personalHeadSizeHalf = t_personalHead->getContentSize() * 0.5f;
+
+    t_personalHead->setScale( t_personalHeadBackgroundSizeHalf.width * 0.8f / t_personalHeadSizeHalf.width );
+
+    t_personalHead->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width, t_personalHeadBackgroundSizeHalf.height ) );
+    t_personalHeadBackground->addChild( t_personalHead );
+
+    GLProgram * t_userHeadProgram = GLProgramCache::getInstance()->getGLProgram( "UserHead" );
+    if( !t_userHeadProgram )
+    {
+        t_userHeadProgram = GLProgram::createWithFilenames( "UserHead.vert", "UserHead.frag" );
+        GLProgramCache::getInstance()->addGLProgram( t_userHeadProgram, "UserHead" );
+    }
+
+    GLProgramState * t_userHeadProgramState = GLProgramState::getOrCreateWithGLProgram( t_userHeadProgram );
+    t_personalHead->setGLProgramState( t_userHeadProgramState );
+    
+    
+    float t_listPosX = t_personalHeadBackgroundSizeHalf.width * 2.0f + t_padding * 1.6f;
     
     auto t_nameLabel = Label::createWithTTF( "姓名:", PAGE_FONT, 16 );
     auto t_nameLabelSizeHalf = t_nameLabel->getContentSize() * 0.5f * fontScale;
@@ -296,8 +322,19 @@ bool DialogPersonalCenterLayer::init( void )
     
     t_logout->addChild( t_logoutLabel );
 
+
+    //注销登陆
     touchAnswer( t_logout, []( Ref * p_ref ){
         DataTableUser::instance().logout();
+
+        auto t_loginUser = DataTableUser::instance().getActivation();
+
+        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/logout.do", nullptr, []( std::string p_res ){
+
+        },[]( std::string p_res ){
+
+        } );
+        Http::token = "";
         Director::getInstance()->replaceScene( LoginScene::create() );
     }, 1.05f );
 
@@ -341,6 +378,27 @@ void DialogPersonalCenterLayer::hide()
     m_dialogCentBackground->runAction( MoveTo::create( 0.2f, m_dialogCentBackgroundHiedPos ) );
     m_dialogCentSaveButton->runAction( MoveTo::create( 0.2f, m_dialogCentSaveButtonHidePos ) );
     m_nameEditBox->runAction( MoveTo::create( 0.2f, m_nameEditBoxHidePos ) );
+
+    auto t_oldUserInfo = DataTableUser::instance().getActivation();
+
+    m_loginUser.userName = m_nameEditBox->getText();
+
+    if( t_oldUserInfo.userName != m_loginUser.userName || t_oldUserInfo.userSex != m_loginUser.userSex || t_oldUserInfo.userBirthday != m_loginUser.userBirthday )
+    {
+        std::map< std::string, std::string > t_parameter;
+        t_parameter["userId"] = m_loginUser.userId;
+        t_parameter["userName"] = m_loginUser.userName;
+        t_parameter["userMobile"] = "";
+        t_parameter["userEmail"] = "";
+        
+        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/update.do", &t_parameter, []( std::string p_str ){
+            printf( "/user/update.do success: %s \n", p_str.c_str() );
+        }, []( std::string p_str ){
+            printf( "/user/update.do final: %s \n", p_str.c_str() );
+        } );
+
+        DataTableUser::instance().update( m_loginUser );
+    }
     
     if( hideCallBack )
     {

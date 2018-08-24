@@ -26,6 +26,7 @@ public:
     void settingsOnClick( void );
     
     void animalCallBack( void );
+    void CadenceCallBack( void );
     void dadpatCallBack( cocos2d::Ref* pSender );
 
     void updateUserInfo( void );

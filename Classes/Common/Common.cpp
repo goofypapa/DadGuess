@@ -123,6 +123,11 @@ void touchAnswer( cocos2d::ui::Button * p_button, std::function<void( cocos2d::R
     } );
 }
 
+void clearTouchAnswer( void )
+{
+    s_ButtonEventCache.clear();
+}
+
 std::vector<std::string> split( const std::string & p_str, const std::string & p_clapboard )
 {
     std::vector<std::string> t_result;

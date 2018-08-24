@@ -66,14 +66,14 @@ bool DialogSettingsLayer::init()
     m_dialogCentBackground->setScale( t_DialogCentBackgroundHeight / t_DialogCentBackgroundSize.height );
     
     
-    float t_titleHeight = t_DialogCentBackgroundSize.height * 0.15f;
+    float t_titleHeight = t_DialogCentBackgroundSize.height * 0.16f;
     
-    auto t_title = Label::createWithTTF( "设置", PAGE_FONT, 12 );
-    t_title->setScale( fontScale );
+    auto t_title = Label::createWithTTF( "设置", PAGE_FONT, 16 );
+    t_title->setScale( fontScale * 0.8f );
     auto t_titleSize = t_title->getContentSize() * fontScale;
     t_title->setPosition( t_DialogCentBackgroundSize.width * 0.5f, t_DialogCentBackgroundSize.height - t_titleHeight + t_titleSize.height * 0.5f );
-    t_title->setTextColor( Color4B( 0xDB, 0x81, 0x01, 0xFF ) );
-    t_title->enableBold();
+    t_title->setTextColor( Color4B( 0xFF, 0xFF, 0xFF, 0xFF ) );
+    t_title->enableOutline( Color4B( 0xC6, 0x72, 0x0C, 0xFF ), 2 );
     m_dialogCentBackground->addChild( t_title );
     
     auto t_settingContentBorder = TexturePacker::Dialog::createSettingsContentBackgroundSprite();

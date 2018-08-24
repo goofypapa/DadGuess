@@ -1,4 +1,5 @@
 #include "BaseScene.h"
+#include "Common.h"
 
 
 BaseScene * BaseScene::sm_activityScene = nullptr;
@@ -20,6 +21,7 @@ bool BaseScene::init( void )
         return false;
     }
 
+    clearTouchAnswer();
     sm_activityScene = this;
 
     return true;

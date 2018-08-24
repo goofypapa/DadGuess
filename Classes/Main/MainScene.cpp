@@ -13,6 +13,7 @@
 #include "LoginScene.h"
 #include "DataTableFile.h"
 #include "Http.h"
+#include "CadenceGameScene.h"
 
 #include "WebViewScene.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -116,7 +117,6 @@ bool MainScene::init( void )
     m_personalHead->setGLProgramState( t_userHeadProgramState );
 
     auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
-    auto t_personalNameSizeHalf = t_personalName->getContentSize() * 0.5f;
 
     t_personalName->setAlignment( TextHAlignment::LEFT );
     t_personalName->setAnchorPoint( Point( 0.0f, 0.5f ) );
@@ -183,7 +183,7 @@ bool MainScene::init( void )
     this->addChild( t_Game );
     m_mainSceneButtons.push_back( t_Game );
     touchAnswer( t_Game, [this]( Ref * p_ref ){
-        dadpatCallBack( this );
+        CadenceCallBack();
     }, adaptation() * 1.1f, adaptation() );
 
     auto t_Dadpat = Button::create( TexturePacker::Main::mainDadpat, TexturePacker::Main::mainDadpat, "", Widget::TextureResType::PLIST  );
@@ -258,6 +258,11 @@ void MainScene::settingsOnClick( void )
 void MainScene::animalCallBack( void )
 {
     Director::getInstance()->replaceScene( WebViewScene::create() );
+}
+
+void MainScene::CadenceCallBack( void )
+{
+    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.3f, CadenceGameScene::create() ) );
 }
 
 void MainScene::dadpatCallBack( Ref* pSender )

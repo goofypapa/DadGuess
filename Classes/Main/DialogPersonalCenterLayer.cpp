@@ -118,8 +118,8 @@ bool DialogPersonalCenterLayer::init( void )
     auto t_nameEditBackgroundSizeHalf = t_nameEditBackground->getContentSize() * 0.5f;
     
     t_nameLabel->setScale( fontScale );
-    t_nameLabel->setTextColor( Color4B( 0xC6, 0x72, 0x0C, 0xFF ) );
-    t_nameLabel->enableBold();
+    t_nameLabel->setTextColor( Color4B( 0xFF, 0xFF, 0xFF, 0xFF ) );
+    t_nameLabel->enableOutline( Color4B( 0xC6, 0x72, 0x0C, 0xFF ), 2 );
 
     t_nameLabel->setPosition( Vec2( t_listPosX + t_nameLabelSizeHalf.width, t_DialogCentBackgroundSize.height - t_padding * 1.2f - t_nameEditBackgroundSizeHalf.height ) );
     m_dialogCentBackground->addChild( t_nameLabel );
@@ -152,8 +152,8 @@ bool DialogPersonalCenterLayer::init( void )
     
     
     t_birthdayLabel->setScale( fontScale );
-    t_birthdayLabel->setTextColor( Color4B( 0xC6, 0x72, 0x0C, 0xFF ) );
-    t_birthdayLabel->enableBold();
+    t_birthdayLabel->setTextColor( Color4B( 0xFF, 0xFF, 0xFF, 0xFF ) );
+    t_birthdayLabel->enableOutline( Color4B( 0xC6, 0x72, 0x0C, 0xFF ), 2 );
     
     t_birthdayLabel->setPosition( Vec2( t_listPosX + t_birthdayLabelSizeHalf.width, t_DialogCentBackgroundSize.height - t_padding * 1.8f - t_birthdayEditBackgroundSizeHalf.height - t_nameEditBackgroundSizeHalf.height * 2.0f ) );
     m_dialogCentBackground->addChild( t_birthdayLabel );

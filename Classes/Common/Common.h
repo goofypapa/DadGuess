@@ -40,6 +40,7 @@ float adaptation( Vec2 p_sourcePixel = Vec2( 1920.0f, 1080.0f ) );
 
 void touchAnswer( cocos2d::ui::Button * p_button, std::function<void( cocos2d::Ref * )> p_onTouchEnd, float p_scaleTo = 1.2f, float p_sacleOriginal = 1.0f );
 void touchAnswer( cocos2d::ui::Button * p_button, std::function<void( cocos2d::Ref * )> p_onTouchBegin, std::function<void( cocos2d::Ref * )> p_onTouchCanceled, std::function<void( cocos2d::Ref * )> p_onTouchEnded, std::function<void( cocos2d::Ref * )> p_onTouchMoved );
+void clearTouchAnswer( void );
 
 //分割字符串
 std::vector<std::string> split( const std::string & p_str, const std::string & p_clapboard );

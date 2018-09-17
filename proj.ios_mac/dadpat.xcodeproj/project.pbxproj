@@ -46,6 +46,7 @@
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
+		374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 374B2206213530D400822A84 /* CadenceGameMainScene.cpp */; };
 		376A5D9F212A517900510F6C /* md5.inl in Resources */ = {isa = PBXBuildFile; fileRef = 376A5D9E212A517900510F6C /* md5.inl */; };
 		376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA0212A55B900510F6C /* DataTableFile.cpp */; };
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
@@ -73,7 +74,6 @@
 		37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE76212BE5FB00DB6912 /* UserHead.vert */; };
 		37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE77212BE5FB00DB6912 /* UserHead.frag */; };
 		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
-		37E2AE87212EA1B500DB6912 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E2AE85212EA1B500DB6912 /* CadenceGameScene.cpp */; };
 		37E2AE8A212EA1D600DB6912 /* Canence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E2AE89212EA1D600DB6912 /* Canence.cpp */; };
 		37E2AE8D212EA1E800DB6912 /* Canence.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE8B212EA1E800DB6912 /* Canence.plist */; };
 		37E2AE8E212EA1E800DB6912 /* Canence.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE8C212EA1E800DB6912 /* Canence.png */; };
@@ -206,6 +206,8 @@
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
+		374B2206213530D400822A84 /* CadenceGameMainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameMainScene.cpp; sourceTree = "<group>"; };
+		374B2207213530D400822A84 /* CadenceGameMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CadenceGameMainScene.h; sourceTree = "<group>"; };
 		376A5D9B212A516E00510F6C /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		376A5D9E212A517900510F6C /* md5.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.inl; sourceTree = "<group>"; };
 		376A5DA0212A55B900510F6C /* DataTableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableFile.cpp; sourceTree = "<group>"; };
@@ -249,8 +251,6 @@
 		37E2AE76212BE5FB00DB6912 /* UserHead.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.vert; sourceTree = "<group>"; };
 		37E2AE77212BE5FB00DB6912 /* UserHead.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.frag; sourceTree = "<group>"; };
 		37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultHead.png; sourceTree = "<group>"; };
-		37E2AE84212EA1B500DB6912 /* CadenceGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CadenceGameScene.h; sourceTree = "<group>"; };
-		37E2AE85212EA1B500DB6912 /* CadenceGameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameScene.cpp; sourceTree = "<group>"; };
 		37E2AE88212EA1D600DB6912 /* Canence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Canence.hpp; sourceTree = "<group>"; };
 		37E2AE89212EA1D600DB6912 /* Canence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Canence.cpp; sourceTree = "<group>"; };
 		37E2AE8B212EA1E800DB6912 /* Canence.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Canence.plist; sourceTree = "<group>"; };
@@ -650,8 +650,8 @@
 		37E2AE83212EA1B500DB6912 /* Cadence */ = {
 			isa = PBXGroup;
 			children = (
-				37E2AE84212EA1B500DB6912 /* CadenceGameScene.h */,
-				37E2AE85212EA1B500DB6912 /* CadenceGameScene.cpp */,
+				374B2206213530D400822A84 /* CadenceGameMainScene.cpp */,
+				374B2207213530D400822A84 /* CadenceGameMainScene.h */,
 			);
 			path = Cadence;
 			sourceTree = "<group>";
@@ -898,12 +898,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37E2AE87212EA1B500DB6912 /* CadenceGameScene.cpp in Sources */,
 				3705125D212577C700F2FE1C /* Http.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				37D7DAED21198F0700A101E8 /* Message.cpp in Sources */,
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
 				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
+				374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,

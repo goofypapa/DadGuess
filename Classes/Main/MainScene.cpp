@@ -13,7 +13,7 @@
 #include "LoginScene.h"
 #include "DataTableFile.h"
 #include "Http.h"
-#include "CadenceGameScene.h"
+#include "CadenceGameMainScene.h"
 
 #include "WebViewScene.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -262,7 +262,7 @@ void MainScene::animalCallBack( void )
 
 void MainScene::CadenceCallBack( void )
 {
-    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.3f, CadenceGameScene::create() ) );
+    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.3f, CadenceGameMainScene::create() ) );
 }
 
 void MainScene::dadpatCallBack( Ref* pSender )

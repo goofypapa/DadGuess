@@ -1,4 +1,4 @@
-#include "CadenceGameScene.h"
+#include "CadenceGameMainScene.h"
 #include "Canence.hpp"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
@@ -8,7 +8,7 @@
 USING_NS_CC;
 using namespace cocos2d::ui;
 
-bool CadenceGameScene::init( void )
+bool CadenceGameMainScene::init( void )
 {
     if( !BaseScene::init() )
     {
@@ -42,11 +42,12 @@ bool CadenceGameScene::init( void )
     touchAnswer( t_back, []( Ref * p_ref ){
         Director::getInstance()->replaceScene( TransitionSlideInL::create( 0.2f, MainScene::create() ) );
     }, adaptation() * 1.1f, adaptation() );
+    
 
     return true;
 }
 
-CadenceGameScene::~CadenceGameScene()
+CadenceGameMainScene::~CadenceGameMainScene()
 {
     TexturePacker::Canence::removeSpriteFramesFromCache();
 }

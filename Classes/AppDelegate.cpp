@@ -86,6 +86,24 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     //shareSDK
     __Dictionary *totalDict = __Dictionary::create();
+
+#ifdef __ANDROID_NDK__
+    //微信
+    __Dictionary *wechatConf = __Dictionary::create();
+    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "AppId");
+    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d"), "AppSecret");
+    std::stringstream wechat;
+    wechat << cn::sharesdk::C2DXPlatTypeWeChat;
+    totalDict->setObject(wechatConf, wechat.str());
+#else
+    //微信
+    __Dictionary *wechatConf = __Dictionary::create();
+    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "app_id");
+    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d "), "app_secret");
+    std::stringstream wechat;
+    wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
+    totalDict->setObject(wechatConf, wechat.str());
+#endif
     
     //新浪微博
 //    __Dictionary *sinaWeiboConf= __Dictionary::create();
@@ -95,15 +113,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //    stringstream sina;
 //    sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
 //    totalDict->setObject(sinaWeiboConf, sina.str());
-    
-    //微信
-    __Dictionary *wechatConf = __Dictionary::create();
-    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "app_id");
-    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d "), "app_secret");
-    std::stringstream wechat;
-    wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
-    totalDict->setObject(wechatConf, wechat.str());
-    
+
     //QQ
 //    __Dictionary *qqConf = __Dictionary::create();
 //    qqConf->setObject(__String::create("100371282"), "app_id");
@@ -151,7 +161,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
     }
 
-    FileUtils::getInstance()->addSearchPath( "Resources/shader" );
+    FileUtils::getInstance()->addSearchPath( "shader" );
     FileUtils::getInstance()->addSearchPath( writeFilePath() );
 
     register_all_packages();

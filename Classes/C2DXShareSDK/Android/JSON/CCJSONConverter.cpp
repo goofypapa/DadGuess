@@ -53,7 +53,7 @@ void CCJSONConverter::convertJsonToDictionary(cJSON *json, __Dictionary *Diction
     while (j) {
         Ref * obj = getJsonObj(j);
         Dictionary->setObject(obj, j->string);
-        CCLog("Dictionary setObject -- addObject success  %s", j->string);
+        printf("Dictionary setObject -- addObject success  %s", j->string);
         j = j->next;
     }
 }
@@ -81,7 +81,7 @@ void CCJSONConverter::convertJsonToArray(cJSON * json, __Array * array)
         Ref * objItem = getJsonObj(jsonItem);
         array->addObject(objItem);
     }
-    CCLog("convertJsonToArray -- end");
+    printf("convertJsonToArray -- end");
 }
 
 void CCJSONConverter::convertArrayToJson(__Array * array, cJSON * json)
@@ -116,7 +116,7 @@ cJSON * CCJSONConverter::getObjJson(Ref * obj)
         cJSON * json = cJSON_CreateNull();
         return json;
     }
-    CCLog("CCJSONConverter encountered an unrecognized type");
+    printf("CCJSONConverter encountered an unrecognized type");
     return NULL;
 }
 
@@ -125,14 +125,14 @@ Ref * CCJSONConverter::getJsonObj(cJSON * json)
     switch (json->type) {
         case cJSON_Object:
         {
-        	CCLog("cJSON_Object");
+            printf("cJSON_Object");
             __Dictionary * Dictionary = new __Dictionary();
             convertJsonToDictionary(json, Dictionary);
             return Dictionary;
         }
         case cJSON_Array:
         {
-        	CCLog("cJSON_Array");
+            printf("cJSON_Array");
             //__Array * array = new __Array();
         	cocos2d::__Array* array;
         	array = __Array::create();
@@ -142,37 +142,37 @@ Ref * CCJSONConverter::getJsonObj(cJSON * json)
         }
         case cJSON_String:
         {
-        	CCLog("cJSON_String");
+            printf("cJSON_String");
             __String * string = new __String(json->valuestring);
             return string;
         }
         case cJSON_Number:
         {
-        	CCLog("cJSON_Number");
+            printf("cJSON_Number");
             CCNumber * number = new CCNumber(json->valuedouble);
             return number;
         }
         case cJSON_True:
         {
-        	CCLog("cJSON_True");
+            printf("cJSON_True");
             CCNumber * boolean = new CCNumber(1);
             return boolean;
         }
         case cJSON_False:
         {
-        	CCLog("cJSON_False");
+            printf("cJSON_False");
             CCNumber * boolean = new CCNumber(0);
             return boolean;
         }
         case cJSON_NULL:
         {
-        	CCLog("cJSON_NULL");
+            printf("cJSON_NULL");
             CCNull * null = new CCNull();
             return null;
         }
         default:
         {
-            CCLog("CCJSONConverter encountered an unrecognized type");
+            printf("CCJSONConverter encountered an unrecognized type");
             return NULL;
         }
     }

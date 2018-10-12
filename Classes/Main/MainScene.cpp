@@ -89,13 +89,12 @@ bool MainScene::init( void )
     t_userHeadBorder->setScale( adaptation() );
     this->addChild( t_userHeadBorder );
     m_mainSceneButtons.push_back( t_userHeadBorder );
-    
-    
+
+
     touchAnswer( t_userHeadBorder , [this]( Ref * p_ref ){
         m_disenableAllButton();
         personalHeadOnClick();
     }, adaptation() * 1.1f, adaptation() );
-    
 
     auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
 
@@ -162,39 +161,47 @@ bool MainScene::init( void )
     touchAnswer( t_Notice, [this]( Ref * p_ref ){
         dadpatCallBack( this );
     }, adaptation() * 1.1f, adaptation() );
-
-    auto t_Baike = Button::create( TexturePacker::Main::mainBaike, TexturePacker::Main::mainBaike, "", Widget::TextureResType::PLIST  );
-    t_Baike->setScale( adaptation() );
-
-    auto t_BaikeSize = t_Baike->getContentSize();
-    float t_ItemSpace = (visibleSize.width - 30.0f - t_BaikeSize.width * adaptation() * 3 ) / 4.0f;
-    float t_HeadHeight = t_NoticeSize.height * adaptation() + 20.0f;
-    t_Baike->setPosition( Vec2( origin.x + 15.0f + t_ItemSpace + t_BaikeSize.width * adaptation() * 0.5f, origin.y + ( visibleSize.height - t_HeadHeight ) * 0.5f + 10.0f ) );
-    this->addChild( t_Baike );
-    m_mainSceneButtons.push_back( t_Baike );
-    touchAnswer( t_Baike, [this]( Ref * p_ref ){
-        animalCallBack();
-    }, adaptation() * 1.1f, adaptation() );
     
-    auto t_Game = Button::create( TexturePacker::Main::mainGame, TexturePacker::Main::mainGame, "", Widget::TextureResType::PLIST  );
-    t_Game->setScale( adaptation() );
+    Vec2 t_contentPos = Vec2( 30.0f, t_NoticeSize.height * adaptation() + 20.0f );
+    Size t_contentSize = Size( visibleSize.width - t_contentPos.x * 2.0f, visibleSize.height - t_contentPos.y - 20  );
+    
+    Size t_itemSize = Size( t_contentSize.width / 4.0f, t_contentSize.height / 3.0f ) * 0.5f;
 
-    t_Game->setPosition( Vec2( origin.x + 15.0f + t_ItemSpace * 2.0f + t_BaikeSize.width * adaptation() * 1.5f, origin.y + ( visibleSize.height - t_HeadHeight ) * 0.5f + 10.0f ) );
-    this->addChild( t_Game );
-    m_mainSceneButtons.push_back( t_Game );
-    touchAnswer( t_Game, [this]( Ref * p_ref ){
-        CadenceCallBack();
-    }, adaptation() * 1.1f, adaptation() );
+    const std::string t_icoList[] = {
+        TexturePacker::Main::mainIcoAnimalEncyclopedia,
+        TexturePacker::Main::mainIcoRhythmGame,
+        TexturePacker::Main::mainIcoDadpat,
+        TexturePacker::Main::mainIcoPiano,
+        TexturePacker::Main::mainIcoEarth,
+        TexturePacker::Main::mainIcoAstronomy,
+        TexturePacker::Main::mainIcoChineseHistory,
+        TexturePacker::Main::mainIcoHistoryOfTheWorld,
+        TexturePacker::Main::mainIcoFamousPainting,
+        TexturePacker::Main::mainIcoMonth,
+        TexturePacker::Main::mainIcoABC,
+        TexturePacker::Main::mainIcoDadGuess
+    };
+    
+    for( int i = 0; i < sizeof(t_icoList) / sizeof(std::string); ++i )
+    {
+        Vec2 t_pos = Vec2( t_contentPos.x + (i % 4 * 2 + 1) * t_itemSize.width, t_contentPos.y + (i / 4 * 2 + 1) * t_itemSize.height );
+        auto t_Ico = Button::create( t_icoList[i], t_icoList[i], "", Widget::TextureResType::PLIST  );
+        t_Ico->setScale( adaptation() * 0.8f );
+        
+        t_Ico->setTag(i);
 
-    auto t_Dadpat = Button::create( TexturePacker::Main::mainDadpat, TexturePacker::Main::mainDadpat, "", Widget::TextureResType::PLIST  );
-    t_Dadpat->setScale( adaptation() );
+        auto t_IcoSize = t_Ico->getContentSize();
 
-    t_Dadpat->setPosition( Vec2( origin.x + 15.0f + t_ItemSpace * 3.0f + t_BaikeSize.width * adaptation() * 2.5f, origin.y + ( visibleSize.height - t_HeadHeight ) * 0.5f + 10.0f ) );
-    this->addChild( t_Dadpat );
-    m_mainSceneButtons.push_back( t_Dadpat );
-    touchAnswer( t_Dadpat, [this]( Ref * p_ref ){
-        dadpatCallBack( this );
-    }, adaptation() * 1.1f, adaptation() );
+        t_Ico->setPosition( Vec2( origin.x + t_pos.x , origin.y + visibleSize.height - t_pos.y ) );
+
+        this->addChild( t_Ico );
+        
+        m_mainSceneButtons.push_back( t_Ico );
+        
+        touchAnswer( t_Ico, [this]( Ref * p_ref ){
+            icoTouchCallBack( ((Button*)p_ref)->getTag() );
+                }, adaptation() * 1.0f, adaptation() * 0.8f );
+    }
 
     m_enableAllButton = [this](){
         for( Button * button : m_mainSceneButtons )
@@ -231,7 +238,7 @@ bool MainScene::init( void )
         auto t_userInfo = DataTableUser::instance().getActivation();
 
         t_personalName->initWithTTF( t_userInfo.userName, PAGE_FONT, 16 );
-        
+
         updateUserInfo();
 
     };
@@ -257,7 +264,7 @@ void MainScene::settingsOnClick( void )
 
 void MainScene::animalCallBack( void )
 {
-    Director::getInstance()->replaceScene( WebViewScene::create() );
+//    Director::getInstance()->replaceScene( WebViewScene::create() );
 }
 
 void MainScene::CadenceCallBack( void )
@@ -268,6 +275,45 @@ void MainScene::CadenceCallBack( void )
 void MainScene::dadpatCallBack( Ref* pSender )
 {
     printf( "dadpat click \n" );
+}
+
+void MainScene::icoTouchCallBack( int p_icoIndex )
+{
+    std::string t_url = "";
+    bool t_orientation = false;
+    switch (p_icoIndex) {
+        case 0:
+            t_url = "http://www.dadpat.com/app/animal/index.html";
+            t_orientation = true;
+            break;
+        case 3:
+            t_url = "http://www.baidu.com";
+            break;
+        case 4:
+            t_url = "http://www.dadpat.com/app/earth/index.html";
+            t_orientation = true;
+            break;
+        case 5:
+            t_url = "http://www.dadpat.com/app/astronomy/App/astronomy/index.html";
+            break;
+        case 6:
+            t_url = "http://www.dadpat.com/app/historyChronology/index.html";
+            break;
+        case 8:
+            t_url = "http://www.dadpat.com/app/painting/index.html";
+            break;
+        case 9:
+            t_url = "http://www.dadpat.com/app/calendarNew/index.html";
+            break;
+        case 10:
+            t_url = "http://www.dadpat.com/app/ABC/ABC/index.html";
+            break;
+            
+        default:
+            return;
+    }
+    Director::getInstance()->replaceScene( WebViewScene::createWithUrl( t_url, t_orientation ) );
+    printf( "touch %d \n", p_icoIndex );
 }
 
 void MainScene::updateUserInfo( void )

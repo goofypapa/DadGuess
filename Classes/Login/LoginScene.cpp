@@ -1040,6 +1040,11 @@ void LoginScene::loginCallBack( const std::string & p_str )
 
             std::string t_downloadUrl = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
 
+            if( t_downloadUrl.find( "http" ) == std::string::npos )
+            {
+                t_downloadUrl = CONFIG_GOOFYPAPA_DOMAIN + "/" + t_downloadUrl;
+            }
+
             DataFile t_dataFile = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
             if( t_dataFile.fileId.empty() )
             {

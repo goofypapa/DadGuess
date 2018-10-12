@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string></string>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -43,6 +43,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MOBAppKey</key>
+	<string>2669e9afe5b4c</string>
+	<key>MOBAppSecret</key>
+	<string>de63eece79f93124a555af762ac9e65d</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -54,10 +58,6 @@
 	<string>LaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
-	<key>MOBAppKey</key>
-	<string>2669e9afe5b4c</string>
-	<key>MOBAppSecret</key>
-	<string>de63eece79f93124a555af762ac9e65d</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

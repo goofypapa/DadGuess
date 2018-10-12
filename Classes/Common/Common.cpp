@@ -255,3 +255,13 @@ std::string fullFilePath( const std::string & p_file )
 {
     return writeFilePath() + p_file;
 }
+
+std::string fileSuffix( const std::string p_fileName )
+{
+    auto t_list  = split( p_fileName, "." );
+    if( t_list.size() > 1 ){
+        return t_list[t_list.size() - 1];
+    }
+
+    return "";
+}

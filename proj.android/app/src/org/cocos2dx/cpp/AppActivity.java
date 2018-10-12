@@ -27,12 +27,16 @@ package org.cocos2dx.cpp;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import cn.sharesdk.ShareSDKUtils;
+
 public class AppActivity extends Cocos2dxActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+
+        ShareSDKUtils.prepare();
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task

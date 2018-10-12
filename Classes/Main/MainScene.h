@@ -15,6 +15,7 @@
 #include "DialogPersonalCenterLayer.h"
 #include "DataTableUser.h"
 #include "BaseScene.h"
+#include <string>
 
 class MainScene: public BaseScene
 {
@@ -28,6 +29,8 @@ public:
     void animalCallBack( void );
     void CadenceCallBack( void );
     void dadpatCallBack( cocos2d::Ref* pSender );
+    
+    void icoTouchCallBack( int p_icoIndex );
 
     void updateUserInfo( void );
 
@@ -48,6 +51,7 @@ private:
     std::function<void()> m_disenableAllButton;
     
     DataUser m_loginUser;
+    
 };
 
 #endif /* __MAIN_SCENE_H__ */

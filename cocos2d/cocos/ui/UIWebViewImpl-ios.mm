@@ -140,10 +140,18 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
     [super dealloc];
 }
 
+#define KIsiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
 - (void)setupWebView {
     if (!self.uiWebView) {
         self.uiWebView = [[UIWebView alloc] init];
         self.uiWebView.delegate = self;
+        
+        if (KIsiPhoneX) {
+            if (@available(iOS 11.0, *)) {
+                self.uiWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+            }
+        }
     }
     if (!self.uiWebView.superview) {
         auto view = cocos2d::Director::getInstance()->getOpenGLView();

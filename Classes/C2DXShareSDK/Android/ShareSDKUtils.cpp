@@ -198,7 +198,7 @@ C2DXDictionary* getAuthInfoJNI(int platformId){
 	CCJSONConverter* json = CCJSONConverter::sharedConverter();
 	jstring userInfo = (jstring) mi.env->CallStaticObjectMethod(mi.classID, mi.methodID, platformId);
 	const char* ccResp = mi.env->GetStringUTFChars(userInfo, JNI_FALSE);
-	CCLog("userInfo = %s", ccResp);
+	printf("userInfo = %s", ccResp);
 	dic = json->dictionaryFrom(ccResp);
 	releaseMethod(mi);
 

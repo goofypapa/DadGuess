@@ -191,18 +191,27 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Main/MainBaike.png</key>
-            <key type="filename">Main/MainDadpat.png</key>
-            <key type="filename">Main/MainGame.png</key>
+            <key type="filename">Main/MainIcoABC.png</key>
+            <key type="filename">Main/MainIcoAnimalEncyclopedia.png</key>
+            <key type="filename">Main/MainIcoAstronomy.png</key>
+            <key type="filename">Main/MainIcoChineseHistory.png</key>
+            <key type="filename">Main/MainIcoDadGuess.png</key>
+            <key type="filename">Main/MainIcoDadpat.png</key>
+            <key type="filename">Main/MainIcoEarth.png</key>
+            <key type="filename">Main/MainIcoFamousPainting.png</key>
+            <key type="filename">Main/MainIcoHistoryOfTheWorld.png</key>
+            <key type="filename">Main/MainIcoMonth.png</key>
+            <key type="filename">Main/MainIcoPiano.png</key>
+            <key type="filename">Main/MainIcoRhythmGame.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>141,127,281,253</rect>
+                <rect>77,70,155,139</rect>
                 <key>scale9Paddings</key>
-                <rect>141,127,281,253</rect>
+                <rect>77,70,155,139</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -250,14 +259,23 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>Main/MainBaike.png</filename>
-            <filename>Main/MainDadpat.png</filename>
-            <filename>Main/MainGame.png</filename>
             <filename>Main/MainMessage.png</filename>
             <filename>Main/MainNewMessage.png</filename>
             <filename>Main/MainNotice.png</filename>
             <filename>Main/MainSetting.png</filename>
             <filename>Main/MainUserHeadBackground.png</filename>
+            <filename>Main/MainIcoMonth.png</filename>
+            <filename>Main/MainIcoABC.png</filename>
+            <filename>Main/MainIcoDadpat.png</filename>
+            <filename>Main/MainIcoHistoryOfTheWorld.png</filename>
+            <filename>Main/MainIcoDadGuess.png</filename>
+            <filename>Main/MainIcoChineseHistory.png</filename>
+            <filename>Main/MainIcoAnimalEncyclopedia.png</filename>
+            <filename>Main/MainIcoFamousPainting.png</filename>
+            <filename>Main/MainIcoEarth.png</filename>
+            <filename>Main/MainIcoAstronomy.png</filename>
+            <filename>Main/MainIcoRhythmGame.png</filename>
+            <filename>Main/MainIcoPiano.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

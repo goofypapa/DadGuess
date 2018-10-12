@@ -9,6 +9,7 @@
 #define __DATA_TABLE_FILE_H__
 
 #include <string>
+#include <map>
 
 
 #define DataTableFileName "table_file"

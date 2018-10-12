@@ -15,12 +15,15 @@
 class WebViewScene : public cocos2d::Scene
 {
 public:
-    CREATE_FUNC( WebViewScene );
+    static cocos2d::Scene * createWithUrl( const std::string & p_url, const bool p_orientation );
 protected:
+    CREATE_FUNC( WebViewScene );
     virtual bool init( void ) override;
+    virtual bool initWithUrl( const std::string & p_url, const bool p_orientation );
 private:
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_url;
+    bool m_webOrientation;
 };
 
 #endif //__WEB_VIEW_SCENE_H__

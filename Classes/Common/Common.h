@@ -57,5 +57,7 @@ std::string toString( Ref * p_obj );
 const std::string & writeFilePath( void );
 std::string fullFilePath( const std::string & p_file );
 
+std::string fileSuffix( const std::string p_fileName );
+
 
 #endif //__COMMON_H__

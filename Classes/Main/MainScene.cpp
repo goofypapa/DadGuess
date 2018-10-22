@@ -186,7 +186,7 @@ bool MainScene::init( void )
     {
         Vec2 t_pos = Vec2( t_contentPos.x + (i % 4 * 2 + 1) * t_itemSize.width, t_contentPos.y + (i / 4 * 2 + 1) * t_itemSize.height );
         auto t_Ico = Button::create( t_icoList[i], t_icoList[i], "", Widget::TextureResType::PLIST  );
-        t_Ico->setScale( adaptation() * 0.8f );
+        t_Ico->setScale( adaptation() * 0.7f );
         
         t_Ico->setTag(i);
 
@@ -200,7 +200,7 @@ bool MainScene::init( void )
         
         touchAnswer( t_Ico, [this]( Ref * p_ref ){
             icoTouchCallBack( ((Button*)p_ref)->getTag() );
-                }, adaptation() * 1.0f, adaptation() * 0.8f );
+                }, adaptation() * 1.0f, adaptation() * 0.7f );
     }
 
     m_enableAllButton = [this](){
@@ -283,37 +283,40 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
     bool t_orientation = false;
     switch (p_icoIndex) {
         case 0:
-            t_url = "http://www.dadpat.com/app/animal/index.html";
+            t_url = "animal";
             t_orientation = true;
             break;
         case 3:
-            t_url = "http://www.baidu.com";
             break;
         case 4:
-            t_url = "http://www.dadpat.com/app/earth/index.html";
+            t_url = "earth";
             t_orientation = true;
             break;
         case 5:
-            t_url = "http://www.dadpat.com/app/astronomy/App/astronomy/index.html";
+            t_url = "astronomy";
             break;
         case 6:
-            t_url = "http://www.dadpat.com/app/historyChronology/index.html";
+            t_url = "historyChronology";
+            break;
+        case 7:
+            t_url = "worldHistory";
             break;
         case 8:
-            t_url = "http://www.dadpat.com/app/painting/index.html";
+            t_url = "minghua";
             break;
         case 9:
-            t_url = "http://www.dadpat.com/app/calendarNew/index.html";
+            t_url = "calendar";
             break;
         case 10:
-            t_url = "http://www.dadpat.com/app/ABC/ABC/index.html";
+            t_url = "ABC";
             break;
             
         default:
             return;
     }
+//    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.2f, WebViewScene::createWithUrl( t_url, t_orientation ) ) );
+    
     Director::getInstance()->replaceScene( WebViewScene::createWithUrl( t_url, t_orientation ) );
-    printf( "touch %d \n", p_icoIndex );
 }
 
 void MainScene::updateUserInfo( void )

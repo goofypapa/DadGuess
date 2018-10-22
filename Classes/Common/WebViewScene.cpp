@@ -14,6 +14,7 @@
 USING_NS_CC;
 using namespace cocos2d::ui;
 
+
 cocos2d::Scene * WebViewScene::createWithUrl( const std::string & p_url, const bool p_orientation )
 {
     auto t_res = create();
@@ -28,28 +29,7 @@ cocos2d::Scene * WebViewScene::createWithUrl( const std::string & p_url, const b
 
 bool WebViewScene::init( void )
 {
-
-//    DrawNode * t_testRect = DrawNode::create();
-//
-//    t_testRect->drawSolidRect( Vec2( 0.0f, 0.0f ), Vec2( 10.0f, 10.0f ), Color4F( 1.0f, 0.0f, 0.0f, 1.0f ) );
-//
-//    t_testRect->setPosition( Vec2(  10.0f ,  10.0f ) );
-//
-//    this->addChild( t_testRect );
-    
-//    auto t_node = Node::create();
-//
-//    this->addChild( t_node );
-//
-//    auto t_button = Button::create( "Back.png", "Back.png" );
-//    auto t_buttonSize = t_button->getContentSize();
-//
-//    t_button->setPosition( Vec2(  t_buttonSize.width * 0.5f,  t_buttonSize.height * 0.5f ) );
-//
-//    t_node->addChild( t_button, 10 );
-    
-    
-
+    m_firstLoad = true;
     return true;
 }
 
@@ -69,36 +49,68 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    
 
     printf( "visibleSize.width: %f, visibleSize.height: %f \n", visibleSize.width, visibleSize.height );
     printf( "origin.x: %f, origin.y: %f \n", origin.x, origin.y );
 
     auto contentSize = getContentSize();
     printf( "contentSize.width: %f, contentSize.height: %f \n", contentSize.width, contentSize.height );
-
+    
+    std::stringstream t_splistName;
+    
+    t_splistName << "Animate" << p_url << ".plist";
+    
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( t_splistName.str() );
+    Animation * t_animation = Animation::create();
+    for( int i = 0; i < 25; ++i )
+    {
+        std::stringstream t_spriteName;
+        t_spriteName << p_url << "_" << ( i + 1 ) << ".png";
+        auto t_frame = SpriteFrameCache::getInstance()->getSpriteFrameByName( t_spriteName.str() );
+        t_animation->addSpriteFrame( t_frame );
+    }
+    
+    t_animation->setDelayPerUnit(0.04f);
+    t_animation->setLoops( -1 );
+    
+    Animate * t_animate = Animate::create( t_animation );
+    
+    auto t_run = Sprite::create();
+    t_run->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
+    
+    addChild( t_run );
+    t_run->runAction( t_animate );
+    
+    
     m_webview = experimental::ui::WebView::create();
 
     m_webview->setContentSize( Size( visibleSize.width, visibleSize.height ) );
 
     m_webview->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
-    m_webview->loadURL( p_url );
+//    m_webview->loadURL( p_url );
+    
+    std::stringstream t_surl;
+    t_surl << "Web/" << p_url << "/index.html";
+    
+    m_webview->loadFile( t_surl.str() );
 
 
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
     m_webview->setBounces(false);
 
-//    std::stringstream t_sstrJsCode;
-//    t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};";
-//    m_webview->evaluateJS( t_sstrJsCode.str() );
-    
-//    m_webview->setOnShouldStartLoading([this]( experimental::ui::WebView * p_scene, std::string p_url )->bool{
-//        printf("---------------> setOnShouldStartLoading");
-//        return true;
-//    });
-//
     m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
 
         printf("---------------> setOnDidFinishLoading");
+
+        if( m_firstLoad ){
+            m_webview->setOpacityWebView( 0.0f );
+            m_webview->runAction( ActionFloat::create( 0.2f, 0.0f, 1.0f, [this]( float p_val){
+                m_webview->setOpacityWebView( p_val );
+            }) );
+            m_firstLoad = false;
+        }
+        
         std::stringstream t_sstrJsCode;
         t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};";
         m_webview->evaluateJS( t_sstrJsCode.str() );
@@ -116,8 +128,10 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
             }
             Director::getInstance()->replaceScene( MainScene::create() );
         }
+        
     } );
-
+    
+    m_webview->setOpacityWebView( 0.0f );
     this->addChild( m_webview );
     
     return true;

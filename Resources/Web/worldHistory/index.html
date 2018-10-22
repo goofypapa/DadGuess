@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/commen.css">
+    <script src="js/font.js"></script>
+    <style>
+        #bj{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: url("img/index-bj.jpg");
+            background-size: 100% 100%;
+            width: 100rem;
+            height: 100%;
+        }
+        #location{
+            position: absolute;
+            width: 100rem;
+            height: 100%;
+            z-index: 10;
+        }
+        #location li{
+            float: left;
+            /*margin-left: 2rem;*/
+
+        }
+        #location li a{
+            display: block;
+            width: 5rem;
+            /*height: 4rem;*/
+            /*background-color: rgba(0,0,0,0.4);*/
+            margin-top: 1rem;
+        }
+        #location img{
+            width: 90%;
+            height: 90%;
+        }
+        #back img{
+            width: 1.5rem;
+        }
+        #word-histroy{
+            position: fixed;
+            left: 5rem;
+            top: 0.33rem;
+            z-index: 2;
+            width: 4rem;
+        }
+        /*#location img{*/
+            /*animation:mymove 0.6s linear infinite;*/
+            /*-webkit-animation:mymove 0.6s linear infinite; !*Safari and Chrome*!*/
+        /*}*/
+        @keyframes mymove
+        {
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.1);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+
+        @-webkit-keyframes mymove /*Safari and Chrome*/
+        {
+            0%{
+                transform: scale(1);
+            }
+            50%{
+                transform: scale(1.5);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        #home{
+            position: fixed;
+            left: 0.6rem;
+            top: 0.3rem;
+            width: 0.8rem;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+<img id="home" src="img/home.png" alt="">
+<img id="word-histroy" src="img/word.png" alt="">
+<div id="bj"></div>
+<ul id="location">
+    <li style="margin-top: 1rem;margin-left: 0.7rem">
+        <a >
+        <img src="img/one.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 4.6rem;margin-left: -1rem;" >
+        <a>
+            <img src="img/two.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 2.2rem" >
+        <a>
+            <img src="img/three.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 3.8rem; margin-left: 3.5rem;">
+        <a >
+            <img style="width: 90%" src="img/four.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 3rem;margin-top: 0.5rem">
+        <a >
+            <img src="img/five.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 4rem;margin-left: 2rem;">
+        <a >
+            <img src="img/six.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 0.5rem;">
+        <a>
+            <img src="img/seven.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 4.5rem;margin-left: 4rem">
+        <a>
+            <img style="width: 58%" src="img/eight.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 1.5rem">
+        <a>
+            <img style="width: 80%" src="img/nine.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 3.5rem; margin-top: 4.2rem;">
+        <a >
+            <img style="width: 60%" src="img/ten.png" alt="">
+        </a>
+    </li>
+    <li>
+        <a >
+            <img src="img/eleven.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 4.5rem;margin-left: 2rem;">
+        <a >
+            <img style=" width: 85%;" src="img/twelve.png" alt="">
+        </a>
+    </li>
+    <li style="margin-left: 3rem;margin-top: 1rem;">
+        <a>
+            <img src="img/thirteen.png" alt="">
+        </a>
+    </li>
+    <li style="margin-top: 4rem;margin-left: 2.2rem;">
+        <a >
+            <img src="img/fourteen.png" alt="">
+        </a>
+    </li>
+</ul>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    $("#location img").click(function(){
+        var myNum=$(this).attr("src");
+        // 截取数字js
+        // myNum=myNum.replace(/[^0-9]/ig,"");
+        // 截取图片名字
+        var index = myNum .lastIndexOf("\/");
+        myNum  = myNum .substring(index + 1, myNum .length);
+        var ipos =  myNum.indexOf(".");
+        myNum=myNum.substring(0,ipos); //取前部分
+        console.log(myNum);
+        $(this).css("animation","mymove 0.6s linear infinite")
+        setTimeout(function(){
+            window.location.href="lunboNew.html?index="+myNum;
+        },800);
+
+    })
+    $("#home").click(function(){
+        if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+            window.location.href='goofypapa://back';
+        }else{
+            window.android.exitApp();
+        }
+    })
+</script>
+</html>

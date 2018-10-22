@@ -1,0 +1,57 @@
+ #dv{
+    overflow: hidden;
+ }
+ 
+ /* 返回 */
+ .back{
+    height: 9%;
+    width: 5.3%;
+    position: absolute;
+    top: 5%;
+    left: 3%;
+}
+/* 图片 */
+.swiper-container{
+    height: 74.3%;
+    width: 41.9%;
+    /*padding-top: 7.2%;*/
+    margin-top: 7.2%;
+}
+.swiper-slide{
+    margin-top: 18%;
+}
+.swiper-container img{
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
+
+#imgArea{
+    height: 74.3%;
+    width: 41.9%;
+}
+.imgCell{
+    float:left;
+    width:73px;
+    height:73px;
+    border:1px solid #37b7ca8a;
+    border-radius:4px;
+    position:absolute;
+    z-index:10;
+    box-shadow:0px 0px 8px #37b7ca8a;
+    transition-property:background-position;
+    transition-duration:300ms;
+    transition-timing-function:ease-in-out;
+}
+/* 小图 */
+.smallImg{
+    height: 24%;
+    width: 13.6%;
+    position: absolute;
+    top: 5%;
+    right: 3%;
+}
+.smallImg img{
+    height: 100%;
+    width: 100%;
+}

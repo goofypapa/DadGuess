@@ -44,6 +44,23 @@
 		3705125D212577C700F2FE1C /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3705125C212577C600F2FE1C /* Http.cpp */; };
 		370A78A22112975000252E8D /* Dialog.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A02112975000252E8D /* Dialog.plist */; };
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
+		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
+		373335AB217D78FE0087D425 /* AnimateABC.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335A9217D78FE0087D425 /* AnimateABC.plist */; };
+		373335AE217D949B0087D425 /* AnimateABC.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335AD217D949B0087D425 /* AnimateABC.png */; };
+		373335BD217D9A960087D425 /* Animatecalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335AF217D9A950087D425 /* Animatecalendar.png */; };
+		373335BE217D9A960087D425 /* Animateanimal.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B0217D9A950087D425 /* Animateanimal.plist */; };
+		373335BF217D9A960087D425 /* Animateminghua.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B1217D9A950087D425 /* Animateminghua.plist */; };
+		373335C0217D9A960087D425 /* AnimateworldHistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B2217D9A950087D425 /* AnimateworldHistory.png */; };
+		373335C1217D9A960087D425 /* Animateanimal.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B3217D9A950087D425 /* Animateanimal.png */; };
+		373335C2217D9A960087D425 /* Animateminghua.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B4217D9A960087D425 /* Animateminghua.png */; };
+		373335C3217D9A960087D425 /* Animatieearth.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B5217D9A960087D425 /* Animatieearth.png */; };
+		373335C4217D9A960087D425 /* Animateastronomy.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B6217D9A960087D425 /* Animateastronomy.png */; };
+		373335C5217D9A960087D425 /* AnimatehistoryChronology.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B7217D9A960087D425 /* AnimatehistoryChronology.png */; };
+		373335C6217D9A960087D425 /* Animateastronomy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B8217D9A960087D425 /* Animateastronomy.plist */; };
+		373335C7217D9A960087D425 /* Animateearth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B9217D9A960087D425 /* Animateearth.plist */; };
+		373335C8217D9A960087D425 /* Animatecalendar.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BA217D9A960087D425 /* Animatecalendar.plist */; };
+		373335C9217D9A960087D425 /* AnimateworldHistory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BB217D9A960087D425 /* AnimateworldHistory.plist */; };
+		373335CA217D9A960087D425 /* AnimatehistoryChronology.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
 		374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 374B2206213530D400822A84 /* CadenceGameMainScene.cpp */; };
@@ -203,6 +220,23 @@
 		3705125C212577C600F2FE1C /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Http.cpp; sourceTree = "<group>"; };
 		370A78A02112975000252E8D /* Dialog.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Dialog.plist; sourceTree = "<group>"; };
 		370A78A12112975000252E8D /* Dialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dialog.png; sourceTree = "<group>"; };
+		373335A32179C3BC0087D425 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
+		373335A9217D78FE0087D425 /* AnimateABC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimateABC.plist; sourceTree = "<group>"; };
+		373335AD217D949B0087D425 /* AnimateABC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimateABC.png; sourceTree = "<group>"; };
+		373335AF217D9A950087D425 /* Animatecalendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animatecalendar.png; sourceTree = "<group>"; };
+		373335B0217D9A950087D425 /* Animateanimal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateanimal.plist; sourceTree = "<group>"; };
+		373335B1217D9A950087D425 /* Animateminghua.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateminghua.plist; sourceTree = "<group>"; };
+		373335B2217D9A950087D425 /* AnimateworldHistory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimateworldHistory.png; sourceTree = "<group>"; };
+		373335B3217D9A950087D425 /* Animateanimal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateanimal.png; sourceTree = "<group>"; };
+		373335B4217D9A960087D425 /* Animateminghua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateminghua.png; sourceTree = "<group>"; };
+		373335B5217D9A960087D425 /* Animatieearth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animatieearth.png; sourceTree = "<group>"; };
+		373335B6217D9A960087D425 /* Animateastronomy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateastronomy.png; sourceTree = "<group>"; };
+		373335B7217D9A960087D425 /* AnimatehistoryChronology.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimatehistoryChronology.png; sourceTree = "<group>"; };
+		373335B8217D9A960087D425 /* Animateastronomy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateastronomy.plist; sourceTree = "<group>"; };
+		373335B9217D9A960087D425 /* Animateearth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateearth.plist; sourceTree = "<group>"; };
+		373335BA217D9A960087D425 /* Animatecalendar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animatecalendar.plist; sourceTree = "<group>"; };
+		373335BB217D9A960087D425 /* AnimateworldHistory.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimateworldHistory.plist; sourceTree = "<group>"; };
+		373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimatehistoryChronology.plist; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
@@ -674,6 +708,23 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				373335B0217D9A950087D425 /* Animateanimal.plist */,
+				373335B3217D9A950087D425 /* Animateanimal.png */,
+				373335B8217D9A960087D425 /* Animateastronomy.plist */,
+				373335B6217D9A960087D425 /* Animateastronomy.png */,
+				373335BA217D9A960087D425 /* Animatecalendar.plist */,
+				373335AF217D9A950087D425 /* Animatecalendar.png */,
+				373335B9217D9A960087D425 /* Animateearth.plist */,
+				373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */,
+				373335B7217D9A960087D425 /* AnimatehistoryChronology.png */,
+				373335B1217D9A950087D425 /* Animateminghua.plist */,
+				373335B4217D9A960087D425 /* Animateminghua.png */,
+				373335BB217D9A960087D425 /* AnimateworldHistory.plist */,
+				373335B2217D9A950087D425 /* AnimateworldHistory.png */,
+				373335B5217D9A960087D425 /* Animatieearth.png */,
+				373335AD217D949B0087D425 /* AnimateABC.png */,
+				373335A9217D78FE0087D425 /* AnimateABC.plist */,
+				373335A32179C3BC0087D425 /* Web */,
 				37E2AE8B212EA1E800DB6912 /* Canence.plist */,
 				37E2AE8C212EA1E800DB6912 /* Canence.png */,
 				37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */,
@@ -852,32 +903,49 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				373335C2217D9A960087D425 /* Animateminghua.png in Resources */,
+				373335A52179C3BC0087D425 /* Web in Resources */,
 				376A5D9F212A517900510F6C /* md5.inl in Resources */,
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				370A78A32112975000252E8D /* Dialog.png in Resources */,
 				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
+				373335C8217D9A960087D425 /* Animatecalendar.plist in Resources */,
 				37E2AE8D212EA1E800DB6912 /* Canence.plist in Resources */,
+				373335C3217D9A960087D425 /* Animatieearth.png in Resources */,
+				373335C9217D9A960087D425 /* AnimateworldHistory.plist in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
 				37E2AE8E212EA1E800DB6912 /* Canence.png in Resources */,
+				373335BD217D9A960087D425 /* Animatecalendar.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
+				373335AB217D78FE0087D425 /* AnimateABC.plist in Resources */,
 				37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */,
 				379D95EC21082419006DA6C1 /* Main.plist in Resources */,
+				373335AE217D949B0087D425 /* AnimateABC.png in Resources */,
 				379D95F321084A68006DA6C1 /* Login.plist in Resources */,
 				370A78A22112975000252E8D /* Dialog.plist in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				373335BE217D9A960087D425 /* Animateanimal.plist in Resources */,
 				379D95ED21082419006DA6C1 /* Main.png in Resources */,
 				3705123721226DFB00F2FE1C /* README.txt in Resources */,
+				373335BF217D9A960087D425 /* Animateminghua.plist in Resources */,
 				3705123C21226DFB00F2FE1C /* ShareSDKUI.bundle in Resources */,
+				373335CA217D9A960087D425 /* AnimatehistoryChronology.plist in Resources */,
+				373335C6217D9A960087D425 /* Animateastronomy.plist in Resources */,
 				379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */,
 				37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */,
+				373335C5217D9A960087D425 /* AnimatehistoryChronology.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
+				373335C1217D9A960087D425 /* Animateanimal.png in Resources */,
 				373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */,
 				3705123521226DFB00F2FE1C /* WeiboSDK.bundle in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
+				373335C4217D9A960087D425 /* Animateastronomy.png in Resources */,
 				379D958B21080A8E006DA6C1 /* Cloud.png in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
+				373335C0217D9A960087D425 /* AnimateworldHistory.png in Resources */,
+				373335C7217D9A960087D425 /* Animateearth.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

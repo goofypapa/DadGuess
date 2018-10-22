@@ -1,0 +1,62 @@
+ /* 返回 */
+ .back{
+    height: 9%;
+    width: 5.3%;
+    position: absolute;
+    top: 5%;
+    left: 3%;
+}
+/* 喇叭 */
+.laba{
+    height: 18.1%;
+    width: 10.2%;
+    position: absolute;
+    top: 5.2%;
+    left:44.9%;
+}
+/* 图片列表 */
+.imgList{
+    width: 100%;
+    position: absolute;
+    top: 33.3%;
+    left: 0;
+    display: flex;
+}
+/* 图片 */
+.imgList .imgT{
+    width: 100%;
+}
+
+@keyframes mymove{
+    0% {transform:translateX(0)}
+    25% {transform:translateX(-3%)}
+    50% {transform:translateX(0)}
+    75% {transform:translateX(3%)}
+    100% {transform:translateX(0)}
+}
+
+
+/* 3张图 */
+.imgList .dv3{
+    width: 33.3%;
+    text-align: center;
+}
+.imgList .dv3 .imgD3{
+    width: 14.2%;
+}
+/* 4张图 */
+.imgList .dv4{
+    width: 25%;
+    text-align: center;
+}
+.imgList .dv4 .imgD4{
+    width: 19%;
+}
+/* 5张图 */
+.imgList .dv5{
+    width: 20%;
+    text-align: center;
+}
+.imgList .dv5 .imgD5{
+    width: 23.7%;
+}

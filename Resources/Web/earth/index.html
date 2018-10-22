@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><head><meta charset=UTF-8><meta http-equiv=pragma content=no-cache><meta http-equiv=Cache-Control content="no-cache, must-revalidate"><meta http-equiv=expires content=0><meta name=keywords content=""><meta name=description content=""><meta name=apple-touch-fullscreen content=yes><meta name=format-detection content="telephone=no"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=black><meta http-equiv=Expires content=-1><meta http-equiv=pragram content=no-cache><title>earth</title><link href=./static/css/app.48b0a32d30fe229c6b45c085ae49a369.css rel=stylesheet></head><style>body{
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }</style><body><div id=app></div><script>//      (function () {
+//        if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+//          var version = parseFloat(RegExp.$1);
+//          if(version>2.3){
+//            var phoneScale = parseInt(window.screen.width)/640;
+//            document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+//          }else{
+//            document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+//          }
+//        }else{
+//          document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+//        }
+        //微信去掉下方刷新栏
+//        if(navigator.userAgent.indexOf('MicroMessenger') >= 0){
+//          document.addEventListener('WeixinJSBridgeReady', function() {
+//            WeixinJSBridge.call('hideToolbar');
+//          });
+//        }
+//      })()
+
+      document.documentElement.style.fontSize = innerWidth/16+'px';
+      onresize = function(){
+         document.documentElement.style.fontSize = innerWidth/16+'px';
+      };
+
+
+
+      //取消默认行为
+//      document.addEventListener('touchstart',function(event){
+//        event.preventDefault();
+//      });
+      let vm = null;
+
+      //rem适配
+      (function(){
+//        var width = document.documentElement.clientWidth;
+//        var styleNode = document.createElement('style');
+//        styleNode.innerHTML = 'html{font-size: '+ width/16 +'px !important;}';
+//        document.head.appendChild(styleNode);
+      })();</script><script type=text/javascript src=./static/js/manifest.3ad1d5771e9b13dbdad2.js></script><script type=text/javascript src=./static/js/vendor.9b19cf0873fb282d334c.js></script><script type=text/javascript src=./static/js/app.5ece244f6b5f7da8d3bf.js></script></body></html>

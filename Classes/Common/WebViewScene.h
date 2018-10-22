@@ -24,6 +24,7 @@ private:
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_url;
     bool m_webOrientation;
+    bool m_firstLoad;
 };
 
 #endif //__WEB_VIEW_SCENE_H__

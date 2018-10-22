@@ -65,6 +65,8 @@ bool DialogSettingsLayer::init()
     
     m_dialogCentBackground->setScale( t_DialogCentBackgroundHeight / t_DialogCentBackgroundSize.height );
     
+    m_dialogCentBackground->setVisible(false);
+    m_dialogCentSaveButton->setVisible(false);
     
     float t_titleHeight = t_DialogCentBackgroundSize.height * 0.16f;
     
@@ -191,6 +193,9 @@ void DialogSettingsLayer::show()
         m_vague->setOpacity( p_data * 255 );
     } ) );
     
+    m_dialogCentBackground->setVisible(true);
+    m_dialogCentSaveButton->setVisible(true);
+    
     m_dialogCentBackground->setPosition( m_dialogCentBackgroundShowPos + Vec2( 0.0f, 50.0f ) );
     m_dialogCentBackground->runAction( MoveTo::create( 0.2f, m_dialogCentBackgroundShowPos ) );
     
@@ -206,9 +211,12 @@ void DialogSettingsLayer::hide()
     m_vague->runAction( ActionFloat::create( 0.1f, 1.0f, 0.0f, [this]( float p_data )
                                             {
                                                 m_vague->setOpacity( p_data * 255 );
-                                                if( p_data == 0.2f )
+                                                if( p_data >= 0.2f && m_vague->isVisible() )
                                                 {
                                                     m_vague->setVisible( false );
+                                                    m_dialogCentBackground->setVisible(false);
+                                                    m_dialogCentSaveButton->setVisible(false);
+                                                    
                                                 }
                                             } ) );
     m_dialogCentBackground->runAction( MoveTo::create( 0.2f, m_dialogCentBackgroundHiedPos ) );

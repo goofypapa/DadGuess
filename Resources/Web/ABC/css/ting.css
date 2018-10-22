@@ -1,0 +1,136 @@
+ /* 返回 */
+ .back{
+    height: 9%;
+    width: 5.3%;
+    position: absolute;
+    top: 5%;
+    left: 3%;
+}
+/* 进度条 */
+.progress{
+    height: 14.2%;
+    width: 56.7%;
+    position: relative;
+    left: 21.5%;
+
+}
+.progress span{
+    font-size: 0.5rem;
+    /*float: left;*/
+    margin-top: 5%;
+    z-index: 100;
+    position: absolute;
+    margin-left: -4%;
+}
+.progress span:nth-child(1){
+    color:#4EB7E3;
+    text-shadow:rgba(255, 255, 255, 0.6) 0.06rem 0 0,rgba(255, 255, 255, 0.6) 0.06rem 0,rgba(255, 255, 255, 0.6) -0.06rem 0 0,rgba(255, 255, 255, 0.6) 0 -0.06rem 0;
+}
+.progress .lastZ{
+    color:#ffffff;
+    margin-left: 6.5%;
+    z-index: 100;
+}
+.slide{
+    height: 23.5%;
+    width: 88.9%;
+    float: left;
+    margin-left: 1.7%;
+    margin-top: 7.5%;
+}
+.progress p{
+    width: 11.6%;
+    font-size: 0.5rem;
+    position: absolute;
+    top: 41%;
+    left: 0;
+    z-index: 21;
+    text-align: center;
+}
+.progress .moveXX{
+    height: 79%;
+    width: 11.6%;
+    position: absolute;
+    top: 21%;
+    left: 0;
+    z-index: 20;
+}
+/* 下拉按钮 */
+.xiaLa{
+    height: 4.4%;
+    width: 2.5%;
+    position: absolute;
+    top: 6.5%;
+    right: 18.8%;
+}
+.xiaLa img{
+    width: 100%;
+    height: 100%;   
+}
+/* 卡片列表 */
+.kpList{
+    height: 11.6%;
+    width: 50.4%;
+    position: absolute;
+    top: 14.2%;
+    left: 24.8%;
+    overflow: hidden;
+    display: none;
+    z-index: 76;
+}
+.kpList #swiper-container2{
+    height: 100%;
+    width: 100%;
+}
+.kpList #swiper-container2 .swiper-slide{
+    height: 93%;
+    width: 11.9%;
+    border: 0.04rem solid #56b5dc;
+    border-radius: 50%;
+}
+.kpList .swiper-slide img{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+/* 黑板 */
+.blackboard{
+    height: 65.6%;
+    width: 71.3%;
+    position: relative;
+    top: 5.5%;
+    left: 14.4%;
+    background: url(../image/2blackboard.png) no-repeat;
+    background-size: cover;
+}
+.blackboard .swiper-container{
+    height: 100%;
+    width: 93%;
+}
+
+
+
+/* 字母 */
+.blackboard .letter{
+    width: 42.4%;
+    margin-left: 28.8%;
+    margin-top: 10%;
+}
+.blackboard .letterAll1,
+.blackboard .letterAll2,
+.blackboard .letterAll3,
+.blackboard .letterAll4{
+    width: 100%;
+    margin-top: 4%;
+}
+.opac{
+    opacity: 0;
+}
+
+/* 音频按钮 */
+.live{
+    width: 9.2%;
+    position: absolute;
+    left: 45.5%;
+    bottom: 3.7%;
+}

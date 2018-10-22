@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../css/commen.css">
+    <script src="../script/font.js"></script>
+    <style>
+        #bj{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: url("../img/chinesePs.png");
+            background-size: 100% 100%;
+            width: 76.8rem;
+            height: 100%;
+        }
+        #location{
+            position: absolute;
+            width: 76.8rem;
+            height: 100%;
+        }
+        #location li{
+            float: left;
+            margin-left: 2rem;
+        }
+        #location li a{
+            display: block;
+            width: 4rem;
+            height: 4rem;
+            /*background-color: rgba(0,0,0,0.4);*/
+            margin-top: 3rem;
+        }
+        #back{
+            position: fixed;
+            bottom: 5%;
+            margin-left: 47%;
+        }
+        #back img{
+            width: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="bj"></div>
+    <ul id="location">
+        <li><a style="width: 6rem" href="lunboNew.html?index=0"></a></li>
+        <li><a style="width: 2.5rem" href="lunboNew.html?index=1"></a></li>
+        <li><a style="width: 5rem;margin-left: -0.5rem" href="lunboNew.html?index=2"></a></li>
+        <li><a style="margin-left: 2rem;width: 3rem" href="lunboNew.html?index=3"></a></li>
+        <li><a style="margin-left: 1rem;width: 3rem" href="lunboNew.html?index=4"></a></li>
+        <li><a style="width: 2rem;margin-left: -0.5rem" href="lunboNew.html?index=5"></a></li>
+        <li><a style="width: 2rem;margin-left: -1.5rem" href="lunboNew.html?index=6"></a></li>
+        <li><a style="margin-left: 2rem" href="lunboNew.html?index=7"></a></li>
+        <li><a href="lunboNew.html?index=8"></a></li>
+        <li><a style="margin-left: -2rem;width: 5rem" href="lunboNew.html?index=9"></a></li>
+        <li><a style="width: 8rem" href="lunboNew.html?index=10"></a></li>
+        <li><a style="width: 8rem;margin-left: -0.5rem" href="lunboNew.html?index=11"></a></li>
+    </ul>
+    <div id="back">
+        <a href="../index.html">
+            <img src="../img/back.png" alt="">
+        </a>
+    </div>
+</body>
+<script src="../script/jquery-3.3.1.min.js"></script>
+<script>
+    // var section = $('#bj');
+    // var x =0;
+    // function polling() {
+    //     x += 5;
+    //     section.animate({
+
+    //         'background-position-y': x+'%',
+    //     }, 4000, 'linear');
+    //     setTimeout(polling,300)
+    // }
+    //
+    // polling();
+</script>
+</html>

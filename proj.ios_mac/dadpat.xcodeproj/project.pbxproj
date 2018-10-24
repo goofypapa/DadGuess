@@ -88,6 +88,13 @@
 		37D7DAED21198F0700A101E8 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE521198F0700A101E8 /* Message.cpp */; };
 		37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE921198F0700A101E8 /* WebViewScene.cpp */; };
 		37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAF121198F1200A101E8 /* MainScene.cpp */; };
+		37DD9D6721803B55002855BE /* PianoGameMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37DD9D6521803B55002855BE /* PianoGameMainScene.cpp */; };
+		37DD9D6A21803C13002855BE /* PianoGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37DD9D6921803C13002855BE /* PianoGame.cpp */; };
+		37DD9D6C218040D3002855BE /* PianoGame in Resources */ = {isa = PBXBuildFile; fileRef = 37DD9D6B218040D3002855BE /* PianoGame */; };
+		37DD9D71218055DE002855BE /* PianoGame.png in Resources */ = {isa = PBXBuildFile; fileRef = 37DD9D6D218055DE002855BE /* PianoGame.png */; };
+		37DD9D72218055DE002855BE /* PianoGameBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 37DD9D6E218055DE002855BE /* PianoGameBackground.png */; };
+		37DD9D73218055DE002855BE /* PianoGameBGRound.png in Resources */ = {isa = PBXBuildFile; fileRef = 37DD9D6F218055DE002855BE /* PianoGameBGRound.png */; };
+		37DD9D74218055DE002855BE /* PianoGame.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37DD9D70218055DE002855BE /* PianoGame.plist */; };
 		37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE76212BE5FB00DB6912 /* UserHead.vert */; };
 		37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE77212BE5FB00DB6912 /* UserHead.frag */; };
 		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
@@ -282,6 +289,15 @@
 		37D7DAEA21198F0700A101E8 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		37D7DAF121198F1200A101E8 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
 		37D7DAF221198F1200A101E8 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		37DD9D6521803B55002855BE /* PianoGameMainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGameMainScene.cpp; sourceTree = "<group>"; };
+		37DD9D6621803B55002855BE /* PianoGameMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PianoGameMainScene.h; sourceTree = "<group>"; };
+		37DD9D6821803C13002855BE /* PianoGame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PianoGame.hpp; sourceTree = "<group>"; };
+		37DD9D6921803C13002855BE /* PianoGame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGame.cpp; sourceTree = "<group>"; };
+		37DD9D6B218040D3002855BE /* PianoGame */ = {isa = PBXFileReference; lastKnownFileType = folder; path = PianoGame; sourceTree = "<group>"; };
+		37DD9D6D218055DE002855BE /* PianoGame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PianoGame.png; sourceTree = "<group>"; };
+		37DD9D6E218055DE002855BE /* PianoGameBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PianoGameBackground.png; sourceTree = "<group>"; };
+		37DD9D6F218055DE002855BE /* PianoGameBGRound.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PianoGameBGRound.png; sourceTree = "<group>"; };
+		37DD9D70218055DE002855BE /* PianoGame.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PianoGame.plist; sourceTree = "<group>"; };
 		37E2AE76212BE5FB00DB6912 /* UserHead.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.vert; sourceTree = "<group>"; };
 		37E2AE77212BE5FB00DB6912 /* UserHead.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.frag; sourceTree = "<group>"; };
 		37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultHead.png; sourceTree = "<group>"; };
@@ -619,6 +635,8 @@
 		379D95E621081D47006DA6C1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37DD9D6921803C13002855BE /* PianoGame.cpp */,
+				37DD9D6821803C13002855BE /* PianoGame.hpp */,
 				37E2AE89212EA1D600DB6912 /* Canence.cpp */,
 				37E2AE88212EA1D600DB6912 /* Canence.hpp */,
 				379D95F521097457006DA6C1 /* Dialog.cpp */,
@@ -672,6 +690,15 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		37DD9D612180146A002855BE /* PianoGame */ = {
+			isa = PBXGroup;
+			children = (
+				37DD9D6521803B55002855BE /* PianoGameMainScene.cpp */,
+				37DD9D6621803B55002855BE /* PianoGameMainScene.h */,
+			);
+			path = PianoGame;
+			sourceTree = "<group>";
+		};
 		37E2AE75212BE5FB00DB6912 /* shader */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,6 +735,11 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37DD9D70218055DE002855BE /* PianoGame.plist */,
+				37DD9D6D218055DE002855BE /* PianoGame.png */,
+				37DD9D6E218055DE002855BE /* PianoGameBackground.png */,
+				37DD9D6F218055DE002855BE /* PianoGameBGRound.png */,
+				37DD9D6B218040D3002855BE /* PianoGame */,
 				373335B0217D9A950087D425 /* Animateanimal.plist */,
 				373335B3217D9A950087D425 /* Animateanimal.png */,
 				373335B8217D9A960087D425 /* Animateastronomy.plist */,
@@ -750,6 +782,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				37DD9D612180146A002855BE /* PianoGame */,
 				37E2AE83212EA1B500DB6912 /* Cadence */,
 				376A5DA4212BB71600510F6C /* BaseScene.cpp */,
 				376A5DA3212BB71600510F6C /* BaseScene.h */,
@@ -903,15 +936,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DD9D73218055DE002855BE /* PianoGameBGRound.png in Resources */,
 				373335C2217D9A960087D425 /* Animateminghua.png in Resources */,
 				373335A52179C3BC0087D425 /* Web in Resources */,
 				376A5D9F212A517900510F6C /* md5.inl in Resources */,
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				370A78A32112975000252E8D /* Dialog.png in Resources */,
+				37DD9D72218055DE002855BE /* PianoGameBackground.png in Resources */,
 				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
 				373335C8217D9A960087D425 /* Animatecalendar.plist in Resources */,
 				37E2AE8D212EA1E800DB6912 /* Canence.plist in Resources */,
+				37DD9D71218055DE002855BE /* PianoGame.png in Resources */,
 				373335C3217D9A960087D425 /* Animatieearth.png in Resources */,
 				373335C9217D9A960087D425 /* AnimateworldHistory.plist in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
@@ -926,6 +962,7 @@
 				379D95F321084A68006DA6C1 /* Login.plist in Resources */,
 				370A78A22112975000252E8D /* Dialog.plist in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				37DD9D74218055DE002855BE /* PianoGame.plist in Resources */,
 				373335BE217D9A960087D425 /* Animateanimal.plist in Resources */,
 				379D95ED21082419006DA6C1 /* Main.png in Resources */,
 				3705123721226DFB00F2FE1C /* README.txt in Resources */,
@@ -945,6 +982,7 @@
 				379D958B21080A8E006DA6C1 /* Cloud.png in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
 				373335C0217D9A960087D425 /* AnimateworldHistory.png in Resources */,
+				37DD9D6C218040D3002855BE /* PianoGame in Resources */,
 				373335C7217D9A960087D425 /* Animateearth.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -966,6 +1004,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37DD9D6A21803C13002855BE /* PianoGame.cpp in Sources */,
 				3705125D212577C700F2FE1C /* Http.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				37D7DAED21198F0700A101E8 /* Message.cpp in Sources */,
@@ -985,6 +1024,7 @@
 				376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */,
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
+				37DD9D6721803B55002855BE /* PianoGameMainScene.cpp in Sources */,
 				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
 				37E2AE8A212EA1D600DB6912 /* Canence.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,

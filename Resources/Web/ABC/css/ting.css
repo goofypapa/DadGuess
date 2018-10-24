@@ -28,15 +28,15 @@
 }
 .progress .lastZ{
     color:#ffffff;
-    margin-left: 6.5%;
+    margin-left: 1%;
     z-index: 100;
 }
 .slide{
     height: 23.5%;
-    width: 88.9%;
+    width: 93%;
     float: left;
     margin-left: 1.7%;
-    margin-top: 7.5%;
+    margin-top: 6.5%;
 }
 .progress p{
     width: 11.6%;

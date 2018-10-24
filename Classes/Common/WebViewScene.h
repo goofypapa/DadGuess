@@ -11,8 +11,12 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include <string>
+#include <map>
+#include <functional>
+#include "DataTableFile.h"
+#include "BaseScene.h"
 
-class WebViewScene : public cocos2d::Scene
+class WebViewScene : public BaseScene
 {
 public:
     static cocos2d::Scene * createWithUrl( const std::string & p_url, const bool p_orientation );
@@ -20,11 +24,27 @@ protected:
     CREATE_FUNC( WebViewScene );
     virtual bool init( void ) override;
     virtual bool initWithUrl( const std::string & p_url, const bool p_orientation );
+    
+    virtual void refreshSource( const DataFile & p_dataInfo ) override;
+    
+    void loadAudio( const std::string & p_audioUrl, std::function<void( DataFile p_audioFile )> p_loadAudioCallBack );
+    void deleteAudio( const std::string & p_audioUrl );
+    
+    void playAudio( const std::string & p_audioUrl );
+    void stopAudio( const std::string & p_audioUrl );
+    
+    void stopAllAudio( void );
 private:
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_url;
     bool m_webOrientation;
     bool m_firstLoad;
+    
+    std::map< std::string, std::function<void( DataFile p_audioFile )> > s_downloadList;
+    
+    std::map< std::string, unsigned int > s_playList;
+    
+    std::string urlRepair( std::string p_url );
 };
 
 #endif //__WEB_VIEW_SCENE_H__

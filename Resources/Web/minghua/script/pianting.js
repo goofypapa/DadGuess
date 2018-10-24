@@ -3,6 +3,8 @@
 var myarray=['http://www.dadpat.com/app/paintingImg/pianting1.png','http://www.dadpat.com/app/paintingImg/pianting2.png','http://www.dadpat.com/app/paintingImg/pianting3.png','http://www.dadpat.com/app/paintingImg/pianting4.png','http://www.dadpat.com/app/paintingImg/pianting5.png','http://www.dadpat.com/app/paintingImg/pianting6.png','http://www.dadpat.com/app/paintingImg/pianting7.png','http://www.dadpat.com/app/paintingImg/pianting8.png','http://www.dadpat.com/app/paintingImg/pianting9.png','http://www.dadpat.com/app/paintingImg/pianting10.png','http://www.dadpat.com/app/paintingImg/pianting11.png','http://www.dadpat.com/app/paintingImg/pianting12.png']
 var sum=3;
 var MoveSpeed=1;//每次改变的大小为N个像素
+var imgLeft=window.screen.width/3*2;
+var imgTop=window.screen.height/3+50;
 var div=document.getElementById("one");
 var div1=document.getElementById("two");
 var div2=document.getElementById("three");
@@ -38,6 +40,7 @@ function SetWH()
     var oldtop2=div2.offsetTop;
     oldtop2=oldtop2-MoveSpeed;
 
+    console.log(imgLeft,imgTop);
     // console.log(oldwidth);
     // console.log(oldleft);
 
@@ -83,8 +86,8 @@ function SetWH()
         }
         div1.src=myarray[sum];
         div1.style.width=0+"px";
-        div1.style.left=358+"px";
-        div1.style.top=158+"px";
+        div1.style.left=imgLeft+"px";
+        div1.style.top=imgTop+"px";
 
 
         //console.log("bbb"+myarray[sum]+"bbb"+sum);
@@ -111,8 +114,8 @@ function SetWH()
         }
         div2.src=myarray[sum];
         div2.style.width=0+"px";
-        div2.style.left=358+"px";
-        div2.style.top=158+"px";
+        div2.style.left=imgLeft+"px";
+        div2.style.top=imgTop+"px";
         // console.log("ccc"+myarray[sum]+"ccc"+sum);
 
         //zclearInterval(ChangeWH);//停止计时器

@@ -91,8 +91,10 @@ pinTuGame($('.swiper-slide-active img'));
 function pinTuGame(puzzleImg) {
     imgSibling = puzzleImg[0].nextElementSibling;
     var imgSrc = puzzleImg[0].src;
+    console.log(puzzleImg[0]);
+    console.log(puzzleImg[0].height);
     //图片整体的宽高
-    var imgWidth = parseInt(puzzleImg[0].width);
+    var imgWidth = parseInt(puzzleImg[0].height);
     var imgHeight = parseInt(puzzleImg[0].height);
     //3*3排列
     var num = 3;
@@ -299,8 +301,12 @@ function pinTuGame(puzzleImg) {
         if (isOk) {
             self = 0;
             console.log("游戏结束",imgSibling.src);
-            window.android.initMusic(imgSibling.src);
-            window.android.startMusic();
+            if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+                window.location.href = "goofypapa://playAudio," + imgSibling.src;
+            }else{
+                window.android.initMusic(imgSibling.src);
+                window.android.startMusic();
+            }
             var nextTime=Math.floor(imgSibling.duration* 1000)/1000;
             nextTime=nextTime*1000;
             setTimeout(function(){

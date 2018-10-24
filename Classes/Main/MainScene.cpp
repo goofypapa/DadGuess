@@ -14,6 +14,7 @@
 #include "DataTableFile.h"
 #include "Http.h"
 #include "CadenceGameMainScene.h"
+#include "PianoGameMainScene.h"
 
 #include "WebViewScene.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -286,8 +287,12 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
             t_url = "animal";
             t_orientation = true;
             break;
-        case 3:
+        case 2:
+            t_url = "ApiTest";
             break;
+        case 3:
+            Director::getInstance()->replaceScene( PianoGameMainScene::CreateScene() );
+            return;
         case 4:
             t_url = "earth";
             t_orientation = true;

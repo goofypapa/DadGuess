@@ -2,6 +2,7 @@
 $('.back2').click(function(){
     // window.location.href="tunnel.html";
     // window.android.log('返回')
+    
     window.history.go(-1)
 });
 
@@ -38,9 +39,11 @@ var that = this
 function showAudio(index) {
     console.log(shouSwiperIndex,sonIndex)
     sonIndex = index;
-    var _audio = $("#swiper-container .swiperIndex:eq(" + shouSwiperIndex +  ") .swiperWrapperIndex>div:eq(" + sonIndex +  ") audio");
-    console.log(_audio)
-    playAudio = _audio;
+    var _audio = $("#swiper-container .swiperIndex:eq(" + shouSwiperIndex +  ") .swiperWrapperIndex>div:eq(" + sonIndex +  ") .audio");
+
+    var text = _audio.text();
+    console.log(text)
+    playAudio = text;
 }
 
 $(function(){
@@ -146,13 +149,16 @@ $(function(){
 
 
 
-
-                            if(isplay){
-                                playAudio[0].pause();
-                                console.log(playAudio, '上下')
-                                playAudio[0].load();
-                                isplay = false
-                            }
+                            window.location.href='goofypapa://stopAllAudio';
+                            // if(isplay){
+                            //     window.location.href='goofypapa://stopAllAudio';
+                            //     // playAudio[0].pause();
+                            //     console.log(playAudio, '上下')
+                            //     // playAudio[0].load();
+                            //
+                            //     // window.location.href = "goofypapa://loadAudio," + playAudio[0].src;
+                            //     isplay = false
+                            // }
 
 
                             samllIndex = this.activeIndex;
@@ -180,20 +186,24 @@ $(function(){
                 },
                 
                 on:{
+                   
                     slideChangeTransitionStart:function(){
 
-
-                        if(isplay){
-                            playAudio[0].pause();
-                            playAudio[0].load();
-                            isplay = false
-                        }
+                        window.location.href='goofypapa://stopAllAudio';
+                        // if(isplay){
+                        //     // playAudio[0].pause();
+                        //     // playAudio[0].load();
+                        //     // playAudio[0].src
+                        //     window.location.href='goofypapa://stopAllAudio';
+                        //     // window.location.href = "goofypapa://loadAudio," + playAudio[0].src;
+                        //     isplay = false
+                        // }
 
 
                         shouSwiperIndex = this.activeIndex;
                         sonIndex = SwiperList[dynastyList[shouSwiperIndex]["dynastyId"]].activeIndex;   //上下滑动的索引
-                        showAudio(sonIndex);
 
+                        showAudio(sonIndex);
                         // $(".swiper-container").find(".swiper-slide")[this.activeIndex].find("audio").pause()
 
                     },
@@ -219,22 +229,27 @@ $(function(){
 /*点击按钮播放音频*/
 $('.audio').click(function(){
     // window.android.log('音频')
-    if(!isplay){
-        playAudio[0].pause()
-        playAudio[0].play();
-        isplay = true
-    }else{
-        playAudio[0].pause();
-        playAudio[0].load();
-        isplay = false
-    }
+    console.log(playAudio,typeof playAudio)
+    window.location.href='goofypapa://stopAllAudio;playAudio,'+playAudio;
+
+    // if(!isplay){
+    //     // playAudio[0].pause();
+    //     // playAudio[0].play();
+    //     window.location.href='goofypapa://stopAllAudio;playAudio,'+playAudio;
+    //     // window.location.href = "goofypapa://playAudio," +playAudio;
+    //     isplay = true
+    // }else{
+    //     window.location.href='goofypapa://stopAllAudio;playAudio,'+playAudio;
+    //     // window.location.href = "goofypapa://loadAudio," + playAudio;
+    //     console.log(playAudio)
+    //     // playAudio[0].pause();
+    //     // playAudio[0].load();
+    //     isplay = false
+    // }
 
 });
 
 
-function audio() {
-    document.querySelectorAll('audio').pause()
-}
 
 
 

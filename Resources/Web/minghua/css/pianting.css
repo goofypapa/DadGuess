@@ -22,12 +22,12 @@ body{
     left: 1rem;
 }
 #two{
-    top:2.8rem;
-    left:12rem;
+    top:2rem;
+    left:13rem;
 }
 #three{
-    left:9rem;
-    top: 3.8rem;
+    left:10rem;
+    top: 3rem;
 }
 #back{
     position: fixed;

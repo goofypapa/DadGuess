@@ -146,10 +146,12 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
             {
                 return;
             }
-            
+
             Http * p_http = t_currTask->second;
 
             DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+            
+            printf( "OnFileTaskSuccess: %s \n", t_fileInfo.toJson().c_str() );
 
             if( DataTableFile::instance().insert( t_fileInfo ) )
             {
@@ -175,7 +177,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
         } );
 
         sm_downloader->setOnTaskError( [&t_downloadTaskList]( const network::DownloadTask & p_downloadTask, int p_errorCode, int p_errorCodeInternal, const std::string & p_errorStr ){
-            // printf( "OnTaskError{ p_errorCode: %d, p_errorCodeInternal: %d, p_errorStr: %s } \n", p_errorCode, p_errorCodeInternal, p_errorStr.c_str() );
+//             printf( "OnTaskError{ p_errorCode: %d, p_errorCodeInternal: %d, p_errorStr: %s } \n", p_errorCode, p_errorCodeInternal, p_errorStr.c_str() );
 
             auto t_currTask = t_downloadTaskList.find( p_downloadTask.identifier );
             
@@ -198,7 +200,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
         } );
 
         sm_downloader->setOnTaskProgress( [&t_downloadTaskList]( const network::DownloadTask & p_downloadTask, long p_bytesReceived, long p_totalBytesReceived, long p_totalBytesExpected ){
-            // printf( "OnTaskProgress{ p_bytesReceived: %ld, p_totalBytesReceived: %ld, p_totalBytesExpected: %ld } \n", p_bytesReceived, p_totalBytesReceived, p_totalBytesExpected );
+//             printf( "OnTaskProgress{ p_bytesReceived: %ld, p_totalBytesReceived: %ld, p_totalBytesExpected: %ld } \n", p_bytesReceived, p_totalBytesReceived, p_totalBytesExpected );
 
             auto t_currTask = t_downloadTaskList.find( p_downloadTask.identifier );
             

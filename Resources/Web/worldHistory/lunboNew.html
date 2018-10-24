@@ -203,6 +203,7 @@
 </script>
 <script>
     window.onload=function(){
+
         // 获取页面所有音频
         var allAudio=$("audio");
         console.log(allAudio);
@@ -242,6 +243,7 @@
             if(allAudio[swiper.activeIndex].paused){
                 allAudio[swiper.activeIndex].play();
                 $("#play").attr("src","img/play.png");
+                console.log(audio);
                 audio.addEventListener('ended', function () {
                     $("#play").attr("src","img/pause.png");
                 }, false);

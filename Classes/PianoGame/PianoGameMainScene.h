@@ -10,6 +10,7 @@
 
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "ui/CocosGUI.h"
 
 #include <vector>
 #include <string>
@@ -43,6 +44,8 @@ protected:
     virtual void update( float p_delta ) override;
     
     virtual ~PianoGameMainScene( void );
+    
+    void buttonClick( const int p_tag );
 private:
     float * m_segmentations;
     
@@ -50,17 +53,18 @@ private:
     cocos2d::Vec2 m_startPos;
     float m_angleOffset, m_centerControlScale;
     
-    double m_musicTime, m_currPlayTime;
+    double m_musicTime, m_currPlayTime, m_realTime;
     bool m_playing, m_backgroundMusicPlaying;
     
-    int m_countDownNumber, m_showBollIndex, m_touchToneIndex;
-    cocos2d::Label * m_countDownLabel;
+    int m_countDownNumber, m_showBollIndex, m_touchToneIndex;    
+    cocos2d::Sprite * m_countDownSprite, * m_leftRound, * m_rightRound;
     
     std::vector< GameTone > m_gameTones;
     
     std::vector<Tone> m_musicScore;
     std::vector<std::string> m_sequeueTone;
     std::vector< cocos2d::Vec2 > m_sequeueDirection;
+    std::vector< cocos2d::ui::Button * > m_buttonList;
 };
 
 #endif //__PIANO_GAME_MAIN_SCENE_H__

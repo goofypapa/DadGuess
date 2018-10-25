@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -191,7 +191,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">PinaoGame/centerControl.png</key>
+            <key type="filename">PianoGame/centerControl.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -204,22 +204,57 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">PinaoGame/keyTouch_0.png</key>
-            <key type="filename">PinaoGame/keyTouch_1.png</key>
-            <key type="filename">PinaoGame/keyTouch_2.png</key>
-            <key type="filename">PinaoGame/keyTouch_3.png</key>
-            <key type="filename">PinaoGame/keyTouch_4.png</key>
-            <key type="filename">PinaoGame/keyTouch_5.png</key>
-            <key type="filename">PinaoGame/keyTouch_6.png</key>
-            <key type="filename">PinaoGame/keyTouch_7.png</key>
-            <key type="filename">PinaoGame/key_0.png</key>
-            <key type="filename">PinaoGame/key_1.png</key>
-            <key type="filename">PinaoGame/key_2.png</key>
-            <key type="filename">PinaoGame/key_3.png</key>
-            <key type="filename">PinaoGame/key_4.png</key>
-            <key type="filename">PinaoGame/key_5.png</key>
-            <key type="filename">PinaoGame/key_6.png</key>
-            <key type="filename">PinaoGame/key_7.png</key>
+            <key type="filename">PianoGame/countDown_1.png</key>
+            <key type="filename">PianoGame/countDown_2.png</key>
+            <key type="filename">PianoGame/countDown_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>153,174,305,348</rect>
+                <key>scale9Paddings</key>
+                <rect>153,174,305,348</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/home.png</key>
+            <key type="filename">PianoGame/homeActive.png</key>
+            <key type="filename">PianoGame/musicList.png</key>
+            <key type="filename">PianoGame/musicListActive.png</key>
+            <key type="filename">PianoGame/playStatePause.png</key>
+            <key type="filename">PianoGame/playStatePauseActive.png</key>
+            <key type="filename">PianoGame/playStatePlay.png</key>
+            <key type="filename">PianoGame/playStatePlayActive.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,49,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/keyTouch_0.png</key>
+            <key type="filename">PianoGame/keyTouch_1.png</key>
+            <key type="filename">PianoGame/keyTouch_2.png</key>
+            <key type="filename">PianoGame/keyTouch_3.png</key>
+            <key type="filename">PianoGame/keyTouch_4.png</key>
+            <key type="filename">PianoGame/keyTouch_5.png</key>
+            <key type="filename">PianoGame/keyTouch_6.png</key>
+            <key type="filename">PianoGame/keyTouch_7.png</key>
+            <key type="filename">PianoGame/key_0.png</key>
+            <key type="filename">PianoGame/key_1.png</key>
+            <key type="filename">PianoGame/key_2.png</key>
+            <key type="filename">PianoGame/key_3.png</key>
+            <key type="filename">PianoGame/key_4.png</key>
+            <key type="filename">PianoGame/key_5.png</key>
+            <key type="filename">PianoGame/key_6.png</key>
+            <key type="filename">PianoGame/key_7.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -232,7 +267,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">PinaoGame/mark.png</key>
+            <key type="filename">PianoGame/mark.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -245,33 +280,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">PinaoGame/minus.png</key>
+            <key type="filename">PianoGame/minus.png</key>
+            <key type="filename">PianoGame/minusActive.png</key>
+            <key type="filename">PianoGame/plus.png</key>
+            <key type="filename">PianoGame/plusActive.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>14,4,29,8</rect>
+                <rect>38,34,75,68</rect>
                 <key>scale9Paddings</key>
-                <rect>14,4,29,8</rect>
+                <rect>38,34,75,68</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">PinaoGame/plus.png</key>
+            <key type="filename">PianoGame/play.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>14,14,29,29</rect>
+                <rect>52,59,104,118</rect>
                 <key>scale9Paddings</key>
-                <rect>14,14,29,29</rect>
+                <rect>52,59,104,118</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">PinaoGame/shadow.png</key>
+            <key type="filename">PianoGame/shadow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -287,27 +325,41 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>PinaoGame/centerControl.png</filename>
-            <filename>PinaoGame/key_0.png</filename>
-            <filename>PinaoGame/key_1.png</filename>
-            <filename>PinaoGame/key_2.png</filename>
-            <filename>PinaoGame/key_3.png</filename>
-            <filename>PinaoGame/key_4.png</filename>
-            <filename>PinaoGame/key_5.png</filename>
-            <filename>PinaoGame/key_6.png</filename>
-            <filename>PinaoGame/key_7.png</filename>
-            <filename>PinaoGame/keyTouch_0.png</filename>
-            <filename>PinaoGame/keyTouch_1.png</filename>
-            <filename>PinaoGame/keyTouch_2.png</filename>
-            <filename>PinaoGame/keyTouch_3.png</filename>
-            <filename>PinaoGame/keyTouch_4.png</filename>
-            <filename>PinaoGame/keyTouch_5.png</filename>
-            <filename>PinaoGame/keyTouch_6.png</filename>
-            <filename>PinaoGame/keyTouch_7.png</filename>
-            <filename>PinaoGame/mark.png</filename>
-            <filename>PinaoGame/minus.png</filename>
-            <filename>PinaoGame/plus.png</filename>
-            <filename>PinaoGame/shadow.png</filename>
+            <filename>PianoGame/centerControl.png</filename>
+            <filename>PianoGame/key_0.png</filename>
+            <filename>PianoGame/key_1.png</filename>
+            <filename>PianoGame/key_2.png</filename>
+            <filename>PianoGame/key_3.png</filename>
+            <filename>PianoGame/key_4.png</filename>
+            <filename>PianoGame/key_5.png</filename>
+            <filename>PianoGame/key_6.png</filename>
+            <filename>PianoGame/key_7.png</filename>
+            <filename>PianoGame/keyTouch_0.png</filename>
+            <filename>PianoGame/keyTouch_1.png</filename>
+            <filename>PianoGame/keyTouch_2.png</filename>
+            <filename>PianoGame/keyTouch_3.png</filename>
+            <filename>PianoGame/keyTouch_4.png</filename>
+            <filename>PianoGame/keyTouch_5.png</filename>
+            <filename>PianoGame/keyTouch_6.png</filename>
+            <filename>PianoGame/keyTouch_7.png</filename>
+            <filename>PianoGame/mark.png</filename>
+            <filename>PianoGame/minus.png</filename>
+            <filename>PianoGame/plus.png</filename>
+            <filename>PianoGame/shadow.png</filename>
+            <filename>PianoGame/musicList.png</filename>
+            <filename>PianoGame/home.png</filename>
+            <filename>PianoGame/play.png</filename>
+            <filename>PianoGame/playStatePlay.png</filename>
+            <filename>PianoGame/playStatePause.png</filename>
+            <filename>PianoGame/countDown_3.png</filename>
+            <filename>PianoGame/countDown_2.png</filename>
+            <filename>PianoGame/countDown_1.png</filename>
+            <filename>PianoGame/homeActive.png</filename>
+            <filename>PianoGame/musicListActive.png</filename>
+            <filename>PianoGame/playStatePlayActive.png</filename>
+            <filename>PianoGame/minusActive.png</filename>
+            <filename>PianoGame/plusActive.png</filename>
+            <filename>PianoGame/playStatePauseActive.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

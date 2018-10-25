@@ -10,6 +10,7 @@
 
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
+#include "Common.h"
 
 #include "json/document.h"
 #include "json/writer.h"
@@ -18,6 +19,7 @@
 
 USING_NS_CC;
 using namespace  rapidjson;
+using namespace cocos2d::ui;
 
 #define COUNTDOWN 3.0f
 #define MOVE_TIME 0.5f
@@ -150,6 +152,84 @@ bool PianoGameMainScene::init()
     
     addChild( t_background );
     
+    m_leftRound = Sprite::create( "PianoGame/leftRound.png" );
+    
+    m_leftRound->setScale( adaptation() * 0.62f );
+    
+    m_leftRound->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 0.6f, t_origin.y + t_visibleSizeHalf.height ) );
+    
+    addChild( m_leftRound );
+    
+    m_rightRound = Sprite::create( "PianoGame/rightRound.png" );
+    
+    m_rightRound->setScale( adaptation() * 0.62f );
+    
+    m_rightRound->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.3f, t_origin.y + t_visibleSizeHalf.height ) );
+    
+    addChild( m_rightRound );
+    
+    
+    //menu home
+    auto t_home = Button::create( TexturePacker::PianoGame::home, TexturePacker::PianoGame::home, "", Widget::TextureResType::PLIST  );
+    auto t_homeSizeHalf = t_home->getContentSize() * 0.5f * adaptation();
+    t_home->setScale( adaptation() );
+    t_home->setPosition( Vec2( t_origin.x + t_homeSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_homeSizeHalf.height - 10.0f ) );
+    t_home->setTag( 1 );
+    this->addChild( t_home );
+    
+    m_buttonList.push_back( t_home );
+    
+    touchAnswer( t_home, [this]( Ref * p_ref ){
+        buttonClick( ((Button*)p_ref)->getTag() );
+    }, adaptation() * 1.2f, adaptation() );
+    
+    //menu playState
+    
+    auto t_playState = Button::create( TexturePacker::PianoGame::playStatePause, TexturePacker::PianoGame::playStatePause, "", Widget::TextureResType::PLIST  );
+    t_playState->setScale( adaptation() );
+    
+    auto t_playStateSizeHalf = t_playState->getContentSize() * 0.5f * t_playState->getScale();
+    t_playState->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_playStateSizeHalf.width * 3.0f - 30.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_playStateSizeHalf.height - 10.0f ) );
+    t_playState->setTag( 2 );
+    
+    this->addChild( t_playState );
+    
+    m_buttonList.push_back( t_playState );
+    
+    touchAnswer( t_playState, [this]( Ref * p_ref ){
+        Button * t_button = (Button*)p_ref;
+        buttonClick( t_button->getTag() );
+        
+        if( m_playing )
+        {
+            t_button->loadTextureNormal( TexturePacker::PianoGame::playStatePlay, Widget::TextureResType::PLIST  );
+            t_button->loadTexturePressed( TexturePacker::PianoGame::playStatePlay, Widget::TextureResType::PLIST  );
+        }else{
+            t_button->loadTextureNormal( TexturePacker::PianoGame::playStatePause, Widget::TextureResType::PLIST  );
+            t_button->loadTexturePressed( TexturePacker::PianoGame::playStatePause, Widget::TextureResType::PLIST  );
+        }
+        
+    }, adaptation() * 1.2f, adaptation() );
+    
+    //menu musicList
+    auto t_musicList = Button::create( TexturePacker::PianoGame::musicList, TexturePacker::PianoGame::musicList, "", Widget::TextureResType::PLIST  );
+    t_musicList->setScale( adaptation() );
+    
+    auto t_musicListSizeHalf = t_musicList->getContentSize() * 0.5f * t_musicList->getScale();
+    t_musicList->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_musicListSizeHalf.width - 20.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_musicListSizeHalf.height - 10.0f ) );
+    t_musicList->setTag( 3 );
+    
+    this->addChild( t_musicList );
+    
+    m_buttonList.push_back( t_musicList );
+    
+    touchAnswer( t_musicList, [this]( Ref * p_ref ){
+        buttonClick( ((Button*)p_ref)->getTag() );
+    }, adaptation() * 1.2f, adaptation() );
+    
+    
+    
+    
     auto t_BGRound = Sprite::create("PianoGameBGRound.png");
     auto t_BGRoundSizeHalf = t_BGRound->getContentSize() * 0.5f;
     
@@ -175,13 +255,15 @@ bool PianoGameMainScene::init()
     auto t_drumR = (t_centerControlSizeHalf.height * m_centerControlScale) - t_keyBottom;
     
     auto t_minus = TexturePacker::PianoGame::createMinusSprite();
+    auto t_minusSizeHalf = t_minus->getContentSize() * 0.5f * m_centerControlScale;
     t_minus->setScale( m_centerControlScale );
-    t_minus->setPosition( m_centerControlPosition + Vec2( cos( PI / 180.0f * 105.0f ) * t_drumR, sin( PI / 180.0f * 105.0f) * t_drumR ) );
+    t_minus->setPosition( m_centerControlPosition + Vec2( cos( PI / 180.0f * 90.0f ) * t_drumR - t_minusSizeHalf.width - 0.5f, sin( PI / 180.0f * 90.0f) * t_drumR ) );
     addChild( t_minus );
     
     auto t_plus = TexturePacker::PianoGame::createPlusSprite();
+    auto t_plusSizeHalf = t_plus->getContentSize() * 0.5f * m_centerControlScale;
     t_plus->setScale( m_centerControlScale );
-    t_plus->setPosition( m_centerControlPosition + Vec2( cos( PI / 180.0f * 75.0f ) * t_drumR, sin( PI / 180.0f * 75.0f) * t_drumR ) );
+    t_plus->setPosition( m_centerControlPosition + Vec2( cos( PI / 180.0f * 90.0f ) * t_drumR + t_plusSizeHalf.width + 0.5f , sin( PI / 180.0f * 90.0f) * t_drumR ) );
     addChild( t_plus );
     
     m_startPos = Vec2( cos( PI / 180.0f * 150.0f) * t_drumR, sin( PI / 180.0f * 150.0f ) * t_drumR );
@@ -197,18 +279,16 @@ bool PianoGameMainScene::init()
         float t_angele = PI / 180.0f * ( m_angleOffset + (float)i * 30.0f );
         
         
-        printf("-------------->");
-        auto t_texture = Director::getInstance()->getTextureCache()->getTextureForKey( sstr.str() );
+        auto t_spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() );
         
-        auto t_key = Sprite::createWithTexture( t_texture );
-         printf("-------------->");
+        auto t_key = Sprite::createWithSpriteFrame( t_spriteFrame );
         t_key->setScale( m_centerControlScale );
         auto t_keyOffset =  Vec2( cos( t_angele ) * t_drumR, sin( t_angele ) * t_drumR );
         t_key->setPosition( m_centerControlPosition + t_keyOffset );
         
         m_sequeueDirection.push_back( t_keyOffset );
         
-        auto t_shadow = Sprite::createWithTexture( Director::getInstance()->getTextureCache()->getTextureForKey( "shadow.png" ) );
+        auto t_shadow = TexturePacker::PianoGame::createShadowSprite();
         t_shadow->setScale( m_centerControlScale );
         t_shadow->setPosition( m_centerControlPosition + t_keyOffset + Vec2( 5.0f, -6.0f ) );
         
@@ -217,46 +297,9 @@ bool PianoGameMainScene::init()
         addChild( t_key );
     }
     
-    
-    MenuItemFont * t_startPause = MenuItemFont::create( "start", [=](Ref * p_target){
-        Label * t_label = (Label *)((MenuItemFont*)p_target)->getLabel();
-        if( !m_playing ){
-            m_playing = true;
-            m_currPlayTime = 0.0f;
-            t_label->setString( "pause" );
-            
-        }else{
-            m_playing = false;
-            t_label->setString( "start" );
-            
-            CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
-            CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-        }
-    });
-    
-    t_startPause->setFontSizeObj( 30 );
-    t_startPause->setColor( Color3B( 255, 0, 0 ) );
-    t_startPause->setPosition( Vec2( t_origin.x + 60.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - 40.0f ) );
-    
-    
-    MenuItemFont * t_back = MenuItemFont::create( "back", [=](Ref * p_target){
-        Director::getInstance()->replaceScene( MainScene::CreateScene() );
-    });
-    
-    t_back->setFontSizeObj( 30 );
-    t_back->setColor( Color3B( 255, 0, 0 ) );
-    t_back->setPosition( Vec2( t_origin.x + 60.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - 80.0f ) );
-    
-    auto t_menu = Menu::create( t_startPause, t_back, NULL );
-    t_menu->setPosition(Vec2::ZERO);
-    addChild( t_menu );
-    
-    
-    m_countDownLabel = Label::createWithTTF( "", "fonts/Marker Felt.ttf", 60 );
-    
-    m_countDownLabel->setPosition( t_centerPoit );
-    m_countDownLabel->setColor( Color3B( 255, 0, 0 ) );
-    addChild( m_countDownLabel );
+    m_countDownSprite = Sprite::create();
+    m_countDownSprite->setPosition( t_centerPoit );
+    addChild( m_countDownSprite, 100 );
     
     
     //    auto t_v1 = Vec2( cos( PI / 180.0f * 165.0f ) * t_drumR, sin( PI / 180.0f * 165.0f ) * t_drumR );
@@ -296,7 +339,7 @@ bool PianoGameMainScene::init()
             
             std::stringstream t_sstr;
             
-            t_sstr << "Piano/" << m_sequeueTone[t_touchIndex] << "+" << ( t_touchIndex < 7 ? "1" : "2" ) << ".wav";
+            t_sstr << "PianoGame/Piano/" << m_sequeueTone[t_touchIndex] << "+" << ( t_touchIndex < 7 ? "1" : "2" ) << ".wav";
             
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
             
@@ -325,6 +368,12 @@ bool PianoGameMainScene::init()
 
 void PianoGameMainScene::update( float p_delta )
 {
+    
+    m_realTime += p_delta;
+    
+    m_leftRound->setRotation( fmod( m_realTime * -20.0f , 360.0f )  );
+    m_rightRound->setRotation( fmod( m_realTime * 15.0f , 360.0f )  );
+    
     bool t_updateMusicTime = true;
     if( !m_playing )
     {
@@ -343,13 +392,18 @@ void PianoGameMainScene::update( float p_delta )
         if( t_countDown < 4 && t_countDown != m_countDownNumber )
         {
             m_countDownNumber = t_countDown;
+            m_countDownSprite->setVisible( true );
             
             std::stringstream t_sstr;
             if( m_countDownNumber > 0 ){
-                t_sstr << m_countDownNumber;
+                t_sstr << "countDown_" << m_countDownNumber << ".png";
+                
+                auto t_spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName( t_sstr.str() );
+                
+                m_countDownSprite->setSpriteFrame( t_spriteFrame );
+            }else{
+                m_countDownSprite->setVisible( false );
             }
-            
-            m_countDownLabel->setString( t_sstr.str() );
         }
         
         
@@ -405,9 +459,9 @@ void PianoGameMainScene::update( float p_delta )
             std::stringstream t_sstr;
             t_sstr << "key_" << t_index << ".png";
             
-            auto t_texture = Director::getInstance()->getTextureCache()->getTextureForKey( t_sstr.str() );
+            auto t_spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName( t_sstr.str() );
             
-            auto t_sprite = Sprite::createWithTexture( t_texture );
+            auto t_sprite = Sprite::createWithSpriteFrame( t_spriteFrame );
             t_sprite->setScale( m_centerControlScale );
             addChild( t_sprite );
             
@@ -440,7 +494,31 @@ void PianoGameMainScene::update( float p_delta )
     }
 }
 
-
+void PianoGameMainScene::buttonClick( const int p_tag )
+{
+    switch( p_tag )
+    {
+        case 1:
+            Director::getInstance()->replaceScene( MainScene::CreateScene() );
+            break;
+        case 2:
+            if( !m_playing ){
+                m_playing = true;
+                m_currPlayTime = 0.0f;
+                m_countDownSprite->setVisible( true );
+                
+            }else{
+                m_playing = false;
+                m_countDownSprite->setVisible( false );
+                CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
+                CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+            }
+            break;
+        case 3:
+            
+            break;
+    }
+}
 
 PianoGameMainScene::~PianoGameMainScene( void )
 {

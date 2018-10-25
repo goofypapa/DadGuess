@@ -28,27 +28,41 @@ void PianoGame::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string PianoGame::centerControl = "centerControl.png";
-const std::string PianoGame::keyTouch_0    = "keyTouch_0.png";
-const std::string PianoGame::keyTouch_1    = "keyTouch_1.png";
-const std::string PianoGame::keyTouch_2    = "keyTouch_2.png";
-const std::string PianoGame::keyTouch_3    = "keyTouch_3.png";
-const std::string PianoGame::keyTouch_4    = "keyTouch_4.png";
-const std::string PianoGame::keyTouch_5    = "keyTouch_5.png";
-const std::string PianoGame::keyTouch_6    = "keyTouch_6.png";
-const std::string PianoGame::keyTouch_7    = "keyTouch_7.png";
-const std::string PianoGame::key_0         = "key_0.png";
-const std::string PianoGame::key_1         = "key_1.png";
-const std::string PianoGame::key_2         = "key_2.png";
-const std::string PianoGame::key_3         = "key_3.png";
-const std::string PianoGame::key_4         = "key_4.png";
-const std::string PianoGame::key_5         = "key_5.png";
-const std::string PianoGame::key_6         = "key_6.png";
-const std::string PianoGame::key_7         = "key_7.png";
-const std::string PianoGame::mark          = "mark.png";
-const std::string PianoGame::minus         = "minus.png";
-const std::string PianoGame::plus          = "plus.png";
-const std::string PianoGame::shadow        = "shadow.png";
+const std::string PianoGame::centerControl        = "centerControl.png";
+const std::string PianoGame::countDown_1          = "countDown_1.png";
+const std::string PianoGame::countDown_2          = "countDown_2.png";
+const std::string PianoGame::countDown_3          = "countDown_3.png";
+const std::string PianoGame::home                 = "home.png";
+const std::string PianoGame::homeActive           = "homeActive.png";
+const std::string PianoGame::keyTouch_0           = "keyTouch_0.png";
+const std::string PianoGame::keyTouch_1           = "keyTouch_1.png";
+const std::string PianoGame::keyTouch_2           = "keyTouch_2.png";
+const std::string PianoGame::keyTouch_3           = "keyTouch_3.png";
+const std::string PianoGame::keyTouch_4           = "keyTouch_4.png";
+const std::string PianoGame::keyTouch_5           = "keyTouch_5.png";
+const std::string PianoGame::keyTouch_6           = "keyTouch_6.png";
+const std::string PianoGame::keyTouch_7           = "keyTouch_7.png";
+const std::string PianoGame::key_0                = "key_0.png";
+const std::string PianoGame::key_1                = "key_1.png";
+const std::string PianoGame::key_2                = "key_2.png";
+const std::string PianoGame::key_3                = "key_3.png";
+const std::string PianoGame::key_4                = "key_4.png";
+const std::string PianoGame::key_5                = "key_5.png";
+const std::string PianoGame::key_6                = "key_6.png";
+const std::string PianoGame::key_7                = "key_7.png";
+const std::string PianoGame::mark                 = "mark.png";
+const std::string PianoGame::minus                = "minus.png";
+const std::string PianoGame::minusActive          = "minusActive.png";
+const std::string PianoGame::musicList            = "musicList.png";
+const std::string PianoGame::musicListActive      = "musicListActive.png";
+const std::string PianoGame::play                 = "play.png";
+const std::string PianoGame::playStatePause       = "playStatePause.png";
+const std::string PianoGame::playStatePauseActive = "playStatePauseActive.png";
+const std::string PianoGame::playStatePlay        = "playStatePlay.png";
+const std::string PianoGame::playStatePlayActive  = "playStatePlayActive.png";
+const std::string PianoGame::plus                 = "plus.png";
+const std::string PianoGame::plusActive           = "plusActive.png";
+const std::string PianoGame::shadow               = "shadow.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
@@ -56,6 +70,31 @@ const std::string PianoGame::shadow        = "shadow.png";
 Sprite* PianoGame::createCenterControlSprite()
 {
     return Sprite::createWithSpriteFrameName(centerControl);
+}
+
+Sprite* PianoGame::createCountDown_1Sprite()
+{
+    return Sprite::createWithSpriteFrameName(countDown_1);
+}
+
+Sprite* PianoGame::createCountDown_2Sprite()
+{
+    return Sprite::createWithSpriteFrameName(countDown_2);
+}
+
+Sprite* PianoGame::createCountDown_3Sprite()
+{
+    return Sprite::createWithSpriteFrameName(countDown_3);
+}
+
+Sprite* PianoGame::createHomeSprite()
+{
+    return Sprite::createWithSpriteFrameName(home);
+}
+
+Sprite* PianoGame::createHomeActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(homeActive);
 }
 
 Sprite* PianoGame::createKeyTouch_0Sprite()
@@ -148,9 +187,54 @@ Sprite* PianoGame::createMinusSprite()
     return Sprite::createWithSpriteFrameName(minus);
 }
 
+Sprite* PianoGame::createMinusActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(minusActive);
+}
+
+Sprite* PianoGame::createMusicListSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicList);
+}
+
+Sprite* PianoGame::createMusicListActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListActive);
+}
+
+Sprite* PianoGame::createPlaySprite()
+{
+    return Sprite::createWithSpriteFrameName(play);
+}
+
+Sprite* PianoGame::createPlayStatePauseSprite()
+{
+    return Sprite::createWithSpriteFrameName(playStatePause);
+}
+
+Sprite* PianoGame::createPlayStatePauseActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(playStatePauseActive);
+}
+
+Sprite* PianoGame::createPlayStatePlaySprite()
+{
+    return Sprite::createWithSpriteFrameName(playStatePlay);
+}
+
+Sprite* PianoGame::createPlayStatePlayActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(playStatePlayActive);
+}
+
 Sprite* PianoGame::createPlusSprite()
 {
     return Sprite::createWithSpriteFrameName(plus);
+}
+
+Sprite* PianoGame::createPlusActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(plusActive);
 }
 
 Sprite* PianoGame::createShadowSprite()
@@ -162,6 +246,17 @@ Sprite* PianoGame::createShadowSprite()
 // ------------------------------------------------
 // convenience functions returning animation frames
 // ------------------------------------------------
+
+Vector<SpriteFrame*> PianoGame::getCOUNTDOWNAnimationFrames()
+{
+    SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+    Vector<SpriteFrame*> frames;
+    frames.reserve(3);
+    frames.pushBack(frameCache->getSpriteFrameByName(countDown_1));
+    frames.pushBack(frameCache->getSpriteFrameByName(countDown_2));
+    frames.pushBack(frameCache->getSpriteFrameByName(countDown_3));
+    return frames;
+}
 
 Vector<SpriteFrame*> PianoGame::getKEYAnimationFrames()
 {
@@ -200,6 +295,10 @@ Vector<SpriteFrame*> PianoGame::getKEYTOUCHAnimationFrames()
 // animations
 // ----------
 
+Animate *PianoGame::createCOUNTDOWNAnimateAction(float delay, unsigned int loops)
+{
+    return Animate::create(Animation::createWithSpriteFrames(getCOUNTDOWNAnimationFrames(), delay, loops));
+}
 Animate *PianoGame::createKEYAnimateAction(float delay, unsigned int loops)
 {
     return Animate::create(Animation::createWithSpriteFrames(getKEYAnimationFrames(), delay, loops));

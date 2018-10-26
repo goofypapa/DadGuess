@@ -12,6 +12,8 @@
             var audio1 = "http://www.dadpat.com/upload/20180917/ba4011e88acae550240c96b7f2543be5.mp3";
             var audio2 = "dadpat-public.oss.cn-north-1.jcloudcs.com/upload/20180917/ba4011e88acae550240c96b7f1230ee0.mp3";
 
+            var api = "https://www.goofypapa.com/game/user/access.do";
+
             window.goofypapaInit = function(){
                 
                 document.getElementById("loaded").innerHTML = "是";
@@ -38,6 +40,18 @@
                     window.location.href = "goofypapa://stopAudio," + audio2;
                 };
 
+                window.PostSuccessCallBack = function(str){
+
+                };
+
+                window.PostFialCallBack = function(str){
+
+                };
+
+                document.getElementById("post").onclick = function(){
+                    window.location.href = "goofypapa://Post," + api + "," + ",window.PostSuccessCallBack,window.PostFialCallBack";
+                };
+
                 window.location.href = "goofypapa://oadAudio," + audio1;
 
             }
@@ -53,5 +67,7 @@
         <div><input id="play1" type="button" value="play1" ><input id="stop1" type="button" value="stop1" ></div>
 
         <div><input id="play2" type="button" value="play2" ><input id="stop2" type="button" value="stop2" ></div>
+
+        <div><input id="post" type="button" value="post" ><span id="post_res" ></span></div>
     </body>
 </html>

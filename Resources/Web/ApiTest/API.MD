@@ -37,3 +37,12 @@
 ```
     window.location.href='goofypapa://stopAllAudio';
 ```
+
+10. POST请求
+```
+    window.location.href='goofypapa://Post,[successCallback],[failCallabck],[url],[patameter],...';
+```
+11. GET请求
+```
+    window.location.href='goofypapa://Post,[successCallback],[failCallabck],[url],[patameter],...';
+```

@@ -49,10 +49,10 @@
                 };
 
                 document.getElementById("post").onclick = function(){
-                    var parameter = {};
-                    parameter.userMobile = "13720067880";
-                    parameter.userPwd = "123456";
-                    window.location.href = "goofypapa://Post," + api + "," + "{}" + ",window.PostSuccessCallBack,window.PostFialCallBack";
+                    var userMobile = "13720067880";
+                    var userPwd = "123456";
+
+                    window.location.href = "goofypapa://Post," + api + ",window.PostSuccessCallBack,window.PostFialCallBack,userMobile:" + userMobile + ",userPwd:" + userPwd;
                 };
 
                 window.location.href = "goofypapa://oadAudio," + audio1;

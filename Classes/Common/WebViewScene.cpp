@@ -12,7 +12,12 @@
 #include "Http.h"
 #include "SimpleAudioEngine.h"
 
+#include "json/document.h"
+#include "json/writer.h"
+#include "json/stringbuffer.h"
+
 USING_NS_CC;
+using namespace  rapidjson;
 using namespace cocos2d::ui;
 
 
@@ -197,7 +202,7 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
             
             if( t_funcList[0].compare( "Post" ) == 0 )
             {
-                if( t_funcList.size() != 5 )
+                if( t_funcList.size() < 4 )
                 {
                     return;
                 }
@@ -205,11 +210,21 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                 Ajax t_ajax;
                 
                 t_ajax.url = urlRepair( t_funcList[1] );
-                t_ajax.parameter = t_funcList[2];
-                t_ajax.successCallBack = t_funcList[3];
-                t_ajax.fialCallBack = t_funcList[4];
-
+                t_ajax.successCallBack = t_funcList[2];
+                t_ajax.fialCallBack = t_funcList[3];
+                
                 std::map< std::string, std::string > t_parameter;
+                
+                for( int i = 4; i < t_funcList.size(); ++i )
+                {
+                    auto t_p = split( t_funcList[i], ":");
+                    if( t_p.size() != 2 )
+                    {
+                        continue;
+                    }
+                    t_parameter[t_p[0]] = t_p[1];
+                }
+                
                 Http * t_http = Http::Post( t_ajax.url, &t_parameter , [this]( Http * p_http, std::string p_res ){
                     
                     if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
@@ -221,12 +236,10 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                         t_sstr << t_ajax.successCallBack << "(" << p_res << ");";
                         m_webview->evaluateJS( t_sstr.str() );
                         
-                        printf( "-----------> successCallBack %s \n", t_sstr.str().c_str() );
-                        
                         s_ajaxPool.erase( p_http );
                     }
                 }, [this]( Http * p_http, std::string p_res ){
-                    printf( "-----------> fialCallBack\n" );
+                    
                     if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
                     {
                         
@@ -367,4 +380,35 @@ std::string WebViewScene::urlRepair( std::string p_url )
     }
     
     return "https://" + p_url;
+}
+
+
+std::map< std::string, std::string > WebViewScene::parseJsonToParameter( const std::string & p_json )
+{
+    std::map< std::string, std::string > t_result;
+    Document t_readdoc;
+    
+    t_readdoc.Parse<0>( p_json.c_str() );
+    
+    if( !t_readdoc.HasParseError() )
+    {
+        for (rapidjson::Value::ConstMemberIterator itr = t_readdoc.MemberBegin(); itr != t_readdoc.MemberEnd(); itr++)
+        {
+            rapidjson::Value jKey;
+            rapidjson::Value jValue;
+            Document::AllocatorType allocator;
+            jKey.CopyFrom(itr->name, allocator);
+            jValue.CopyFrom(itr->value,allocator);
+            if (jKey.IsString())
+            {
+                std::string name = jKey.GetString();
+                printf("\r\nname: %s\r\n",name.c_str());
+                
+                std::string t_value = jValue.GetString();
+                printf("\r\nvalue: %s\r\n",t_value.c_str());
+            }
+        }
+    }
+    
+    return t_result;
 }

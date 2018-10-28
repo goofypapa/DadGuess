@@ -200,7 +200,7 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                 deleteAudio( urlRepair( t_funcList[1] ) );
             }
             
-            if( t_funcList[0].compare( "Post" ) == 0 )
+            if( t_funcList[0].compare( "Post" ) == 0 || t_funcList[0].compare( "Get" ) == 0 )
             {
                 if( t_funcList.size() < 4 )
                 {
@@ -225,7 +225,8 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                     t_parameter[t_p[0]] = t_p[1];
                 }
                 
-                Http * t_http = Http::Post( t_ajax.url, &t_parameter , [this]( Http * p_http, std::string p_res ){
+                
+                auto t_successCallBack = [this]( Http * p_http, std::string p_res ){
                     
                     if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
                     {
@@ -238,7 +239,9 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                         
                         s_ajaxPool.erase( p_http );
                     }
-                }, [this]( Http * p_http, std::string p_res ){
+                };
+                
+                auto t_fialCallBack =  [this]( Http * p_http, std::string p_res ){
                     
                     if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
                     {
@@ -249,7 +252,9 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                         m_webview->evaluateJS( t_sstr.str() );
                         s_ajaxPool.erase( p_http );
                     }
-                });
+                };
+                
+                Http * t_http = t_funcList[0].compare( "Post" ) == 0 ? Http::Post( t_ajax.url, &t_parameter, t_successCallBack, t_fialCallBack) : Http::Get( t_ajax.url, &t_parameter, t_successCallBack, t_fialCallBack) ;
                 
                 s_ajaxPool[ t_http ] = t_ajax;
             }

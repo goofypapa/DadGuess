@@ -48,5 +48,5 @@
 ```
 11. GET请求
 ```
-    window.location.href='goofypapa://Post,[successCallback],[failCallabck],[url],[patameter]...';
+    window.location.href='goofypapa://Get,[URL],[successCallback],[failCallabck],[patameter]...';
 ```

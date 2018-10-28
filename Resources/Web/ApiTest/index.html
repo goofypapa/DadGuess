@@ -40,16 +40,19 @@
                     window.location.href = "goofypapa://stopAudio," + audio2;
                 };
 
-                window.PostSuccessCallBack = function(str){
-
+                window.PostSuccessCallBack = function(res){
+                    document.getElementById("post_res").innerHTML = "Success: " + JSON.stringify(res);
                 };
 
-                window.PostFialCallBack = function(str){
-
+                window.PostFialCallBack = function(res){
+                    document.getElementById("post_res").innerHTML = "Fial: " + JSON.stringify(res);
                 };
 
                 document.getElementById("post").onclick = function(){
-                    window.location.href = "goofypapa://Post," + api + "," + ",window.PostSuccessCallBack,window.PostFialCallBack";
+                    var parameter = {};
+                    parameter.userMobile = "13720067880";
+                    parameter.userPwd = "123456";
+                    window.location.href = "goofypapa://Post," + api + "," + "{}" + ",window.PostSuccessCallBack,window.PostFialCallBack";
                 };
 
                 window.location.href = "goofypapa://oadAudio," + audio1;

@@ -24,7 +24,7 @@ std::map< const std::string, Http * > Http::sm_downloadTaskList;
 
 std::string Http::token = "";
 
-void Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
+Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
     Http * t_http = new Http;
 
@@ -73,9 +73,10 @@ void Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCall
     //    释放HttpRequest对象
     request->release();
 
+    return t_http;
 }
 
-void Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
+Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
     Http * t_http = new Http;
 
@@ -112,6 +113,8 @@ void Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCal
     HttpClient::getInstance()->send( request );
     //    释放HttpRequest对象
     request->release();
+    
+    return t_http;
 }
 
 void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress )
@@ -236,7 +239,7 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
     
     if( t_hander->size() == 0 )
     {
-        m_final( "network not ready" );
+        m_final( this, "network not ready" );
         delete this;
         return; //
     }
@@ -293,9 +296,9 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
 
     if( t_httpState != 200 )
     {
-        m_final( t_strResponse );
+        m_final( this, t_strResponse );
     }else{
-        m_success( t_strResponse );
+        m_success( this, t_strResponse );
     }
     
     delete this;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -29,7 +30,7 @@
             width: 550px;
             position: absolute;
             top: 513px;
-            left: 685px;
+            left: 720px;
         }
 
         .pin {
@@ -37,7 +38,8 @@
             width: 396px;
             position: absolute;
             top: 306px;
-            left: 1327px;
+            /*left: 1327px;*/
+            right:200px;
         }
 
         .left {
@@ -125,6 +127,7 @@
         {
             var docuWidth = document.documentElement.clientWidth;  //可见区域宽度
             var docuHeight = document.documentElement.clientHeight; //可见区域高度
+            console.log(docuHeight,docuWidth)
             var sourceWidth = 1920;
             var sourceHeight = 1080;
             var bili = Math.min(docuWidth / sourceWidth, docuHeight / sourceHeight);
@@ -144,6 +147,9 @@
                 adaptation($(adaptationList[item]));
             }
         }
+        $(".pin").css("left","");
+        $(".pin").css("right",parseInt($(".pin").css("right")) * bili);
+
         $('.ren').click(function () {
             window.location.href = 'renNew.html';
         })

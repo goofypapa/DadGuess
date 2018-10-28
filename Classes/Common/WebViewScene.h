@@ -15,6 +15,15 @@
 #include <functional>
 #include "DataTableFile.h"
 #include "BaseScene.h"
+#include "Http.h"
+
+struct Ajax
+{
+    std::string url;
+    std::string parameter;
+    std::string successCallBack;
+    std::string fialCallBack;
+};
 
 class WebViewScene : public BaseScene
 {
@@ -39,6 +48,9 @@ private:
     std::string m_url;
     bool m_webOrientation;
     bool m_firstLoad;
+    
+    
+    std::map< Http *, Ajax > s_ajaxPool;
     
     std::map< std::string, std::function<void( DataFile p_audioFile )> > s_downloadList;
     

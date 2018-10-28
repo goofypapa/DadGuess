@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:0d3700fd05efb001678d8066d04b1ac7:faad802c3dc0eaf9a80eb983dcf68398:99752702a6aba31152f2364337dc8068$
+// $TexturePacker:SmartUpdate:e792a2d4dd91c5c058fc74f01ce6f898:dd9d25c2a66b5a625993349f073c77c4:99752702a6aba31152f2364337dc8068$
 // ---------------------------------------
 
 #ifndef __PIANOGAME_H__
@@ -37,6 +37,7 @@ public:
     static const std::string countDown_1;
     static const std::string countDown_2;
     static const std::string countDown_3;
+    static const std::string excellent;
     static const std::string home;
     static const std::string homeActive;
     static const std::string keyTouch_0;
@@ -55,11 +56,13 @@ public:
     static const std::string key_5;
     static const std::string key_6;
     static const std::string key_7;
+    static const std::string leak;
     static const std::string mark;
     static const std::string minus;
     static const std::string minusActive;
     static const std::string musicList;
     static const std::string musicListActive;
+    static const std::string perfect;
     static const std::string play;
     static const std::string playStatePause;
     static const std::string playStatePauseActive;
@@ -76,6 +79,7 @@ public:
     static cocos2d::Sprite *createCountDown_1Sprite();
     static cocos2d::Sprite *createCountDown_2Sprite();
     static cocos2d::Sprite *createCountDown_3Sprite();
+    static cocos2d::Sprite *createExcellentSprite();
     static cocos2d::Sprite *createHomeSprite();
     static cocos2d::Sprite *createHomeActiveSprite();
     static cocos2d::Sprite *createKeyTouch_0Sprite();
@@ -94,11 +98,13 @@ public:
     static cocos2d::Sprite *createKey_5Sprite();
     static cocos2d::Sprite *createKey_6Sprite();
     static cocos2d::Sprite *createKey_7Sprite();
+    static cocos2d::Sprite *createLeakSprite();
     static cocos2d::Sprite *createMarkSprite();
     static cocos2d::Sprite *createMinusSprite();
     static cocos2d::Sprite *createMinusActiveSprite();
     static cocos2d::Sprite *createMusicListSprite();
     static cocos2d::Sprite *createMusicListActiveSprite();
+    static cocos2d::Sprite *createPerfectSprite();
     static cocos2d::Sprite *createPlaySprite();
     static cocos2d::Sprite *createPlayStatePauseSprite();
     static cocos2d::Sprite *createPlayStatePauseActiveSprite();

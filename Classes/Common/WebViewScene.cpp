@@ -11,7 +11,6 @@
 #include <sstream>
 #include "Http.h"
 #include "SimpleAudioEngine.h"
-#include "Http.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -195,6 +194,52 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                 }
                 deleteAudio( urlRepair( t_funcList[1] ) );
             }
+            
+            if( t_funcList[0].compare( "Post" ) == 0 )
+            {
+                if( t_funcList.size() != 5 )
+                {
+                    return;
+                }
+                
+                Ajax t_ajax;
+                
+                t_ajax.url = urlRepair( t_funcList[1] );
+                t_ajax.parameter = t_funcList[2];
+                t_ajax.successCallBack = t_funcList[3];
+                t_ajax.fialCallBack = t_funcList[4];
+
+                std::map< std::string, std::string > t_parameter;
+                Http * t_http = Http::Post( t_ajax.url, &t_parameter , [this]( Http * p_http, std::string p_res ){
+                    
+                    if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
+                    {
+                        
+                        
+                        auto & t_ajax = s_ajaxPool[ p_http ];
+                        std::stringstream t_sstr;
+                        t_sstr << t_ajax.successCallBack << "(" << p_res << ");";
+                        m_webview->evaluateJS( t_sstr.str() );
+                        
+                        printf( "-----------> successCallBack %s \n", t_sstr.str().c_str() );
+                        
+                        s_ajaxPool.erase( p_http );
+                    }
+                }, [this]( Http * p_http, std::string p_res ){
+                    printf( "-----------> fialCallBack\n" );
+                    if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
+                    {
+                        
+                        auto & t_ajax = s_ajaxPool[ p_http ];
+                        std::stringstream t_sstr;
+                        t_sstr << t_ajax.fialCallBack << "(\"" << p_res << "\");";
+                        m_webview->evaluateJS( t_sstr.str() );
+                        s_ajaxPool.erase( p_http );
+                    }
+                });
+                
+                s_ajaxPool[ t_http ] = t_ajax;
+            }
         }
         
     } );
@@ -323,4 +368,3 @@ std::string WebViewScene::urlRepair( std::string p_url )
     
     return "https://" + p_url;
 }
-

@@ -332,9 +332,9 @@ bool DialogPersonalCenterLayer::init( void )
 
         auto t_loginUser = DataTableUser::instance().getActivation();
 
-        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/logout.do", nullptr, []( std::string p_res ){
+        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/logout.do", nullptr, []( Http * p_http, std::string p_res ){
 
-        },[]( std::string p_res ){
+        },[]( Http * p_http, std::string p_res ){
 
         } );
         Http::token = "";
@@ -399,9 +399,9 @@ void DialogPersonalCenterLayer::hide()
         t_parameter["userMobile"] = "";
         t_parameter["userEmail"] = "";
         
-        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/update.do", &t_parameter, []( std::string p_str ){
+        Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/update.do", &t_parameter, []( Http * p_http, std::string p_str ){
             printf( "/user/update.do success: %s \n", p_str.c_str() );
-        }, []( std::string p_str ){
+        }, []( Http * p_http, std::string p_str ){
             printf( "/user/update.do final: %s \n", p_str.c_str() );
         } );
 

@@ -85,6 +85,10 @@ static AppController *s_self;
     
     // IMPORTANT: Setting the GLView should be done after creating the RootViewController
     cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView((__bridge void *)_viewController.view);
+    
+    //开启多点触控
+    CCEAGLView *eaglview = (__bridge CCEAGLView *)glview->getEAGLView();
+    [eaglview setMultipleTouchEnabled:YES];
     cocos2d::Director::getInstance()->setOpenGLView(glview);
     
     //run the cocos2d-x game scene

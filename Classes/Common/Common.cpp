@@ -45,17 +45,14 @@ void touchAnswer( Button * p_button, std::function<void( cocos2d::Ref * )> p_onT
         {
             case Widget::TouchEventType::BEGAN:
                 t_button->stopAllActions();
-                t_button->getActionManager()->removeAllActions();
                 t_button->runAction( ScaleTo::create( 0.1f, p_scaleTo ) );
             break;
             case Widget::TouchEventType::CANCELED:
                 t_button->stopAllActions();
-                t_button->getActionManager()->removeAllActions();
                 t_button->runAction( ScaleTo::create( 0.05f, p_sacleOriginal ) );
             break;
             case Widget::TouchEventType::ENDED:
                 t_button->stopAllActions();
-                t_button->getActionManager()->removeAllActions();
                 t_button->runAction( ScaleTo::create( 0.05f, p_sacleOriginal ) );
                 
                 t_button->runAction( Sequence::create( ScaleTo::create( 0.05f, p_sacleOriginal ), CallFunc::create( [t_buttonTouchEvents, p_ref](){

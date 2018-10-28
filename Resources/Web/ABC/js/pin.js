@@ -297,20 +297,31 @@ function pinTuGame(puzzleImg) {
                 break;
             }
         }
-
+        console.log(imgSibling.src);
         if (isOk) {
             self = 0;
             console.log("游戏结束",imgSibling.src);
+            $("#shade").css("display","block");
+            // imgSibling.play();
+            // if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+            //     window.location.href = "goofypapa://playAudio," + imgSibling.src;
+            // }else{
+            //     window.android.initMusic(imgSibling.src);
+            //     window.android.startMusic();
+            // }
             if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
                 window.location.href = "goofypapa://playAudio," + imgSibling.src;
-            }else{
+            }else if( typeof( window.android ) != "undefined" ) {
                 window.android.initMusic(imgSibling.src);
                 window.android.startMusic();
+            }else{
+                imgSibling.play();
             }
             var nextTime=Math.floor(imgSibling.duration* 1000)/1000;
             nextTime=nextTime*1000;
             setTimeout(function(){
                 mySwiper.slideNext();
+                $("#shade").css("display","none");
             },nextTime);
             // if(imgSibling.paused){
             //     imgSibling.play();

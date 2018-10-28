@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #define PI 3.1415926535897932385f
 
@@ -32,6 +33,13 @@ public:
     cocos2d::Sprite * ball;
 };
 
+enum Judge{
+    Perfect = 0,
+    Excellent,
+    Leak
+};
+
+
 class PianoGameMainScene : public BaseScene
 {
 public:
@@ -43,6 +51,15 @@ protected:
     virtual bool init( void ) override;
     virtual void update( float p_delta ) override;
     
+    int contains( const cocos2d::Vec2 & p_point );
+    void toneTouched( const int p_index );
+    
+    void toneTouchEnded( const int p_index );
+    
+    void changePlayButtonState();
+    
+    void changeJudge( const Judge p_judge );
+    
     virtual ~PianoGameMainScene( void );
     
     void buttonClick( const int p_tag );
@@ -53,14 +70,25 @@ private:
     cocos2d::Vec2 m_startPos;
     float m_angleOffset, m_centerControlScale;
     
-    double m_musicTime, m_currPlayTime, m_realTime;
+    double m_musicTime, m_currPlayTime, m_realTime, m_drumR, m_keyBottom;
     bool m_playing, m_backgroundMusicPlaying;
     
-    int m_countDownNumber, m_showBollIndex, m_touchToneIndex;    
-    cocos2d::Sprite * m_countDownSprite, * m_leftRound, * m_rightRound;
+    int m_countDownNumber, m_showBollIndex;
+    
+    int m_perfectCount, m_excellentCount, m_leakCount;
+    cocos2d::Label * m_perfectLabel, * m_excellentLabel, * m_leakLabel;
+    
+    cocos2d::Animation * m_toneTouchedAnimation;
+    
+    cocos2d::Sprite * m_countDownSprite, * m_leftRound, * m_rightRound, * m_judgeSprite;
+    cocos2d::ui::Button * m_playState;
     
     std::vector< GameTone > m_gameTones;
     
+    std::map< int, int > m_touchIndex;
+    std::vector< cocos2d::Sprite * > m_toneSpriteList;
+    std::vector< cocos2d::Sprite * > m_toneAnimateSpriteList;
+    std::vector< cocos2d::Sprite * > m_toneMarkSpriteList;
     std::vector<Tone> m_musicScore;
     std::vector<std::string> m_sequeueTone;
     std::vector< cocos2d::Vec2 > m_sequeueDirection;

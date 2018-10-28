@@ -32,6 +32,7 @@ const std::string PianoGame::centerControl        = "centerControl.png";
 const std::string PianoGame::countDown_1          = "countDown_1.png";
 const std::string PianoGame::countDown_2          = "countDown_2.png";
 const std::string PianoGame::countDown_3          = "countDown_3.png";
+const std::string PianoGame::excellent            = "excellent.png";
 const std::string PianoGame::home                 = "home.png";
 const std::string PianoGame::homeActive           = "homeActive.png";
 const std::string PianoGame::keyTouch_0           = "keyTouch_0.png";
@@ -50,11 +51,13 @@ const std::string PianoGame::key_4                = "key_4.png";
 const std::string PianoGame::key_5                = "key_5.png";
 const std::string PianoGame::key_6                = "key_6.png";
 const std::string PianoGame::key_7                = "key_7.png";
+const std::string PianoGame::leak                 = "leak.png";
 const std::string PianoGame::mark                 = "mark.png";
 const std::string PianoGame::minus                = "minus.png";
 const std::string PianoGame::minusActive          = "minusActive.png";
 const std::string PianoGame::musicList            = "musicList.png";
 const std::string PianoGame::musicListActive      = "musicListActive.png";
+const std::string PianoGame::perfect              = "perfect.png";
 const std::string PianoGame::play                 = "play.png";
 const std::string PianoGame::playStatePause       = "playStatePause.png";
 const std::string PianoGame::playStatePauseActive = "playStatePauseActive.png";
@@ -85,6 +88,11 @@ Sprite* PianoGame::createCountDown_2Sprite()
 Sprite* PianoGame::createCountDown_3Sprite()
 {
     return Sprite::createWithSpriteFrameName(countDown_3);
+}
+
+Sprite* PianoGame::createExcellentSprite()
+{
+    return Sprite::createWithSpriteFrameName(excellent);
 }
 
 Sprite* PianoGame::createHomeSprite()
@@ -177,6 +185,11 @@ Sprite* PianoGame::createKey_7Sprite()
     return Sprite::createWithSpriteFrameName(key_7);
 }
 
+Sprite* PianoGame::createLeakSprite()
+{
+    return Sprite::createWithSpriteFrameName(leak);
+}
+
 Sprite* PianoGame::createMarkSprite()
 {
     return Sprite::createWithSpriteFrameName(mark);
@@ -200,6 +213,11 @@ Sprite* PianoGame::createMusicListSprite()
 Sprite* PianoGame::createMusicListActiveSprite()
 {
     return Sprite::createWithSpriteFrameName(musicListActive);
+}
+
+Sprite* PianoGame::createPerfectSprite()
+{
+    return Sprite::createWithSpriteFrameName(perfect);
 }
 
 Sprite* PianoGame::createPlaySprite()

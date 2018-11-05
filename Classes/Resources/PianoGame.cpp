@@ -28,44 +28,50 @@ void PianoGame::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string PianoGame::centerControl        = "centerControl.png";
-const std::string PianoGame::countDown_1          = "countDown_1.png";
-const std::string PianoGame::countDown_2          = "countDown_2.png";
-const std::string PianoGame::countDown_3          = "countDown_3.png";
-const std::string PianoGame::excellent            = "excellent.png";
-const std::string PianoGame::home                 = "home.png";
-const std::string PianoGame::homeActive           = "homeActive.png";
-const std::string PianoGame::keyTouch_0           = "keyTouch_0.png";
-const std::string PianoGame::keyTouch_1           = "keyTouch_1.png";
-const std::string PianoGame::keyTouch_2           = "keyTouch_2.png";
-const std::string PianoGame::keyTouch_3           = "keyTouch_3.png";
-const std::string PianoGame::keyTouch_4           = "keyTouch_4.png";
-const std::string PianoGame::keyTouch_5           = "keyTouch_5.png";
-const std::string PianoGame::keyTouch_6           = "keyTouch_6.png";
-const std::string PianoGame::keyTouch_7           = "keyTouch_7.png";
-const std::string PianoGame::key_0                = "key_0.png";
-const std::string PianoGame::key_1                = "key_1.png";
-const std::string PianoGame::key_2                = "key_2.png";
-const std::string PianoGame::key_3                = "key_3.png";
-const std::string PianoGame::key_4                = "key_4.png";
-const std::string PianoGame::key_5                = "key_5.png";
-const std::string PianoGame::key_6                = "key_6.png";
-const std::string PianoGame::key_7                = "key_7.png";
-const std::string PianoGame::leak                 = "leak.png";
-const std::string PianoGame::mark                 = "mark.png";
-const std::string PianoGame::minus                = "minus.png";
-const std::string PianoGame::minusActive          = "minusActive.png";
-const std::string PianoGame::musicList            = "musicList.png";
-const std::string PianoGame::musicListActive      = "musicListActive.png";
-const std::string PianoGame::perfect              = "perfect.png";
-const std::string PianoGame::play                 = "play.png";
-const std::string PianoGame::playStatePause       = "playStatePause.png";
-const std::string PianoGame::playStatePauseActive = "playStatePauseActive.png";
-const std::string PianoGame::playStatePlay        = "playStatePlay.png";
-const std::string PianoGame::playStatePlayActive  = "playStatePlayActive.png";
-const std::string PianoGame::plus                 = "plus.png";
-const std::string PianoGame::plusActive           = "plusActive.png";
-const std::string PianoGame::shadow               = "shadow.png";
+const std::string PianoGame::centerControl          = "centerControl.png";
+const std::string PianoGame::countDown_1            = "countDown_1.png";
+const std::string PianoGame::countDown_2            = "countDown_2.png";
+const std::string PianoGame::countDown_3            = "countDown_3.png";
+const std::string PianoGame::excellent              = "excellent.png";
+const std::string PianoGame::home                   = "home.png";
+const std::string PianoGame::homeActive             = "homeActive.png";
+const std::string PianoGame::keyTouch_0             = "keyTouch_0.png";
+const std::string PianoGame::keyTouch_1             = "keyTouch_1.png";
+const std::string PianoGame::keyTouch_2             = "keyTouch_2.png";
+const std::string PianoGame::keyTouch_3             = "keyTouch_3.png";
+const std::string PianoGame::keyTouch_4             = "keyTouch_4.png";
+const std::string PianoGame::keyTouch_5             = "keyTouch_5.png";
+const std::string PianoGame::keyTouch_6             = "keyTouch_6.png";
+const std::string PianoGame::keyTouch_7             = "keyTouch_7.png";
+const std::string PianoGame::key_0                  = "key_0.png";
+const std::string PianoGame::key_1                  = "key_1.png";
+const std::string PianoGame::key_2                  = "key_2.png";
+const std::string PianoGame::key_3                  = "key_3.png";
+const std::string PianoGame::key_4                  = "key_4.png";
+const std::string PianoGame::key_5                  = "key_5.png";
+const std::string PianoGame::key_6                  = "key_6.png";
+const std::string PianoGame::key_7                  = "key_7.png";
+const std::string PianoGame::leak                   = "leak.png";
+const std::string PianoGame::mark                   = "mark.png";
+const std::string PianoGame::minus                  = "minus.png";
+const std::string PianoGame::minusActive            = "minusActive.png";
+const std::string PianoGame::musicList              = "musicList.png";
+const std::string PianoGame::musicListActive        = "musicListActive.png";
+const std::string PianoGame::musicListBackground    = "musicListBackground.png";
+const std::string PianoGame::musicListButtonActive  = "musicListButtonActive.png";
+const std::string PianoGame::musicListButtonNormal  = "musicListButtonNormal.png";
+const std::string PianoGame::musicListButtonTouched = "musicListButtonTouched.png";
+const std::string PianoGame::musicListOkButton      = "musicListOkButton.png";
+const std::string PianoGame::musicListSelected      = "musicListSelected.png";
+const std::string PianoGame::perfect                = "perfect.png";
+const std::string PianoGame::play                   = "play.png";
+const std::string PianoGame::playStatePause         = "playStatePause.png";
+const std::string PianoGame::playStatePauseActive   = "playStatePauseActive.png";
+const std::string PianoGame::playStatePlay          = "playStatePlay.png";
+const std::string PianoGame::playStatePlayActive    = "playStatePlayActive.png";
+const std::string PianoGame::plus                   = "plus.png";
+const std::string PianoGame::plusActive             = "plusActive.png";
+const std::string PianoGame::shadow                 = "shadow.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
@@ -213,6 +219,36 @@ Sprite* PianoGame::createMusicListSprite()
 Sprite* PianoGame::createMusicListActiveSprite()
 {
     return Sprite::createWithSpriteFrameName(musicListActive);
+}
+
+Sprite* PianoGame::createMusicListBackgroundSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListBackground);
+}
+
+Sprite* PianoGame::createMusicListButtonActiveSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListButtonActive);
+}
+
+Sprite* PianoGame::createMusicListButtonNormalSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListButtonNormal);
+}
+
+Sprite* PianoGame::createMusicListButtonTouchedSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListButtonTouched);
+}
+
+Sprite* PianoGame::createMusicListOkButtonSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListOkButton);
+}
+
+Sprite* PianoGame::createMusicListSelectedSprite()
+{
+    return Sprite::createWithSpriteFrameName(musicListSelected);
 }
 
 Sprite* PianoGame::createPerfectSprite()

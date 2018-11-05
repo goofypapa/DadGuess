@@ -30,8 +30,8 @@ Scene * PianoGameMainScene::CreateScene()
     return create();
 }
 
-std::string PianoGameMainScene::s_backgroundMusic = "PianoGame/MusicScore/doll.mp3";
-std::string PianoGameMainScene::s_gameJson = "PianoGame/MusicScore/doll.json";
+std::string PianoGameMainScene::s_backgroundMusic = "PianoGame/MusicScore/DaeJangGeum/bgm.wav";
+std::string PianoGameMainScene::s_gameJson = "PianoGame/MusicScore/DaeJangGeum/musicScore.json";
 
 bool PianoGameMainScene::init()
 {
@@ -52,9 +52,21 @@ bool PianoGameMainScene::init()
     m_perfectCount = 0;
     m_excellentCount = 0;
     m_leakCount = 0;
+    m_musicListShowState = false;
+    
+    TexturePacker::PianoGame::addSpriteFramesToCache();
     
     auto t_visibleSizeHalf = Director::getInstance()->getVisibleSize() * 0.5f;
     Vec2 t_origin = Director::getInstance()->getVisibleOrigin();
+    
+    //layer
+    
+    m_musicListLayer = PianoGameMusicListLayer::create();
+    m_musicListLayer->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height ) );
+    addChild( m_musicListLayer, 1001 );
+    
+    ///-----------
+    loadMusic();
     
     //test
     
@@ -84,117 +96,52 @@ bool PianoGameMainScene::init()
     
     addChild( m_leakLabel, 1000 );
     
-    //* m_excellentLabel, * m_leakLabel;
     
-    TexturePacker::PianoGame::addSpriteFramesToCache();
+    //touch effect
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "PianoGame/PianoGameToneTouchedUp.plist" );
     
-    //    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( "Piano/A.wav" );
-    
-    //    CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic( s_backgroundMusic.c_str() );
-    
-    //load json
-    std::string t_fileStr = FileUtils::getInstance()->getStringFromFile( s_gameJson );
-    
-    
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "PianoGame/PianoGameToneTouched.plist" );
-    
-    m_toneTouchedAnimation = Animation::create();
-    for( int i = 0; i < 10; ++i )
+    m_toneTouchedUpAnimation = Animation::create();
+    for( int i = 0; i < 15; ++i )
     {
         std::stringstream sstr;
-        sstr << "effect_" << i << ".png";
-        m_toneTouchedAnimation->addSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() ) );
+        sstr << "PianoGameToneTouchedUp_" << i << ".png";
+        m_toneTouchedUpAnimation->addSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() ) );
     }
     
-    m_toneTouchedAnimation->setDelayPerUnit(0.02f);
-    m_toneTouchedAnimation->setLoops( 1 );
-    m_toneTouchedAnimation->retain();
-    m_toneTouchedAnimation->setRestoreOriginalFrame(true);
+    m_toneTouchedUpAnimation->setDelayPerUnit(0.02f);
+    m_toneTouchedUpAnimation->setLoops( 1 );
+    m_toneTouchedUpAnimation->retain();
+    m_toneTouchedUpAnimation->setRestoreOriginalFrame(true);
+    
+    
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "PianoGame/PianoGameToneTouchedDown.plist" );
+    m_toneTouchedDownAnimation = Animation::create();
+    
+    for( int i = 0; i < 15; ++i )
+    {
+        std::stringstream sstr;
+        sstr << "PianoGameToneTouchedDown_" << i << ".png";
+        m_toneTouchedDownAnimation->addSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() ) );
+    }
+    
+    m_toneTouchedDownAnimation->setDelayPerUnit(0.02f);
+    m_toneTouchedDownAnimation->setLoops( 1 );
+    m_toneTouchedDownAnimation->retain();
+    m_toneTouchedDownAnimation->setRestoreOriginalFrame(true);
     
     //background effect
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "PianoGame/PianoGameBGEffect_1.plist" );
-    auto t_backgroundEffectAnimation_1 = Animation::create();
-    for( int i = 0; i < 10; ++i )
-    {
-        std::stringstream sstr;
-        sstr << "PianoGameBGEffect_1_" << i << ".png";
-        t_backgroundEffectAnimation_1->addSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() ) );
-    }
-    
-    t_backgroundEffectAnimation_1->setDelayPerUnit(0.02f);
-    t_backgroundEffectAnimation_1->setLoops( -1 );
-    t_backgroundEffectAnimation_1->retain();
-    
-    Document t_readdoc;
-    
-    t_readdoc.Parse<0>( t_fileStr.c_str() );
-    
-    if( t_readdoc.HasParseError() )
-    {
-        printf( "GetParseError %d \n", t_readdoc.GetParseError() );
-    }
-    
-    int t_speed = t_readdoc["speed"].GetInt();
-    auto & t_data = t_readdoc["data"];
-    double t_time = 0.0f;
-    
-    double t_toneTime = 60.0f / (double)t_speed;
-    
-    auto & t_keys = t_readdoc["keys"];
-    
-    for( int i = 0; i < t_keys.Capacity() ; ++i ){
-        
-        std::string t_tone = t_keys[i].GetString();
-        m_sequeueTone.push_back( t_tone );
-        
-        
-        std::stringstream t_audio;
-        t_audio << "PianoGame/Piano/" << t_tone << ".wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
-        
-        t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_tone << "+1.wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
-        
-        t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_tone << "+2.wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
-        
-    }
-    
-    m_sequeueTone.push_back( m_sequeueTone[0] );
-    
-    
-    for( int i = 0; i < t_data.Capacity(); ++i )
-    {
-        auto & t_item = t_data[i];
-        
-        double t_note = t_item[ "note" ].GetDouble();
-        double t_special = t_item[ "special" ].GetDouble();
-        std::vector< std::string > t_tones;
-        
-        if( t_item[ "tone" ].GetType() == kStringType )
-        {
-            t_tones.push_back( t_item[ "tone" ].GetString() );
-        }
-        
-        if( t_item[ "tone" ].GetType() == kArrayType )
-        {
-            for( int n = 0; n < t_item[ "tone" ].Capacity(); ++n )
-            {
-                t_tones.push_back( t_item[ "tone" ][n].GetString() );
-            }
-        }
-        
-        Tone tone{
-            t_time,
-            t_tones
-        };
-        
-        m_musicScore.push_back( tone );
-        
-        t_time += t_toneTime / t_note * t_special;
-    }
+//    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "PianoGame/PianoGameBGEffect_1.plist" );
+//    auto t_backgroundEffectAnimation_1 = Animation::create();
+//    for( int i = 0; i < 10; ++i )
+//    {
+//        std::stringstream sstr;
+//        sstr << "PianoGameBGEffect_1_" << i << ".png";
+//        t_backgroundEffectAnimation_1->addSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( sstr.str() ) );
+//    }
+//
+//    t_backgroundEffectAnimation_1->setDelayPerUnit(0.02f);
+//    t_backgroundEffectAnimation_1->setLoops( -1 );
+//    t_backgroundEffectAnimation_1->retain();
     
     
     auto t_centerPoit = Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height );
@@ -292,7 +239,7 @@ bool PianoGameMainScene::init()
     auto t_centerControlSizeHalf = t_centerControl->getContentSize() * 0.5f;
     m_centerControlPosition = t_centerPoit + Vec2( -3.0f, 3.0f );
     
-    m_centerControlScale = t_visibleSizeHalf.height / ( t_centerControlSizeHalf.height + 25.0f );
+    m_centerControlScale = t_visibleSizeHalf.height / ( t_centerControlSizeHalf.height * 1.2f );
     
     t_centerControl->setScale( m_centerControlScale );
     t_centerControl->setPosition( m_centerControlPosition );
@@ -342,9 +289,13 @@ bool PianoGameMainScene::init()
         t_shadow->setScale( m_centerControlScale );
         t_shadow->setPosition( t_keyPos + Vec2( 5.0f, -6.0f ) );
         
-        auto t_animateBox = Sprite::create();
-        t_animateBox->setScale( m_centerControlScale );
-        t_animateBox->setPosition( t_keyPos );
+        auto t_animateBoxUp = Sprite::create();
+        t_animateBoxUp->setScale( m_centerControlScale );
+        t_animateBoxUp->setPosition( t_keyPos );
+        
+        auto t_animateBoxDown = Sprite::create();
+        t_animateBoxDown->setScale( m_centerControlScale );
+        t_animateBoxDown->setPosition( t_keyPos );
         
         auto t_keyMark = TexturePacker::PianoGame::createMarkSprite();
         t_keyMark->setScale( m_centerControlScale );
@@ -352,12 +303,15 @@ bool PianoGameMainScene::init()
         
         t_keyMark->setVisible( false );
         
-        addChild( t_shadow );
-        addChild( t_key );
-        addChild( t_animateBox );
-        addChild( t_keyMark );
         
-        m_toneAnimateSpriteList.push_back( t_animateBox );
+        addChild( t_shadow, 1 );
+        addChild( t_key, 5 );
+        addChild( t_animateBoxUp, 6 );
+        addChild( t_animateBoxDown, 2 );
+        addChild( t_keyMark, 10 );
+        
+        m_toneUpAnimateSpriteList.push_back( t_animateBoxUp );
+        m_toneDownAnimateSpriteList.push_back( t_animateBoxDown );
         m_toneSpriteList.push_back( t_key );
         m_toneMarkSpriteList.push_back( t_keyMark );
     }
@@ -472,11 +426,11 @@ void PianoGameMainScene::update( float p_delta )
                 
                 auto t_spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName( t_sstr.str() );
                 m_countDownSprite->setSpriteFrame( t_spriteFrame );
-                m_countDownSprite->setScale( 2.0f );
+                m_countDownSprite->setScale( 2.0f * adaptation() );
                 m_countDownSprite->setOpacity( 0 );
                 
                 m_countDownSprite->runAction( EaseOut::create( ActionFloat::create(0.2f, 0.0, 1.0, [this]( const float t_val ){
-                    m_countDownSprite->setScale( 2.0f - t_val );
+                    m_countDownSprite->setScale( (2.0f - t_val) * adaptation() );
                     m_countDownSprite->setOpacity( (int)(255.0f * t_val) );
                 }), 1.0f) );
             }else{
@@ -528,12 +482,12 @@ void PianoGameMainScene::update( float p_delta )
                 t_strTone = t_strTone.substr(0, t_find);
             }
             
-            auto t_findRes = std::find( m_sequeueTone.begin(), m_sequeueTone.end(), t_strTone );
-            if( t_findRes == m_sequeueTone.end() )
+            auto t_findRes = std::find( m_sequeueToneNoOctave.begin(), m_sequeueToneNoOctave.end(), t_strTone );
+            if( t_findRes == m_sequeueToneNoOctave.end() )
             {
                 continue;
             }
-            int t_index = (int)( t_findRes - m_sequeueTone.begin() );
+            int t_index = (int)( t_findRes - m_sequeueToneNoOctave.begin() );
             std::stringstream t_sstr;
             t_sstr << "key_" << t_index << ".png";
             
@@ -546,11 +500,12 @@ void PianoGameMainScene::update( float p_delta )
             GameTone t_gameTone{
                 m_musicScore[m_showBollIndex].time,
                 t_index,
+                item,
                 t_sprite
             };
             m_gameTones.push_back( t_gameTone );
-            //            printf( "-------%d \n", t_index );
         }
+        
         m_showBollIndex++;
     }
     
@@ -558,6 +513,14 @@ void PianoGameMainScene::update( float p_delta )
     {
         auto item = m_gameTones[i];
         auto t_timeOffset = m_musicTime - item.time + MOVE_TIME;
+        
+////        自动播放声音
+//        if( abs( m_musicTime - item.time ) <= 0.01f )
+//        {
+//            std::stringstream t_sstr;
+//            t_sstr << "PianoGame/Piano/" << item.tone << ".wav";
+//            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
+//        }
         
         if( m_musicTime - item.time > FAULT_TOLERANT_TIME )
         {
@@ -621,10 +584,7 @@ int PianoGameMainScene::contains( const cocos2d::Vec2 & p_point )
 
 void PianoGameMainScene::toneTouched( const int p_index )
 {
-    std::stringstream t_sstr;
-    t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << "+" << ( p_index < 7 ? "1" : "2" ) << ".wav";
-    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
-    
+
     std::stringstream sstr;
     sstr << "keyTouch_" << p_index << ".png";
     
@@ -644,11 +604,16 @@ void PianoGameMainScene::toneTouched( const int p_index )
     
     if( t_toneIndex > -1 )
     {
-        Animate * t_animate = Animate::create( m_toneTouchedAnimation );
+        Animate * t_animateUp = Animate::create( m_toneTouchedUpAnimation );
         int t_index = m_gameTones[t_toneIndex].index;
-        m_toneAnimateSpriteList[ t_index ]->stopAllActions();
-        m_toneAnimateSpriteList[ t_index ]->setSpriteFrame(  SpriteFrameCache::getInstance()->getSpriteFrameByName( "effect_0.png" ) );
-        m_toneAnimateSpriteList[ t_index ]->runAction( t_animate );
+        m_toneUpAnimateSpriteList[ t_index ]->stopAllActions();
+        m_toneUpAnimateSpriteList[ t_index ]->setSpriteFrame(  SpriteFrameCache::getInstance()->getSpriteFrameByName( "PianoGameToneTouchedUp_0.png" ) );
+        m_toneUpAnimateSpriteList[ t_index ]->runAction( t_animateUp );
+        
+        Animate * t_animateDown = Animate::create( m_toneTouchedDownAnimation );
+        m_toneDownAnimateSpriteList[ t_index ]->stopAllActions();
+        m_toneDownAnimateSpriteList[ t_index ]->setSpriteFrame(  SpriteFrameCache::getInstance()->getSpriteFrameByName( "PianoGameToneTouchedDown_0.png" ) );
+        m_toneDownAnimateSpriteList[ t_index ]->runAction( t_animateDown );
         
         removeChild( m_gameTones[t_toneIndex].ball );
         m_gameTones.erase( m_gameTones.begin() + t_toneIndex );
@@ -660,8 +625,16 @@ void PianoGameMainScene::toneTouched( const int p_index )
             changeJudge( Excellent );
         }
         
+        std::stringstream t_sstr;
+        t_sstr << "PianoGame/Piano/" << m_gameTones[t_toneIndex].tone << ".wav";
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
+        
     }else{
         //miss
+        
+        std::stringstream t_sstr;
+        t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << ".wav";
+        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
         
         changeJudge( Leak );
     }
@@ -751,8 +724,116 @@ void PianoGameMainScene::buttonClick( const int p_tag )
             }
             break;
         case 3:
-            
+            if( m_musicListShowState )
+            {
+                m_musicListLayer->hide();
+                loadMusic();
+            }else{
+                m_musicListLayer->show();
+            }
+            m_musicListShowState = !m_musicListShowState;
             break;
+    }
+}
+
+
+void PianoGameMainScene::loadMusic( void )
+{
+    
+    m_musicTime = 0.0f;
+    m_currPlayTime = 0.0f;
+    
+    m_perfectCount = 0;
+    m_excellentCount = 0;
+    m_leakCount = 0;
+    
+    m_showBollIndex = 0;
+    
+    
+    auto t_music = m_musicListLayer->getSelectMusic();
+    
+    s_backgroundMusic = t_music.first;
+    s_gameJson = t_music.second;
+    
+    m_backgroundMusicPlaying = false;
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    
+    
+    m_musicScore.clear();
+    m_sequeueTone.clear();
+    m_sequeueToneNoOctave.clear();
+    Document t_readdoc;
+    
+    //load json
+    std::string t_fileStr = FileUtils::getInstance()->getStringFromFile( s_gameJson );
+    
+    t_readdoc.Parse<0>( t_fileStr.c_str() );
+    
+    if( t_readdoc.HasParseError() )
+    {
+        printf( "GetParseError %d \n", t_readdoc.GetParseError() );
+    }
+    
+    int t_speed = t_readdoc["speed"].GetInt();
+    auto & t_data = t_readdoc["data"];
+    double t_time = 0.0f;
+    
+    double t_toneTime = 60.0f / (double)t_speed;
+    
+    auto & t_keys = t_readdoc["keys"];
+    
+    for( int i = 0; i < t_keys.Capacity() ; ++i ){
+        
+        std::string t_tone = t_keys[i].GetString();
+        m_sequeueTone.push_back( t_tone );
+        
+        
+        auto t_toneNoOctave = split( t_tone, "+" )[0];
+        m_sequeueToneNoOctave.push_back( t_toneNoOctave );
+        
+        std::stringstream t_audio;
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << ".wav";
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        
+        t_audio.str("");
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+1.wav";
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        
+        t_audio.str("");
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+2.wav";
+        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        
+    }
+    
+    for( int i = 0; i < t_data.Capacity(); ++i )
+    {
+        auto & t_item = t_data[i];
+        
+        double t_note = t_item[ "note" ].GetDouble();
+        double t_special = t_item[ "special" ].GetDouble();
+        std::vector< std::string > t_tones;
+        
+        if( t_item[ "tone" ].GetType() == kStringType )
+        {
+            t_tones.push_back( t_item[ "tone" ].GetString() );
+        }
+        
+        if( t_item[ "tone" ].GetType() == kArrayType )
+        {
+            for( int n = 0; n < t_item[ "tone" ].Capacity(); ++n )
+            {
+                t_tones.push_back( t_item[ "tone" ][n].GetString() );
+            }
+        }
+        
+        Tone tone{
+            t_time,
+            t_tones
+        };
+        
+        m_musicScore.push_back( tone );
+    
+        t_time += t_toneTime / t_note / t_special;
     }
 }
 
@@ -763,6 +844,6 @@ PianoGameMainScene::~PianoGameMainScene( void )
     
     TexturePacker::PianoGame::removeSpriteFramesFromCache();
     
-    m_toneTouchedAnimation->release();
+    m_toneTouchedUpAnimation->release();
 }
 

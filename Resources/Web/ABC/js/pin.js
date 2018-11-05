@@ -2,21 +2,32 @@
 $('.back').click(function () {
     window.location.href = 'index.html';
 })
+
+var template_box = "<div class=\"swiper-slide\"></div>";
+var template_content = "<img src=\"$urlPin$\">\
+<input type=\"hidden\" value=\"$audio$\" />";
+
 // 音频文件
 var audioAll = [];
 console.log( fileListPin.big.length);
 for(var index in audioList){
     audioAll = audioAll.concat(audioList[index])
 }
-
+var dataList = [];
+var html = "";
+var smallImgHtml = "";
 for (var item in fileListPin) {
     var pinList = fileListPin[item];
     for (var i = 0; i < pinList.length; i++) {
-        var imgAll = $($('#template').html().replace('$urlPin$', 'http://www.dadpat.com/app/ABC/pin/' + item + '/' + pinList[i]).replace('$audio$','http://www.dadpat.com/app/ABC/audio/'+audioAll[i]))
-        $('.swiper-container .swiper-wrapper').append(imgAll)
+        html += template_box;
+        var imgUrl = 'http://www.dadpat.com/app/ABC/pin/' + item + '/' + pinList[i];
+        var audioUrl = 'http://www.dadpat.com/app/ABC/audio/'+audioAll[i];
+        smallImgHtml += "<div style=\"display:none;\"></div>";
+        dataList.push( [imgUrl, audioUrl] );
     }
 }
-
+$('.swiper-container .swiper-wrapper').html(html);
+$("#smallImg").html( smallImgHtml );
 
 function arrayRemove(array, dx) {
     if (isNaN(dx) || dx > array.length) { return false; }
@@ -29,8 +40,8 @@ function arrayRemove(array, dx) {
 }
 
 var imgDongTai = '';
-var pg = '';
 var initIndex="";
+
 if(localStorage.getItem("check")==""){
     initIndex=0;
 }else{
@@ -46,50 +57,90 @@ var mySwiper = new Swiper('.swiper-container', {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
     },
-    lazy: {
-        loadPrevNext: true,
-        loadPrevNextAmount: 2,
-        loadOnTransitionStart: true,
-    },
+    // lazy: true,
     on: {
         slideChangeTransitionStart: function () {
-            localStorage.setItem("check",mySwiper.activeIndex);
-            //反转页面时存储
-            console.log(localStorage.getItem("check"));
-            pg.hasStart = 0;
-            imgDongTai = $('.swiper-slide-active img').attr("src")  //动态获取图片的src，给缩略图赋值
-            audioDongTai = imgDongTai.substring(0, imgDongTai.length - 4);  //动态获取图片的src，拿相对于的音频文件
-            puzzleImg = $('.swiper-slide-active img');
-            $(function () {
-                $('.pinTu div').remove();
-
-                // 音乐暂停
-                if(imgSibling){
-                    imgSibling.pause();
-                    imgSibling.load();
-                }
-                pinTuGame(puzzleImg);
-                
-               
-            });
-            // 右上角缩图
-            $('.smallImg img').attr('src', imgDongTai)
-
+            
         },
         slideChangeTransitionEnd: function () {
-
+            localStorage.setItem("check",mySwiper.activeIndex);
+            lazyLoad();
         }
     }
 })
+
+var currGameIndex = -1;
+function lazyLoad(){
+
+    if( currGameIndex === mySwiper.activeIndex )
+    {
+        return;
+    }
+
+    var list = [];
+    if( mySwiper.activeIndex > 0 )
+    {
+        list.push( mySwiper.activeIndex - 1 );
+    }
+
+    list.push( mySwiper.activeIndex );
+
+    if( mySwiper.activeIndex < dataList.length )
+    {
+        list.push( mySwiper.activeIndex + 1 );
+    }
+
+    for( var i = 0; i < list.length; ++i )
+    {
+        var t_index = list[i];
+        var t_slide = $(".swiper-slide:eq(" + t_index +  ")");
+
+        if( t_slide.html().length === 0 )
+        {
+            t_slide.html( template_content.replace('$urlPin$', dataList[ t_index ][0]).replace('$audio$',dataList[ t_index ][1]) );
+        }
+
+        var smallImgDiv = $("#smallImg div:eq(" + t_index +  ")");
+        if( smallImgDiv.html().length === 0 )
+        {
+            smallImgDiv.html( "<img src=\"" + dataList[ t_index ][0] +  "\" />" )
+        }
+
+        console.log( t_slide.html() );
+    }
+
+    $("#smallImg div").hide();
+    $("#smallImg div:eq(" + mySwiper.activeIndex +  ")").show();
+    
+    var t_img = $('.swiper-slide-active img')[0];
+    if( t_img.complete )
+    {
+        pinTuGame( mySwiper.activeIndex );
+    }else{
+        t_img.onload = function(){
+            pinTuGame( mySwiper.activeIndex );
+        }
+    }
+}
+
+
 mySwiper.slideTo(initIndex);
+lazyLoad();
+
 
 //=============================================================================================================================
 
 // 拼图游戏
 var imgSibling = '';
-pinTuGame($('.swiper-slide-active img'));
-function pinTuGame(puzzleImg) {
+function pinTuGame( p_index ) {
+
+    $('.pinTu div').remove();
+
+    $('.smallImg img').attr('src', dataList[ p_index ][0]);
+
+    var puzzleImg = $('.swiper-slide-active img');
     imgSibling = puzzleImg[0].nextElementSibling;
+    
     var imgSrc = puzzleImg[0].src;
     console.log(puzzleImg[0]);
     console.log(puzzleImg[0].height);
@@ -189,24 +240,6 @@ function pinTuGame(puzzleImg) {
             if ( img ) {
                 return;
             }
-
-            // if (img) {
-            //     var index = -1;
-
-            //     for (var i = 0; i < imgCell.length; ++i) {
-            //         if ( imgCell[i] === img ) {
-            //             index = i;
-            //             break;
-            //         }
-            //     }
-
-            //     $(img).animate({
-            //         left: offset.x + errorArr.indexOf(index) % 3 * cellWidth + 'px',
-            //         top: offset.y + Math.floor(errorArr.indexOf(index) / 3) * cellHeight + 'px',
-            //     }, 500, "", function () {
-
-            //     });
-            // }
             
             img = this;
         })
@@ -297,38 +330,18 @@ function pinTuGame(puzzleImg) {
                 break;
             }
         }
-        console.log(imgSibling.src);
         if (isOk) {
             self = 0;
-            console.log("游戏结束",imgSibling.src);
             $("#shade").css("display","block");
-            // imgSibling.play();
-            // if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
-            //     window.location.href = "goofypapa://playAudio," + imgSibling.src;
-            // }else{
-            //     window.android.initMusic(imgSibling.src);
-            //     window.android.startMusic();
-            // }
-            if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
-                window.location.href = "goofypapa://playAudio," + imgSibling.src;
-            }else if( typeof( window.android ) != "undefined" ) {
-                window.android.initMusic(imgSibling.src);
-                window.android.startMusic();
-            }else{
-                imgSibling.play();
-            }
+
+            playAudio( imgSibling.value );
+
             var nextTime=Math.floor(imgSibling.duration* 1000)/1000;
             nextTime=nextTime*1000;
             setTimeout(function(){
                 mySwiper.slideNext();
                 $("#shade").css("display","none");
             },nextTime);
-            // if(imgSibling.paused){
-            //     imgSibling.play();
-            // }else{
-            //     imgSibling.pause();
-            //     imgSibling.load();
-            // }
         }
     }
 }

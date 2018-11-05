@@ -27,7 +27,7 @@
 ```
 7. 播放音频
 ```
-    window.location.href='goofypapa://playAudio,[audio url]';
+    window.location.href='goofypapa://playAudio,[audio url],[finish call back]';
 ```
 8. 停止播放音频
 ```

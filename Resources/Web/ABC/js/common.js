@@ -13,3 +13,17 @@ document.getElementById('dv').style.height = docuHeight +'px';
 document.getElementById('dv').style.width = docuWidth +'px';
 
 
+function playAudio( p_url )
+{
+    if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+        window.location.href = "goofypapa://stopAllAudio;playAudio," + p_url;
+    }else if( typeof( window.android ) != "undefined" ) {
+        window.android.initMusic(p_url);
+        window.android.startMusic();
+    }else{
+        // imgSibling.play();
+        console.log( p_url );
+    }
+}
+
+

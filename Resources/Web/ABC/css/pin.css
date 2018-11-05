@@ -44,14 +44,18 @@
     transition-timing-function:ease-in-out;
 }
 /* 小图 */
-.smallImg{
+#smallImg{
     /*height: 24%;*/
     width: 13.6%;
     position: absolute;
     top: 5%;
     right: 3%;
 }
-.smallImg img{
+#smallImg div{
+    height: 100%;
+    width: 100%;
+}
+#smallImg div img{
     height: 100%;
     width: 100%;
 }

@@ -10,7 +10,7 @@
 #include "MainScene.h"
 #include <sstream>
 #include "Http.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 #include "json/document.h"
 #include "json/writer.h"
@@ -19,6 +19,7 @@
 USING_NS_CC;
 using namespace  rapidjson;
 using namespace cocos2d::ui;
+using namespace experimental;
 
 
 cocos2d::Scene * WebViewScene::createWithUrl( const std::string & p_url, const bool p_orientation )
@@ -121,9 +122,8 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
         }
         
         std::stringstream t_sstrJsCode;
-        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit(); };";
+        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();}";
         m_webview->evaluateJS( t_sstrJsCode.str() );
-        
 
 //        m_webview->evaluateJS( "alert(window.goofypapaGame);" );
 //        m_webview->evaluateJS( "alert(window.goofypapaToken);" );
@@ -146,7 +146,6 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
         
         for( auto t_item : t_list )
         {
-            printf( "--------------->: %s \n", t_item.c_str() );
             if( t_item.compare( "back" ) == 0 )
             {
                 if( m_webOrientation ){
@@ -175,11 +174,16 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
             
             if( t_funcList[0].compare( "playAudio" ) == 0 )
             {
-                if( t_funcList.size() != 2 )
+                if( t_funcList.size() == 2 )
                 {
-                    return;
+                    playAudio( urlRepair( t_funcList[1] ), "" );
+                } else if( t_funcList.size() == 3 )
+                {
+                    playAudio( urlRepair( t_funcList[1] ), t_funcList[2] );
                 }
-                playAudio( urlRepair( t_funcList[1] ) );
+                
+                return;
+                
             }
             
             if( t_funcList[0].compare( "stopAudio" ) == 0 )
@@ -210,8 +214,13 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                 Ajax t_ajax;
                 
                 t_ajax.url = urlRepair( t_funcList[1] );
+                t_ajax.key = "";
                 t_ajax.successCallBack = t_funcList[2];
                 t_ajax.fialCallBack = t_funcList[3];
+                
+                std::stringstream t_skey;
+                
+                t_skey << t_funcList[0] << t_ajax.url;
                 
                 std::map< std::string, std::string > t_parameter;
                 
@@ -222,19 +231,19 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                     {
                         continue;
                     }
+                    t_skey << "," << t_p[0] << ":" << t_p[1];
                     t_parameter[t_p[0]] = t_p[1];
                 }
                 
+                t_ajax.key = t_skey.str();
                 
                 auto t_successCallBack = [this]( Http * p_http, std::string p_res ){
                     
                     if( s_ajaxPool.find( p_http ) != s_ajaxPool.end() )
                     {
-                        
-                        
                         auto & t_ajax = s_ajaxPool[ p_http ];
                         std::stringstream t_sstr;
-                        t_sstr << t_ajax.successCallBack << "(" << p_res << ");";
+                        t_sstr << t_ajax.successCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
                         m_webview->evaluateJS( t_sstr.str() );
                         
                         s_ajaxPool.erase( p_http );
@@ -248,7 +257,7 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                         
                         auto & t_ajax = s_ajaxPool[ p_http ];
                         std::stringstream t_sstr;
-                        t_sstr << t_ajax.fialCallBack << "(\"" << p_res << "\");";
+                        t_sstr << t_ajax.fialCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
                         m_webview->evaluateJS( t_sstr.str() );
                         s_ajaxPool.erase( p_http );
                     }
@@ -273,7 +282,7 @@ void WebViewScene::refreshSource( const DataFile & p_dataInfo )
     
 }
 
-void WebViewScene::playAudio( const std::string & p_audioUrl )
+void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string & p_finishCallBack )
 {
     auto t_audioFile = DataTableFile::instance().findBySourceUrl( p_audioUrl );
     if( !t_audioFile.fileId.empty() )
@@ -282,16 +291,51 @@ void WebViewScene::playAudio( const std::string & p_audioUrl )
         auto t_it = s_playList.find( t_audioFile.fileName );
         if( t_it != s_playList.end() )
         {
-            CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect( s_playList[t_audioFile.fileName] );
+            AudioEngine::stop( s_playList[t_audioFile.fileName] );
+        }
+       
+        auto t_playId = AudioEngine::play2d( t_audioFile.fileName );
+        s_playList[t_audioFile.sourceUrl] = t_playId;
+        
+        if( !p_finishCallBack.empty() )
+        {
+            m_playCallBackList[ t_audioFile.sourceUrl ] = p_finishCallBack;
         }
         
-        auto t_player =  CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_audioFile.fileName.c_str() );
-        s_playList[t_audioFile.sourceUrl] = t_player;
+        AudioEngine::setFinishCallback( t_playId, [this]( int p_playId, const std::string p_audio ){
+            
+            std::string t_audio = "";
+            for( auto t_item : s_playList )
+            {
+                if( t_item.second == p_playId )
+                {
+                    t_audio = t_item.first;
+                    break;
+                }
+            }
+            
+            if( t_audio.empty() )
+            {
+                return;
+            }
+            
+            if( m_playCallBackList.find( t_audio ) != m_playCallBackList.end() && !m_playCallBackList[t_audio].empty() )
+            {
+                std::stringstream t_sstr;
+                t_sstr << m_playCallBackList[t_audio] << "(\"" << t_audio << "\");";
+                m_webview->evaluateJS( t_sstr.str() );
+                m_playCallBackList.erase( t_audio );
+            }
+            
+            s_playList.erase( t_audio );
+        });
         return;
     }
     
+    m_playCallBackList[p_audioUrl] = p_finishCallBack;
+    
     loadAudio( p_audioUrl, [this]( DataFile p_audioFile ){
-        playAudio( p_audioFile.sourceUrl );
+        playAudio( p_audioFile.sourceUrl, "" );
     });
 }
 
@@ -300,13 +344,14 @@ void WebViewScene::stopAudio( const std::string & p_audioUrl )
     auto t_it = s_playList.find( p_audioUrl );
     if( t_it != s_playList.end() )
     {
-        CocosDenshion::SimpleAudioEngine::getInstance()->stopEffect( s_playList[p_audioUrl] );
+        AudioEngine::stop( s_playList[p_audioUrl] );
     }
 }
 
 void WebViewScene::stopAllAudio( void )
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+    AudioEngine::stopAll();
+    s_playList.clear();
 }
 
 void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void( DataFile p_audioFile )> p_loadAudioCallBack )
@@ -385,35 +430,4 @@ std::string WebViewScene::urlRepair( std::string p_url )
     }
     
     return "https://" + p_url;
-}
-
-
-std::map< std::string, std::string > WebViewScene::parseJsonToParameter( const std::string & p_json )
-{
-    std::map< std::string, std::string > t_result;
-    Document t_readdoc;
-    
-    t_readdoc.Parse<0>( p_json.c_str() );
-    
-    if( !t_readdoc.HasParseError() )
-    {
-        for (rapidjson::Value::ConstMemberIterator itr = t_readdoc.MemberBegin(); itr != t_readdoc.MemberEnd(); itr++)
-        {
-            rapidjson::Value jKey;
-            rapidjson::Value jValue;
-            Document::AllocatorType allocator;
-            jKey.CopyFrom(itr->name, allocator);
-            jValue.CopyFrom(itr->value,allocator);
-            if (jKey.IsString())
-            {
-                std::string name = jKey.GetString();
-                printf("\r\nname: %s\r\n",name.c_str());
-                
-                std::string t_value = jValue.GetString();
-                printf("\r\nvalue: %s\r\n",t_value.c_str());
-            }
-        }
-    }
-    
-    return t_result;
 }

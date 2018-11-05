@@ -4,8 +4,10 @@
 //window.onload=function(){
 //    
 //}
-
-window.location.href='goofypapa://stopAllAudio';
+if( typeof( window.goofypapaGame ) !== "undefined" && window.goofypapaGame )
+{
+    window.location.href='goofypapa://stopAllAudio';
+}
 
 var me = 0;
 var imgObj = document.querySelectorAll('.lamp img');

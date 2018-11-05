@@ -20,6 +20,7 @@
 struct Ajax
 {
     std::string url;
+    std::string key;
     std::string successCallBack;
     std::string fialCallBack;
 };
@@ -38,10 +39,8 @@ protected:
     void loadAudio( const std::string & p_audioUrl, std::function<void( DataFile p_audioFile )> p_loadAudioCallBack );
     void deleteAudio( const std::string & p_audioUrl );
     
-    void playAudio( const std::string & p_audioUrl );
+    void playAudio( const std::string & p_audioUrl, const std::string & p_finishCallBack );
     void stopAudio( const std::string & p_audioUrl );
-    
-    std::map< std::string, std::string > parseJsonToParameter( const std::string & p_json );
     
     void stopAllAudio( void );
 private:
@@ -56,6 +55,7 @@ private:
     std::map< std::string, std::function<void( DataFile p_audioFile )> > s_downloadList;
     
     std::map< std::string, unsigned int > s_playList;
+    std::map< std::string, std::string > m_playCallBackList;
     
     std::string urlRepair( std::string p_url );
 };

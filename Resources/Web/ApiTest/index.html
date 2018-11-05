@@ -7,76 +7,73 @@
                 padding: 50px;
             }
         </style>
+        <script type="text/javascript" src="./goofypapaApi.js"></script>
         <script type="text/javascript">
+
 
             var audio1 = "http://www.dadpat.com/upload/20180917/ba4011e88acae550240c96b7f2543be5.mp3";
             var audio2 = "dadpat-public.oss.cn-north-1.jcloudcs.com/upload/20180917/ba4011e88acae550240c96b7f1230ee0.mp3";
 
             var api = "https://www.goofypapa.com/game/user/access.do";
-//---------------------- 页面加载事件
+
+
             window.goofypapaInit = function(){
-//---------------------- 获取主程序信息    
+//---------------------- 页面加载事件
                 document.getElementById("loaded").innerHTML = "是";
                 document.getElementById("goofypapaGame").innerHTML = window.goofypapaGame;
                 document.getElementById("token").innerHTML = window.goofypapaToken();
+
 //---------------------- 返回主程序
                 document.getElementById("back").onclick = function(){
-                    window.location.href = "goofypapa://back";
+                    goofypapaBack();
                 };
-//---------------------- 预加载播放
+
+//---------------------- 加载音频
+                goofypapaLoadAudio( audio1 );
+
+//---------------------- 播放音频
+                var t_playState1 = document.getElementById("playing1");
                 document.getElementById("play1").onclick = function(){
-                    window.location.href = "goofypapa://playAudio," + audio1;
+                    goofypapaPlayAudio( audio1, function(){
+                        t_playState1.innerHTML = "false";
+                    } );
+                    t_playState1.innerHTML = "true";
                 };
 
                 document.getElementById("stop1").onclick = function(){
-                    window.location.href = "goofypapa://stopAudio," + audio1;
+                    goofypapaStopAudio( audio1 );
                 };
+                
 
-//---------------------- 不加载播放
+                var t_playState2 = document.getElementById("playing2");
                 document.getElementById("play2").onclick = function(){
-                    window.location.href = "goofypapa://stopAllAudio;playAudio," + audio2;
+                    goofypapaStopAndPlayAudio( audio2, audio2, function(){
+                        t_playState2.innerHTML = "false";
+                    } );
+                    t_playState2.innerHTML = "true";
                 };
 
-                document.getElementById("stop2").onclick = function(){
-                    window.location.href = "goofypapa://stopAudio," + audio2;
+                document.getElementById("stopAll").onclick = function(){
+                    goofypapaStopAllAudio();
                 };
 
 //---------------------- POST
-                window.PostSuccessCallBack = function(res){
-                    document.getElementById("post_res").innerHTML = "Success: " + JSON.stringify(res);
-                };
-
-                window.PostFialCallBack = function(res){
-                    document.getElementById("post_res").innerHTML = "Fial: " + JSON.stringify(res);
-                };
-
                 document.getElementById("post").onclick = function(){
-                    var userMobile = "13720067880";
-                    var userPwd = "123456";
 
-                    window.location.href = "goofypapa://Post," + api + ",window.PostSuccessCallBack,window.PostFialCallBack,userMobile:" + userMobile + ",userPwd:" + userPwd;
+                    var t_parameter = {};
+                    t_parameter.userMobile = "13720067880";
+                    t_parameter.userPwd = "123456";
+
+
+                    goofypapaPost( api, t_parameter, function( p_res ){
+                        document.getElementById("post_res").innerText =  "success" + JSON.stringify(p_res);
+                    }, function( p_res ){
+                        document.getElementById("post_res").innerText = "fial" + JSON.stringify( p_res );
+                    } );
+
                 };
 
-
-//---------------------- GET
-               window.GetSuccessCallBack = function(res){
-                    document.getElementById("get_res").innerHTML = "Success: " + JSON.stringify(res);
-                };
-
-                window.GetFialCallBack = function(res){
-                    document.getElementById("get_res").innerHTML = "Fial: " + JSON.stringify(res);
-                };
-
-                document.getElementById("get").onclick = function(){
-                    var userMobile = "13720067880";
-                    var userPwd = "123456";
-
-                    window.location.href = "goofypapa://Get," + api + ",window.GetSuccessCallBack,window.GetFialCallBack,userMobile:" + userMobile + ",userPwd:" + userPwd;
-                };
-
-                window.location.href = "goofypapa://oadAudio," + audio1;
-
-            }
+            };
             
         </script>
     </head>
@@ -86,9 +83,9 @@
         <div>token: <span id="token"></span></div>
 
         
-        <div><input id="play1" type="button" value="play1" ><input id="stop1" type="button" value="stop1" ></div>
+        <div><input id="play1" type="button" value="play1" ><input id="stop1" type="button" value="stop1" >播放中:<span id="playing1">false</span></div>
 
-        <div><input id="play2" type="button" value="play2" ><input id="stop2" type="button" value="stop2" ></div>
+        <div><input id="play2" type="button" value="play2" ><input id="stopAll" type="button" value="Stop All" >播放中:<span id="playing2">false</span></div>
 
         <div><input id="post" type="button" value="post" ><span id="post_res" ></span></div>
 

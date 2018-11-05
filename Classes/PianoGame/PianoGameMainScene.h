@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 #include "ui/CocosGUI.h"
+#include "PianoGameMusicListLayer.h"
 
 #include <vector>
 #include <string>
@@ -30,6 +31,7 @@ struct GameTone
 public:
     double time;
     int index;
+    std::string tone;
     cocos2d::Sprite * ball;
 };
 
@@ -60,6 +62,8 @@ protected:
     
     void changeJudge( const Judge p_judge );
     
+    void loadMusic( void );
+    
     virtual ~PianoGameMainScene( void );
     
     void buttonClick( const int p_tag );
@@ -78,19 +82,22 @@ private:
     int m_perfectCount, m_excellentCount, m_leakCount;
     cocos2d::Label * m_perfectLabel, * m_excellentLabel, * m_leakLabel;
     
-    cocos2d::Animation * m_toneTouchedAnimation;
+    cocos2d::Animation * m_toneTouchedUpAnimation, * m_toneTouchedDownAnimation;
     
     cocos2d::Sprite * m_countDownSprite, * m_leftRound, * m_rightRound, * m_judgeSprite;
     cocos2d::ui::Button * m_playState;
     
     std::vector< GameTone > m_gameTones;
     
+    PianoGameMusicListLayer * m_musicListLayer;
+    bool m_musicListShowState;
+    
     std::map< int, int > m_touchIndex;
     std::vector< cocos2d::Sprite * > m_toneSpriteList;
-    std::vector< cocos2d::Sprite * > m_toneAnimateSpriteList;
+    std::vector< cocos2d::Sprite * > m_toneUpAnimateSpriteList, m_toneDownAnimateSpriteList;
     std::vector< cocos2d::Sprite * > m_toneMarkSpriteList;
     std::vector<Tone> m_musicScore;
-    std::vector<std::string> m_sequeueTone;
+    std::vector<std::string> m_sequeueTone, m_sequeueToneNoOctave;
     std::vector< cocos2d::Vec2 > m_sequeueDirection;
     std::vector< cocos2d::ui::Button * > m_buttonList;
 };

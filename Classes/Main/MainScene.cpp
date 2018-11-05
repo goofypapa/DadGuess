@@ -15,6 +15,7 @@
 #include "Http.h"
 #include "CadenceGameMainScene.h"
 #include "PianoGameMainScene.h"
+#include "DadGuessUpdateScene.h"
 
 #include "WebViewScene.h"
 #include "renderer/CCGLProgramStateCache.h"
@@ -315,7 +316,9 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
         case 10:
             t_url = "ABC";
             break;
-            
+        case 11:
+            Director::getInstance()->replaceScene( DadGuessUpdateScene::CreateScene() );
+            return;
         default:
             return;
     }

@@ -132,17 +132,17 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Resources/PianoGame.plist</filename>
+                <filename>../../Resources/PianoGame.plist</filename>
             </struct>
             <key>header</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Classes/Resources/PianoGame.hpp</filename>
+                <filename>../../Classes/Resources/PianoGame.hpp</filename>
             </struct>
             <key>source</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Classes/Resources/PianoGame.cpp</filename>
+                <filename>../../Classes/Resources/PianoGame.cpp</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -216,6 +216,20 @@
                 <rect>153,174,305,348</rect>
                 <key>scale9Paddings</key>
                 <rect>153,174,305,348</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/excellent.png</key>
+            <key type="filename">PianoGame/leak.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,25,95,49</rect>
+                <key>scale9Paddings</key>
+                <rect>48,25,95,49</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -296,6 +310,85 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">PianoGame/musicListBackground.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/musicListButtonActive.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>93,35,186,69</rect>
+                <key>scale9Paddings</key>
+                <rect>93,35,186,69</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/musicListButtonNormal.png</key>
+            <key type="filename">PianoGame/musicListButtonTouched.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>92,34,184,67</rect>
+                <key>scale9Paddings</key>
+                <rect>92,34,184,67</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/musicListOkButton.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>133,33,266,66</rect>
+                <key>scale9Paddings</key>
+                <rect>133,33,266,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/musicListSelected.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>369,28,737,56</rect>
+                <key>scale9Paddings</key>
+                <rect>369,28,737,56</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">PianoGame/perfect.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>59,24,117,47</rect>
+                <key>scale9Paddings</key>
+                <rect>59,24,117,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">PianoGame/play.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -360,6 +453,15 @@
             <filename>PianoGame/minusActive.png</filename>
             <filename>PianoGame/plusActive.png</filename>
             <filename>PianoGame/playStatePauseActive.png</filename>
+            <filename>PianoGame/musicListBackground.png</filename>
+            <filename>PianoGame/musicListButtonActive.png</filename>
+            <filename>PianoGame/musicListButtonNormal.png</filename>
+            <filename>PianoGame/musicListButtonTouched.png</filename>
+            <filename>PianoGame/musicListOkButton.png</filename>
+            <filename>PianoGame/musicListSelected.png</filename>
+            <filename>PianoGame/excellent.png</filename>
+            <filename>PianoGame/leak.png</filename>
+            <filename>PianoGame/perfect.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -104,8 +104,8 @@ var swiper1 = new Swiper('#swiper-container1', {
         slideChangeTransitionStart:function(){
 
             // 播放当前页面音频文件
-            $('.swiper-slide-active audio')[0].play();
-            console.log("11");
+            playAudio( $('.swiper-slide-active input')[0].value );
+            
             // 获取当前图片的transform值
             var transForm = $('#swiper-container1 .swiper-scrollbar-drag')[0].style.transform;
             // 获取当前图片的transform的X值
@@ -124,17 +124,17 @@ var swiper1 = new Swiper('#swiper-container1', {
             $('.kpList').css('display','none');
 
 
-            if(audio){
-                audio.pause();
-                audio.load();
-            }
+            // if(audio){
+            //     audio.pause();
+            //     audio.load();
+            // }
 
         },
         slideChangeTransitionEnd: function () {
-            $('.swiper-slide-prev audio')[0].pause();
-            $('.swiper-slide-prev audio')[0].currentTime=0;
-            $('.swiper-slide-next audio')[0].pause();
-            $('.swiper-slide-next audio')[0].currentTime=0;
+            // $('.swiper-slide-prev audio')[0].pause();
+            // $('.swiper-slide-prev audio')[0].currentTime=0;
+            // $('.swiper-slide-next audio')[0].pause();
+            // $('.swiper-slide-next audio')[0].currentTime=0;
         },
         click: function(){
             // console.log(swiper1.activeIndex);
@@ -145,12 +145,5 @@ var swiper1 = new Swiper('#swiper-container1', {
 
 var audio = '';
 $('.live').click(function(){
-    audio = $('.swiper-slide-active audio')[0]; 
-    if(audio.paused){
-        audio.play();
-    }else{
-        audio.pause();
-        audio.load();
-
-    }
+    playAudio( $('.swiper-slide-active input')[0].value );
 })

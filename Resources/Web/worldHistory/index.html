@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="css/commen.css">
+    <link rel="stylesheet" href="css/animate.css">
     <script src="js/font.js"></script>
     <style>
         #bj{
@@ -16,7 +17,7 @@
             background: url("img/index-bj.jpg");
             background-size: 100% 100%;
             /*width: 100rem;*/
-            height: 100%;
+            height: 1080px;
         }
         #location{
             position: absolute;
@@ -32,6 +33,7 @@
         #location img{
             /*width: 90%;*/
             /*height: 90%;*/
+           /*opacity: 0;*/
         }
         #back img{
             width: 1.5rem;
@@ -79,6 +81,36 @@
             width: 0.8rem;
             z-index: 1000;
         }
+        @keyframes opacity2{
+            0%{opacity:1}
+            50%{opacity:.5;}
+            100%{opacity:0;}
+        }
+        @-webkit-keyframes opacity2{
+            0%{opacity:1}
+            50%{opacity:.5;}
+            100%{opacity:0;}
+        }
+        @-moz-keyframes opacity2{
+            0%{opacity:1}
+            50%{opacity:.5;}
+            100%{opacity:0;}
+        }
+        @-webkit-keyframes fadeInOut {
+            0% {
+                opacity:0;
+            }
+            25% {
+                opacity:0.2;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            75% {
+                opacity:0.75;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -94,7 +126,7 @@
 
     </li>
     <li>
-            <img style="width: 717px;left: 0;top: 113px;" src="img/three.png" alt="">
+            <img style="width: 717px;left: 0;top: 113px;opacity: 0" src="img/three.png" alt="">
 
     </li>
     <li>
@@ -113,7 +145,7 @@
 
     </li>
     <li>
-            <img style="left: 99px;width: 929px;top: 214px;" src="img/seven.png" alt="">
+            <img style="left: 99px;width: 929px;top: 214px;opacity: 0" src="img/seven.png" alt="">
 
     </li>
     <li>
@@ -136,7 +168,7 @@
     </li>
     <li>
 
-            <img style="width: 716px;left: 76px;top: 560px;"  src="img/twelve.png" alt="">
+            <img style="width: 716px;left: 76px;top: 560px;opacity: 0"  src="img/twelve.png" alt="">
 
     </li>
     <li>
@@ -152,15 +184,15 @@
 </body>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script>
-    var bili=(1080/window.screen.width);
+    var bili=(1080/window.screen.height);
     var bjWidth=11557/bili;
     var bjSize=document.getElementById("bj");
     var locationSize=document.getElementById("location");
     locationSize.style.width = bjWidth+'px';
-    locationSize.style.height = window.screen.width+'px';
+    locationSize.style.height = window.screen.height+'px';
     console.log(bjWidth);
     bjSize.style.width = bjWidth+'px';
-    bjSize.style.height = window.screen.width+'px';
+    bjSize.style.height = window.screen.height+'px';
     var imgWidth=$("#location img");
     console.log(imgWidth);
     function adaptation(obj) {
@@ -204,5 +236,54 @@
             window.android.exitApp();
         }
     })
+    // $("#location").on("touchmove",function () {
+    //     console.log("触摸滚动1")
+    //     let scroll = $(document).scrollTop();
+    //
+    // });
+    var lastItem=0;
+    $(document).ready(function () {
+        sendAsk();
+        window.addEventListener("scroll",function(e){
+            sendAsk();
+        });
+    });
+
+    function sendAsk(){
+        var lis= $('#location').find("img");
+        console.log(lis);
+        //swHeight=滚动的高度+窗体的高度；当li的offset高度<=swHeight,那么说明当前li显示在可视区域了
+        var swHeight=$(window).height();
+        $.each(lis, function (index, item) {
+            mTop=item.getBoundingClientRect().left;
+            console.log(mTop);
+            if(mTop<=swHeight){
+                console.log(index+1+"个发送请求  ");
+                console.log(index);
+                console.log(lis[index]);
+                // lis[index].style.animation="slideInRight 1s linear";
+                // lis[index].style.animation="fadeInOut 2s linear";
+                // setTimeout(function(){
+                //     lis[index].style.opacity="1";
+                // },1500)
+                // lis[index].style.animation="opacity2 1s linear";
+                if(index==0||index==13||index==8){
+                    lis[index].style.animation="flash 1s linear";
+                }else if(index==1||index==12||index==7){
+                    lis[index].style.animation="fadeOut 1s linear";
+                }else if(index==2||index==11||index==6){
+                    lis[index].style.animation="fadeInOut 2s linear";
+                    setTimeout(function(){
+                        lis[index].style.opacity="1";
+                    },1500)
+                }else if(index==3||index==10||index==5){
+                    lis[index].style.animation="shake 2s linear";
+                }else if(index==4||index==9){
+                    lis[index].style.animation="swing 2s linear";
+                }
+
+            }
+        });
+    }
 </script>
 </html>

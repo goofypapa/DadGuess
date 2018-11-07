@@ -26,10 +26,6 @@ public:
     void personalHeadOnClick( void );
     void settingsOnClick( void );
     
-    void animalCallBack( void );
-    void CadenceCallBack( void );
-    void dadpatCallBack( cocos2d::Ref* pSender );
-    
     void icoTouchCallBack( int p_icoIndex );
 
     void updateUserInfo( void );

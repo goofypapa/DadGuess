@@ -43,6 +43,8 @@ protected:
     void stopAudio( const std::string & p_audioUrl );
     
     void stopAllAudio( void );
+    
+    virtual ~WebViewScene( void );
 private:
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_url;

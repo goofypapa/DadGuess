@@ -9,7 +9,7 @@
 
 
 #include "MainScene.h"
-#include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 #include "Common.h"
 
 #include "json/document.h"
@@ -20,10 +20,11 @@
 USING_NS_CC;
 using namespace  rapidjson;
 using namespace cocos2d::ui;
+using namespace experimental;
 
 #define COUNTDOWN 3.0f
 #define MOVE_TIME 0.5f
-#define FAULT_TOLERANT_TIME 0.1f
+#define FAULT_TOLERANT_TIME 0.2f
 
 Scene * PianoGameMainScene::CreateScene()
 {
@@ -53,6 +54,14 @@ bool PianoGameMainScene::init()
     m_excellentCount = 0;
     m_leakCount = 0;
     m_musicListShowState = false;
+    
+    m_backgroundMusicHandle = 0;
+    m_backgroundMusicCalibration = false;
+    
+    m_isCountDown = false;
+    
+    m_startTime = 0.0f;
+    m_accumulativeTime = 0.0f;
     
     TexturePacker::PianoGame::addSpriteFramesToCache();
     
@@ -396,23 +405,27 @@ void PianoGameMainScene::update( float p_delta )
 {
     
     m_realTime += p_delta;
-    
-    m_leftRound->setRotation( fmod( m_realTime * 360.0f * 1.2f , 360.0f )  );
-    m_rightRound->setRotation( fmod( m_realTime * 360.0f * 1.2f , 360.0f )  );
-    
-    bool t_updateMusicTime = true;
+
+    m_leftRound->setRotation( fmod( m_realTime * 10.0f * 1.2f , 360.0f )  );
+    m_rightRound->setRotation( fmod( m_realTime * 10.0f * 1.2f , 360.0f )  );
+
     if( !m_playing )
     {
         return;
     }
     
-    if( m_currPlayTime < COUNTDOWN )
+    
+    timeval _currTime;
+    gettimeofday( &_currTime, NULL );
+    
+    double t_currTime = (double)_currTime.tv_sec + (double)(_currTime.tv_usec / 1000000.0f);
+    
+    if( m_isCountDown )
     {
-        t_updateMusicTime = false;
-        m_currPlayTime += p_delta;
+        double t_countDownTime= t_currTime - m_startTime;
         
         
-        int t_countDown = (int)floor( COUNTDOWN - m_currPlayTime - 0.2f ) + 1;
+        int t_countDown = (int)floor( COUNTDOWN - t_countDownTime - 0.2f ) + 1;
         
         //倒计时时间
         if( t_countDown < 4 && t_countDown != m_countDownNumber )
@@ -440,33 +453,49 @@ void PianoGameMainScene::update( float p_delta )
         
         
         //完成倒计时
-        if( m_currPlayTime >= COUNTDOWN )
+        if( t_countDownTime >= COUNTDOWN )
         {
-            m_currPlayTime = 4.0f;
-            
-            t_updateMusicTime = true;
-            
-            auto t_audioEnigne = CocosDenshion::SimpleAudioEngine::getInstance();
-            
-            t_audioEnigne->resumeAllEffects();
-            t_audioEnigne->resumeBackgroundMusic();
+            m_isCountDown = false;
+            m_startTime += COUNTDOWN;
         }
-    }else{
-        m_musicTime += p_delta;
-    }
-    
-    //没有准备完之前不计算
-    if( !t_updateMusicTime )
-    {
         return;
     }
+    
+    m_musicTime = t_currTime - m_startTime + m_accumulativeTime;
     
     if( !m_backgroundMusicPlaying && m_musicTime >= 0.0f )
     {
         //开始播放背景音乐
-        CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic( s_backgroundMusic.c_str() );
-        CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume( 0.4f );
+        m_backgroundMusicHandle = AudioEngine::play2d( s_backgroundMusic.c_str(), false, 0.4f );
+        
         m_backgroundMusicPlaying = true;
+    }
+    
+//    if( !m_backgroundMusicCalibration )
+//    {
+//        auto t_state = AudioEngine::getState( m_backgroundMusicHandle );
+//
+//        switch ( t_state ) {
+//            case cocos2d::experimental::AudioEngine::AudioState::PLAYING:
+//                m_backgroundMusicCalibration = true;
+//                m_accumulativeTime += AudioEngine::getCurrentTime( m_backgroundMusicHandle ) - m_musicTime;
+//
+//                printf( "---------> m_accumulativeTime: %f \n", m_accumulativeTime );
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+    
+    if( !m_backgroundMusicCalibration )
+    {
+        if( abs( m_musicTime - m_musicScore[2].time ) <= 0.01f )
+        {
+            m_backgroundMusicCalibration = true;
+            m_accumulativeTime += AudioEngine::getCurrentTime( m_backgroundMusicHandle ) - m_musicTime;
+
+            printf( "---------> m_accumulativeTime: %f \n", m_accumulativeTime );
+        }
     }
     
     if( m_showBollIndex < m_musicScore.size() && m_musicScore[m_showBollIndex].time <= m_musicTime + MOVE_TIME )
@@ -518,8 +547,12 @@ void PianoGameMainScene::update( float p_delta )
 //        if( abs( m_musicTime - item.time ) <= 0.01f )
 //        {
 //            std::stringstream t_sstr;
-//            t_sstr << "PianoGame/Piano/" << item.tone << ".wav";
-//            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
+//            t_sstr << "PianoGame/Piano/" << item.tone << ".ogg";
+//            AudioEngine::play2d( t_sstr.str().c_str() );
+//
+//            double t_audioTime = AudioEngine::getCurrentTime( m_backgroundMusicHandle );
+//
+//            printf( "-------> %f %f %f \n", m_musicTime, t_audioTime, m_musicTime - t_audioTime );
 //        }
         
         if( m_musicTime - item.time > FAULT_TOLERANT_TIME )
@@ -531,10 +564,10 @@ void PianoGameMainScene::update( float p_delta )
             t_mark->setVisible(true);
             t_mark->setScale( 0.1f );
             t_mark->setOpacity( 255 );
-            
+
             t_mark->runAction( Sequence::create( ActionFloat::create( 0.3f, 0.0f, 1.0f, [=]( const float p_val ){
                 t_mark->setScale(  p_val * m_centerControlScale );
-                
+
             }), ActionFloat::create( 0.1f, 0.0f, 1.0f, [=]( const float p_val ){
                 t_mark->setOpacity( 255 - (int)( p_val * 255.0f ) );
             }) , NULL) );
@@ -615,9 +648,6 @@ void PianoGameMainScene::toneTouched( const int p_index )
         m_toneDownAnimateSpriteList[ t_index ]->setSpriteFrame(  SpriteFrameCache::getInstance()->getSpriteFrameByName( "PianoGameToneTouchedDown_0.png" ) );
         m_toneDownAnimateSpriteList[ t_index ]->runAction( t_animateDown );
         
-        removeChild( m_gameTones[t_toneIndex].ball );
-        m_gameTones.erase( m_gameTones.begin() + t_toneIndex );
-        
         if( t_time <= 0.05f )
         {
             changeJudge( Perfect );
@@ -626,15 +656,20 @@ void PianoGameMainScene::toneTouched( const int p_index )
         }
         
         std::stringstream t_sstr;
-        t_sstr << "PianoGame/Piano/" << m_gameTones[t_toneIndex].tone << ".wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
+        t_sstr << "PianoGame/Piano/" << m_gameTones[t_toneIndex].tone << ".ogg";
+        AudioEngine::play2d( t_sstr.str().c_str() );
+        
+        removeChild( m_gameTones[t_toneIndex].ball );
+        m_gameTones.erase( m_gameTones.begin() + t_toneIndex );
         
     }else{
         //miss
         
         std::stringstream t_sstr;
-        t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << ".wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->playEffect( t_sstr.str().c_str() );
+        t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << ".ogg";
+        AudioEngine::play2d( t_sstr.str().c_str() );
+        
+        printf( "----------> %s \n", FileUtils::getInstance()->fullPathForFilename( t_sstr.str() ).c_str() );
         
         changeJudge( Leak );
     }
@@ -699,10 +734,19 @@ void PianoGameMainScene::buttonClick( const int p_tag )
             Director::getInstance()->replaceScene( MainScene::CreateScene() );
             break;
         case 2:
+            m_isCountDown = true;
+            
             if( !m_playing ){
                 m_playing = true;
                 m_currPlayTime = 0.0f;
                 m_countDownSprite->setVisible( true );
+                
+                timeval t_time;
+                gettimeofday( &t_time, NULL );
+                
+                m_startTime = (double)t_time.tv_sec + ( (double)t_time.tv_usec / 1000000.0f );
+                
+                printf( "----------> m_startTime: %f \n", m_startTime );
                 
                 if( m_showBollIndex <= 0 )
                 {
@@ -719,8 +763,7 @@ void PianoGameMainScene::buttonClick( const int p_tag )
             }else{
                 m_playing = false;
                 m_countDownSprite->setVisible( false );
-                CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
-                CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+                AudioEngine::pauseAll();
             }
             break;
         case 3:
@@ -756,8 +799,12 @@ void PianoGameMainScene::loadMusic( void )
     s_gameJson = t_music.second;
     
     m_backgroundMusicPlaying = false;
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+    m_backgroundMusicCalibration = false;
     
+    
+    AudioEngine::preload( s_backgroundMusic.c_str() );
+
+    printf( "----------> %s \n", FileUtils::getInstance()->fullPathForFilename( s_backgroundMusic ).c_str() );
     
     m_musicScore.clear();
     m_sequeueTone.clear();
@@ -792,16 +839,16 @@ void PianoGameMainScene::loadMusic( void )
         m_sequeueToneNoOctave.push_back( t_toneNoOctave );
         
         std::stringstream t_audio;
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << ".wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << ".ogg";
+        AudioEngine::preload( t_audio.str().c_str() );
         
         t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+1.wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+1.ogg";
+        AudioEngine::preload( t_audio.str().c_str() );
         
         t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+2.wav";
-        CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect( t_audio.str().c_str() );
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+2.ogg";
+        AudioEngine::preload( t_audio.str().c_str() );
         
     }
     
@@ -839,8 +886,7 @@ void PianoGameMainScene::loadMusic( void )
 
 PianoGameMainScene::~PianoGameMainScene( void )
 {
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
-    CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+    AudioEngine::stopAll();
     
     TexturePacker::PianoGame::removeSpriteFramesFromCache();
     

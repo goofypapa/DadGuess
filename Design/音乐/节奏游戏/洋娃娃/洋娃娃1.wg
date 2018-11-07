@@ -1,0 +1,10 @@
+temp85
+type=djembo
+
+in   o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 
+a    b1 o1 b1 o1 , t1 o1 t1 o1 , b1 o1 t1 o1 , b1 o1 t1 o1 
+b    s1 o1 s1 o1 , t1 o1 t1 o1 , s1 o1 s1 o1 , b1 o1 t2 b1 
+bd   s1 o1 o1 o1 , b1 o1 o1 o1 , s1 o1 o1 o1 , b1 o1 o1 o1 
+a    b1 o1 b1 o1 , t1 o1 t1 o1 , b1 o1 t1 o1 , b1 o1 t1 o1 
+b    s1 o1 s1 o1 , t1 o1 t1 o1 , s1 o1 s1 o1 , b1 o1 t2 b1 
+     o1 o1 o1 o1 , o1 o1 o1 o1 

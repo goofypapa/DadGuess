@@ -1,0 +1,13 @@
+temp127
+in   o1 o1 o1 o1 , o1 o1 t1 o1 , b1 o1 t1 t1 , s1 o1 o1 o1 
+a    t1 o1 o1 s2 , b1 s2 o1 o1 , b1 o1 o1 t2 , o1 b2 o1 o1 , t1 o1 o1 s2 , b1 s2 o1 o1 , t1 t1 o1 t1 , o1 b1 t1 s1 
+a.   t1 o1 o1 s2 , b1 s2 o1 o1 , b1 o1 o1 t2 , o1 b2 o1 o1 , t1 o1 o1 s2 , b1 s2 o1 o1 , t1 t1 o1 t1 , o1 b1 t2 s2 
+b    t1 b2 s2 t1 , s2 t1 s2 t1 , t1 b2 t2 b1 , t2 b1 t2 b1 
+b    t1 b2 s2 t1 , s2 t1 s2 t1 , t1 b2 t2 b1 , t2 b1 t2 b1 
+c    t1 b1 s1 b1 , t1 b1 s1 o1 , b1 o1 o1 s2 , b1 o1 o1 s2 , b1 b1 t1 b1 , t1 b2 t1 o1 
+bd   o1 o1 o1 o1
+a    t1 o1 o1 s2 , b1 s2 o1 o1 , b1 o1 o1 t2 , o1 b2 o1 o1 , t1 o1 o1 s2 , b1 s2 o1 o1 , t1 t1 o1 t1 , o1 b1 t1 s1 
+a.   t1 o1 o1 s2 , b1 s2 o1 o1 , b1 o1 o1 t2 , o1 b2 o1 o1 , t1 o1 o1 s2 , b1 s2 o1 o1 , t1 t1 o1 t1 , o1 b1 t2 s2 
+b    t1 b2 s2 t1 , s2 t1 s2 t1 , t1 b2 t2 b1 , t2 b1 t2 b1 
+b    t1 b2 s2 t1 , s2 t1 s2 t1 , t1 b2 t2 b1 , t2 b1 t2 b1 
+c    t1 b1 s1 b1 , t1 b1 s1 o1 , b1 o1 o1 s2 , b1 o1 o1 s2 , b1 b1 t1 b1 , t1 b2 t1 o1 

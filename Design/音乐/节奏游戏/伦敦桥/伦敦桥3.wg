@@ -1,0 +1,14 @@
+temp86  
+type=djembo
+
+in   o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1
+a    s2 b1 s2 b1 , t2 b1 t4 b1 
+a.   s2 b1 s2 b1 , t1 s1 t3 o1 
+a    s2 b1 s2 b1 , t2 b1 t4 b1 
+a.   s2 b1 s2 b1 , t1 s1 t3 o1 
+in   o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1
+a    s2 b1 s2 b1 , t2 b1 t4 b1 
+a.   s2 b1 s2 b1 , t1 s1 t3 o1 
+a    s2 b1 s2 b1 , t2 b1 t4 b1 
+a.   s2 b1 s2 b1 , t1 s1 t3 o1
+     o1 o1 o1 o1 , o1 o1 o1 o1 

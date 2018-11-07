@@ -44,6 +44,7 @@ bool WebViewScene::init( void )
 bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientation )
 {
     m_webOrientation = p_orientation;
+    m_url = p_url;
     
     if( m_webOrientation ){
         setAppOrientation( true );
@@ -64,18 +65,19 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
     auto contentSize = getContentSize();
     printf( "contentSize.width: %f, contentSize.height: %f \n", contentSize.width, contentSize.height );
     
-    if( p_url.compare( "ApiTest" ) != 0 )
+    std::stringstream t_splistName;
+    
+    t_splistName << "Web/" << p_url << ".plist";
+    
+    if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
     {
-        std::stringstream t_splistName;
-        
-        t_splistName << "Animate" << p_url << ".plist";
         
         SpriteFrameCache::getInstance()->addSpriteFramesWithFile( t_splistName.str() );
         Animation * t_animation = Animation::create();
         for( int i = 0; i < 25; ++i )
         {
             std::stringstream t_spriteName;
-            t_spriteName << p_url << "_" << ( i + 1 ) << ".png";
+            t_spriteName << "Frame_" << ( i + 1 ) << ".png";
             auto t_frame = SpriteFrameCache::getInstance()->getSpriteFrameByName( t_spriteName.str() );
             t_animation->addSpriteFrame( t_frame );
         }
@@ -422,7 +424,14 @@ void WebViewScene::deleteAudio( const std::string & p_audioUrl )
 std::string WebViewScene::urlRepair( std::string p_url )
 {
     
-    auto t_it = p_url.find( "//" );
+    auto t_it = p_url.find( "://" );
+    
+    if( t_it != std::string::npos  )
+    {
+        return p_url;
+    }
+    
+    t_it = p_url.find( "//" );
     
     if( t_it != std::string::npos )
     {
@@ -430,4 +439,16 @@ std::string WebViewScene::urlRepair( std::string p_url )
     }
     
     return "https://" + p_url;
+}
+
+WebViewScene::~WebViewScene()
+{
+    std::stringstream t_splistName;
+    
+    t_splistName << "Web/" << m_url << ".plist";
+    
+    if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
+    {
+        SpriteFrameCache::getInstance()->removeSpriteFramesFromFile( t_splistName.str() );
+    }
 }

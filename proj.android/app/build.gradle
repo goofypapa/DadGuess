@@ -60,14 +60,17 @@ android {
     }
 
     signingConfigs {
-
-       release {
+        release {
             if (project.hasProperty("RELEASE_STORE_FILE")) {
                 storeFile file(RELEASE_STORE_FILE)
                 storePassword RELEASE_STORE_PASSWORD
                 keyAlias RELEASE_KEY_ALIAS
                 keyPassword RELEASE_KEY_PASSWORD
             }
+            keyAlias 'key-0'
+            keyPassword 'goofypapa0722'
+            storeFile file('/Users/benbaba/Project/ dadpat.jks')
+            storePassword 'goofypapa0722'
         }
     }
 
@@ -101,6 +104,14 @@ android {
             }
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     buildToolsVersion '27.0.3'
 }
 
@@ -118,7 +129,7 @@ android.applicationVariants.all { variant ->
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':libcocos2dx')
 }
 

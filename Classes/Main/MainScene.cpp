@@ -13,7 +13,7 @@
 #include "LoginScene.h"
 #include "DataTableFile.h"
 #include "Http.h"
-#include "CadenceGameMainScene.h"
+#include "CadenceGameLoaderScene.h"
 #include "PianoGameMainScene.h"
 #include "DadGuessUpdateScene.h"
 
@@ -146,7 +146,7 @@ bool MainScene::init( void )
     m_mainSceneButtons.push_back( t_Message );
 
     touchAnswer( t_Message, [this]( Ref * p_ref ){
-        dadpatCallBack( this );
+        
     }, adaptation() * 1.1f, adaptation() );
 
     auto t_NewMessage = TexturePacker::Main::createMainNewMessageSprite();
@@ -161,7 +161,7 @@ bool MainScene::init( void )
     this->addChild( t_Notice );
     m_mainSceneButtons.push_back( t_Notice );
     touchAnswer( t_Notice, [this]( Ref * p_ref ){
-        dadpatCallBack( this );
+        
     }, adaptation() * 1.1f, adaptation() );
     
     Vec2 t_contentPos = Vec2( 30.0f, t_NoticeSize.height * adaptation() + 20.0f );
@@ -264,57 +264,45 @@ void MainScene::settingsOnClick( void )
     m_dialogSettings->show();
 }
 
-void MainScene::animalCallBack( void )
-{
-//    Director::getInstance()->replaceScene( WebViewScene::create() );
-}
-
-void MainScene::CadenceCallBack( void )
-{
-    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.3f, CadenceGameMainScene::create() ) );
-}
-
-void MainScene::dadpatCallBack( Ref* pSender )
-{
-    printf( "dadpat click \n" );
-}
-
 void MainScene::icoTouchCallBack( int p_icoIndex )
 {
     std::string t_url = "";
     bool t_orientation = false;
     switch (p_icoIndex) {
         case 0:
-            t_url = "animal";
+            t_url = "Web_Animal";
             t_orientation = true;
             break;
+        case 1:
+            Director::getInstance()->replaceScene( CadenceGameLoaderScene::create() );
+            return;
         case 2:
-            t_url = "ApiTest";
+            t_url = "Web_Api";
             break;
         case 3:
             Director::getInstance()->replaceScene( PianoGameMainScene::CreateScene() );
             return;
         case 4:
-            t_url = "earth";
+            t_url = "Web_Earth";
             t_orientation = true;
             break;
         case 5:
-            t_url = "astronomy";
+            t_url = "Web_Astronomy";
             break;
         case 6:
-            t_url = "historyChronology";
+            t_url = "Web_HistoryChronology";
             break;
         case 7:
-            t_url = "worldHistory";
+            t_url = "Web_WorldHistory";
             break;
         case 8:
-            t_url = "minghua";
+            t_url = "Web_Paintings";
             break;
         case 9:
-            t_url = "calendar";
+            t_url = "Web_Calendar";
             break;
         case 10:
-            t_url = "ABC";
+            t_url = "Web_ABC";
             break;
         case 11:
             Director::getInstance()->replaceScene( DadGuessUpdateScene::CreateScene() );

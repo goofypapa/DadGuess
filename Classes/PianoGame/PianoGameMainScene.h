@@ -70,6 +70,13 @@ protected:
 private:
     float * m_segmentations;
     
+    int m_backgroundMusicHandle;
+    bool m_backgroundMusicCalibration;
+    
+    double m_startTime, m_accumulativeTime;
+    
+    bool m_isCountDown;
+    
     cocos2d::Vec2 m_centerControlPosition;
     cocos2d::Vec2 m_startPos;
     float m_angleOffset, m_centerControlScale;

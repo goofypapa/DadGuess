@@ -45,22 +45,6 @@
 		370A78A22112975000252E8D /* Dialog.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A02112975000252E8D /* Dialog.plist */; };
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
 		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
-		373335AB217D78FE0087D425 /* AnimateABC.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335A9217D78FE0087D425 /* AnimateABC.plist */; };
-		373335AE217D949B0087D425 /* AnimateABC.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335AD217D949B0087D425 /* AnimateABC.png */; };
-		373335BD217D9A960087D425 /* Animatecalendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335AF217D9A950087D425 /* Animatecalendar.png */; };
-		373335BE217D9A960087D425 /* Animateanimal.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B0217D9A950087D425 /* Animateanimal.plist */; };
-		373335BF217D9A960087D425 /* Animateminghua.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B1217D9A950087D425 /* Animateminghua.plist */; };
-		373335C0217D9A960087D425 /* AnimateworldHistory.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B2217D9A950087D425 /* AnimateworldHistory.png */; };
-		373335C1217D9A960087D425 /* Animateanimal.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B3217D9A950087D425 /* Animateanimal.png */; };
-		373335C2217D9A960087D425 /* Animateminghua.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B4217D9A960087D425 /* Animateminghua.png */; };
-		373335C3217D9A960087D425 /* Animatieearth.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B5217D9A960087D425 /* Animatieearth.png */; };
-		373335C4217D9A960087D425 /* Animateastronomy.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B6217D9A960087D425 /* Animateastronomy.png */; };
-		373335C5217D9A960087D425 /* AnimatehistoryChronology.png in Resources */ = {isa = PBXBuildFile; fileRef = 373335B7217D9A960087D425 /* AnimatehistoryChronology.png */; };
-		373335C6217D9A960087D425 /* Animateastronomy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B8217D9A960087D425 /* Animateastronomy.plist */; };
-		373335C7217D9A960087D425 /* Animateearth.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335B9217D9A960087D425 /* Animateearth.plist */; };
-		373335C8217D9A960087D425 /* Animatecalendar.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BA217D9A960087D425 /* Animatecalendar.plist */; };
-		373335C9217D9A960087D425 /* AnimateworldHistory.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BB217D9A960087D425 /* AnimateworldHistory.plist */; };
-		373335CA217D9A960087D425 /* AnimatehistoryChronology.plist in Resources */ = {isa = PBXBuildFile; fileRef = 373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
 		374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 374B2206213530D400822A84 /* CadenceGameMainScene.cpp */; };
@@ -104,12 +88,13 @@
 		37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE76212BE5FB00DB6912 /* UserHead.vert */; };
 		37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE77212BE5FB00DB6912 /* UserHead.frag */; };
 		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
-		37E2AE8A212EA1D600DB6912 /* Canence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E2AE89212EA1D600DB6912 /* Canence.cpp */; };
-		37E2AE8D212EA1E800DB6912 /* Canence.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE8B212EA1E800DB6912 /* Canence.plist */; };
-		37E2AE8E212EA1E800DB6912 /* Canence.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE8C212EA1E800DB6912 /* Canence.png */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
 		37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */; };
+		37EAF97321919FED004DC9D5 /* CadenceGameLoaderScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */; };
+		37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */; };
+		37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */ = {isa = PBXBuildFile; fileRef = 37EAF97E2192BAA9004DC9D5 /* Cadence */; };
+		37EAF9822192BED4004DC9D5 /* CadenceMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
@@ -235,22 +220,6 @@
 		370A78A02112975000252E8D /* Dialog.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Dialog.plist; sourceTree = "<group>"; };
 		370A78A12112975000252E8D /* Dialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dialog.png; sourceTree = "<group>"; };
 		373335A32179C3BC0087D425 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
-		373335A9217D78FE0087D425 /* AnimateABC.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimateABC.plist; sourceTree = "<group>"; };
-		373335AD217D949B0087D425 /* AnimateABC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimateABC.png; sourceTree = "<group>"; };
-		373335AF217D9A950087D425 /* Animatecalendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animatecalendar.png; sourceTree = "<group>"; };
-		373335B0217D9A950087D425 /* Animateanimal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateanimal.plist; sourceTree = "<group>"; };
-		373335B1217D9A950087D425 /* Animateminghua.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateminghua.plist; sourceTree = "<group>"; };
-		373335B2217D9A950087D425 /* AnimateworldHistory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimateworldHistory.png; sourceTree = "<group>"; };
-		373335B3217D9A950087D425 /* Animateanimal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateanimal.png; sourceTree = "<group>"; };
-		373335B4217D9A960087D425 /* Animateminghua.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateminghua.png; sourceTree = "<group>"; };
-		373335B5217D9A960087D425 /* Animatieearth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animatieearth.png; sourceTree = "<group>"; };
-		373335B6217D9A960087D425 /* Animateastronomy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Animateastronomy.png; sourceTree = "<group>"; };
-		373335B7217D9A960087D425 /* AnimatehistoryChronology.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnimatehistoryChronology.png; sourceTree = "<group>"; };
-		373335B8217D9A960087D425 /* Animateastronomy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateastronomy.plist; sourceTree = "<group>"; };
-		373335B9217D9A960087D425 /* Animateearth.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animateearth.plist; sourceTree = "<group>"; };
-		373335BA217D9A960087D425 /* Animatecalendar.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Animatecalendar.plist; sourceTree = "<group>"; };
-		373335BB217D9A960087D425 /* AnimateworldHistory.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimateworldHistory.plist; sourceTree = "<group>"; };
-		373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AnimatehistoryChronology.plist; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
@@ -318,10 +287,6 @@
 		37E2AE76212BE5FB00DB6912 /* UserHead.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.vert; sourceTree = "<group>"; };
 		37E2AE77212BE5FB00DB6912 /* UserHead.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = UserHead.frag; sourceTree = "<group>"; };
 		37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultHead.png; sourceTree = "<group>"; };
-		37E2AE88212EA1D600DB6912 /* Canence.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Canence.hpp; sourceTree = "<group>"; };
-		37E2AE89212EA1D600DB6912 /* Canence.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Canence.cpp; sourceTree = "<group>"; };
-		37E2AE8B212EA1E800DB6912 /* Canence.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Canence.plist; sourceTree = "<group>"; };
-		37E2AE8C212EA1E800DB6912 /* Canence.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Canence.png; sourceTree = "<group>"; };
 		37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableUser.cpp; sourceTree = "<group>"; };
 		37E6FCC620F6F46E0047F458 /* DataTableUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableUser.h; sourceTree = "<group>"; };
 		37E6FCC720F6F46E0047F458 /* DataBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataBase.cpp; sourceTree = "<group>"; };
@@ -330,6 +295,13 @@
 		37E6FD0420F71ECA0047F458 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
 		37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGameMusicListScrollView.cpp; sourceTree = "<group>"; };
 		37EAF96E21899EA7004DC9D5 /* PianoGameMusicListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PianoGameMusicListScrollView.h; sourceTree = "<group>"; };
+		37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameLoaderScene.cpp; sourceTree = "<group>"; };
+		37EAF97221919FEC004DC9D5 /* CadenceGameLoaderScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CadenceGameLoaderScene.h; sourceTree = "<group>"; };
+		37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameScene.cpp; sourceTree = "<group>"; };
+		37EAF97C2192B038004DC9D5 /* CadenceGameScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CadenceGameScene.h; sourceTree = "<group>"; };
+		37EAF97E2192BAA9004DC9D5 /* Cadence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cadence; sourceTree = "<group>"; };
+		37EAF9802192BED4004DC9D5 /* CadenceMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CadenceMain.hpp; sourceTree = "<group>"; };
+		37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceMain.cpp; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -663,12 +635,12 @@
 		379D95E621081D47006DA6C1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */,
+				37EAF9802192BED4004DC9D5 /* CadenceMain.hpp */,
 				3777501A2187EFFA006518B4 /* DadGuess.cpp */,
 				3777501B2187EFFB006518B4 /* DadGuess.hpp */,
 				37DD9D6921803C13002855BE /* PianoGame.cpp */,
 				37DD9D6821803C13002855BE /* PianoGame.hpp */,
-				37E2AE89212EA1D600DB6912 /* Canence.cpp */,
-				37E2AE88212EA1D600DB6912 /* Canence.hpp */,
 				379D95F521097457006DA6C1 /* Dialog.cpp */,
 				379D95F621097457006DA6C1 /* Dialog.hpp */,
 				379D95EE21083F30006DA6C1 /* Login.cpp */,
@@ -747,6 +719,10 @@
 			children = (
 				374B2206213530D400822A84 /* CadenceGameMainScene.cpp */,
 				374B2207213530D400822A84 /* CadenceGameMainScene.h */,
+				37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */,
+				37EAF97221919FEC004DC9D5 /* CadenceGameLoaderScene.h */,
+				37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */,
+				37EAF97C2192B038004DC9D5 /* CadenceGameScene.h */,
 			);
 			path = Cadence;
 			sourceTree = "<group>";
@@ -771,6 +747,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37EAF97E2192BAA9004DC9D5 /* Cadence */,
 				3777501E2187F1B0006518B4 /* DadGuess.plist */,
 				3777501D2187F1B0006518B4 /* DadGuess.png */,
 				37DD9D70218055DE002855BE /* PianoGame.plist */,
@@ -778,25 +755,7 @@
 				37DD9D6E218055DE002855BE /* PianoGameBackground.png */,
 				37DD9D6F218055DE002855BE /* PianoGameBGRound.png */,
 				37DD9D6B218040D3002855BE /* PianoGame */,
-				373335B0217D9A950087D425 /* Animateanimal.plist */,
-				373335B3217D9A950087D425 /* Animateanimal.png */,
-				373335B8217D9A960087D425 /* Animateastronomy.plist */,
-				373335B6217D9A960087D425 /* Animateastronomy.png */,
-				373335BA217D9A960087D425 /* Animatecalendar.plist */,
-				373335AF217D9A950087D425 /* Animatecalendar.png */,
-				373335B9217D9A960087D425 /* Animateearth.plist */,
-				373335BC217D9A960087D425 /* AnimatehistoryChronology.plist */,
-				373335B7217D9A960087D425 /* AnimatehistoryChronology.png */,
-				373335B1217D9A950087D425 /* Animateminghua.plist */,
-				373335B4217D9A960087D425 /* Animateminghua.png */,
-				373335BB217D9A960087D425 /* AnimateworldHistory.plist */,
-				373335B2217D9A950087D425 /* AnimateworldHistory.png */,
-				373335B5217D9A960087D425 /* Animatieearth.png */,
-				373335AD217D949B0087D425 /* AnimateABC.png */,
-				373335A9217D78FE0087D425 /* AnimateABC.plist */,
 				373335A32179C3BC0087D425 /* Web */,
-				37E2AE8B212EA1E800DB6912 /* Canence.plist */,
-				37E2AE8C212EA1E800DB6912 /* Canence.png */,
 				37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */,
 				37E2AE75212BE5FB00DB6912 /* shader */,
 				370A78A02112975000252E8D /* Dialog.plist */,
@@ -976,7 +935,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				37DD9D73218055DE002855BE /* PianoGameBGRound.png in Resources */,
-				373335C2217D9A960087D425 /* Animateminghua.png in Resources */,
 				3777501F2187F1B0006518B4 /* DadGuess.png in Resources */,
 				373335A52179C3BC0087D425 /* Web in Resources */,
 				376A5D9F212A517900510F6C /* md5.inl in Resources */,
@@ -985,46 +943,30 @@
 				37DD9D72218055DE002855BE /* PianoGameBackground.png in Resources */,
 				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
-				373335C8217D9A960087D425 /* Animatecalendar.plist in Resources */,
-				37E2AE8D212EA1E800DB6912 /* Canence.plist in Resources */,
 				37DD9D71218055DE002855BE /* PianoGame.png in Resources */,
-				373335C3217D9A960087D425 /* Animatieearth.png in Resources */,
-				373335C9217D9A960087D425 /* AnimateworldHistory.plist in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
-				37E2AE8E212EA1E800DB6912 /* Canence.png in Resources */,
-				373335BD217D9A960087D425 /* Animatecalendar.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
-				373335AB217D78FE0087D425 /* AnimateABC.plist in Resources */,
 				37E2AE7A212BE5FB00DB6912 /* UserHead.frag in Resources */,
 				379D95EC21082419006DA6C1 /* Main.plist in Resources */,
-				373335AE217D949B0087D425 /* AnimateABC.png in Resources */,
 				379D95F321084A68006DA6C1 /* Login.plist in Resources */,
 				370A78A22112975000252E8D /* Dialog.plist in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				37DD9D74218055DE002855BE /* PianoGame.plist in Resources */,
 				377750202187F1B0006518B4 /* DadGuess.plist in Resources */,
-				373335BE217D9A960087D425 /* Animateanimal.plist in Resources */,
 				379D95ED21082419006DA6C1 /* Main.png in Resources */,
 				3705123721226DFB00F2FE1C /* README.txt in Resources */,
-				373335BF217D9A960087D425 /* Animateminghua.plist in Resources */,
 				3705123C21226DFB00F2FE1C /* ShareSDKUI.bundle in Resources */,
-				373335CA217D9A960087D425 /* AnimatehistoryChronology.plist in Resources */,
-				373335C6217D9A960087D425 /* Animateastronomy.plist in Resources */,
 				379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */,
 				37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */,
-				373335C5217D9A960087D425 /* AnimatehistoryChronology.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
-				373335C1217D9A960087D425 /* Animateanimal.png in Resources */,
 				373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */,
 				3705123521226DFB00F2FE1C /* WeiboSDK.bundle in Resources */,
+				37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
-				373335C4217D9A960087D425 /* Animateastronomy.png in Resources */,
 				379D958B21080A8E006DA6C1 /* Cloud.png in Resources */,
 				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
-				373335C0217D9A960087D425 /* AnimateworldHistory.png in Resources */,
 				37DD9D6C218040D3002855BE /* PianoGame in Resources */,
-				373335C7217D9A960087D425 /* Animateearth.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,6 +987,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37EAF97321919FED004DC9D5 /* CadenceGameLoaderScene.cpp in Sources */,
 				37DD9D6A21803C13002855BE /* PianoGame.cpp in Sources */,
 				3705125D212577C700F2FE1C /* Http.cpp in Sources */,
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
@@ -1052,6 +995,7 @@
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
 				3777502621882509006518B4 /* PianoGameMusicListLayer.cpp in Sources */,
 				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
+				37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */,
 				374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
@@ -1065,13 +1009,13 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */,
 				37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */,
+				37EAF9822192BED4004DC9D5 /* CadenceMain.cpp in Sources */,
 				376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */,
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,
 				3777501C2187EFFB006518B4 /* DadGuess.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				37DD9D6721803B55002855BE /* PianoGameMainScene.cpp in Sources */,
 				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
-				37E2AE8A212EA1D600DB6912 /* Canence.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,
 				37775023218809CF006518B4 /* DataTableCard.cpp in Sources */,
 				370511E0211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp in Sources */,

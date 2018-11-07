@@ -1,9 +1,10 @@
 #include "CadenceGameMainScene.h"
-#include "Canence.hpp"
+#include "CadenceMain.hpp"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "Common.h"
 #include "MainScene.h"
+#include "CadenceGameLoaderScene.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -14,14 +15,13 @@ bool CadenceGameMainScene::init( void )
     {
         return false;
     }
-
-    TexturePacker::Canence::addSpriteFramesToCache();
+    
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "Cadence/CadenceMain.plist", Director::getInstance()->getTextureCache()->getTextureForKey( "Cadence/CadenceMain.png" ) );
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-    
-    auto t_backgroud = TexturePacker::Canence::createCanenceBackgroundOneSprite();
+    auto t_backgroud = TexturePacker::CadenceMain::createCadenceBackground_1Sprite();
     if (t_backgroud != nullptr)
     {
         t_backgroud->setPosition( Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y) );
@@ -40,7 +40,7 @@ bool CadenceGameMainScene::init( void )
     this->addChild( t_back );
 
     touchAnswer( t_back, []( Ref * p_ref ){
-        Director::getInstance()->replaceScene( TransitionSlideInL::create( 0.2f, MainScene::create() ) );
+        Director::getInstance()->replaceScene( MainScene::create() );
     }, adaptation() * 1.1f, adaptation() );
     
 
@@ -49,5 +49,5 @@ bool CadenceGameMainScene::init( void )
 
 CadenceGameMainScene::~CadenceGameMainScene()
 {
-    TexturePacker::Canence::removeSpriteFramesFromCache();
+    CadenceGameLoaderScene::uncacheResource();
 }

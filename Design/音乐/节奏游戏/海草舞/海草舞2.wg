@@ -1,0 +1,6 @@
+temp128
+in   o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 , o1 o1 o1 o1 
+a    b1 o1 b1 t1 , b1 t3 o1 t1 , b1 o1 b1 t1 , b1 t3 o1 t1 , b1 o1 b1 t1 , b1 t1 o1 t1 , b1 o1 b1 t1 , s1 s1 o1 o1 
+b    b1 b1 t1 b1 , b1 s1 o1 s1 , b1 b1 t1 b1 , b1 s1 o1 s1 , b1 b1 t1 b1 , b1 o1 s3 o1 , b1 o1 t1 b1 , b1 s3 o1 t1 
+b.   t1 t1 o1 b1 , s1 b1 t1 b1 , t1 t1 o1 b1 , s1 b1 t1 b1 , t1 t1 o1 t3 , s1 o1 t1 b1 , t1 b1 o1 b1 , s1 s1 o1 o1 
+a    b1 o1 b1 t1 , b1 t3 o1 t1 , b1 o1 b1 t1 , b1 t3 o1 t1 , b1 b1 o1 t1 , o1 t1 b2 t1 , s1 s1 o1 b3 , s1 o1 o1 o1 

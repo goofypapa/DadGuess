@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <script src="../script/jquery-3.3.1.min.js"></script>
+
+
+    <!-- Demo styles -->
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0;
+            padding: 0;
+        }
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            background: url("../img/lunbo-bj.png")no-repeat;
+            background-size: cover;
+        }
+        .swiper-button-next,.swiper-button-prev{
+            background-size: 60%;
+            top:48%;
+            outline: none;
+        }
+        /*.swiper-button-next{*/
+        /*background-image: url("../img/right.png");*/
+        /*left:94%;*/
+        /*}*/
+        /*.swiper-button-prev{*/
+        /*background-image: url("../img/left.png");*/
+        /*left: 20px;*/
+
+        /*}*/
+        .pic{
+            width: 50%;
+            /*height: 70%;*/
+            position: absolute;
+            /*left: 15%;*/
+            /*top:15%;*/
+            overflow: hidden;
+        }
+        .pic img{
+            width: 100%;
+        }
+        .introduce{
+            position: absolute;
+            right: 10%;
+            font-size: 1rem;
+            /*top:10%;*/
+            width: 34%;
+            height: 80%;
+            margin-top: 5%;
+            /*background: url("../img/text-bj.png");*/
+            overflow: hidden;
+            /*background-size: cover;*/
+            /*bottom: 20%;*/
+            /*-webkit-transform: rotate(90deg); transform: rotate(90deg);*/
+        }
+        .introduce p{
+            word-break: break-word;
+            text-align: justify;
+            font-size: 12px;
+            letter-spacing:2px;
+
+        }
+        .introduce p:first-child{
+            font-size: 20px;
+            font-weight: bold;
+
+        }
+        .introduce p:first-child+p{
+            font-size: 14px;
+        }
+        .info{
+            height: 150px;
+            overflow: hidden;
+
+        }
+        .info img{
+            position: absolute;
+            /*top: 23%;*/
+            left: 0;
+            width: 100%;
+            height: 50%;
+            z-index: 10;
+        }
+        .info span{
+            position: absolute;
+            margin-top: 3%;
+            left: 5%;
+            width: 90%;
+            height: 45%;
+            overflow-y: auto;
+            z-index: 20;
+        }
+        .introduce p:last-child{
+            height: 13rem;
+            overflow: auto;
+            text-align: justify;
+            margin-top: 5%;
+        }
+        #origin-img{
+            display: none;
+        }
+        #chinese{
+            position: fixed;
+            bottom: 4%;
+            right: 3.2%;
+            z-index: 2;
+        }
+        #chinese a{
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+        }
+        #chinese img{
+            width: 4rem;
+        }
+        #introduce{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            background-color: #f9efd5;
+            z-index: 10;
+            font-size: 0.8rem;
+            line-height: 1.5rem;
+            overflow: auto;
+            text-align: justify;
+        }
+        #introduce p{
+            margin: 2% 2% 0 2%;
+        }
+        .bj{
+            /*border: 0.06rem solid #b99a66;*/
+            width: 100%;
+            height: 100%;
+            /*background-color: #fff;*/
+        }
+        .swiper-zoom-container{
+            background-color: #fff;
+        }
+        .swiper-pagination {
+            display: none;
+        }
+        .pinch-zoom,.pinch-zoom img{
+            /*width: 100%;*/
+            -webkit-user-drag: none;
+            -moz-user-drag: none;
+            -ms-user-drag: none;
+            user-drag: none;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .page{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: #fff;
+        }
+        .pinch-zoom-container{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="introduce"><p></p></div>
+<!-- Swiper -->
+<!-- 用来显示单张图片的Swiper -->
+<div class="swiper-container case" id="origin-img"  >
+    <div class="swiper-wrapper"></div>
+    <div class="swiper-pagination case"></div>
+</div>
+
+<!-- 用来显示轮播图的Swiper -->
+<div class="swiper-container banner" id="lunbo">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle1.png" name="http://www.dadpat.com/app/paintingImg/chinese1.png" alt="60%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《果熟来禽图》</p>
+                    <p >林椿(南宋,生卒年不详)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《果熟来禽图》是林椿晚期成熟的作品，现在收藏在北京故宫博物院。画面构图采取稳定的三角形，从左端上部四分之一处到右下角，被一枝优美饱满的树枝所占据，枝上四枚果子已经成熟，粉红的果子格外诱人。树枝上的树叶错落有致，连阴阳面、叶柄转承等细节都一一罗列，但是叶子已经发黄，还有无数虫洞，这预示着秋天即将来临。果枝上栖息着一只小雀，它昂头向上，似乎在呼唤小伙伴来享用果子美餐，这是这幅图的点睛之笔，起到统领全局的作用。
+                        画中小鸟的动态用细劲柔和的笔致勾勒，蓬松的羽毛则以浑融的墨色晕染，木叶的枯萎、残损、锈斑，果子上被虫儿叮咬的痕迹都被一一描绘出来，可见画家高超的写生能力。在构图上,画家则删繁就简、明洁奇巧，既保持了画院花鸟画“要物形不改”的状物精微的写实精神，又表现出自己蕴藉空灵的审美追求。
+                        画面设色轻敷淡染，黄绿的叶子、淡红的果实、鹅黄的小鸟，分外和谐明丽。画家以活泼的形式突出表现了枝叶、果实的色彩和禽鸟的情态，画幅尺寸不大却异常精美。在饱满丰硕的果实和小鸟怡然自得的鸣唱中，画外的情趣、诗意与画意相结合，加强了花鸟画借物抒情的目的，令人赏心悦目。</span></p>
+                    <p>尺寸:26.9cm*27.2cm</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img alt="40%" src="http://www.dadpat.com/app/paintingImg/semicircle2.png" name="http://www.dadpat.com/app/paintingImg/chinese2.png" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《芙蓉锦鸡图》</p>
+                    <p>赵佶(北宋,1082—1135)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《芙蓉锦鸡图》是宋徽宗赵佶创作的一幅双勾重彩工笔花鸟画，现在收藏于北京故宫博物院。全图设色艳丽，画面的主体是芙蓉、菊花和一只色彩斑斓的锦鸡。这幅画气韵生动，画面中一只肥硕的锦鸡飞上从左侧伸出的芙蓉花树枝，纤细的树枝因无法稳定承受重压而剧烈摇曳，以致同样停留在花间的一对蝴蝶惊飞，锦鸡回头望向飞舞的蝴蝶。画家抓住了锦鸡飞上纤细花枝的一瞬间的状态，静中见动，活泼有趣。此外，画面的左下角斜伸出一枝菊花，恰当地表现了绘画的时间为秋季。画中五彩锦鸡、芙蓉、蝴蝶虽然都是华丽的题材，但经过巧妙构图便不同于一般装饰，而充满了活趣。
+                        《芙蓉锦鸡图》采取双勾，笔力挺拔，色调秀雅，线条工细沉着；色彩渲染填色薄艳娇嫩，细致入微。所画的锦鸡、花鸟、飞蝶，都非常精美而不呆板，达到了工笔画中难以企及的形神兼备、富有逸韵的境界。整幅画层次分明，疏密相间，充满了秋色中盎然的生机，表现出了平和愉悦的境界。</span></p>
+                    <p>尺寸:53.6cm*81.5cm</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle3.png" name="http://www.dadpat.com/app/paintingImg/chinese3.png" alt="100%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《墨梅图》</p>
+                    <p>王冕(元朝,1287—1359)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《墨梅图》是王冕众多墨梅作品中较有代表性的一幅，收藏于北京故宫博物院。该画画了横向的折枝墨梅，笔意简逸，枝干挺秀，花朵疏朗，穿插得势，构图清新悦目。画中繁密的梅花或含苞欲放，或绽瓣盛开，或残英点点，千姿百态，犹如万斛玉珠撒落在银枝上。梅树的干枝被描绘得如弯弓秋月，挺劲有力。洁白的花朵与铁骨铮铮的干枝相映照，清气袭人，深得梅花清韵。图中的梅花分布极富韵律感：长枝处梅花稀疏，短枝处梅花繁密，交枝处尤其花蕊累累。这种繁花密枝的梅花画法与宋代疏枝浅蕊的梅花画法大为不同，别开生面。此外，王冕采用独创的顿挫方法勾花，虽不设色，却能把梅花含笑盈枝生动地刻画出来，显得简洁洒脱。整幅图用墨浓淡相宜，花朵的盛开、渐开、含苞都显得清润洒脱，生气盎然。</span></p>
+                    <p>尺寸:50.9cm*31.9cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle4.png" name="http://www.dadpat.com/app/paintingImg/chinese4.png" alt="33%">
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《郊原牧马图》</p>
+                    <p>郎世宁(意大利人,原名朱塞佩·伽斯底里奥内,1688—1766,清朝宫廷画家)</p>
+                    <p class="info" style="height: 110px"><img style="height: 42%" src="../img/info-bj.png" alt=""><span style="height: 37%">简介:《郊原牧马图》又称《八骏图》，是郎世宁借鉴油画手法创作的一幅中国画，现藏于北京故宫博物院。画面背景是郊外旷野，景色秀丽，视野开阔，在一棵壮实粗大的柳树下，画着八匹色彩不同的骏马，或卧，或立，或吃草，或嬉戏，神态各异、造型逼真。画中有两个放牧者，一个在树下休憩观望，另一个站在一匹神俊的白马后面，似乎在为白马刷毛。
+                        《郊原牧马图》的题材是放牧，不是对单匹马的写生，因此综合、融合了各种马匹的形象。郎世宁借助了西方追求如实表现物象体积感和立体感的绘画技巧，将焦点透视、明暗调子、色彩空间等西方画风与中国画用线用墨传统结合，形成混合型技法。这种技法将马的各种姿态刻画得活灵活现、栩栩如生。在中国艺术史上，郎世宁所具有的独特艺术风格形成了“海西画派”。此外，画中的树木、山石、花草也用光影画法的明暗变化来表现形态，有更多西方绘画技法的痕迹。
+                        骏马是郎世宁作品中常见的绘制对象，这表明他领会了马在中国传统文化中的象征意义。自古以来，马是社会贤良的象征，封建帝王命宫廷画家以马为题材进行创作寓意尊重社会栋梁、求贤若渴的殷切希望。郎世宁以“八骏”入画并非偶然，正是这一传统的体现。</span></p>
+                    <p>尺寸:51.2cm*166cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle5.png" name="http://www.dadpat.com/app/paintingImg/chinese5.png" alt="27.2%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《墨竹》</p>
+                    <p>郑板桥(清朝,1693—1765)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《墨竹》是体现郑板桥墨竹艺术创作理论的典范，在造型布局上高度概括提炼，仅绘廖廖数竹，便使人如入一片青郁葱翠的竹林。画中的每棵竹子都先立竿留节，梢与根短，中干长，长短参差，每节上下相承，形若半环，墨浓淡有别，用中锋画干，老干用侧锋，全干圆浑得势。在画面局部，郑板桥用笔墨描绘每一竹竿、竹叶、竹节，却笔笔得势、得神、得法，显露出生气。画中竹枝的画法也很独特，枝枝着节，行笔迅速，遒健圆劲。嫩枝节小，和柔而顺；老枝节大，挺拔而起；枝覆而叶多，枝昂而叶少，描摹得神，生意盎然。
+                        墨竹画叶最难，此画的竹叶下笔劲利，实按而虚起，兼有破法搭法，墨色有浓淡，老嫩反正分明，用中锋画瘦叶小叶，用侧锋画肥叶，下笔势如破竹，一气呵成，充分表现出郑板桥成竹在胸、娴熟高明的笔墨技巧。郑燮的墨竹多得之于“纸窗、粉壁、日光、月影中”，经过了从“眼前之竹”，到“胸中之竹”，再到“手中之竹”的艺术幻化。郑燮一生大部分时间都在画竹子，成就最为突出。在这幅作品中，郑燮还题有诗文，在诗情画意中歌颂了清风劲节，表达了关心“民间疾苦声”的抱负。</span></p>
+                    <p>尺寸:65.7cm*136.1cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle6.png" name="http://www.dadpat.com/app/paintingImg/chinese6.png" alt="31%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《秋庭戏婴图》</p>
+                    <p>苏汉臣(宋朝,1094—1172)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《秋庭戏婴图》是宋代儿童题材绘画极其发达的证据，其色彩选择醒目而纯粹，能顷刻抓住欣赏者的眼球，现收藏于台北故宫博物院。该画的背景是秋季的一处花园，芙蓉与雏菊摇曳生姿，一块巨大的太湖石在园中耸立，两个孩子正在专心致志地做游戏。画中芙蓉花盛开，说明家境殷实、天下太平之意，同时对应儿童如花团锦簇，显示儿童富贵健康。画中的儿童是一子一女，正是“好”字，符合中国人传统的审美喜好。画家对姐弟两人的头发、眉目、衣饰都精心刻画，丝染兼备，而且变化极为丰富。这些细微的处理，使得孩子丰润、柔软、细致的模样跃然于纸上。两个孩子是这幅图的重点，他们正在心无旁骛地玩推枣磨游戏。虽然他们周围有众多精巧的玩具可以玩耍，两个孩子却选择了简单的枣核作为玩具，这透露出一种不分贵贱的意识。
+                        《秋庭戏婴图》最精妙之处在于：它很好地描写了一个大众喜闻乐见的情景， 以形象的寓意迎合了大众希求富贵祥和的要求，符合社会大众的审美。同时，画家将自己对文化的理解隐藏在绘画语言之内，这与后期的儿童题材绘画的制作一味讨喜大众有明显区别。</span></p>
+                    <p>尺寸:108.7cm*197.5cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle7.png" name="http://www.dadpat.com/app/paintingImg/chinese7.png"  alt="31%">
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《王蜀宫妓图》</p>
+                    <p>唐寅(明朝,1470—1524)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《王蜀宫妓图》是唐寅人物画的代表作，因画面主体是四位美人而被称为《四美图》，现在收藏于北京故宫博物院。画中所绘的四位美人是歌舞宫女，她们已经化好了妆容，在等待君王召唤侍奉。画中美人都头戴饰品，穿着绫罗，面朝观者的两位美人有樱桃小嘴、柳叶眉，也有唐代典型的额头、鼻尖、下巴点白。
+                        美人的衣纹用细劲流畅的铁线描，线条细腻柔美，装饰物精细艳丽，显得绮罗绚烂。色彩鲜艳的衣服把宫妓们竞相装扮、斗绿争绯的情态刻画得生动入微，是唐寅人物画中工笔重彩画风的代表作品，显示出他在造型、用笔、设色等方面的高超技艺。整幅图色彩设色鲜明，既有浓淡、冷暖色彩的强烈对比，又有相近色泽的巧妙过渡和搭配，使整体色调丰富而又和谐，浓艳中兼具清雅。
+                        《王蜀宫妓图》中的美人体态匀称优美，削肩狭背，柳眉樱髻，额、鼻、颏施以“三白”，既吸收了张萱、周昉创造的“唐妆”仕女造型特色，又体现出明代追求清秀娟美的审美风尚。四人交错而立，平稳有序，并通过微倾的头部、略弯的立姿和攀连的手臂形成动态的多样变化和相互的紧密联系，加强了形象的丰富性和生动感。</span></p>
+                    <p>尺寸:63.6cm*124.7cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle8.png" name="http://www.dadpat.com/app/paintingImg/chinese8.png" alt="79%"  >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《窠石平远图》</p>
+                    <p>郭熙(北宋.约1000—1090)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《窠石平远图》创作于元丰元年（1078年），距离现在近1000年，现在收藏于北京的故宫博物院。 画中所画的是深秋清旷之景，神韵独绝：近景描绘了溪水清浅，岸边岩石裸露，石上杂树一丛，枝干蟠曲，有的叶落殆尽，有的画出老叶；远景画的是寒烟苍翠，荒原莽莽，群山横列如屏障，天空清旷无尘。图中的窠石用独创的“卷云皴”法，以表现北方山水的浑厚和磅礴。这幅画中没有其他画家秋景的萧瑟和悲凉，从构图的气势到用笔的利爽，都给人以肃穆、庄重、清神的美感。
+                        画面左侧有款“窠石平远”四字及“元丰戊年郭熙画”，还有“郭熙印章”一方，表明作者及创作时间。此外，还有“敕赐临济壹宗之印”等印记十一方和半印一方。
+                        《窠石平远图》所采用的取景构图是郭熙总结的“三远”法（“三远”即高远、深远和平远）中的“平远”法。郭熙对于“平远”的解释是：“自近山而望远山，谓之平远”。《窠石平远图》采取画中取景的技法，视平线在下部约三分之一处，平视中使景物集中。观赏《窠石平远图》时，观察者可以自画面前景透过中景而望远景，层次分明，表现出纵深的空间距离，画面虽着墨不多，但境界阔大，气势雄壮，用笔硬劲而秀俊，全图情景交融，出神入化，显示出画家晚年炉火纯青的艺术造诣。</span></p>
+                    <p>尺寸:167.7cm*120.8cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle9.png" name="http://www.dadpat.com/app/paintingImg/chinese9.png" alt="63%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《照夜白图》</p>
+                    <p>韩幹(唐朝,706—783)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《照夜白图》是唐朝画马大师韩幹的作品，现在被收藏在美国的大都会博物馆。画中的马叫照夜白，是唐玄宗李隆基的爱马。图中被拴在马柱上的照夜白正仰首嘶鸣，奋蹄欲奔，神情昂然，充满生命的动感。马的形象不仅非常写实，而且它腾跃有力的身态刻画出了不同凡响的高傲、暴烈的性情。而且马的体态肥壮矫健，唐韵十足。
+                        《照夜白图》是用水墨线描完成的，用笔简练，线条纤细而道劲，渲染虽然不多，但是体积感、质感很强。画中除了一匹马以外，全都是空白的部分，给观众留下了充足的想象空间。《照夜白图》的画面看似单薄简约，实际上充满了丰富的情节和感受。画中的骏马仿佛即将挣脱远去，消失在无尽的遐想之中。
+                        画面的空白处印满了各收藏者的提跋，如南唐后主李煜所题的“韩幹照夜白”五个字，唐代著名美术史家张彦远所题的“彦远”二字。卷前有何子洇、吴说题首，卷后有元代危素及沈德潜等十一人题跋。
+                        据专家考证，《照夜白图》中马的头、颈、前身为真迹，而后半身为后人补笔，马尾巴已不存。</span></p>
+                    <p>尺寸:33.5cm*30.8cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle10.png" name="http://www.dadpat.com/app/paintingImg/chinese10.png" alt="104%"  >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《游春图》</p>
+                    <p>展子虔(隋朝,545—618)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《游春图》是中国现存最古老的画卷，也是展子虔唯一一幅流传后世的作品，现在收藏于北京故宫博物馆。这幅画用全景的方式描绘了广阔的山水场景和游人的春游活动，采取青绿勾填不加皴染的画法，使得画面古意盎然。画面远处，烟云飘渺，白云出岫，如同仙境一般；近处则树木成林，桃花点缀枝头，山清水秀，景色优美。此外，画中还杂以楼阁、院落、桥梁、舟揖，并点缀着踏春赏玩的人物车马。整幅图展现了一幅杏桃绽开、绿草如茵、水波粼粼，春风荡漾的春日融融之景象。
+                        在这幅画中，展子虔以高超的画技恰当地表现了客观物体之远近、高低、大小关系及空间透视关系，人物、山水疏密安排十分得宜，展现着自然界的交替、交换与重叠，打破了中国早期山水画画面死板的现象，是山水画的划时代创造。展子虔在山水画上所达到的成就及其绘画方法，直接开启了唐代画家李思训、李昭道父子金碧山水的先河，后人视展子虔为“开青绿山水之源”，他的山水画也被称为“远近山川，咫尺千里”。 </span></p>
+                    <p>尺寸:80.5cm*43cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle11.png" name="http://www.dadpat.com/app/paintingImg/chinese11.png" alt="100%" about="6rem"  >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《捣练图》</p>
+                    <p>张萱(唐朝,713—755)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《捣练图》是中国古代传世名画，现藏于美国波士顿博物馆。这幅画在唐代仕女画中取材较为别致，描绘了唐代妇女在捣练时的劳动情景。在长卷式的画面上共刻画了十二个人物形象，采用“散点透视法”进行构图，按劳动工序分成捣练、织线、熨烫三组场面。第一组人物描绘四个人以木杵捣练的情景；第二组人物画有两人织线的情景，一人坐在地毡上理线，一人坐于凳上缝纫；第三组人物是熨烫的场景，还有一个小女孩淘气地从布底下窜来窜去。这些人物形象逼真，刻画维肖，设色艳而不俗，“丰肥体”的人物造型反映出盛唐崇尚健康丰腴的审美情趣，也是唐代仕女画的典型风格。
+                        张萱以细劲圆浑、刚柔相济的墨线勾勒出画中人物形象，辅以柔和鲜艳的重色，塑造的人物形象端庄丰腴、情态生动，是唐代仕女画在写实方面的杰出成就。而且，张萱表现妇女捣练活动，不只是描绘活动过程，他既重视人物形象的塑造，又注意刻画某些富有情趣的细节，如捣练中的挽袖，缝衣时灵巧的理线，扯练时微微着力的后退，一女孩在煽火时以袖遮面及另一女孩出神地观看熨练等，使画面中的人物与场景真实生动，充满生活情趣。这些细小动作的描绘，更好地展示出了画中人物的性格和心理活动，使人物具有自己的性格特征。
+                    </span></p>
+                    <p>尺寸:145.3cm*37cm</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="bj">
+                <div class="pic">
+
+                    <div class="thumb" thumblist="list1">
+                        <img src="http://www.dadpat.com/app/paintingImg/semicircle12.png" name="http://www.dadpat.com/app/paintingImg/chinese12.png" about="5rem" alt="100%" >
+
+                    </div>
+
+
+                </div>
+                <div class="introduce">
+                    <p>《鹊华秋色图》</p>
+                    <p>赵孟頫(元朝,1254—1322)</p>
+                    <p class="info"><img src="../img/info-bj.png" alt=""><span>简介:《鹊华秋色图》是赵孟頫传世的最重要作品之一，原藏于北京故宫博物院，现藏于台北故宫博物院。画卷描绘了济南郊区的鹊山、华不注山周围平川洲渚，红树芦荻，渔舟出没的美景。画面的远处是两座苍翠的大山，一座山是椭圆的，另一座山是尖耸的，两座山遥遥相对；近处的山脚下坐落着乡村民居，周边树木蓊郁，画面蕴含着浓浓的文人气息。画作整体采取的是平远法构图，笔法潇洒、设色明丽。画家对树木、屋舍等描画得很精细，以青、赭、红、绿等多色渲染，富于节奏感，风格古雅俊秀。
+                        《鹊华秋色图》在画史上被认定为文人画风式青绿设色山水：两座主峰以花青杂以石青，呈深蓝色，山峰的深蓝色与州渚的浅淡、树叶的各种深浅不一的青色形成同色调的变化。此外，画面上还运用了一些暖色系的颜色，如斜坡、近水边处，被染成赭色，屋顶、树干、树叶又是红、黄、赭色的。暖色系的颜色与花青形成色彩学上补色作用法，效果非常好。这幅画整体的色彩运用代表了赵孟頫师法古人与造化，将水墨山水与青绿山水创造性地结合在一起的风貌。他用写意笔法画山石树木，脱去精勾密皴之习，而参以董源笔意，树干只作简略的双钩，枝叶用墨点草草而成；山峦则用细密柔和的皴线画出山体的凹凸层次，然后用淡彩水墨浑染，使之显得湿润，草木繁茂。</span></p>
+                    <p>尺寸:90.2cm*28.4cm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-pagination banner"></div>
+    <!-- Add Pagination -->
+    <!-- Add Arrows -->
+    <!--<div class="swiper-button-next"></div>-->
+    <!--<div class="swiper-button-prev"></div>-->
+</div>
+
+
+
+
+<!-- Swiper JS -->
+<script src="../script/jquery.js"></script>
+<script src="../script/swiper.min.js"></script>
+<script>
+    $(".info span").click(function () {
+        $("#introduce").css("display","block");
+        console.log($(this).next("p").text());
+        var text=$(this).text();
+        $("#introduce p").text(text);
+    })
+    $("#introduce").click(function(){
+        $("#introduce").css("display","none");
+    })
+
+
+</script>
+<!-- Initialize Swiper -->
+<script>
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+    //定义变量接收url参数
+    var picNum=GetQueryString("index");
+
+    if(picNum!=null&&picNum.toString().length>0)
+    {
+        console.log(picNum);
+    }
+    var swiper = new Swiper('.banner.swiper-container', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        initialSlide :picNum,
+    });
+
+    var mYswiper = new Swiper('.case.swiper-container',{
+        zoom:true,
+        width: window.innerWidth,
+        virtual: true,
+        spaceBetween:20,
+        pagination: {
+            el: '.case.swiper-pagination',
+            type: 'fraction',
+        },
+        on:{
+            click: function(){
+                $('#origin-img').fadeOut('fast');
+                $("#lunbo").fadeIn('fast');
+                this.virtual.slides.length=0;
+                this.virtual.cache=[];
+                swiperStatus=false;
+
+            },
+        },
+
+    });
+</script>
+<div id="chinese">
+    <a href="chinese.html">
+        <img src="../img/chinese.png" alt="">
+    </a>
+</div>
+<!--图片弹出层代码-->
+<div id="box" style="width: 100%;height: 100%;position: absolute;display:none;z-index: 1000000;top: 0;left: 0;background-color: red"></div>
+<!--<div class="page" style="display: none">-->
+    <!--<div class="pinch-zoom" style="width: 100%;height: 100%">-->
+    <!--</div>-->
+<!--</div>-->
+<script src="../script/pinchzoom.js"></script>
+<script type="text/javascript">
+
+    var clickTimeId;
+    //点击遮罩层出现
+    $(".pic img").click(function(){
+        // $(".page").css("display","block");
+        $("#box").css("display","block");
+         var imgSrc=$(this).attr("name");
+        // 获取图片在遮罩层的宽度
+        var imgWidth=$(this).attr("alt");
+        console.log(imgSrc);
+        // 获取图片在遮罩层的margin-top值
+        var imgMarginTop=$(this).attr("about");
+        // $(".page .pinch-zoom img").remove();
+         $("#box").append('<div class="page" style="display: block"><div class="pinch-zoom" style="width: 100%;height: 100%"><img style="margin-top: '+imgMarginTop+'" width="'+imgWidth+'" src="'+imgSrc+'"/></div></div>');
+        $('div.pinch-zoom').each(function () {
+            new RTP.PinchZoom($(this), {});
+        });
+    });
+    // 负责点击变没有
+    console.log($(".page img"))
+    $("#box").click(function() {
+        console.log(11111111)
+         clearTimeout(clickTimeId);
+        //执行延时
+        clickTimeId = setTimeout(function() {
+            //此处为单击事件要执行的代码
+            console.log("鼠标单击");
+            $("#box .page").remove();
+            $("#box").css("display","none");
+        }, 250);
+    })
+
+</script>
+
+</body>
+</html>

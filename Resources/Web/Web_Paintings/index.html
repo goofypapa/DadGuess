@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/commen.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <style>
+        #back{
+            position: fixed;
+            left: 30px;
+            top: 20px;
+            width: 1.5rem;
+            z-index: 1000;
+        }
+        #shijie{
+            width: 14%;
+            left: 43%;
+            position: absolute;
+            z-index: 100;
+            top: 36%;
+        }
+    </style>
+    <script src="script/font.js"></script>
+    <script>
+        // var arr=new Array()
+        // arr[0]="img/index1.png";    //这里放图片路径
+        // arr[1]="img/index2.png";
+        // var i=0;
+        // function image()
+        // {
+        //     var ima=document.getElementById("bg");
+        //     ima.src=arr[i]
+        //     i++;
+        //     if(i==2)
+        //         i=0
+        //     setTimeout("image()",700) //一秒钟调用一次
+        // }
+    </script>
+</head>
+<body>
+    <img id="back" src="img/indexBack.png" alt="" >
+    <img id="bg" src="img/index.png" alt="">
+    <img src="img/shijie.png" id="shijie" alt="">
+    <div id="fanC">
+        <img src="img/fanC.png" alt="">
+    </div>
+    <div id="fanP">
+        <img src="img/fanP.png" alt="">
+    </div>
+
+    <a href="#">
+     <img id="chinese" src="img/indexChinese.png" alt="">
+    </a>
+    <a href="#">
+        <img id="pianting" src="img/indexPianting.png" alt="">
+    </a>
+</body>
+<script src="script/jquery-3.3.1.min.js"></script>
+<script>
+    var bjSize=document.getElementById("bg");
+    console.log(bjSize.width);
+    bjSize.width = window.screen.height;
+    bjSize.height = window.screen.width;
+    var buttonLeft=window.screen.height/4.5-46;
+    console.log(buttonLeft);
+    var bl=document.getElementById("chinese");
+    bl.style.left = buttonLeft+"px";
+    var br=document.getElementById("pianting");
+    br.style.right = buttonLeft-10+"px";
+    $("#back").click(function(){
+        if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+            window.location.href='goofypapa://back';
+        }else{
+            window.android.exitApp()
+        }
+    });
+    function open(ob,oh){
+        $(ob).css('animation','mymove 1s linear');
+        setTimeout(function(){
+            window.location.href="html/"+oh+".html";
+        },1500)
+    }
+    $("#chinese").click(function(){
+        open("#fanC img","chinese");
+    });
+
+    $("#pianting").click(function(){
+        open("#fanP img","pianting");
+    });
+    $("#fanC img").click(function(){
+        open("#fanC img","chinese");
+    });
+    $("#fanP img").click(function(){
+        open("#fanP img","pianting");
+    });
+</script>
+</html>

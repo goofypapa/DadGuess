@@ -1,0 +1,439 @@
+/*灯光*/
+.light img{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: light 10s infinite linear;
+}
+@keyframes light{
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+/*星星闪烁*/
+.flashing img{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+/*时间轨道*/
+.track{
+    width: 94%;
+    height: 56%;
+    position: absolute;
+    top: 17.5%;
+    left: 3.5%;
+    background: url("../image/axis.png") no-repeat;
+    background-size: cover;
+}
+/*引入外部字体*/
+@font-face{
+    font-family: 'Hua Kang poster body';
+    src : url('../js/hkhbt-W12.ttf');
+}
+.track p,
+.track span{
+    font-family:'Hua Kang poster body';
+    color: #fffeff;
+}
+.track p{
+    font-size: 0.4rem;
+}
+.track span{
+    font-size: 0.3rem;
+    transform: scale(0.6);
+}
+/*原始社会*/
+.lstars img{
+    width: 8%;
+    position: absolute;
+    top: -26%;
+    left: 6%;
+    animation: lstars 3s infinite linear;
+}
+@keyframes lstars{
+    0%,75%{
+        opacity: 1;
+    }
+    87.5%{
+        opacity: 0.7;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+.lstars p{
+    width: 6%;
+    position: absolute;
+    top: -22%;
+    left: 13.5%;
+}
+.lstars span{
+    position: absolute;
+    top: -17%;
+    left: 17%;
+}
+
+
+.anima{
+    animation: opact 3s infinite linear;
+}
+@keyframes opact{
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0.6;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+/*夏朝*/
+.xia{
+    background-color: red;
+}
+.xia img{
+    width: 8.5%;
+    position: absolute;
+    top: -5%;
+    left: 5%;
+}
+.xia p{
+    position: absolute;
+    top: 3%;
+    left: 8%;
+}
+.xia span{
+    position: absolute;
+    top: 22%;
+    left: 0%;
+}
+/*商朝*/
+.shang img{
+    width: 8.5%;
+    position: absolute;
+    top: -6%;
+    left: 23%;
+}
+.shang p{
+    position: absolute;
+    top: 2%;
+    left: 26%;
+}
+.shang span{
+    position: absolute;
+    top: 22%;
+    left: 18%;
+}
+/*西周*/
+.xizhou img{
+    width: 8.5%;
+    position: absolute;
+    top: -6%;
+    left: 41%;
+}
+.xizhou p{
+    position: absolute;
+    top: 2%;
+    left: 42.5%;
+}
+.xizhou span{
+    position: absolute;
+    top: 22%;
+    left: 37%;
+}
+/*东周*/
+.dongzhou img{
+    width: 8.5%;
+    position: absolute;
+    top: -6%;
+    left: 59%;
+}
+.dongzhou p{
+    position: absolute;
+    top: 2%;
+    left: 60.5%;
+}
+.dongzhou span{
+    position: absolute;
+    top: 22%;
+    left: 55.5%;
+}
+/*秦*/
+.qin img{
+    width: 8.5%;
+    position: absolute;
+    top: -6%;
+    left: 77%;
+}
+.qin p{
+    position: absolute;
+    top: 2%;
+    left: 80%;
+}
+.qin span{
+    position: absolute;
+    top: 22%;
+    left: 73%;
+}
+/*汉*/
+.han img{
+    width: 8.5%;
+    position: absolute;
+    top: 37%;
+    left: 85%;
+}
+.han p{
+    position: absolute;
+    top: 45%;
+    left: 88%;
+}
+.han span{
+    position: absolute;
+    top: 64%;
+    left: 79%;
+}
+/*三国*/
+.sanguo img{
+    width: 8.5%;
+    position: absolute;
+    top: 37%;
+    left: 67%;
+}
+.sanguo p{
+    position: absolute;
+    top: 45%;
+    left: 68.5%;
+}
+.sanguo span{
+    position: absolute;
+    top: 64%;
+    left: 64%;
+}
+/*晋*/
+.jin img{
+    width: 8.5%;
+    position: absolute;
+    top: 37%;
+    left: 48%;
+}
+.jin p{
+    position: absolute;
+    top: 45%;
+    left: 51%;
+}
+.jin span{
+    position: absolute;
+    top: 64%;
+    left: 45%;
+}
+/*南北朝*/
+.nanbeichao img{
+    width: 8.5%;
+    position: absolute;
+    top: 37%;
+    left: 30%;
+}
+.nanbeichao p{
+    position: absolute;
+    top: 45%;
+    left: 30%;
+}
+.nanbeichao span{
+    position: absolute;
+    top: 64%;
+    left: 27%;
+}
+/*隋*/
+.sui img{
+    width: 8.5%;
+    position: absolute;
+    top: 37%;
+    left: 13%;
+}
+.sui p{
+    position: absolute;
+    top: 45%;
+    left: 16%;
+}
+.sui span{
+    position: absolute;
+    top: 64%;
+    left: 10%;
+}
+/*唐*/
+.tang img{
+    width: 8.5%;
+    position: absolute;
+    top: 79%;
+    left: 7%;
+}
+.tang p{
+    position: absolute;
+    top: 87%;
+    left: 10%;
+}
+.tang span{
+    position: absolute;
+    top: 106%;
+    left: 4%;
+}
+/*五代十国*/
+.wdsg img{
+    width: 8.5%;
+    position: absolute;
+    top: 79%;
+    left: 25%;
+}
+.wdsg p{
+    width: 7.5%;
+    position: absolute;
+    top: 84%;
+    left: 26.5%;
+}
+.wdsg span{
+    position: absolute;
+    top: 106%;
+    left: 22%;
+}
+/*宋*/
+.song img{
+    width: 8.5%;
+    position: absolute;
+    top: 79%;
+    left: 43%;
+}
+.song p{
+    position: absolute;
+    top: 87%;
+    left: 46%;
+}
+.song span{
+    position: absolute;
+    top: 106%;
+    left: 39%;
+}
+/*元*/
+.yuan img{
+    width: 8.5%;
+    position: absolute;
+    top: 79%;
+    left: 61%;
+}
+.yuan p{
+    position: absolute;
+    top: 87%;
+    left: 64%;
+}
+.yuan span{
+    position: absolute;
+    top: 106%;
+    left: 56%;
+}
+/*明*/
+.ming img{
+    width: 8.5%;
+    position: absolute;
+    top: 79%;
+    left: 79%;
+}
+.ming p{
+    position: absolute;
+    top: 87%;
+    left: 82%;
+}
+.ming span{
+    position: absolute;
+    top: 106%;
+    left: 74%;
+}
+
+
+/*清朝*/
+.rstars img{
+    width: 8.5%;
+    position: absolute;
+    bottom: -37%;
+    right: 8%;
+    transform: rotate(5deg);
+}
+.rstars p{
+    position: absolute;
+    bottom: -31%;
+    right: 10.7%;
+}
+.rstars span{
+    position: absolute;
+    bottom: -31%;
+    right: 12%;
+}
+/*左箭头*/
+.larrow{
+    width: 8%;
+    position: absolute;
+    top: -16%;
+    left: 0;
+}
+/*右箭头*/
+.rarrow{
+    width: 8%;
+    position: absolute;
+    bottom: -28%;
+    right: 0;
+    transform: rotateY(180deg);
+}
+/*时空隧道按钮*/
+.tunnel img{
+    width: 8%;
+    position: absolute;
+    bottom: 0;
+    left: 45.8%;
+}
+/*右上云朵*/
+.rscloud img{
+    width: 7%;
+    position: absolute;
+    top: 8%;
+    right: 16%;
+    animation: rscloud 8s infinite linear;
+}
+@keyframes rscloud{
+    0%{
+        transform: translateX(0);
+    }
+    50%{
+        transform: translateX(85%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+/*左下云朵*/
+.lscloud img{
+    width: 10%;
+    position: absolute;
+    bottom: 40%;
+    left: 1%;
+    animation: lscloud 5s infinite linear;
+}
+@keyframes lscloud{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(55%);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}

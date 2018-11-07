@@ -1,0 +1,137 @@
+/*点击后整体的背景色*/
+.bodyColor{
+    background-color:rgba(0,0,0,0.3)
+}
+/*顶部栏*/
+.chainBack{
+    height: 1.24rem;
+    width: 100%;
+    padding-top: 0.35rem;
+    position: fixed;
+    top: 0;
+    z-index: 300;
+}
+.chainBack .imgBox{
+    float: left;
+    display: block;
+    width: 1rem;
+    padding-left: 0.5rem;
+}
+.chainBack p{
+    font-size: 0.6rem;
+    color: #fff;
+    font-family:"微软雅黑";
+    padding-left: 7rem;
+}
+.chainUlBox .chainLi1,
+.chainUlBox .chainLi3{
+    width: 100%;
+    text-align: center;
+}
+.chainUlBox .chainLi0,
+.chainUlBox .chainLi2,
+.chainUlBox .chainLi4{
+    overflow: hidden;
+}
+.chainUlBox .chainLi1 img{
+    width: 0.7rem;
+    height: 1.5rem;
+}
+.chainUlBox li span{
+    display: flex;
+    flex-direction:column;
+    float: left;
+}
+.chainUlTwo li p,
+.chainUlBox p{
+    font-size: 0.6rem;
+    color: #fff;
+    text-align: center;
+    font-family:"微软雅黑"
+}
+.chainUlTwo li img{
+    width: 4rem;
+}
+.chainUlTwo li p{
+    font-size: 0.4rem;
+    color: #fff;
+    text-align: center;
+    font-family:"微软雅黑"
+}
+/*遮挡层*/
+.dang{
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+    display: none;
+}
+/*简介*/
+.abstract{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin:auto;
+    text-align: center;
+    display: none;
+    z-index: 200;
+}
+.abstract button{
+    width: 76%;
+    background-color: #fff;
+    margin-left: 12%;
+    margin-right: 12%;
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align:justify;
+    margin-top: 40%;
+    font-size: 0.6rem;
+}
+.abstract img{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    margin-top: 1rem;
+}
+.clearfix:after{
+    content:".";
+    display:block;
+    height:0;
+    clear:both;
+    visibility:hidden;
+}
+/*放大的背景图*/
+#mirror{
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    display: none;
+}
+.fjdBox{
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+}
+
+/*放大镜提示框*/
+.button{
+    height: 2rem;
+    width: 37%;
+    text-align: center;
+    position: fixed;
+    top: 5%;
+    left: 31%;
+    color: #FFFFFF;
+    border-radius: 0.5rem;
+    background-color: rgba(255,255,255,0.2);
+}

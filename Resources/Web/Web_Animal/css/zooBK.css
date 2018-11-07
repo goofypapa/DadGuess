@@ -1,0 +1,46 @@
+/*顶部标题及返回按钮*/
+body{background: #272e38;}
+header{
+    width: 100%;
+    height: 1.24rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
+    padding-bottom:0.16rem ;
+    background: #272e38;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+header>a>img{
+    float: left;
+    display: block;
+    width: 1rem;
+    margin-left: 0.64rem;
+}
+
+/*最新上传和最受欢迎*/
+article{width: 100%;overflow: hidden;}
+article>div{width: 100%;overflow: hidden;}
+
+.tabs{float: left;margin: 0.54rem 0 0.44rem 0.57rem;color:#fff;}
+.tabs img{width: 0.51rem;height: 0.42rem;}
+.tabs p{display: inline-block;font-size: 0.72rem;color: #fff;}
+
+/* .pics是最新上传的ul；#pics是最受欢迎的ul */
+#pics{overflow: hidden;margin: 0 0.57rem 0 0.57rem;}
+.pics li{float: left;width:4rem;margin-bottom: 0.9rem;height: 4rem;position: relative}
+#pics li{float: left;width:4.5rem;margin-bottom: 0.9rem;height: 3rem;position: relative}
+.pics li img,#pics li img{width: 100%;height: 100%;border-radius: 0.2rem;display: block;background: url("../image/loading.gif") no-repeat center center }
+.pics li a,#pics li a{text-decoration: none;}
+#pics li p{color:#fff;width: 100%;margin-top:0.2rem;font-size: 0.3rem;margin-left: 0.9rem;}
+.pics span{position: absolute;border-bottom-left-radius:0.2rem;letter-spacing:0.02rem;text-align:center;border-bottom-right-radius:0.2rem;bottom: 0;left: 0;width: 100%;height: 1rem;background-color: rgba(0,0,0,0.6);font-size: 1rem;line-height: 0.9rem;color:#fff;}
+.pics span p{font-style: italic}  /*斜体*/
+#pics span{position: absolute;border-bottom-left-radius:0.2rem;letter-spacing:0.02rem;text-align:center;border-bottom-right-radius:0.2rem;bottom: 0;left: 0;width: 100%;height: 0.7rem;background-color: rgba(0,0,0,0.6);font-size: 0.45rem;line-height: 0.7rem;color:#fff;}
+#new{width: 100%;overflow: auto;height:4.1rem;}
+.pics{width: 30rem}
+@media only screen and (device-width: 375px) and (device-height: 812px) and
+(-webkit-device-pixel-ratio: 3) {
+    #new{margin-bottom: 12%}
+    article{margin-top: 12%}
+}

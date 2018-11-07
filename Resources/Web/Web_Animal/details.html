@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>详情页</title>
+    <link rel="stylesheet" href="css/commen.css"/>
+    <!--<link rel="stylesheet" href="css/index.css"/>-->
+    <link rel="stylesheet" href="css/swiper-4.2.6.min.css">
+    <link rel="stylesheet" href="css/details.css"/>
+    <style>
+       
+    </style>
+
+</head>
+<body>
+<!--没图片时加载动画-->
+<div class="box">
+    <div class="shade"></div>
+    <div class="loadingNext">
+        <img id="animationBG" src="images/animation.jpg" alt=""/>
+        <img id="im" src="images/right-0.png" />
+    </div>
+    <div class="shade"></div>
+</div>
+<div class="content">
+    <header>
+        <div onclick="back()" >
+            <img class="img"  id="goback" src="image/back.png" alt="" />
+            <p></p>
+        </div>
+    </header>
+    <!--图片轮播-->
+    <div class="swiper-container" id="header" style="margin-top: 1.9rem;">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-pagination" style="position: absolute;left: 6rem;top: 6.5rem;"></div>
+    </div>
+    <!--动物百科资料-->
+    <article>
+        <!--花栗鼠简介-->
+        <div>
+            <div class="tabs">
+                <img src="image/xq-baike.png" alt=""/>
+                <p><b></b><span></span></p>
+            </div>
+        </div>
+        <p></p>
+        <div>
+            <div class="seeAll">
+                <a id="Allbaike">查看完整百科</a>
+                <img src="image/smallArrow.png" alt=""/>
+            </div>
+        </div>
+        <!--动物声音-->
+        <div>
+            <div class="tabs">
+                <img src="image/xq-vedio.png" alt=""/>
+                <!--<p><b></b>的声音</p>-->
+                <p>声音</p>
+            </div>
+        </div>
+        <!--声音-->
+        <div id="audio" >
+            <ul>
+            </ul>
+        </div>
+        <!-- 吃与被吃 -->
+        <div>
+            <div class="tabs">
+                <img src="image/xqy_food.png" alt=""/>
+                <p>吃与被吃</p>
+            </div>
+        </div>
+        <div class="eaten">
+            <!--<img class="loading" src="../image/loadingAll.gif" alt=""/>-->
+            <!--<img src="foodCycle/003_gx.png">-->
+        </div>
+        <!--简笔画-->
+        <!--<div>-->
+            <!--<div class="tabs">-->
+                <!--<img src="image/xqy_draw.png" alt=""/>-->
+                <!--<p>简笔画</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="handDraw">-->
+        	<!--&lt;!&ndash; <div class="handDrawDiv">-->
+				<!--<input type="file"  name="file" id="doc" multiple="multiple" onchange="javascript:setImagePreviews();" accept="image/*" />-->
+				<!--<div id="dd" style=" width:5rem;"></div>-->
+            <!--</div> &ndash;&gt;-->
+            <!---->
+            <!--<div class="handDrawModel"></div>-->
+            <!--<div class="handDrawUpload"></div>-->
+
+
+        <!--</div>-->
+        <!--动物的图片-->
+        <div>
+            <div class="tabs">
+                <img src="image/xq-pic.png" alt=""/>
+                <!--<p><b></b>的图片</p>-->
+                <p>图片</p>
+            </div>
+        </div>
+        <div id="mask"></div>
+        <div class="container">
+            <!--<img class="loading" src="./image/loadingAll.gif" alt=""/>-->
+        </div>
+        <!--点击图片使其放大-->
+        <div class="backgroun"></div>
+
+        <div style="padding-bottom: 0.68rem;">
+            <div class="seeAll" style="margin-right: 7rem;margin-top: 0;">
+                <a id="Allpics">更多图片</a>
+            </div>
+        </div>
+    </article>
+</div>
+
+<script src="script/jquery-2.1.1.min.js"></script>
+<script src="script/font.js"></script>
+
+<script src="script/jquery.row-grid.min.js"></script>
+<script src="script/swiper-4.2.6.min.js"></script>
+<script src="script/details.js"></script>
+<script src="script/common.js"></script>
+
+
+</body>

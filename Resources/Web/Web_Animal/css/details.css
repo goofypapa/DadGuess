@@ -1,0 +1,178 @@
+/*简介中的喇叭按钮*/
+.playEnglish {width: 1rem; vertical-align: middle;}
+/*动物百科简介*/
+article{width: 100%;overflow: hidden;}
+article>div{width: 100%;overflow: hidden;}
+article>p{font-size: 0.6rem;color: rgba(255,255,255,0.8);margin: 0 0.57rem 0 0.57rem;letter-spacing: 0.1rem;line-height: 1.2rem;}
+/*每一小模块的名字*/
+.tabs{float: left;margin: 0.54rem 0 0.44rem 0.57rem;}
+.tabs img{width: 0.8rem;vertical-align: middle;}
+.tabs p{display: inline-block;font-size: 0.72rem;color: #fff;}
+.tabs>p>b{font-weight: 100;}
+/*点击跳转到完整百科页面*/
+.seeAll{float: right;margin:0.57rem 0.57rem 0 0;}
+.seeAll>a{font-size: 0.5rem;text-decoration: none;color:#fff;}
+.seeAll img{width: 0.32rem;height: 0.4rem;margin-top: 0.25rem}
+.line{width: 95%;border-bottom: 0.05rem solid #2c3042;height: 0;margin: 0 auto}
+
+/*动物的声音*/
+#audio{
+    width:100%;
+    overflow: auto;
+    margin-top: -0.3rem;
+}
+#audio ul li{
+    height: 1.9rem;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    position: relative;
+}
+#audio ul li>p{
+    float: left;
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.6rem;
+    margin-top: 0.7rem;
+    font-size: 0.5rem;
+    cursor: pointer;
+}
+
+/*包含录制时间、地点的div*/
+#audio ul li>.info{
+    font-size: 0.45rem;
+    float: left;
+    margin-left: 0.6rem;
+    margin-top: 0.65rem;
+}
+#audio ul li>.info p{
+    margin-bottom: 0.25rem;
+}
+#audio ul li>.info p img{
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+/*音频的时长*/
+#audio ul li>span{float: left;color:#fff;width:2rem;height:1.9rem;font-size: 0.48rem;line-height: 1.9rem;margin-left: 1.2rem;}
+#audio ul li>img{float: right;width: 0.98rem;height: 0.98rem;margin-top: 0.5rem;margin-right: 0.3rem;}
+
+/*吃与被吃*/
+.eaten{width:100%}
+
+/*简笔画*/
+/* .handDrawDiv{
+	display: inline-block;
+    position: relative;
+    left: 2rem;
+    overflow: hidden;
+    width: 5rem;
+    height: 5rem;  
+    background: url(../image/dadpat.png);
+    background-size: cover;
+    border: 1px solid #ccc;
+}
+.handDrawDiv input{
+	position: absolute;  
+    width: 100%;  
+    height: 100%;  
+    top: 0;  
+    left: 0;  
+    outline: none;  
+    background-color: transparent;  
+    filter:alpha(opacity=0);  
+    -moz-opacity:0;  
+    -khtml-opacity: 0;  
+    opacity: 0;  
+} */
+.handDrawModel,
+.handDrawUpload{
+    float: left;
+    height: 7.9rem;
+    width: 5.6rem;
+    background-color: #4a5f77;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.handDrawModel img,
+.handDrawUpload img{
+    height: 100%;
+    width: 100%;
+}
+.handDrawModel{
+    margin-left: 2.2rem;
+}
+.handDrawUpload{
+    margin-left: 0.4rem;
+}
+
+/*图片*/
+.container{position: relative;width:100%;bottom:1rem;margin-top: 1rem}
+.container:before,
+.container:after { content: ""; display: table; }
+.container:after { clear: both;}
+
+/*包裹图片的div*/
+.item { float: left; margin-bottom: 5px; }
+.item img { max-width: 100%; max-height: 100%;height:4rem;  vertical-align: bottom; }
+.first-item { clear: both;}
+@-webkit-keyframes circle {0%{transform:rotate(0deg);}100%{transform: rotate(180deg)}}
+
+/*没图片时加载动画*/
+.box{width: 100%;height: 100%;position: fixed;top: 0;left: 0;z-index: 101;display: none;}
+.shade{width: 100%;height: 34.6%;background-color: rgba(0,0,0,0.6)}
+.loadingNext{position:relative;width:100%;height: 30.8%;background-color: #fff;border-radius: 1rem;}
+#im{
+    position: absolute;
+    width:3rem;
+    bottom:0;
+    left: 0;
+}
+#animationBG{
+    position: absolute;
+    width:100%;
+    top: 0;
+    left: 0;
+    border-radius: 1rem;
+}
+
+
+
+.active{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 10rem;
+    bottom: -11rem;
+    margin: auto;
+}
+.backgroun{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+.ImgBoy{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin:auto;
+}
+#mask{
+    position: absolute;
+    width: 100%;
+    /* bottom: 1rem; */
+    /* margin-top: 1rem; */
+    z-index: 10;
+    background-color: #272e38;
+    height: 180px;
+}

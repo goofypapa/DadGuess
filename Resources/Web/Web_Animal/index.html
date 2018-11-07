@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/commen.css"/>
+    <link rel="stylesheet" href="css/swiper-4.2.6.min.css">
+    <link rel="stylesheet" href="css/index.css"/>
+    <script src="script/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+<div id='dv'>
+    <header style="border: none">
+        <!-- 返回键 -->
+        <a><img src="image/back.png" class="back"  alt=""/></a>
+        <div>
+            <p style="margin-left: 4rem"><span></span></p>
+        </div>
+    </header>
+    <!--导航等组件可以放在container之外-->
+    <div class="swiper-container" style="width:100%">
+        <!--包装 滑动-->
+        <div class="swiper-wrapper" id="wrapper">
+            <!--动物图片-->
+        </div>
+    </div>
+    <!--<div class="audioBox">-->
+        <!--&lt;!&ndash;动物声音&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div id="footer" >-->
+        <!--<p>更多动物</p>-->
+        <a id="footer" href="zooBK.html">
+            <img src="image/icon2.png" alt="" />
+        </a>
+    <!--</div>-->
+</div>
+
+</body>
+<script src="script/swiper-4.2.6.min.js"></script>
+<script src="script/goofypapaApi.js"></script>
+<script src="script/indexMy.js"></script>
+<script src="script/common.js"></script>
+<script src="script/font.js"></script>
+
+<!--强制竖屏-->
+<script>
+    if( typeof(window.android) != "undefined" )
+    {
+        window.android.setScreenOrientation(0);
+    }
+    
+    $("#footer").click(function () {
+        window.location.href="zooBK.html";
+    })
+</script>
+</html>

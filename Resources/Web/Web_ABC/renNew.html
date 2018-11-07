@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body{
+            background: url("image/3bj.png");
+            background-size: cover;
+        }
+        /* 返回 */
+        .back{
+            width: 5%;
+            position: fixed;
+            top: 5%;
+            left: 3%;
+        }
+        /* 喇叭 */
+        #laba{
+            width: 10%;
+            position: fixed;
+            top: 5.2%;
+            left:44.9%;
+        }
+        #imgList{
+            width: 100%;
+            height: 50%;
+            margin-top: 18%;
+        }
+        #imgList li{
+            width: 25%;
+            float: left;
+            /*height: 240px;*/
+            text-align: center;
+            overflow: hidden;
+        }
+        .pic{
+            width: 100%;
+            /*height: 185px;*/
+            /*height: 70%;*/
+        }
+        .dui{
+            width: 18%;
+            margin-top: 5%;
+            display: none;
+            margin-left: 40%;
+        }
+        @keyframes mymove{
+            0% {transform:translateX(0)}
+            25% {transform:translateX(-3%)}
+            50% {transform:translateX(0)}
+            75% {transform:translateX(3%)}
+            100% {transform:translateX(0)}
+        }
+        #forbid{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-color: transparent;
+
+        }
+    </style>
+<body>
+
+<div id="dv" style="background: url(image/3bj.png) no-repeat;background-size: cover;position: relative">
+    <!-- 返回 -->
+    <img src="image/back.png" class="back">
+    <!-- 喇叭 -->
+    <img src="image/3laba.png" id="laba">
+    <audio src=""></audio>
+    <ul id="imgList">
+        <!--<li>-->
+        <!--<img class="pic" src="http://www.dadpat.com/app/ABC/ren/a/03ren_a_pic3_apple.png" alt="">-->
+        <!--<audio src=""></audio>-->
+        <!--<img class="dui" src="image/3dui.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<img class="pic" src="http://www.dadpat.com/app/ABC/ren/a/03ren_a_pic3_apple.png" alt="">-->
+        <!--<audio src=""></audio>-->
+        <!--<img class="dui" src="image/3dui.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<img class="pic" src="http://www.dadpat.com/app/ABC/ren/a/03ren_a_pic3_apple.png" alt="">-->
+        <!--<audio src="image/3.mp3"></audio>-->
+        <!--<img class="dui" src="image/3dui.png" alt="">-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<img class="pic" src="http://www.dadpat.com/app/ABC/ren/a/03ren_a_pic3_apple.png" alt="">-->
+        <!--<audio src=""></audio>-->
+        <!--<img class="dui" src="image/3dui.png" alt="">-->
+        <!--</li>-->
+    </ul>
+</div>
+<div id="forbid"></div>
+<audio src="image/caicai.mp3" id="caicai"></audio>
+<audio src="image/bingo.mp3" id="bingo"></audio>
+<audio src="image/ao.mp3" id="ao"></audio>
+<div id="audioBox"></div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script>
+    window.goofypapaInit = function(){
+
+        //点击返回首页
+        $('.back').click(function(){
+            window.location.href = 'index.html';
+        })
+        // 随机一个级别出来
+        var rank=Math.floor(Math.random()*4+0) + 1;
+        var picGroup=[];
+        console.log(rank);
+        // 随机4个图片
+        // http://www.dadpat.com/file/list.do?path=app/ABC/renNew/1/img
+        $.ajax({
+            type: "post",
+            url: "http://www.dadpat.com/file/list.do",
+            dataType: "jsonp",
+            data:{"path":"app/ABC/renNew/"+rank+"/img"},
+            async: true,
+            success: function (data) {
+
+                var imgLength=data.data.length;
+                var hash=[];
+                for(var i=0;i<6;i++){
+                    var picRank=Math.floor(Math.random()*imgLength+0) + 1;
+                    console.log(picRank);
+                    hash.push(picRank);
+                }
+                console.log(hash);
+                function unique2(hash){
+
+                    for (var i = 0; i < hash.length; i++) {
+                        if(hash.indexOf(hash[i])==i){
+                            picGroup.push(hash[i]);
+                        }
+                    }
+                    return picGroup;
+                }
+                unique2(hash);
+                picGroup=picGroup.slice(0,4);
+                console.log(picGroup);
+                var labaSrc="http://www.dadpat.com/app/ABC/renNew/"+rank+"/audio/"+picGroup[rank-1]+".mp3"
+
+                $("#laba").next("audio")[0].src=labaSrc;
+                // console.log(labaSrc);
+                pushImg();
+                // $("#caicai")[0].play();
+
+
+                function pushImg(){
+                    for(var i=0;i<picGroup.length;i++){
+                        $("#imgList").append('<li>\n' +
+                            '                <img class="pic" src="http://www.dadpat.com/app/ABC/renNew/'+rank+'/img/'+picGroup[i]+'.png" alt="">\n' +
+                            '                <audio src=""></audio>\n' +
+                            '                <img class="dui" src="image/3dui.png" alt="">\n' +
+                            '            </li>');
+                    };
+
+                    console.log(picGroup[rank-1]);
+                    console.log($("#imgList audio"));
+                    console.log($("#imgList audio")[rank-1]);
+                    $("#imgList audio")[rank-1].src="http://www.dadpat.com/app/ABC/renNew/"+rank+"/audio/"+picGroup[rank-1]+".mp3";
+                }
+
+                // 获取喇叭下方音频文件
+                var myNum=$("#laba").next("audio").attr("src");
+                // 截取数字js
+                myNum=myNum.replace(/[^0-9]/ig,"");
+                // 删除最后一个数字
+                myNum=myNum.substring(0,myNum.length-1);
+                console.log(myNum);
+                $("#laba").click(function(){
+                    console.log("!!!");
+                    $(this).next("audio")[0].play();
+                });
+                $(".pic").click(function () {
+                    var bingoAudio=$(this).next("audio").attr("src");
+                    console.log(bingoAudio);
+                    if(bingoAudio==""){
+                        console.log("空");
+                        continuousAudio("image/ao.mp3");
+                        // 停止页面所有音频
+                        var audios = document.getElementsByTagName("audio");
+                        // 暂停函数
+                        function pauseAll() {
+                            var self = this;
+                            [].forEach.call(audios, function (i) {
+                                // 将audios中其他的audio全部暂停
+                                i !== self && i.pause();
+                                i.currentTime=0;
+                            })
+                        }
+                        // 给play事件绑定暂停函数
+                        [].forEach.call(audios, function (i) {
+                            i.addEventListener("play", pauseAll.bind(i));
+                        });
+                        $(this).css('animation','mymove 0.5s linear');
+                        $(this).parent("li").siblings("li").children().css('animation','');
+
+                        // $("#ao")[0].play();
+                        setTimeout(function(){
+                            // $("#laba").next("audio")[0].play();
+                            // 手机播放音频
+                            // window.android.initMusic(labaSrc);
+                            // window.android.startMusic();
+                        },2500);
+
+                    }else{
+                        $(this).siblings(".dui").css("display","block");
+                        $("#forbid").css("display","block");
+                        $("#bingo")[0].play();
+                        setTimeout(function(){
+                            $("#imgList").remove();
+                            document.location.reload();
+                            $(".dui").css("display","none");
+                        },4000);
+                        console.log("11");
+                    }
+                });
+                // window.android.log(labaSrc);
+                var arr=[];
+                
+                //
+
+                // $("#caicai")[0].play();
+                // 音频连续播放方法
+                continuousAudio("image/caicai.mp3");
+
+                // 手机播放音频
+                if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+                    // window.location.href = "goofypapa://playAudio," + $("#caicai")[0].src;
+
+                    // alert( "-------->" + $("#caicai")[0].src )
+                }else{
+                    window.android.initMusic( $("#caicai")[0].src);
+                    window.android.startMusic();
+                }
+                console.log($("#laba").next("audio")[0].src);
+                setTimeout(function(){
+                    $("#forbid").css("display","none");
+                },4000);
+                setTimeout(function(){
+                    // $("#laba").next("audio")[0].play();
+                    // 手机播放音频
+                    if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+                        window.location.href = "goofypapa://playAudio," + labaSrc;
+                    }else{
+                        window.android.initMusic(labaSrc);
+                        window.android.startMusic();
+                    }
+
+                },3000);
+
+            }
+
+        });
+        function continuousAudio(TY){
+            arr = ["http://www.dadpat.com/app/ABC/renNew/"+rank+"/audio/"+picGroup[rank-1]+".mp3",TY];               //把需要播放的歌曲从后往前排，这里已添加两首音乐，可继续添加多个音乐
+            var myAudio = new Audio();
+            myAudio.preload = true;
+            myAudio.src = arr.pop();         //每次读数组最后一个元素
+            myAudio.addEventListener('ended', playEndedHandler, false);
+            myAudio.play();
+            document.getElementById("audioBox").appendChild(myAudio);
+            myAudio.loop = false;//禁止循环，否则无法触发ended事件
+            function playEndedHandler(){
+                myAudio.src = arr.pop();
+                myAudio.play();
+                console.log(arr.length);
+                !arr.length && myAudio.removeEventListener('ended',playEndedHandler,false);//只有一个元素时解除绑定
+            }
+        }
+    }
+</script>
+</html>

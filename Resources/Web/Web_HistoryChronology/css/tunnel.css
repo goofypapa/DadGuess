@@ -178,3 +178,17 @@
         opacity: 0;
     }
 }
+
+
+@media only screen and (device-width: 812px) and (device-height: 375px) and
+(-webkit-device-pixel-ratio: 3) {
+    /*增加头部适配层*/
+    .suiDao .sd1 {
+        z-index: 100;
+        width: 100%;
+        position: absolute;
+        top: -12%;
+        left: 0;
+    }
+}
+

@@ -19,32 +19,32 @@
 
 #define PI 3.1415926535897932385f
 
-struct Tone
-{
-public:
-    double time;
-    std::vector<std::string> tone;
-};
-
-struct GameTone
-{
-public:
-    double time;
-    int index;
-    std::string tone;
-    cocos2d::Sprite * ball;
-};
-
-enum Judge{
-    Perfect = 0,
-    Excellent,
-    Leak
-};
-
-
 class PianoGameMainScene : public BaseScene
 {
 public:
+    
+    struct Tone
+    {
+    public:
+        double time;
+        std::vector<std::string> tone;
+    };
+    
+    struct GameTone
+    {
+    public:
+        double time;
+        int index;
+        std::string tone;
+        cocos2d::Sprite * ball;
+    };
+    
+    enum Judge{
+        Perfect = 0,
+        Excellent,
+        Leak
+    };
+    
     static cocos2d::Scene * CreateScene( void );
     static std::string s_backgroundMusic;
     static std::string s_gameJson;

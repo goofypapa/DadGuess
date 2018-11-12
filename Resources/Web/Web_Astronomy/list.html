@@ -51,6 +51,31 @@
             width: 3.75rem;
             margin-top: 0.1rem;
         }
+
+        @media only screen and (device-width: 375px) and (device-height: 812px) and
+        (-webkit-device-pixel-ratio: 3) {
+            /*增加头部适配层*/
+            .swiper-container {
+                height: 80%;
+                width: 80%;
+                /* background-color: red; */
+                text-align: center;
+            }
+            .swiper-slide img {
+                height: 2.5rem;
+                width: 2.75rem;
+                margin-top: 0.1rem;
+            }
+
+            .picImg {
+                height: 100%;
+                width: 5rem;
+                position: absolute;
+                top: 0;
+                left: 1.3rem;
+            }
+
+        }
     
     </style>
 </head>

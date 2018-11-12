@@ -32,7 +32,7 @@
     top: 17.5%;
     left: 3.5%;
     background: url("../image/axis.png") no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 /*引入外部字体*/
 @font-face{
@@ -55,8 +55,8 @@
 .lstars img{
     width: 8%;
     position: absolute;
-    top: -26%;
-    left: 6%;
+    top: -1.5rem;
+    left: 0.6rem;
     animation: lstars 3s infinite linear;
 }
 @keyframes lstars{
@@ -73,13 +73,13 @@
 .lstars p{
     width: 6%;
     position: absolute;
-    top: -22%;
-    left: 13.5%;
+    top: -1.3rem;
+    left: 1.9rem;
 }
 .lstars span{
     position: absolute;
-    top: -17%;
-    left: 17%;
+    top: -1rem;
+    left: 2.2rem;
 }
 
 
@@ -98,6 +98,8 @@
     }
 }
 
+
+
 /*夏朝*/
 .xia{
     background-color: red;
@@ -105,7 +107,7 @@
 .xia img{
     width: 8.5%;
     position: absolute;
-    top: -5%;
+    top: -.35rem;
     left: 5%;
 }
 .xia p{
@@ -122,8 +124,8 @@
 .shang img{
     width: 8.5%;
     position: absolute;
-    top: -6%;
-    left: 23%;
+    top: -.35rem;
+    left: 3.9rem;
 }
 .shang p{
     position: absolute;
@@ -139,8 +141,8 @@
 .xizhou img{
     width: 8.5%;
     position: absolute;
-    top: -6%;
-    left: 41%;
+    top: -.35rem;
+    left: 6.9rem;
 }
 .xizhou p{
     position: absolute;
@@ -156,8 +158,8 @@
 .dongzhou img{
     width: 8.5%;
     position: absolute;
-    top: -6%;
-    left: 59%;
+    top: -.35rem;
+    left: 9.95rem;
 }
 .dongzhou p{
     position: absolute;
@@ -173,8 +175,8 @@
 .qin img{
     width: 8.5%;
     position: absolute;
-    top: -6%;
-    left: 77%;
+    top: -.35rem;
+    left: 13rem;
 }
 .qin p{
     position: absolute;
@@ -247,7 +249,7 @@
 .nanbeichao p{
     position: absolute;
     top: 45%;
-    left: 30%;
+    left: 30.5%;
 }
 .nanbeichao span{
     position: absolute;
@@ -296,7 +298,7 @@
     left: 25%;
 }
 .wdsg p{
-    width: 7.5%;
+    width: 6.5%;
     position: absolute;
     top: 84%;
     left: 26.5%;
@@ -381,8 +383,8 @@
 .larrow{
     width: 8%;
     position: absolute;
-    top: -16%;
-    left: 0;
+    top: -1.2rem;
+    left: -.2rem;
 }
 /*右箭头*/
 .rarrow{
@@ -436,4 +438,12 @@
     100%{
         transform: translateY(0);
     }
+}
+
+.middle span{
+    top:65.5% ;
+}
+
+.bottom span{
+    top: 108%;
 }

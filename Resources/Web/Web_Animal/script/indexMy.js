@@ -134,28 +134,26 @@ function myPlayAudio( p_url ) {
             $(".swiper-slide-active .voice>img").attr('src', 'image/gif.gif');
         }
     }else if( typeof( window.android ) != "undefined" ) {
-            if(window.android.isMusicPlaying()){
-            alert("111");
-            window.android.pauseMusic();
-            // $(this).attr('src', 'image/voiced.png');
+        if( isAudoPlay )
+        {
+            pauseMusic()
+            $(".swiper-slide-active .voice>img").attr('src', 'image/voiced.png');
+            isAudoPlay = false;
         }else{
             isAudoPlay = true;
-            // window.android.initMusic( p_url ,function playCompleteCallBack(){
-            //     $(".voice>img").attr('src', 'image/voiced.png');
-            //     isAudoPlay = false;
-                // 播放完成得回调
-            // } );
-            window.android.startMusic();
-            $(this).attr('src', 'image/gif.gif');
+            initMusic( p_url,function(){
+                // alert("play end");
+                $(".swiper-slide-active .voice>img").attr('src','image/voiced.png');
+                isAudoPlay = false;
+            });
+            startMusic();
+            $(".swiper-slide-active .voice>img").attr('src', 'image/gif.gif');
         }
-
-        // window.android.initMusic( p_url );
-        // window.android.startMusic();
     }else{
         console.log( "play audio: ", p_url );
     }
 }
-
+// ios播放首页声音方法
 function goofypapaInit() {
     isAudoPlay = true;
     goofypapaStopAllAndPlayAudio( $(".swiper-slide-active .voice span")[0].innerHTML, function(){
@@ -164,18 +162,20 @@ function goofypapaInit() {
     } );
 }
 
+
+
 function loadSuccess( indexAnimal ){
     var allAudio=$(".voice span");
-    if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
-        window.location.href = "goofypapa://playAudio," + allAudio[0].innerHTML;
-    }else if( typeof( window.android ) != "undefined" ) {
-        window.android.initMusic(allAudio[0].innerHTML,function playCompleteCallBack(){
-            //播放完成得回调
-        } );
-        // window.android.initMusic(allAudio[0].innerHTML);
-        window.android.startMusic();
+
+    if( typeof( window.android ) != "undefined" ) {
+        // android播放首页声音方法
+        initMusic( $(".voice span")[0].innerHTML,function(){
+            // alert("auto paly end");
+            $(".voice>img").attr('src','image/voiced.png');
+        });
+        startMusic();
     }else{
-        console.log(allAudio[0].innerHTML);
+        console.log($(".voice span")[0].innerHTML);
     }
     var swiper = new Swiper('.swiper-container', {
         loop:true,
@@ -218,29 +218,26 @@ function loadSuccess( indexAnimal ){
             }else{
                 isAudoPlay = true;
                 goofypapaStopAllAndPlayAudio( $(this).prev()[0].innerHTML, function(){
-                    // t_playState2.innerHTML = "false";
-
                     $(".voice>img").attr('src', 'image/voiced.png');
                     isAudoPlay = false;
                 } );
-                // t_playState2.innerHTML = "true";
                 $(this).attr('src', 'image/gif.gif');
             }
-            // window.location.href = "goofypapa://stopAllAudio;playAudio," + $(this).prev()[0].innerHTML;
         }else if( typeof( window.android ) != "undefined" ) {
-            // if(!window.android.isMusicPlaying()){
-            //     window.android.initMusic($(this).prev()[0].innerHTML);
-            //     window.android.startMusic();
-            //     $(this).attr('src', 'image/gif.gif');
-            //     // window.android.initMusic($(this).prev()[0].innerHTML,function playCompleteCallBack(){
-            //     //     $(this).attr('src', 'image/voiced.png');
-            //     // });
-            // }else{
-            //     window.android.pauseMusic();
-            //     $(this).attr('src', 'image/voiced.png');
-            // }
-            // window.android.initMusic($(this).prev()[0].innerHTML);
-            // window.android.startMusic();
+            if( isAudoPlay )
+            {
+                pauseMusic();
+                $(".voice>img").attr('src', 'image/voiced.png');
+                isAudoPlay = false;
+            }else{
+                isAudoPlay = true;
+                initMusic( $(this).prev()[0].innerHTML,function(){
+                    $(".voice>img").attr('src','image/voiced.png');
+                    isAudoPlay = false;
+                });
+                startMusic();
+                $(".voice>img").attr('src', 'image/gif.gif');
+            }
         }else{
             console.log($(this).prev()[0].innerHTML);
         }

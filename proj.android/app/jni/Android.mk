@@ -25,9 +25,9 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Login.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Dialog.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Resources/Canence.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/PianoGame.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/DadGuess.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Resources/CadenceMain.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataBase.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableFile.cpp \
@@ -38,7 +38,10 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMusicListScrollView.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3/sqlite3.c \
                    $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Cadence/CadenceGameLoaderScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Cadence/CadenceGameMusicListScrollView.cpp \
                    $(LOCAL_PATH)/../../../Classes/Cadence/CadenceGameMainScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Cadence/CadenceGameScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/C2DXShareSDK.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/ShareSDKUtils.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/JSON/CCJSONConverter.cpp \

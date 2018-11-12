@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -173,7 +173,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>2</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -187,33 +187,295 @@
             <key>defaultPivotPoint</key>
             <point_f>0.5,0.5</point_f>
             <key>writePivotPoints</key>
-            <false/>
+            <true/>
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Cadence/CadenceBackground_1.png</key>
-            <key type="filename">Cadence/CadenceBackground_2.png</key>
-            <key type="filename">Cadence/CadenceBackground_3.png</key>
-            <key type="filename">Cadence/CadenceBackground_4.png</key>
+            <key type="filename">Cadence/back.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>480,270,960,540</rect>
+                <rect>46,46,91,92</rect>
                 <key>scale9Paddings</key>
-                <rect>480,270,960,540</rect>
+                <rect>46,46,91,92</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/difficulty.png</key>
+            <key type="filename">Cadence/difficulty_selected.png</key>
+            <key type="filename">Cadence/ordinary.png</key>
+            <key type="filename">Cadence/ordinary_selected.png</key>
+            <key type="filename">Cadence/simple.png</key>
+            <key type="filename">Cadence/simple_selected.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,52,89,104</rect>
+                <key>scale9Paddings</key>
+                <rect>45,52,89,104</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_ball_blue.png</key>
+            <key type="filename">Cadence/game_pic_ball_pink.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,22,45,45</rect>
+                <key>scale9Paddings</key>
+                <rect>22,22,45,45</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_ball_yellow.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,29,59,59</rect>
+                <key>scale9Paddings</key>
+                <rect>29,29,59,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_end.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,44,16,87</rect>
+                <key>scale9Paddings</key>
+                <rect>8,44,16,87</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_gu.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>371,194,741,389</rect>
+                <key>scale9Paddings</key>
+                <rect>371,194,741,389</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_guide_blue.png</key>
+            <key type="filename">Cadence/game_pic_guide_green.png</key>
+            <key type="filename">Cadence/game_pic_guide_purple.png</key>
+            <key type="filename">Cadence/game_pic_guide_yellow.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>321,6,641,12</rect>
+                <key>scale9Paddings</key>
+                <rect>321,6,641,12</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_guide_remind_pink.png</key>
+            <key type="filename">Cadence/game_pic_guide_remind_purple.png</key>
+            <key type="filename">Cadence/game_pic_guide_remind_yellow.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>326,22,651,45</rect>
+                <key>scale9Paddings</key>
+                <rect>326,22,651,45</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_light_center_n.png</key>
+            <key type="filename">Cadence/game_pic_light_center_p.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,110,256,220</rect>
+                <key>scale9Paddings</key>
+                <rect>128,110,256,220</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_light_mid_n.png</key>
+            <key type="filename">Cadence/game_pic_light_mid_p.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>268,175,535,349</rect>
+                <key>scale9Paddings</key>
+                <rect>268,175,535,349</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/game_pic_light_out_n.png</key>
+            <key type="filename">Cadence/game_pic_light_out_p.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>346,198,691,396</rect>
+                <key>scale9Paddings</key>
+                <rect>346,198,691,396</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/good.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>152,53,304,105</rect>
+                <key>scale9Paddings</key>
+                <rect>152,53,304,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/miss.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>127,53,254,107</rect>
+                <key>scale9Paddings</key>
+                <rect>127,53,254,107</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/perfect.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>198,68,396,137</rect>
+                <key>scale9Paddings</key>
+                <rect>198,68,396,137</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/select_sea_srtar1_s.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,31,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,31,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/soundNameLeft.png</key>
+            <key type="filename">Cadence/soundNameRight.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>17,17,35,35</rect>
+                <key>scale9Paddings</key>
+                <rect>17,17,35,35</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/start.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>53,53,105,106</rect>
+                <key>scale9Paddings</key>
+                <rect>53,53,105,106</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Cadence/startButton.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>57,17,114,34</rect>
+                <key>scale9Paddings</key>
+                <rect>57,17,114,34</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>Cadence/CadenceBackground_1.png</filename>
-            <filename>Cadence/CadenceBackground_2.png</filename>
-            <filename>Cadence/CadenceBackground_3.png</filename>
-            <filename>Cadence/CadenceBackground_4.png</filename>
+            <filename>Cadence/back.png</filename>
+            <filename>Cadence/game_pic_gu.png</filename>
+            <filename>Cadence/game_pic_light_center_n.png</filename>
+            <filename>Cadence/game_pic_light_center_p.png</filename>
+            <filename>Cadence/game_pic_light_mid_n.png</filename>
+            <filename>Cadence/game_pic_light_mid_p.png</filename>
+            <filename>Cadence/game_pic_light_out_n.png</filename>
+            <filename>Cadence/game_pic_light_out_p.png</filename>
+            <filename>Cadence/good.png</filename>
+            <filename>Cadence/miss.png</filename>
+            <filename>Cadence/perfect.png</filename>
+            <filename>Cadence/select_sea_srtar1_s.png</filename>
+            <filename>Cadence/start.png</filename>
+            <filename>Cadence/game_pic_ball_blue.png</filename>
+            <filename>Cadence/game_pic_ball_pink.png</filename>
+            <filename>Cadence/game_pic_ball_yellow.png</filename>
+            <filename>Cadence/game_pic_guide_blue.png</filename>
+            <filename>Cadence/game_pic_guide_green.png</filename>
+            <filename>Cadence/game_pic_guide_purple.png</filename>
+            <filename>Cadence/game_pic_guide_remind_pink.png</filename>
+            <filename>Cadence/game_pic_guide_remind_purple.png</filename>
+            <filename>Cadence/game_pic_guide_remind_yellow.png</filename>
+            <filename>Cadence/game_pic_guide_yellow.png</filename>
+            <filename>Cadence/game_pic_end.png</filename>
+            <filename>Cadence/soundNameRight.png</filename>
+            <filename>Cadence/soundNameLeft.png</filename>
+            <filename>Cadence/startButton.png</filename>
+            <filename>Cadence/simple_selected.png</filename>
+            <filename>Cadence/simple.png</filename>
+            <filename>Cadence/difficulty_selected.png</filename>
+            <filename>Cadence/difficulty.png</filename>
+            <filename>Cadence/ordinary.png</filename>
+            <filename>Cadence/ordinary_selected.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

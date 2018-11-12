@@ -284,7 +284,6 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
             return;
         case 4:
             t_url = "Web_Earth";
-            t_orientation = true;
             break;
         case 5:
             t_url = "Web_Astronomy";

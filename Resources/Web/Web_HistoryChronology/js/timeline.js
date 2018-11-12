@@ -1,14 +1,6 @@
 /*朝代的霓虹灯效果*/
 // window.android.setScreenOrientation(1)
 // window.android.pauseMusic()
-//window.onload=function(){
-//    
-//}
-if( typeof( window.goofypapaGame ) !== "undefined" && window.goofypapaGame )
-{
-    window.location.href='goofypapa://stopAllAudio';
-}
-
 var me = 0;
 var imgObj = document.querySelectorAll('.lamp img');
 var timer = setInterval(function(){
@@ -50,10 +42,9 @@ $.ajax({
         for(let i=0;i<datas.length;i++){
             var pObj = document.querySelectorAll('.track p');
             let datasA = datas[i];
-            $('.track p').click(function(){
-                console.log(datasA);
+            $('.onclack p').click(function () {
                 if(datasA.dynastyName == this.innerText){
-                    window.location.href="details.html?dynastyId="+datasA.dynastyId;
+                    window.location.href="details.html?dynastyId="+datasA.dynastyId+"&&index="+datasA['dynastyAddr'];
                 }else{
                     return false;
                 }

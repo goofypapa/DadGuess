@@ -9,15 +9,16 @@
     <title>中国历史年表-详情页</title>
     <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/details.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.min.css" type="text/css" />
     <link rel="stylesheet" href="css/swiper-4.3.3-1.min.css" type="text/css" />  <!--改过的文件-->
 </head>
-<body>
+<body style="height: 100%">
 <div id="dv" style="background:url('./image/background.png') no-repeat;background-size: cover;overflow: hidden;">
     <!--朝代-->
     <div class="dynasty">
         <div class="swiper-container" id="swiper-container">
-            <div class="swiper-wrapper swiper1">
-    
+            <div class="swiper-wrapper" id="swiper1">
+
             </div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
@@ -34,59 +35,35 @@
         <img src="image/cloud3.png">
     </div>
     <!--icon图标-->
-    <div class="icon">
-        <p class="iconP">可上下滑动</p>
-        <div class="iconUp">
-            <img src="image/iconUpper.png">
-        </div>
-        <div class="iconLow">
-            <img src="image/iconLower.png">
-        </div>
-    </div>
     <!--小男孩-->
     <div class="boy">
         <img src="image/boy.gif">
     </div>
 </div>
-
-<script src="js/common.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.cookie.js"></script>
+<script src="js/common.js"></script>
 <script src="js/swiper-4.3.3.min.js"></script>
+<script src="js/swiper.animate.min.js"></script>
+
 <script src="js/details.js"></script>
 
 
-<div id="template" style="display: none;">
-    <div class="swiper-slide">
-        <div class="chaoDaiBox">
-            <div class="swiper-container swiperIndex" id="$id1$">
-                <div class="swiper-wrapper swiperWrapperIndex">
-                    <!--朝代图片及内容-->
-                </div>
-            </div>
-            <!--朝代名称-->
-            <div class="chaoDai">
-                <p class="title">$chaodai$</p>
-                <img src="image/stars.png">
-            </div>
-        </div>
-    </div>
-</div>
-<!--朝代图片及内容-->
 <div id="template1" style="display: none">
     <div class="swiper-slide">
         <div class="border">
             <img src="$img$">
         </div>
-        <div class="swiper-container" id="swiper-container2">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                    <p class="content">$content$</p>
-              </div>
-            </div>
+        <div class="content">
+            <p class="contentP">$content$</p>
         </div>
         <!--音频-->
-        <span style='display:none' class='audio'>$audio$</span>
+        <audio class="audioplay" src="$audio$"></audio>
+        <!--朝代名称-->
+        <div class="chaoDai">
+            <p class="title">$chaodai$</p>
+            <img src="image/stars.png">
+        </div>
     </div>
 </div>
 

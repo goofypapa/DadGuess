@@ -95,6 +95,7 @@
 		37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */; };
 		37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */ = {isa = PBXBuildFile; fileRef = 37EAF97E2192BAA9004DC9D5 /* Cadence */; };
 		37EAF9822192BED4004DC9D5 /* CadenceMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */; };
+		37EAF9852193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF9832193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
@@ -302,6 +303,8 @@
 		37EAF97E2192BAA9004DC9D5 /* Cadence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cadence; sourceTree = "<group>"; };
 		37EAF9802192BED4004DC9D5 /* CadenceMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CadenceMain.hpp; sourceTree = "<group>"; };
 		37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceMain.cpp; sourceTree = "<group>"; };
+		37EAF9832193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameMusicListScrollView.cpp; sourceTree = "<group>"; };
+		37EAF9842193D8E7004DC9D5 /* CadenceGameMusicListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CadenceGameMusicListScrollView.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		46880B8419C43A87006E1F66 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		46880B8519C43A87006E1F66 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -723,6 +726,8 @@
 				37EAF97221919FEC004DC9D5 /* CadenceGameLoaderScene.h */,
 				37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */,
 				37EAF97C2192B038004DC9D5 /* CadenceGameScene.h */,
+				37EAF9832193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp */,
+				37EAF9842193D8E7004DC9D5 /* CadenceGameMusicListScrollView.h */,
 			);
 			path = Cadence;
 			sourceTree = "<group>";
@@ -1003,6 +1008,7 @@
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
+				37EAF9852193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp in Sources */,
 				376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
 				37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */,

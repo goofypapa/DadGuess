@@ -43,6 +43,7 @@ if (imgName.length == 0) {
 /*画饼图*/
 var chart = Highcharts.chart('container', {
     chart: {
+        height:'165px' ,
         backgroundColor: 'rgba(12,165,253,0.36)',
         plotBackgroundColor: null,  //:绘图区背景色
         plotBorderWidth: null,  //绘图区边框宽度
@@ -87,7 +88,8 @@ var chart = Highcharts.chart('container', {
     },
     series: [{
         type: 'pie',
-        // name: '浏览器访问量占比',
+        size:'90%',
+        innerSize: '50%',
         data: []
     }]
 });
@@ -153,9 +155,13 @@ $.ajax({
                 slideChangeTransitionEnd:function(){
                     // 改变音频按钮
                     if($('.swiper-slide-active audio').length==1){
-                        $('.audioPlay')[0].src =  'img/audioPaused.png'
+                        console.log('------------------------------------')
+
+                        $('.audioPlay')[0].style.display = 'block'
+                        $('.audioPlay1')[0].style.display = 'none'
                     }else{
-                        $('.audioPlay')[0].src =''
+                        $('.audioPlay')[0].style.display = 'none'
+                        $('.audioPlay1')[0].style.display = 'none'
                     }
                 }
             }
@@ -164,9 +170,10 @@ $.ajax({
         that.index  = mySwiper1.realIndex
 
         if($('#swiper-container1 .swiper-slide-active audio').length == 1){
-            $('.audioPlay')[0].src =  'img/audioPaused.png'
+            $('.audioPlay')[0].style.display = 'block'
+
         }else{
-            $('.audioPlay')[0].src =''
+            $('.audioPlay')[0].style.display = 'none'
         }
         
 
@@ -193,9 +200,10 @@ $.ajax({
 
 window.onload = function () {
     if($('#swiper-container1 .swiper-slide-active audio').length == 1){
-        $('.audioPlay')[0].src =  'img/audioPaused.png'
+        $('.audioPlay')[0].style.display = 'block'
+
     }else{
-        $('.audioPlay')[0].src =''
+        $('.audioPlay')[0].style.display = 'none'
     }
 }
 
@@ -203,7 +211,12 @@ var audio = '';
 
 $('.audioPlay').click(function () {
     var that = this
-    this.src = 'img/audioPlay.png';
+    this.style.display = 'none'
+    $('.audioPlay1').css({
+        display:'block'
+    })
+
+
     // $('.audioPlay').css({
     //
     // })
@@ -212,11 +225,15 @@ $('.audioPlay').click(function () {
         audio[0].play();
     }else{
         audio[0].pause();
-        this.src = 'img/audioPaused.png';
+        $('.audioPlay1').css({
+            display:'block'
+        })
     }
     audio[0].loop = false;
     audio[0].addEventListener('ended', function () {
-        that.src = 'img/audioPaused.png';
+        $('.audioPlay1').css({
+            display:'block'
+        })
     }, false)
 })
 

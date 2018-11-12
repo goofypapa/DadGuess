@@ -24,7 +24,16 @@ body{
     position: absolute;
     top: 0.2rem;
     right: 0.3rem;
+    display: none;
 }
+.top .audioPlay1{
+    width: 0.8rem;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.3rem;
+    display: none;
+}
+
 .top .topName{
     height: 0.8rem;
     width: 4.6rem;
@@ -148,8 +157,8 @@ body{
     width: 100%;
     background-color: #0ca5fd;
     opacity: 0.36;
-    border-bottom-left-radius: 0.2rem;
-    border-bottom-right-radius: 0.2rem;
+    /*border-bottom-left-radius: 0.2rem;*/
+    /*border-bottom-right-radius: 0.2rem;*/
 }
 .structureLeft img{
     position: absolute;
@@ -160,6 +169,7 @@ body{
 #container{
     height: 3.5rem;
     width: 100%;
+    overflow: hidden;
 }
 /*图、内容*/
 .picContent{
@@ -197,4 +207,116 @@ body{
     position: absolute;
     top: 0;
     left: 0;
+}
+#highcharts-ii7dlkw-0{
+    border-radius: 0 0 .2rem .2rem;
+}
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and
+(-webkit-device-pixel-ratio: 3) {
+    /*增加头部适配层*/
+
+    .picImg {
+        height: 100%;
+        width: 6rem;
+        position: absolute;
+        top: 0;
+        left: 1.3rem;
+    }
+    #swiper-container1 {
+        height: 4.5rem;
+        width: 100%;
+        /* background: red; */
+        position: relative;
+        top: 0.4rem;
+        left: 0;
+    }
+    .picShow {
+        height: 4.7rem;
+        width: 7.6rem;
+        background: url(../img/xq_pic_intro_bj.png) no-repeat;
+        background-size: 100% 90%;
+        background-position: 1%;
+        position: absolute;
+        right: 1.9rem;
+        top: 0;
+    }
+    #swiper-container2 .swiper-slide {
+        height: 1.2rem;
+        width: 1.6rem;
+        margin-top: 0.68rem;
+    }
+    #swiper-container2 .swiper-slide-active {
+        height: 1.4rem;
+        width: 2rem;
+        margin-top: .5rem;
+    }
+    .picShow div {
+        color: #fbfafd;
+        font-size: 0.3rem;
+        margin-top: 0.2rem;
+        margin-left: 0.6rem;
+        height: 0.64rem;
+        line-height: 1.2rem;
+    }
+    .picShow p:nth-child(2) {
+        margin-left: 0.8rem;
+        line-height: 1.4rem;
+    }
+    .structureLeft img {
+        position: absolute;
+        top: 0.9rem;
+        height: 2.5rem;
+        margin-left: 0.6rem;
+    }
+    .structureLeft .structureBottom {
+        height: 3rem;
+        width: 100%;
+        background-color: #0ca5fd;
+        opacity: 0.36;
+        /*border-bottom-left-radius: 0.2rem;*/
+        /*border-bottom-right-radius: 0.2rem;*/
+    }
+
+    .structureLeft, .structureRight {
+        height: 3.9rem;
+        width: 6.45rem;
+        border-radius: 0.2rem .2rem 0 0 ;
+        position: absolute;
+        top: 0.5rem;
+        overflow: hidden;
+        /* opacity: 0.5; */
+    }
+
+    .picContent {
+        height: 5.4rem;
+        width: 12.2rem;
+        background: url(../img/xq_pic_font_bj.png) no-repeat;
+        margin-top: 0.25rem;
+        background-size: 100% 79%;
+        margin-left: 1.9rem;
+    }
+
+    .picContent img {
+        height: 3.9rem;
+        width: 5.8rem;
+        margin-left: 0.25rem;
+        margin-top: 0.25rem;
+        float: left;
+    }
+
+    .picContent p {
+        color: #fbfafd;
+        height: 2.8rem;
+        width: 5.6rem;
+        margin-left: 0.25rem;
+        margin-top: .9rem;
+        float: left;
+        overflow: hidden;
+        font-size: 0.34rem;
+        line-height: 0.4rem;
+        overflow-y: scroll;
+        text-align: justify;
+    }
+
 }

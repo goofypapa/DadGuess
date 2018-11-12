@@ -22,8 +22,9 @@ $.ajax({
     dataType:"jsonp", //以键/值对的形式
     async:true,
     success:function(data){
-        console.log(data.data);
+        console.log(data.data, 'jing');
         var datas = data.data;
+        window.localStorage.setItem('mainData', JSON.stringify(datas))
         var arrAll = [];
         var randomAll1 = [];
         var randomAll2 = [];
@@ -36,7 +37,6 @@ $.ajax({
                 }
             }   
         }
-
         for(var i=0;i<arrAll.length;i++){
             randomAll1.push(i);
             randomAll2.push(i);
@@ -55,9 +55,9 @@ $.ajax({
             return Math.random() - 0.5;
         });
 
-        $('.chaoDai').append('<div class="chaoDai1" style="display: block; transform-origin: ' + docuWidth + 'px ' + docuHeight + 'px; position: absolute;left: -' + docuWidth * 0.5 + 'px; top: -' + docuHeight * 0.5 + 'px;animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[1].animalId+'"><img src="http://www.dadpat.com/'+arrAll[1].attUrl+'" class="img1"></a></div>');
-        $('.chaoDai').append('<div class="chaoDai2" style="transform-origin: ' + docuWidth * 0.6 + 'px -' + docuHeight * 0.1 + 'px;position: absolute;left: -' + docuWidth * 0.1 + 'px; top: ' + docuHeight * 0.6 + 'px; animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[2].animalId+'"><img src="http://www.dadpat.com/'+arrAll[2].attUrl+'" class="img2"></a></div>');
-        $('.chaoDai').append('<div class="chaoDai3" style="transform-origin: -' + docuWidth * 0.1 + 'px ' + docuHeight + 'px; position: absolute;left: ' + docuWidth * 0.6 + 'px; top: -' + docuHeight * 0.5 + 'px;animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[3].animalId+'"><img src="http://www.dadpat.com/'+arrAll[3].attUrl+'" class="img3"></a></div>');
+        $('.chaoDai').append('<div class="chaoDai1" style="display: block; transform-origin: ' + docuWidth + 'px ' + docuHeight + 'px; position: absolute;left: -' + docuWidth * 0.5 + 'px; top: -' + docuHeight * 0.5 + 'px;animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[1].animalId+'&&index='+1+'"><img src="http://www.dadpat.com/'+arrAll[1].attUrl+'" class="img1"></a></div>');
+        $('.chaoDai').append('<div class="chaoDai2" style="transform-origin: ' + docuWidth * 0.6 + 'px -' + docuHeight * 0.1 + 'px;position: absolute;left: -' + docuWidth * 0.1 + 'px; top: ' + docuHeight * 0.6 + 'px; animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[2].animalId+'&&index='+2+'"><img src="http://www.dadpat.com/'+arrAll[2].attUrl+'" class="img2"></a></div>');
+        $('.chaoDai').append('<div class="chaoDai3" style="transform-origin: -' + docuWidth * 0.1 + 'px ' + docuHeight + 'px; position: absolute;left: ' + docuWidth * 0.6 + 'px; top: -' + docuHeight * 0.5 + 'px;animation:excircle 21s infinite linear;"><a href="details.html?dynastyId='+arrAll[3].animalId+'&&index='+3+'"><img src="http://www.dadpat.com/'+arrAll[3].attUrl+'" class="img3"></a></div>');
 
         /*朝代*/
         var chaoDaiC = document.querySelector('.chaoDai');

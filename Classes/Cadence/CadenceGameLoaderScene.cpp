@@ -48,6 +48,8 @@ void CadenceGameLoaderScene::cacheResource( void )
     auto tf_tryStartGame = [this](){
         if( --m_loadResourceCount == 0 )
         {
+            SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "Cadence/CadenceMain.plist", Director::getInstance()->getTextureCache()->getTextureForKey( "Cadence/CadenceMain.png" ) );
+            
             Director::getInstance()->replaceScene( CadenceGameMainScene::create() );
         }
     };
@@ -71,6 +73,8 @@ void CadenceGameLoaderScene::uncacheResource( void )
 {
     size_t t_loadImgListSize = sizeof( sm_loadImgList ) / sizeof( char * );
     size_t t_loadAudioListSize = sizeof( sm_loadAudioList ) / sizeof( char * );
+    
+    SpriteFrameCache::getInstance()->removeSpriteFramesFromTexture( Director::getInstance()->getTextureCache()->getTextureForKey( "Cadence/CadenceMain.png" ) );
     
     for( size_t i = 0; i < t_loadImgListSize; ++i )
     {

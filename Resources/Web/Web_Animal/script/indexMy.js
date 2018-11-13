@@ -9,6 +9,7 @@ function GetQueryString(name) {
 var isAudoPlay = false;
 window.onload = function()
 {
+    $("#blackShade").fadeOut();
 
     $('body').css({
         'height': docuHeight,
@@ -151,6 +152,7 @@ function myPlayAudio( p_url ) {
         }
     }else{
         console.log( "play audio: ", p_url );
+
     }
 }
 // ios播放首页声音方法

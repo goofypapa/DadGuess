@@ -10,6 +10,7 @@
 #include "ui/CocosGUI.h"
 #include "Common.h"
 #include "CadenceGameMainScene.h"
+#include "CadenceGameLoaderScene.h"
 #include "AudioEngine.h"
 
 #include "json/document.h"
@@ -179,14 +180,17 @@ bool CadenceGameScene::initWithMusic( const std::string p_musicDir, const std::s
     m_lightOutn->setOpacity( 0 );
     addChild( m_lightOutn );
     
-    m_tipsSpriteList.push_back( m_lightOutn );
-    m_tipsSpriteList.push_back( m_lightMidn );
     m_tipsSpriteList.push_back( m_lightCentern );
+    m_tipsSpriteList.push_back( m_lightMidn );
+    m_tipsSpriteList.push_back( m_lightOutn );
     
     static float s_info[][3] = {
         { t_drumCenter, t_drumScaleSizeHalf.width * 0.305f, 0.83f },
         { t_drumCenter * 0.88f, t_drumScaleSizeHalf.width * 0.7f, 0.73f },
-        { t_drumCenter * 0.74f, t_drumScaleSizeHalf.width * 0.91f, 0.76f },
+        { t_drumCenter * 0.51f, t_drumScaleSizeHalf.width, 0.81f }
+        
+        //不带壳的高音圈
+        //{ t_drumCenter * 0.74f, t_drumScaleSizeHalf.width * 0.91f, 0.76f }
     };
     
     
@@ -221,13 +225,13 @@ bool CadenceGameScene::initWithMusic( const std::string p_musicDir, const std::s
         
         switch ( i ) {
             case 0:
-                t_remind = TexturePacker::CadenceMain::createGame_pic_guide_remind_purpleSprite();
+                t_remind = TexturePacker::CadenceMain::createGame_pic_guide_remind_pinkSprite();
                 break;
             case 1:
                 t_remind = TexturePacker::CadenceMain::createGame_pic_guide_remind_yellowSprite();
                 break;
             case 2:
-                t_remind = TexturePacker::CadenceMain::createGame_pic_guide_remind_pinkSprite();
+                t_remind = TexturePacker::CadenceMain::createGame_pic_guide_remind_purpleSprite();
                 break;
             default:
                 break;
@@ -403,7 +407,7 @@ bool CadenceGameScene::initWithMusic( const std::string p_musicDir, const std::s
                 
 //                m_tipsSpriteList[2 - i]->runAction( Sequence )
                 
-                toneTouched( 2 - i );
+                toneTouched( i );
                 break;
             }
         }
@@ -513,16 +517,18 @@ void CadenceGameScene::update( float p_delta )
     m_musicTime = t_currTime - m_startTime + m_accumulativeTime;
     
     
+#ifdef __ANDROID_NDK__
     if( !m_backgroundMusicCalibration )
     {
         if( abs( m_musicTime - 1.0f ) <= 0.01f )
         {
             m_backgroundMusicCalibration = true;
             m_accumulativeTime += AudioEngine::getCurrentTime( m_backgroundMusicHandle ) - m_musicTime;
-            
+
             printf( "---------> m_accumulativeTime: %f \n", m_accumulativeTime );
         }
     }
+#endif
     
     static std::string s_toneOrder = "BTS";
     while( true )
@@ -548,13 +554,13 @@ void CadenceGameScene::update( float p_delta )
                 std::string t_frameName;
                 switch ( t_gameTone.index ) {
                     case 0:
-                        t_frameName = TexturePacker::CadenceMain::game_pic_ball_blue;
+                        t_frameName = TexturePacker::CadenceMain::game_pic_ball_pink;
                         break;
                     case 1:
                         t_frameName = TexturePacker::CadenceMain::game_pic_ball_yellow;
                         break;
                     case 2:
-                        t_frameName = TexturePacker::CadenceMain::game_pic_ball_pink;
+                        t_frameName = TexturePacker::CadenceMain::game_pic_ball_blue;
                         break;
                     default:
                         break;
@@ -592,6 +598,14 @@ void CadenceGameScene::update( float p_delta )
 
             t_item.tips = true;
         }
+     
+//自动播放
+//        if( abs( m_musicTime - t_item.time ) <= 0.01f )
+//        {
+////            printf( "-------------> %f, %f, %f \n", t_item.time, m_musicTime, AudioEngine::getCurrentTime( m_backgroundMusicHandle ) );
+//            toneTouched( t_item.index );
+//            continue;
+//        }
 
         if( t_item.tips && m_musicTime - t_item.time >= FAULT_TOLERANT_TIME - 0.1f )
         {
@@ -663,7 +677,7 @@ void CadenceGameScene::toneTouched( const int p_index )
         changeJudge( Leak );
     }
     
-    AudioEngine::play2d( sm_audioList[2 - p_index] );
+    AudioEngine::play2d( sm_audioList[ p_index] );
 }
 
 

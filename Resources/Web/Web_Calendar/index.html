@@ -46,6 +46,22 @@
             width: 40px;
             z-index: 1000;
         }
+        #bj-shade{
+            display: block;
+            position: absolute;
+            background:url("images/xq_bj.png");
+            z-index: 1;
+            background-size: cover;
+        }
+        #blackShade{
+            width: 100%;
+            height: 101%;
+            display: block;
+            position: absolute;
+            background-color: #000;
+            z-index: 100000;
+            margin-top: 24%;
+        }
     </style>
     <script>
         // 猫动画
@@ -65,6 +81,8 @@
     </script>
 </head>
 <body onLoad="image()">
+<div id="blackShade"></div>
+<div id="bj-shade"></div>
 <img id="home" src="images/home.png" alt="" >
 <img id="imgBj" src="images/home_pic_calendar.png" alt="">
 <img src="images/cat1.png" id="cat" alt="">
@@ -145,7 +163,7 @@
 <script src="js/jquery.bookblock.js"></script>
 <script>
     // var bili=(window.screen.width/500);
-    var pmWidth=window.screen.height;
+    var pmWidth=window.screen.availWidth;
     var bjLeft=pmWidth/2-270;
     console.log(bjLeft);
     var bjSize=document.getElementById("imgBj");
@@ -258,6 +276,9 @@
             window.android.exitApp()
         }
     })
+    window.onload=function () {
+        $("#blackShade").fadeOut();
+    }
 </script>
 <script>
     Page.init();

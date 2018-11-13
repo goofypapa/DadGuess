@@ -103,6 +103,7 @@
     </style>
 </head>
 <body>
+<div id="bj-shade"></div>
 <div id="head">
     <img id="back" src="img/back.png" alt="">
     <div id="year"><img src="" alt=""></div>
@@ -111,22 +112,7 @@
 <!-- Swiper -->
 <div class="swiper-container">
     <div class="swiper-wrapper">
-        <!--<div class="swiper-slide">-->
-        <!--<div>-->
-        <!--<img src="img/1.jpg" alt="">-->
-        <!--<p class="myText">ceshiceshi</p>-->
-        <!--<audio class="myVideo" src="http://www.dadpat.com/'+audioPath+'"></audio>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="swiper-slide">Slide 2</div>-->
-        <!--<div class="swiper-slide">Slide 3</div>-->
-        <!--<div class="swiper-slide">Slide 4</div>-->
-        <!--<div class="swiper-slide">Slide 5</div>-->
-        <!--<div class="swiper-slide">Slide 6</div>-->
-        <!--<div class="swiper-slide">Slide 7</div>-->
-        <!--<div class="swiper-slide">Slide 8</div>-->
-        <!--<div class="swiper-slide">Slide 9</div>-->
-        <!--<div class="swiper-slide">Slide 10</div>-->
+
     </div>
 </div>
 
@@ -203,7 +189,7 @@
 </script>
 <script>
     window.onload=function(){
-
+        $("#bj-shade").fadeOut();
         // 获取页面所有音频
         var allAudio=$("audio");
         console.log(allAudio);

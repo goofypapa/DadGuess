@@ -127,10 +127,10 @@
                 opacity:0.75;
             }
         }
-
     </style>
 </head>
 <body>
+<div id="bj-shade"></div>
 <div id="blackShade"></div>
 <img id="home" src="img/home.png" alt="">
 <img id="word-histroy" src="img/word.png" alt="">
@@ -290,12 +290,7 @@
         }else{
             window.android.exitApp();
         }
-    })
-    // $("#location").on("touchmove",function () {
-    //     console.log("触摸滚动1")
-    //     let scroll = $(document).scrollTop();
-    //
-    // });
+    });
     var lastItem=0;
     $(document).ready(function () {
         sendAsk();
@@ -315,28 +310,28 @@
                 console.log(index+1+"个发送请求  ");
                 console.log(index);
                 console.log(lis[index]);
-                if(index==1){
-                    $(lis[index]).attr("class","ani");
-                    $(lis[index]).attr("swiper-animate-effect","bounceInRight");
-                    $(lis[index]).attr("swiper-animate-duration","1.5s");
-                    $(lis[index]).attr("swiper-animate-delay","0.5s");
-                    $(lis[index]).css("opacity","1");
-                    swiperAnimate(Myswiper);
-                }else if(index==2){
-                    $(lis[index]).attr("class","ani");
-                    $(lis[index]).attr("swiper-animate-effect","bounceInRight");
-                    $(lis[index]).attr("swiper-animate-duration","1.5s");
-                    $(lis[index]).attr("swiper-animate-delay","1s");
-                    $(lis[index]).css("opacity","1");
-                    swiperAnimate(Myswiper);
-                }else{
+                // if(index==1){
+                //     $(lis[index]).attr("class","ani");
+                //     $(lis[index]).attr("swiper-animate-effect","bounceInRight");
+                //     $(lis[index]).attr("swiper-animate-duration","1.5s");
+                //     $(lis[index]).attr("swiper-animate-delay","0.5s");
+                //     $(lis[index]).css("opacity","1");
+                //     swiperAnimate(Myswiper);
+                // }else if(index==2){
+                //     $(lis[index]).attr("class","ani");
+                //     $(lis[index]).attr("swiper-animate-effect","bounceInRight");
+                //     $(lis[index]).attr("swiper-animate-duration","1.5s");
+                //     $(lis[index]).attr("swiper-animate-delay","1s");
+                //     $(lis[index]).css("opacity","1");
+                //     swiperAnimate(Myswiper);
+                // }else{
                     $(lis[index]).attr("class","ani");
                     $(lis[index]).attr("swiper-animate-effect","bounceInRight");
                     $(lis[index]).attr("swiper-animate-duration","1.5s");
                     $(lis[index]).attr("swiper-animate-delay","0s");
                     $(lis[index]).css("opacity","1");
                     swiperAnimate(Myswiper);
-                }
+                // }
 
 
             }

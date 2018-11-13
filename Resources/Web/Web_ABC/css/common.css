@@ -15,7 +15,22 @@ ol, ul { list-style: none; }
 q:before, q:after, blockquote:before, blockquote:after { content: ""; }
 
 body{
-    background-color: #8feaff;
+    background-color: #000;
+}
+#ren-shade,#ting-shade,#pin-shade{
+    display: block;
+    position: absolute;
+    z-index: 1;
+    background-size: cover;
+}
+#ren-shade{
+    background:url("../image/3bj.png");
+}
+#ting-shade{
+    background:url("../image/2bj.png");
+}
+#pin-shade{
+    background:url("../image/04bj.png");
 }
 
 

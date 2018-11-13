@@ -486,7 +486,7 @@ void PianoGameMainScene::update( float p_delta )
 //                break;
 //        }
 //    }
-    
+#ifdef __ANDROID_NDK__
     if( !m_backgroundMusicCalibration )
     {
         if( abs( m_musicTime - m_musicScore[2].time ) <= 0.01f )
@@ -497,6 +497,7 @@ void PianoGameMainScene::update( float p_delta )
             printf( "---------> m_accumulativeTime: %f \n", m_accumulativeTime );
         }
     }
+#endif
     
     if( m_showBollIndex < m_musicScore.size() && m_musicScore[m_showBollIndex].time <= m_musicTime + MOVE_TIME )
     {
@@ -547,7 +548,7 @@ void PianoGameMainScene::update( float p_delta )
 //        if( abs( m_musicTime - item.time ) <= 0.01f )
 //        {
 //            std::stringstream t_sstr;
-//            t_sstr << "PianoGame/Piano/" << item.tone << ".ogg";
+//            t_sstr << "PianoGame/Piano/" << item.tone << ".wav";
 //            AudioEngine::play2d( t_sstr.str().c_str() );
 //
 //            double t_audioTime = AudioEngine::getCurrentTime( m_backgroundMusicHandle );
@@ -656,7 +657,7 @@ void PianoGameMainScene::toneTouched( const int p_index )
         }
         
         std::stringstream t_sstr;
-        t_sstr << "PianoGame/Piano/" << m_gameTones[t_toneIndex].tone << ".ogg";
+        t_sstr << "PianoGame/Piano/" << m_gameTones[t_toneIndex].tone << ".wav";
         AudioEngine::play2d( t_sstr.str().c_str() );
         
         removeChild( m_gameTones[t_toneIndex].ball );
@@ -666,11 +667,9 @@ void PianoGameMainScene::toneTouched( const int p_index )
         //miss
         
         std::stringstream t_sstr;
-        t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << ".ogg";
+        t_sstr << "PianoGame/Piano/" << m_sequeueTone[p_index] << ".wav";
         AudioEngine::play2d( t_sstr.str().c_str() );
-        
-        printf( "----------> %s \n", FileUtils::getInstance()->fullPathForFilename( t_sstr.str() ).c_str() );
-        
+
         changeJudge( Leak );
     }
 }
@@ -839,15 +838,15 @@ void PianoGameMainScene::loadMusic( void )
         m_sequeueToneNoOctave.push_back( t_toneNoOctave );
         
         std::stringstream t_audio;
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << ".ogg";
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << ".wav";
         AudioEngine::preload( t_audio.str().c_str() );
         
         t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+1.ogg";
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+1.wav";
         AudioEngine::preload( t_audio.str().c_str() );
         
         t_audio.str("");
-        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+2.ogg";
+        t_audio << "PianoGame/Piano/" << t_toneNoOctave << "+2.wav";
         AudioEngine::preload( t_audio.str().c_str() );
         
     }

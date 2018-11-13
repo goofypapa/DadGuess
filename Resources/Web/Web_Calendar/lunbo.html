@@ -36,19 +36,19 @@
             border-radius: 10px;
             box-shadow: 0 0 10px #fff;
         }
-       .swiper-slide p{
-           position: absolute;
-           bottom: -90px;
-           left: 0;
-           font-size: 16px;
-           color: #fff;
-           line-height: 24px;
-           width: 100%;
-           height: 60px;
-           overflow-y:auto ;
-           text-indent:26px;
-           letter-spacing: 1px;
-       }
+        .swiper-slide p{
+            position: absolute;
+            bottom: -90px;
+            left: 0;
+            font-size: 16px;
+            color: #fff;
+            line-height: 24px;
+            width: 100%;
+            height: 60px;
+            overflow-y:auto ;
+            text-indent:26px;
+            letter-spacing: 1px;
+        }
         #goback{
             position: fixed;
             left: 10px;
@@ -92,12 +92,23 @@
             text-align: justify;
             color: #fff;
         }
+        #bj-shade{
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
+            background:url("images/xq_bj.png");
+            z-index: 1001;
+            background-size: cover;
+        }
+
     </style>
 </head>
 <body>
+<div id="bj-shade"></div>
 <a style="-webkit-tap-highlight-color: transparent;-webkit-touch-callout: none;-webkit-user-select: none;" href="index.html"><img id="goback" src="images/goback.png" alt=""></a>
 <!--淡出图层-->
-<div id="dc"></div>
+<!--<div id="dc"></div>-->
 <!--文字层-->
 <div id="introduce"></div>
 <!-- Swiper -->
@@ -112,6 +123,10 @@
 <script src="js/swiper-4.3.3.min.js"></script>
 
 <script>
+    // 遮罩层的宽高
+    var blackShadeSize=document.getElementById("bj-shade");
+    blackShadeSize.style.width = window.screen.availWidth+'px';
+    blackShadeSize.style.height = window.screen.availHeight+'px';
     //js获取url参数
     function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -172,8 +187,8 @@
 </script>
 <script>
     window.onload=function(){
-
-        $("#dc").fadeOut();
+        $("#bj-shade").fadeOut();
+        // $("#dc").fadeOut();
         // 获取页面所有音频文件
         var allAudio=$(".myVideo");
         console.log(allAudio);

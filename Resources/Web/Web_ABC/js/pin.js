@@ -333,7 +333,19 @@ function pinTuGame( p_index ) {
         if (isOk) {
             self = 0;
             $("#shade").css("display","block");
-            playAudio( imgSibling.value );
+            if( typeof( goofypapaGame ) != "undefined" && goofypapaGame ){
+                playAudio( imgSibling.value );
+            }else if( typeof( window.android ) != "undefined" ) {
+                    initMusic( imgSibling.value ,function(){
+                        // alert("play end");
+                        mySwiper.slideNext();
+                        $("#shade").css("display","none");
+                    });
+                    startMusic();
+                }
+            }else{
+                console.log( "play audio: ", imgSibling.value );
+            }
             //
             // var nextTime=Math.floor(imgSibling.duration* 1000)/1000;
             // nextTime=nextTime*1000;
@@ -342,6 +354,6 @@ function pinTuGame( p_index ) {
             //     $("#shade").css("display","none");
             // },nextTime);
         }
-    }
+    // }
 }
 //=============================================================================================================================

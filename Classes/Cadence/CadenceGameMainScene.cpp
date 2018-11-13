@@ -47,9 +47,6 @@ bool CadenceGameMainScene::init( void )
     m_musicList.push_back( std::pair< std::string, std::string >( "Ponyo", "金鱼姬" ) );
     m_musicList.push_back( std::pair< std::string, std::string >( "JingleBells", "铃儿响叮当" ) );
     
-    
-    
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "Cadence/CadenceMain.plist", Director::getInstance()->getTextureCache()->getTextureForKey( "Cadence/CadenceMain.png" ) );
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -74,6 +71,7 @@ bool CadenceGameMainScene::init( void )
 
     touchAnswer( t_back, []( Ref * p_ref ){
         Director::getInstance()->replaceScene( MainScene::create() );
+        CadenceGameLoaderScene::uncacheResource();
     }, adaptation() * 1.1f, adaptation() );
     
     
@@ -98,5 +96,4 @@ bool CadenceGameMainScene::init( void )
 
 CadenceGameMainScene::~CadenceGameMainScene()
 {
-    CadenceGameLoaderScene::uncacheResource();
 }

@@ -3,8 +3,8 @@
 var myarray=['http://www.dadpat.com/app/paintingImg/pianting1.png','http://www.dadpat.com/app/paintingImg/pianting2.png','http://www.dadpat.com/app/paintingImg/pianting3.png','http://www.dadpat.com/app/paintingImg/pianting4.png','http://www.dadpat.com/app/paintingImg/pianting5.png','http://www.dadpat.com/app/paintingImg/pianting6.png','http://www.dadpat.com/app/paintingImg/pianting7.png','http://www.dadpat.com/app/paintingImg/pianting8.png','http://www.dadpat.com/app/paintingImg/pianting9.png','http://www.dadpat.com/app/paintingImg/pianting10.png','http://www.dadpat.com/app/paintingImg/pianting11.png','http://www.dadpat.com/app/paintingImg/pianting12.png']
 var sum=3;
 var MoveSpeed=1;//每次改变的大小为N个像素
-var imgLeft=window.screen.width/3*2;
-var imgTop=window.screen.height/3+50;
+var imgLeft=window.screen.availWidth/3*2-50;
+var imgTop=window.screen.availHeight/3+50;
 var div=document.getElementById("one");
 var div1=document.getElementById("two");
 var div2=document.getElementById("three");
@@ -25,6 +25,7 @@ function SetWH()
     oldleft=oldleft-MoveSpeed;
     var oldtop=div.offsetTop;
     oldtop=oldtop-MoveSpeed;
+    console.log(oldleft, oldtop);
 
     var oldwidth1=div1.offsetWidth;
     oldwidth1=oldwidth1+MoveSpeed;
@@ -32,6 +33,7 @@ function SetWH()
     oldleft1=oldleft1+MoveSpeed;
     var oldtop1=div1.offsetTop;
     oldtop1=oldtop1-MoveSpeed;
+    console.log(oldleft1, oldtop1)
 
     var oldwidth2=div2.offsetWidth;
     oldwidth2=oldwidth2+MoveSpeed;
@@ -39,8 +41,9 @@ function SetWH()
     oldleft2=oldleft2+MoveSpeed;
     var oldtop2=div2.offsetTop;
     oldtop2=oldtop2-MoveSpeed;
+    console.log(oldleft2, oldtop2)
 
-    console.log(imgLeft,imgTop);
+    // console.log(imgLeft,imgTop);
     // console.log(oldwidth);
     // console.log(oldleft);
 
@@ -68,7 +71,7 @@ function SetWH()
         div.style.zIndex=oldwidth;
         div.style.left=oldleft+"px";
         div.style.top=oldtop+"px";
-        console.log("aaa"+myarray[sum]+"bbb"+sum);
+        // console.log("aaa"+myarray[sum]+"bbb"+sum);
 
     }
 

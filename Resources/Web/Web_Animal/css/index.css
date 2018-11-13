@@ -121,3 +121,11 @@ a{ tap-highlight-color: rgba(0,0,0,0);
     color: rgba(255,255,255,0.5);
     text-align: right;
 }
+#blackShade{
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    background-color: #000;
+    z-index: 1001;
+}

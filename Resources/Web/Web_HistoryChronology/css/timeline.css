@@ -1,4 +1,13 @@
 /*灯光*/
+body{
+    overflow: hidden;
+}
+#dv{
+    height: 10.11rem;
+}
+.backimg{
+    height:10.11rem
+}
 .light img{
     width: 100%;
     position: absolute;
@@ -43,6 +52,7 @@
 .track span{
     font-family:'Hua Kang poster body';
     color: #fffeff;
+    text-decoration : none
 }
 .track p{
     font-size: 0.4rem;
@@ -50,6 +60,7 @@
 .track span{
     font-size: 0.3rem;
     transform: scale(0.6);
+    text-decoration : none
 }
 /*原始社会*/
 .lstars img{
@@ -447,3 +458,16 @@
 .bottom span{
     top: 108%;
 }
+
+
+@media only screen and (device-width: 375px) and (device-height: 812px) and
+/*@media only screen and (device-width: 812px) and (device-height: 375px) and*/
+(-webkit-device-pixel-ratio: 3){
+    #dv{
+        height: 8.31rem;
+    }
+    .backimg{
+        height:8.31rem
+    }
+}
+

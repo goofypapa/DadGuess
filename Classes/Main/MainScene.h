@@ -30,7 +30,7 @@ public:
 
     void updateUserInfo( void );
 
-    virtual void refreshSource( const DataFile & p_fileInfo ) override;
+    virtual void refreshSource( const DataFileInfo & p_fileInfo ) override;
     
 protected:
     virtual bool init( void ) override;
@@ -46,7 +46,7 @@ private:
     std::function<void()> m_enableAllButton;
     std::function<void()> m_disenableAllButton;
     
-    DataUser m_loginUser;
+    DataUserInfo m_loginUser;
     
 };
 

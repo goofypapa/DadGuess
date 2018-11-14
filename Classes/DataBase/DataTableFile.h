@@ -10,24 +10,25 @@
 
 #include <string>
 #include <map>
+#include "DataBase.h"
 
 
 #define DataTableFileName "table_file"
 
-#define DataTableFileCreateSql "CREATE TABLE IF NOT EXISTS table_file( "\
+#define DataTableFileCreateSql "CREATE TABLE IF NOT EXISTS " DataTableFileName "( "\
 "fileId TEXT PRIMARY KEY NOT NULL, "\
 "sourceUrl TEXT NOT NULL, "\
 "fileName TEXT NOT NULL, "\
 "fileMd5 TEXT NOT NULL "\
 ")"
-#define DataTableFileDrapSql "DROP TABLE table_file"
+#define DataTableFileDrapSql "DROP TABLE " DataTableFileName
 
-class DataFile
+class DataFileInfo : public DataBaseInfo
 {
 public:
-    DataFile();
+    DataFileInfo();
 
-    std::string toJson( void );
+    virtual std::string toJson( void ) override;
     
     std::string fileId, sourceUrl, fileName, fileMd5;
 };
@@ -38,15 +39,15 @@ class DataTableFile
 public:
     static DataTableFile & instance( void );
 
-    bool insert( const DataFile & p_fileInfo );
+    bool insert( const DataFileInfo & p_fileInfo );
     bool insert( const std::string & p_fileId, const std::string & p_sourceUrl, const std::string & p_fileName, const std::string & p_fileMd5 );
 
-    std::vector< DataFile > list( void );
+    std::vector< DataFileInfo > list( void );
 
-    DataFile find( const std::string & p_fileId );
-    DataFile findBySourceUrl( const std::string & p_sourceUrl );
+    DataFileInfo find( const std::string & p_fileId );
+    DataFileInfo findBySourceUrl( const std::string & p_sourceUrl );
 
-    bool update( const DataFile & p_fileInfo );
+    bool update( const DataFileInfo & p_fileInfo );
     bool remove( const std::string & p_fileId );
 
     bool drop( void );
@@ -55,7 +56,7 @@ protected:
     bool init( void );
 
 private:
-    DataFile dataRowToDataUser( std::map<std::string, std::string> & p_dataRow );
+    DataFileInfo dataRowToDataUser( std::map<std::string, std::string> & p_dataRow );
 };
 
 

@@ -10,7 +10,7 @@ public:
 
     static BaseScene * activityScene( void );
 
-    virtual void refreshSource( const DataFile & p_dataInfo );
+    virtual void refreshSource( const DataFileInfo & p_dataInfo );
 
     virtual bool init( void ) override;
 private:

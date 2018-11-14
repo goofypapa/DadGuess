@@ -26,7 +26,7 @@ protected:
     
     virtual ~DadGuessUpdateScene( void );
 private:
-    
+    static const char * sm_batchListApi;
 };
 
 #endif //__DAD_GUESS_UPDATE_SCENE_H__

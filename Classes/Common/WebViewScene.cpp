@@ -279,7 +279,7 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
     return true;
 }
 
-void WebViewScene::refreshSource( const DataFile & p_dataInfo )
+void WebViewScene::refreshSource( const DataFileInfo & p_dataInfo )
 {
     
 }
@@ -336,7 +336,7 @@ void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string 
     
     m_playCallBackList[p_audioUrl] = p_finishCallBack;
     
-    loadAudio( p_audioUrl, [this]( DataFile p_audioFile ){
+    loadAudio( p_audioUrl, [this]( DataFileInfo p_audioFile ){
         playAudio( p_audioFile.sourceUrl, "" );
     });
 }
@@ -356,7 +356,7 @@ void WebViewScene::stopAllAudio( void )
     s_playList.clear();
 }
 
-void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void( DataFile p_audioFile )> p_loadAudioCallBack )
+void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void( DataFileInfo p_audioFile )> p_loadAudioCallBack )
 {
     
     auto t_audioFile = DataTableFile::instance().findBySourceUrl( p_audioUrl );
@@ -377,7 +377,7 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
     s_downloadList[ p_audioUrl ] = p_loadAudioCallBack;
     
     
-    Http::DownloadFile( p_audioUrl, "mp3", [this]( DataFile p_fileInfo ){
+    Http::DownloadFile( p_audioUrl, "mp3", [this]( DataFileInfo p_fileInfo ){
         
         if( s_downloadList.find( p_fileInfo.sourceUrl ) != s_downloadList.end() && s_downloadList[p_fileInfo.sourceUrl] != nullptr )
         {
@@ -400,7 +400,7 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
             }
         }
         
-    }, [this]( DataFile p_fileInfo ){
+    }, [this]( DataFileInfo p_fileInfo ){
         
         auto t_it = s_downloadList.find( p_fileInfo.sourceUrl );
         if( t_it != s_downloadList.end() )

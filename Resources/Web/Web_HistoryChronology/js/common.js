@@ -35,8 +35,8 @@ onresize = function(){
 /*每个页面最大的div的宽高*/
 var docuWidth = document.documentElement.clientWidth;  //可见区域宽度
 var docuHeight = document.documentElement.clientHeight; //可见区域高度
-document.getElementById('dv').style.height = docuHeight +'px';
-document.getElementById('dv').style.width = docuWidth +'px';
+ document.getElementById('dv1').style.height = docuHeight +'px';
+ document.getElementById('dv1').style.width = docuWidth +'px';
 
 function audioPause() {
     document.querySelectorAll('audio').pause()

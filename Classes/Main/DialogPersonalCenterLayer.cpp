@@ -267,13 +267,13 @@ bool DialogPersonalCenterLayer::init( void )
 
     switch( m_loginUser.loginType )
     {
-        case DataUser::LoginType::phone:
+        case DataUserInfo::LoginType::phone:
             t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByPhone ) );
         break;
-        case DataUser::LoginType::wechat:
+        case DataUserInfo::LoginType::wechat:
             t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByWeChat ) );
         break;
-        case DataUser::LoginType::sina:
+        case DataUserInfo::LoginType::sina:
             t_accountType->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::loginByXinlang ) );
         break;
     }

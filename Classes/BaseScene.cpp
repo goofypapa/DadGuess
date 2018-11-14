@@ -9,7 +9,7 @@ BaseScene * BaseScene::activityScene( void )
     return sm_activityScene;
 }
 
-void BaseScene::refreshSource( const DataFile & p_dataInfo )
+void BaseScene::refreshSource( const DataFileInfo & p_dataInfo )
 {
 
 }

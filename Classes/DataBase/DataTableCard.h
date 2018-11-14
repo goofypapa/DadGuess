@@ -12,13 +12,19 @@
 
 #define DataTableCardName "table_card"
 
-#define DataTableCardCreateSql "CREATE TABLE IF NOT EXISTS table_card( "\
+#define DataTableCardCreateSql "CREATE TABLE IF NOT EXISTS " DataTableCardName "( "\
 "fileId TEXT PRIMARY KEY NOT NULL, "\
 "sourceUrl TEXT NOT NULL, "\
 "fileName TEXT NOT NULL, "\
 "fileMd5 TEXT NOT NULL "\
 ")"
-#define DataTableCardDrapSql "DROP TABLE table_card"
+#define DataTableCardDrapSql "DROP TABLE " DataTableCardName
+
+class DataCardInfo : public DataBaseInfo
+{
+public:
+    virtual std::string toJson( void ) override;
+};
 
 class DataTableCard
 {

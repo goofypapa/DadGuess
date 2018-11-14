@@ -8,8 +8,18 @@
 #include "DadGuessUpdateScene.h"
 #include "DadGuess.hpp"
 #include "Common.h"
+#include "Http.h"
+
+#include "json/document.h"
+#include "json/writer.h"
+#include "json/stringbuffer.h"
 
 USING_NS_CC;
+using namespace rapidjson;
+
+#define DOMAIN_NAME "http://www.dadpat.com/"
+
+const char * DadGuessUpdateScene::sm_batchListApi = DOMAIN_NAME "resource/batch/list/summary.do";
 
 cocos2d::Scene * DadGuessUpdateScene::CreateScene( void )
 {
@@ -75,12 +85,34 @@ bool DadGuessUpdateScene::init( void )
     
     
     //更新内容提示
-    auto t_message = Label::createWithSystemFont( "我是更新状态提示文字..." , "", 12 );
+    auto t_message = Label::createWithSystemFont( "正在检查更新..." , "", 12 );
     t_message->setPosition( t_headPos - Vec2( 0.0f, t_dotDistance * adaptation() * 2.0f ) );
     addChild( t_message );
     
     
     //检查更新
+    
+    
+//    const char * p = "--------->" DOMAIN_NAME;
+//    printf( "%s \n", p );
+//
+    Http::HttpParameter t_parameter;
+    
+    Http::Post( sm_batchListApi , &t_parameter, []( Http * p_http, std::string p_res ){
+        printf( "------> %s \n", p_res.c_str() );
+        
+        Document t_readdoc;
+        
+        t_readdoc.Parse<0>( p_res.c_str() );
+        
+        if( t_readdoc.HasParseError() )
+        {
+            printf( "GetParseError %d \n", t_readdoc.GetParseError() );
+        }
+        
+    }, []( Http * p_http, std::string p_res ){
+        
+    });
     
     
     return true;

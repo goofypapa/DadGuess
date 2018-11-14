@@ -34,9 +34,9 @@ protected:
     virtual bool init( void ) override;
     virtual bool initWithUrl( const std::string & p_url, const bool p_orientation );
     
-    virtual void refreshSource( const DataFile & p_dataInfo ) override;
+    virtual void refreshSource( const DataFileInfo & p_dataInfo ) override;
     
-    void loadAudio( const std::string & p_audioUrl, std::function<void( DataFile p_audioFile )> p_loadAudioCallBack );
+    void loadAudio( const std::string & p_audioUrl, std::function<void( DataFileInfo p_audioFile )> p_loadAudioCallBack );
     void deleteAudio( const std::string & p_audioUrl );
     
     void playAudio( const std::string & p_audioUrl, const std::string & p_finishCallBack );
@@ -54,7 +54,7 @@ private:
     
     std::map< Http *, Ajax > s_ajaxPool;
     
-    std::map< std::string, std::function<void( DataFile p_audioFile )> > s_downloadList;
+    std::map< std::string, std::function<void( DataFileInfo p_audioFile )> > s_downloadList;
     
     std::map< std::string, unsigned int > s_playList;
     std::map< std::string, std::string > m_playCallBackList;

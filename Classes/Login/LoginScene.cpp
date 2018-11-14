@@ -27,7 +27,7 @@ using namespace cocos2d::ui;
 #define PASSWORD_MAXLEN 16
 #define VERIFICATIONCODE_MAXLEN 6
 
-DataUser::LoginType LoginScene::m_loginType = DataUser::LoginType::phone;
+DataUserInfo::LoginType LoginScene::m_loginType = DataUserInfo::LoginType::phone;
 
 cocos2d::Scene * LoginScene::CreateScene()
 {
@@ -672,13 +672,13 @@ void LoginScene::update( float p_delta )
 
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
-    m_loginType = DataUser::LoginType::wechat;
+    m_loginType = DataUserInfo::LoginType::wechat;
     cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )
 {
-    m_loginType = DataUser::LoginType::sina;
+    m_loginType = DataUserInfo::LoginType::sina;
 }
 
 void LoginScene::loginPhone( cocos2d::Ref* pSender )
@@ -786,7 +786,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userMobile" ] = t_loginPhone;
     t_parameter[ "userPwd" ] = t_loginPassword;
 
-    m_loginType = DataUser::LoginType::phone;
+    m_loginType = DataUserInfo::LoginType::phone;
     Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
         
         loginCallBack( p_res );
@@ -1026,7 +1026,7 @@ void LoginScene::loginCallBack( const std::string & p_str )
         {
             auto t_user = t_data["user"].GetObject();
             
-            DataUser t_dataUser;
+            DataUserInfo t_dataUser;
             
             t_dataUser.userId = t_user["userId"].GetString();
             t_dataUser.userName = t_user["userName"].GetString();
@@ -1045,20 +1045,20 @@ void LoginScene::loginCallBack( const std::string & p_str )
                 t_downloadUrl = CONFIG_GOOFYPAPA_DOMAIN + "/" + t_downloadUrl;
             }
 
-            DataFile t_dataFile = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
-            if( t_dataFile.fileId.empty() )
+            DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
+            if( t_DataFileInfo.fileId.empty() )
             {
-                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( DataFile p_fineInfo ){
-                    DataUser t_updateUser = t_dataUser;
+                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( DataFileInfo p_fineInfo ){
+                    DataUserInfo t_updateUser = t_dataUser;
                     t_updateUser.headImg = p_fineInfo.fileId;
 
                     DataTableUser::instance().update( t_updateUser );
 
-                },[]( DataFile p_fileInfo ){
+                },[]( DataFileInfo p_fileInfo ){
 
                 } );
             }else{
-                t_dataUser.headImg = t_dataFile.fileId;
+                t_dataUser.headImg = t_DataFileInfo.fileId;
             }
             
             if( DataTableUser::instance().find( t_dataUser.userId ).userId == t_dataUser.userId  )

@@ -74,7 +74,7 @@ private:
     
     LoginState m_loginState;
     
-    static DataUser::LoginType m_loginType;
+    static DataUserInfo::LoginType m_loginType;
 
     cocos2d::Sprite * m_CloundLeft, * m_CloundRight;
 };

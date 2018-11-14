@@ -319,7 +319,7 @@ void MainScene::updateUserInfo( void )
     m_loginUser = DataTableUser::instance().getActivation();
 }
 
-void MainScene::refreshSource( const DataFile & p_fileInfo )
+void MainScene::refreshSource( const DataFileInfo & p_fileInfo )
 {
     auto t_loginUser = DataTableUser::instance().getActivation();
 

@@ -32,7 +32,7 @@ private:
     
     void refreshSexRedio( Ref * p_girlRedio, Ref * p_boyRedio );
 
-    DataUser m_loginUser;
+    DataUserInfo m_loginUser;
     
     cocos2d::DrawNode * m_vague;
     cocos2d::Sprite * m_dialogCentBackground;

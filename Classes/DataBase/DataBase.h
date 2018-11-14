@@ -7,6 +7,12 @@
 #include <string>
 #include <vector>
 
+class DataBaseInfo
+{
+public:
+    virtual std::string toJson( void ) = 0;
+};
+
 class DataBase
 {
 public:

@@ -1,4 +1,7 @@
 /*灯光*/
+#dv{
+    height: 10.11rem;
+}
 .light img{
     width: 100%;
     position: absolute;
@@ -305,3 +308,10 @@
 
 
 
+@media only screen and (device-width: 375px) and (device-height: 812px) and
+/*@media only screen and (device-width: 812px) and (device-height: 375px) and*/
+(-webkit-device-pixel-ratio: 3){
+    #dv{
+        height: 8.31rem;
+    }
+}

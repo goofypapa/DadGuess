@@ -6,16 +6,15 @@
 //
 
 #include "DataTableFile.h"
-#include "DataBase.h"
 #include <sstream>
 #include "Common.h"
 
-DataFile::DataFile() : fileId( "" ), sourceUrl( "" ), fileName( "" ), fileMd5( "" )
+DataFileInfo::DataFileInfo() : fileId( "" ), sourceUrl( "" ), fileName( "" ), fileMd5( "" )
 {
 
 }
 
-std::string DataFile::toJson( void )
+std::string DataFileInfo::toJson( void )
 {
     std::stringstream t_sstr;
     
@@ -48,7 +47,7 @@ DataTableFile & DataTableFile::instance( void )
 }
 
 
-bool DataTableFile::insert( const DataFile & p_fileInfo )
+bool DataTableFile::insert( const DataFileInfo & p_fileInfo )
 {
     return insert( p_fileInfo.fileId, p_fileInfo.sourceUrl, p_fileInfo.fileName, p_fileInfo.fileMd5 );
 }
@@ -72,9 +71,9 @@ bool DataTableFile::insert( const std::string & p_fileId, const std::string & p_
     return true;
 }
 
-std::vector< DataFile > DataTableFile::list( void )
+std::vector< DataFileInfo > DataTableFile::list( void )
 {
-    std::vector< DataFile > t_result;
+    std::vector< DataFileInfo > t_result;
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableFileName );
 
     for( auto t_row : t_list )
@@ -86,9 +85,9 @@ std::vector< DataFile > DataTableFile::list( void )
 }
 
 
-DataFile DataTableFile::find( const std::string & p_fileId )
+DataFileInfo DataTableFile::find( const std::string & p_fileId )
 {
-    DataFile t_result;
+    DataFileInfo t_result;
     
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableFileName <<  " WHERE fileId= \"" << p_fileId << "\"";
@@ -103,9 +102,9 @@ DataFile DataTableFile::find( const std::string & p_fileId )
     return t_result;
 }
 
-DataFile DataTableFile::findBySourceUrl( const std::string & p_sourceUrl )
+DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceUrl )
 {
-    DataFile t_result;
+    DataFileInfo t_result;
     
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableFileName <<  " WHERE sourceUrl = \"" << p_sourceUrl << "\"";
@@ -121,11 +120,11 @@ DataFile DataTableFile::findBySourceUrl( const std::string & p_sourceUrl )
 }
 
 
-bool DataTableFile::update( const DataFile & p_fileInfo )
+bool DataTableFile::update( const DataFileInfo & p_fileInfo )
 {
     bool t_needUpdate = false;
 
-    DataFile t_oldInfo = find( p_fileInfo.fileId );
+    DataFileInfo t_oldInfo = find( p_fileInfo.fileId );
     if( t_oldInfo.fileId.length() <= 0 )
     {
         return false;
@@ -209,9 +208,9 @@ bool DataTableFile::init( void )
 }
 
 
-DataFile DataTableFile::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow )
+DataFileInfo DataTableFile::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow )
 {
-    DataFile t_result;
+    DataFileInfo t_result;
 
     t_result.fileId = p_dataRow["fileId"];
     t_result.sourceUrl = p_dataRow["sourceUrl"];

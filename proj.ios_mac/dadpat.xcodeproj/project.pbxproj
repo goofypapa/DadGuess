@@ -68,6 +68,7 @@
 		379D95F321084A68006DA6C1 /* Login.plist in Resources */ = {isa = PBXBuildFile; fileRef = 379D95F121084A68006DA6C1 /* Login.plist */; };
 		379D95F421084A68006DA6C1 /* Login.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D95F221084A68006DA6C1 /* Login.png */; };
 		379D95F721097457006DA6C1 /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379D95F521097457006DA6C1 /* Dialog.cpp */; };
+		37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B967219BAF6100A870E9 /* DataTableCardBatch.cpp */; };
 		37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DD6321056A5C0088EC29 /* sqlite3.c */; };
 		37C2DDB72106B5210088EC29 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB52105E2460088EC29 /* libc++.tbd */; };
 		37C2DDB92106B52F0088EC29 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB82106B52E0088EC29 /* CFNetwork.framework */; };
@@ -256,6 +257,8 @@
 		379D95F221084A68006DA6C1 /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
 		379D95F521097457006DA6C1 /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		379D95F621097457006DA6C1 /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
+		37B0B967219BAF6100A870E9 /* DataTableCardBatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableCardBatch.cpp; sourceTree = "<group>"; };
+		37B0B968219BAF6100A870E9 /* DataTableCardBatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableCardBatch.h; sourceTree = "<group>"; };
 		37C2DD6321056A5C0088EC29 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		37C2DD6521056A5C0088EC29 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		37C2DD6621056A5C0088EC29 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
@@ -745,6 +748,8 @@
 				376A5DA1212A55B900510F6C /* DataTableFile.h */,
 				37775021218809CF006518B4 /* DataTableCard.cpp */,
 				37775022218809CF006518B4 /* DataTableCard.h */,
+				37B0B967219BAF6100A870E9 /* DataTableCardBatch.cpp */,
+				37B0B968219BAF6100A870E9 /* DataTableCardBatch.h */,
 			);
 			path = DataBase;
 			sourceTree = "<group>";
@@ -1005,6 +1010,7 @@
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */,
+				37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */,
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
@@ -1096,6 +1102,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.main;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1144,6 +1151,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.main;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

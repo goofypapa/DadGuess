@@ -86,6 +86,9 @@
 }
 
 /*朝代*/
+#dv{
+    height: 10.11rem;
+}
 .dynasty{
     height: 72%;
     width: 77.8%;
@@ -175,3 +178,22 @@
     padding-top: 1%;
 }
 
+@media only screen and (device-width: 375px) and (device-height: 812px) and
+/*@media only screen and (device-width: 812px) and (device-height: 375px) and*/
+(-webkit-device-pixel-ratio: 3){
+    #dv{
+        height: 8.31rem;
+    }
+}
+@media only screen and (device-width: 320px) and (device-height: 568px) and
+(-webkit-device-pixel-ratio: 2){
+    .content{
+        height: 4rem;
+        width: 44%;
+        position: absolute;
+        top: 1.6rem;
+        left: 50%;
+        z-index: 9999;
+        overflow-x: hidden;
+    }
+}

@@ -21,8 +21,8 @@ public:
 
     typedef std::function<void( Http * p_http, std::string )> HttpCallBack;
     typedef std::map< std::string, std::string > HttpParameter;
-    typedef std::function<void( DataFile p_fileInfo )> DownloadFileCallBack;
-    typedef std::function<void( DataFile p_fileInfo, long, long )> DownloadFileProgressCallBack;
+    typedef std::function<void( DataFileInfo p_fileInfo )> DownloadFileCallBack;
+    typedef std::function<void( DataFileInfo p_fileInfo, long, long )> DownloadFileProgressCallBack;
 
     static std::string token;
 
@@ -40,7 +40,7 @@ public:
 private:
 
     static std::string parseParameter( HttpParameter * p_parameter );
-    static DataFile convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );
+    static DataFileInfo convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );
     static std::map< const std::string, Http * > sm_downloadTaskList;
 
     HttpCallBack m_success, m_final;

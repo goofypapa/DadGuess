@@ -1,14 +1,13 @@
 #include "DataTableUser.h"
-#include "DataBase.h"
 #include <stdio.h>
 #include <sstream>
 
-DataUser::DataUser() : userId(""), userName(""), userBirthday(""), userSex(2), loginName(""), headImg(""), token(""), loginType(LoginType::phone), activation(0)
+DataUserInfo::DataUserInfo() : userId(""), userName(""), userBirthday(""), userSex(2), loginName(""), headImg(""), token(""), loginType(LoginType::phone), activation(0)
 {
     
 }
 
-std::string DataUser::toJson( void )
+std::string DataUserInfo::toJson( void )
 {
     std::stringstream t_sstr;
     
@@ -58,12 +57,12 @@ bool DataTableUser::init( void )
     return true;
 }
 
-bool DataTableUser::insert( const DataUser & p_userInfo )
+bool DataTableUser::insert( const DataUserInfo & p_userInfo )
 {
     return insert( p_userInfo.userId, p_userInfo.userName, p_userInfo.loginName, p_userInfo.userSex, p_userInfo.userBirthday, p_userInfo.headImg, p_userInfo.token, p_userInfo.loginType, p_userInfo.activation );
 }
 
-bool DataTableUser::insert( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, DataUser::LoginType p_loginType, const bool p_activation )
+bool DataTableUser::insert( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, DataUserInfo::LoginType p_loginType, const bool p_activation )
 {
     std::stringstream t_ssql;
 
@@ -87,22 +86,22 @@ bool DataTableUser::insert( const std::string & p_userId, const std::string & p_
     return true;
 }
 
-std::vector< DataUser > DataTableUser::list( void )
+std::vector< DataUserInfo > DataTableUser::list( void )
 {
-    std::vector< DataUser > t_result;
+    std::vector< DataUserInfo > t_result;
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableUserName );
 
     for( auto t_row : t_list )
     {
-        t_result.push_back( dataRowToDataUser( t_row ) );
+        t_result.push_back( dataRowToDataUserInfo( t_row ) );
     }
 
     return t_result;
 }
 
-DataUser DataTableUser::find( const std::string & p_userId )
+DataUserInfo DataTableUser::find( const std::string & p_userId )
 {
-    DataUser t_result;
+    DataUserInfo t_result;
     
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE userId= \"" << p_userId << "\"";
@@ -112,15 +111,15 @@ DataUser DataTableUser::find( const std::string & p_userId )
 
     if( t_list.size() == 1 )
     {
-        t_result = dataRowToDataUser( *t_list.begin() );
+        t_result = dataRowToDataUserInfo( *t_list.begin() );
     }
 
     return t_result;
 }
 
-DataUser DataTableUser::getActivation( void )
+DataUserInfo DataTableUser::getActivation( void )
 {
-    DataUser t_result;
+    DataUserInfo t_result;
     
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE activation= 1";
@@ -130,7 +129,7 @@ DataUser DataTableUser::getActivation( void )
     
     if( t_list.size() == 1 )
     {
-        t_result = dataRowToDataUser( *t_list.begin() );
+        t_result = dataRowToDataUserInfo( *t_list.begin() );
 
     }else if( t_list.size() )
     {
@@ -141,11 +140,11 @@ DataUser DataTableUser::getActivation( void )
 }
 
 
-bool DataTableUser::update( const DataUser & p_userInfo )
+bool DataTableUser::update( const DataUserInfo & p_userInfo )
 {
     bool t_needUpdate = false;
 
-    DataUser t_oldInfo = find( p_userInfo.userId );
+    DataUserInfo t_oldInfo = find( p_userInfo.userId );
     if( t_oldInfo.userId.length() <= 0 )
     {
         return false;
@@ -282,9 +281,9 @@ bool DataTableUser::drop( void )
     return DataBase::instance().exec( DataTableUserDrapSql );
 }
 
-DataUser DataTableUser::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow )
+DataUserInfo DataTableUser::dataRowToDataUserInfo( std::map<std::string, std::string> & p_dataRow )
 {
-    DataUser t_result;
+    DataUserInfo t_result;
 
     t_result.userId = p_dataRow["userId"];
     t_result.userName = p_dataRow["userName"];
@@ -293,7 +292,7 @@ DataUser DataTableUser::dataRowToDataUser( std::map<std::string, std::string> & 
     t_result.userBirthday = p_dataRow["userBirthday"];
     t_result.headImg = p_dataRow["headImg"];
     t_result.token = p_dataRow["token"];
-    t_result.loginType = (DataUser::LoginType)atoi( p_dataRow["loginType"].c_str() );
+    t_result.loginType = (DataUserInfo::LoginType)atoi( p_dataRow["loginType"].c_str() );
     t_result.activation = atoi( p_dataRow["activation"].c_str() ) == 1;
 
     return t_result;

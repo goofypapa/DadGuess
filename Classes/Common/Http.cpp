@@ -152,7 +152,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
 
             Http * p_http = t_currTask->second;
 
-            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+            DataFileInfo t_fileInfo = convertToFileInfo( p_downloadTask );
             
             printf( "OnFileTaskSuccess: %s \n", t_fileInfo.toJson().c_str() );
 
@@ -191,7 +191,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
             
             Http * p_http = t_currTask->second;
 
-            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+            DataFileInfo t_fileInfo = convertToFileInfo( p_downloadTask );
 
             if( p_http->getDownloadFinalCallBack() )
             {
@@ -214,7 +214,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
             
             Http * p_http = t_currTask->second;
 
-            DataFile t_fileInfo = convertToFileInfo( p_downloadTask );
+            DataFileInfo t_fileInfo = convertToFileInfo( p_downloadTask );
 
             if( p_http->getDownloadProgressCallBack() )
             {
@@ -337,12 +337,12 @@ std::string Http::parseParameter( HttpParameter * p_parameter )
     return sstr.str();
 }
 
-DataFile Http::convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask )
+DataFileInfo Http::convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask )
 { 
 
     auto t_filePath = split( p_downloadTask.storagePath, "/" );
 
-    DataFile t_fileInfo;
+    DataFileInfo t_fileInfo;
     t_fileInfo.fileId = p_downloadTask.identifier;
     t_fileInfo.sourceUrl = p_downloadTask.requestURL;
     t_fileInfo.fileName = t_filePath[ t_filePath.size() - 1 ];

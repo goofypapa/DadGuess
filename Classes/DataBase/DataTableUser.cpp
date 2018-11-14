@@ -2,12 +2,17 @@
 #include <stdio.h>
 #include <sstream>
 
-DataUserInfo::DataUserInfo() : userId(""), userName(""), userBirthday(""), userSex(2), loginName(""), headImg(""), token(""), loginType(LoginType::phone), activation(0)
+DataUserInfo::DataUserInfo() : DataUserInfo( "", "", "", 2, "", "", "", phone, 0 )
 {
     
 }
 
-std::string DataUserInfo::toJson( void )
+DataUserInfo::DataUserInfo( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, LoginType p_loginType, const bool p_activation ) : userId( p_userId ), userName( p_userName ), userBirthday( p_userBirthday ), userSex( p_userSex ), loginName( p_loginName ), headImg( p_headImg ), token( p_token ), loginType( p_loginType ), activation( p_activation )
+{
+    
+}
+
+std::string DataUserInfo::toJson( void ) const
 {
     std::stringstream t_sstr;
     
@@ -59,30 +64,25 @@ bool DataTableUser::init( void )
 
 bool DataTableUser::insert( const DataUserInfo & p_userInfo )
 {
-    return insert( p_userInfo.userId, p_userInfo.userName, p_userInfo.loginName, p_userInfo.userSex, p_userInfo.userBirthday, p_userInfo.headImg, p_userInfo.token, p_userInfo.loginType, p_userInfo.activation );
-}
-
-bool DataTableUser::insert( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, DataUserInfo::LoginType p_loginType, const bool p_activation )
-{
     std::stringstream t_ssql;
-
+    
     t_ssql << "INSERT INTO " << DataTableUserName << "( userId, userName, loginName, userSex, userBirthday, headImg, token, loginType, activation ) VALUES( "
-                << "\"" << p_userId << "\", "
-                << "\"" << p_userName << "\", "
-                << "\"" << p_loginName << "\", "
-                << p_userSex << ", "
-                << "\"" << p_userBirthday << "\", "
-                << "\"" << p_headImg << "\", "
-                << "\"" << p_token << "\", "
-                << p_loginType << ", "
-                << ( p_activation ? 1 : 0 ) << " "
-                << ");";
+    << "\"" << p_userInfo.userId << "\", "
+    << "\"" << p_userInfo.userName << "\", "
+    << "\"" << p_userInfo.loginName << "\", "
+    << p_userInfo.userSex << ", "
+    << "\"" << p_userInfo.userBirthday << "\", "
+    << "\"" << p_userInfo.headImg << "\", "
+    << "\"" << p_userInfo.token << "\", "
+    << p_userInfo.loginType << ", "
+    << ( p_userInfo.activation ? 1 : 0 ) << " "
+    << ");";
     std::string t_sql = t_ssql.str();
     if( !DataBase::instance().exec( t_sql ) )
     {
         return false;
     }
-
+    
     return true;
 }
 

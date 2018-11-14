@@ -6,3 +6,11 @@
 //
 
 #include "DataTableCard.h"
+
+std::string DataCardInfo::toJson( void ) const
+{
+    std::stringstream t_sstr;
+    
+    
+    return t_sstr.str();
+}

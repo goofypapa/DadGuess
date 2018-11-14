@@ -25,15 +25,16 @@ class DataUserInfo : public DataBaseInfo
 {
 public:
     
-    DataUserInfo();
-    
-    virtual std::string toJson( void ) override;
-
     enum LoginType{
         phone = 0,
         wechat,
         sina
     };
+    
+    DataUserInfo();
+    DataUserInfo( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, LoginType p_loginType, const bool p_activation );
+    
+    virtual std::string toJson( void ) const override;
     
     int userSex;
     std::string userId, userName, loginName, userBirthday, headImg, token;
@@ -48,7 +49,6 @@ public:
     static DataTableUser & instance( void );
 
     bool insert( const DataUserInfo & p_userInfo );
-    bool insert( const std::string & p_userId, const std::string & p_userName, const std::string & p_loginName, const unsigned int p_userSex, const std::string & p_userBirthday, const std::string & p_headImg, const std::string & p_token, DataUserInfo::LoginType p_loginType, const bool p_activation );
 
     std::vector< DataUserInfo > list( void );
     DataUserInfo find( const std::string & p_userId );

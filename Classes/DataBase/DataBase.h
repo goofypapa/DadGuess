@@ -10,7 +10,7 @@
 class DataBaseInfo
 {
 public:
-    virtual std::string toJson( void ) = 0;
+    virtual std::string toJson( void ) const = 0;
 };
 
 class DataBase

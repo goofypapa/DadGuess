@@ -28,7 +28,7 @@ class DataFileInfo : public DataBaseInfo
 public:
     DataFileInfo();
 
-    virtual std::string toJson( void ) override;
+    virtual std::string toJson( void ) const override;
     
     std::string fileId, sourceUrl, fileName, fileMd5;
 };

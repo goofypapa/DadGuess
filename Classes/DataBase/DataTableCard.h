@@ -20,10 +20,13 @@
 ")"
 #define DataTableCardDrapSql "DROP TABLE " DataTableCardName
 
+
 class DataCardInfo : public DataBaseInfo
 {
 public:
-    virtual std::string toJson( void ) override;
+    DataCardInfo();
+    
+    virtual std::string toJson( void ) const override;
 };
 
 class DataTableCard

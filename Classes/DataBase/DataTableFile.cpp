@@ -8,13 +8,16 @@
 #include "DataTableFile.h"
 #include <sstream>
 #include "Common.h"
+#include "cocos2d.h"
+
+USING_NS_CC;
 
 DataFileInfo::DataFileInfo() : fileId( "" ), sourceUrl( "" ), fileName( "" ), fileMd5( "" )
 {
 
 }
 
-std::string DataFileInfo::toJson( void )
+std::string DataFileInfo::toJson( void ) const
 {
     std::stringstream t_sstr;
     
@@ -184,6 +187,16 @@ bool DataTableFile::update( const DataFileInfo & p_fileInfo )
 
 bool DataTableFile::remove( const std::string & p_fileId )
 {
+    
+    DataFileInfo t_fileInfo = find( p_fileId );
+    
+    if( p_fileId != t_fileInfo.fileId )
+    {
+        return false;
+    }
+    
+    FileUtils::getInstance()->removeFile( FileUtils::getInstance()->fullPathForFilename( t_fileInfo.fileName ) );
+    
     std::stringstream t_ssql;
     t_ssql << "DELETE FROM " << DataTableFileName << " WHERE fileId=\"" << p_fileId << "\"";
     return DataBase::instance().exec( t_ssql.str() );

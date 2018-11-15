@@ -415,7 +415,7 @@ void WebViewScene::deleteAudio( const std::string & p_audioUrl )
     auto t_audioFile = DataTableFile::instance().findBySourceUrl( p_audioUrl );
     if( !t_audioFile.fileId.empty() )
     {
-        DataTableFile::instance().remove( t_audioFile.fileId );
+        DataTableFile::instance().remove( t_audioFile );
         return;
     }
 }

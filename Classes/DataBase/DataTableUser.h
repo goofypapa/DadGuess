@@ -48,25 +48,25 @@ public:
 
     static DataTableUser & instance( void );
 
-    bool insert( const DataUserInfo & p_userInfo );
+    bool insert( const DataUserInfo & p_userInfo ) const;
 
-    std::vector< DataUserInfo > list( void );
-    DataUserInfo find( const std::string & p_userId );
+    std::vector< DataUserInfo > list( void ) const;
+    DataUserInfo find( const std::string & p_userId ) const;
     
-    DataUserInfo getActivation( void );
+    DataUserInfo getActivation( void ) const;
 
-    bool update( const DataUserInfo & p_userInfo );
-    bool remove( const std::string & p_userId );
+    bool update( const DataUserInfo & p_userInfo ) const;
+    bool remove( const std::string & p_userId ) const;
     
-    bool logout( void );
+    bool logout( void ) const;
     
-    bool drop( void );
+    bool drop( void ) const;
 
 protected:
-    bool init( void );
+    bool init( void ) const;
 
 private:
-    DataUserInfo dataRowToDataUserInfo( std::map<std::string, std::string> & p_dataRow );
+    DataUserInfo dataRowToDataUserInfo( std::map<std::string, std::string> & p_dataRow ) const;
 };
 
 #endif //__DATA_TABLE_USER_H__

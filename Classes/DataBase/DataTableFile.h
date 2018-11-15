@@ -27,6 +27,7 @@ class DataFileInfo : public DataBaseInfo
 {
 public:
     DataFileInfo();
+    DataFileInfo( const std::string & p_fileId, const std::string & p_sourceUrl, const std::string & p_fileName, const std::string & p_fileMd5 );
 
     virtual std::string toJson( void ) const override;
     
@@ -39,24 +40,23 @@ class DataTableFile
 public:
     static DataTableFile & instance( void );
 
-    bool insert( const DataFileInfo & p_fileInfo );
-    bool insert( const std::string & p_fileId, const std::string & p_sourceUrl, const std::string & p_fileName, const std::string & p_fileMd5 );
+    const bool insert( const DataFileInfo & p_fileInfo ) const;
 
-    std::vector< DataFileInfo > list( void );
+    const std::vector< DataFileInfo > list( void ) const;
 
-    DataFileInfo find( const std::string & p_fileId );
-    DataFileInfo findBySourceUrl( const std::string & p_sourceUrl );
+    const DataFileInfo find( const std::string & p_fileId ) const;
+    const DataFileInfo findBySourceUrl( const std::string & p_sourceUrl ) const;
 
-    bool update( const DataFileInfo & p_fileInfo );
-    bool remove( const std::string & p_fileId );
+    const bool update( const DataFileInfo & p_fileInfo ) const;
+    const bool remove( const DataFileInfo & p_fileInfo ) const;
 
-    bool drop( void );
+    const bool drop( void ) const;
 
 protected:
-    bool init( void );
+    const bool init( void ) const;
 
 private:
-    DataFileInfo dataRowToDataUser( std::map<std::string, std::string> & p_dataRow );
+    const DataFileInfo dataRowToDataUser( std::map<std::string, std::string> & p_dataRow ) const;
 };
 
 

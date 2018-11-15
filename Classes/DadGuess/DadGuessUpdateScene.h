@@ -10,7 +10,10 @@
 
 #include "cocos2d.h"
 #include "BaseScene.h"
-//#include "Data"
+#include "Http.h"
+#include <list>
+#include <functional>
+#include <queue>
 
 #define PI 3.1415926535897932385f
 
@@ -26,7 +29,13 @@ protected:
     
     virtual ~DadGuessUpdateScene( void );
 private:
-    static const char * sm_batchListApi;
+    
+    void checkUpdateResponse( Http * p_http );
+    
+    std::queue< std::function<void(void)> > m_checkUpdateQueue;
+    std::list< Http * > m_checkUpdateHandlerList;
+    
+    static const char * sm_batchListApi, * sm_cardListApi;
 };
 
 #endif //__DAD_GUESS_UPDATE_SCENE_H__

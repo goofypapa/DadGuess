@@ -38,7 +38,7 @@ int DataBase::callback( void *NotUsed, int argc, char **argv, char **azColName )
     return 0;
 }
 
-bool DataBase::exec( const std::string & p_sql )
+bool DataBase::exec( const std::string & p_sql ) const
 {
     char * t_ErrMsg = nullptr;
     int t_res = sqlite3_exec( m_dataBase, p_sql.c_str(), nullptr, 0, &t_ErrMsg);

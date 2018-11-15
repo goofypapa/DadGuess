@@ -50,31 +50,26 @@ DataTableFile & DataTableFile::instance( void )
 }
 
 
-bool DataTableFile::insert( const DataFileInfo & p_fileInfo )
-{
-    return insert( p_fileInfo.fileId, p_fileInfo.sourceUrl, p_fileInfo.fileName, p_fileInfo.fileMd5 );
-}
-
-bool DataTableFile::insert( const std::string & p_fileId, const std::string & p_sourceUrl, const std::string & p_fileName, const std::string & p_fileMd5 )
+const bool DataTableFile::insert( const DataFileInfo & p_fileInfo ) const
 {
     std::stringstream t_ssql;
-
+    
     t_ssql << "INSERT INTO " << DataTableFileName << "( fileId, sourceUrl, fileName, fileMd5 ) VALUES( "
-                << "\"" << p_fileId << "\", "
-                << "\"" << p_sourceUrl << "\", "
-                << "\"" << p_fileName << "\", "
-                << "\"" << p_fileMd5 << "\""
-                << ");";
+    << "\"" << p_fileInfo.fileId << "\", "
+    << "\"" << p_fileInfo.sourceUrl << "\", "
+    << "\"" << p_fileInfo.fileName << "\", "
+    << "\"" << p_fileInfo.fileMd5 << "\""
+    << ");";
     std::string t_sql = t_ssql.str();
     if( !DataBase::instance().exec( t_sql ) )
     {
         return false;
     }
-
+    
     return true;
 }
 
-std::vector< DataFileInfo > DataTableFile::list( void )
+const std::vector< DataFileInfo > DataTableFile::list( void ) const
 {
     std::vector< DataFileInfo > t_result;
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableFileName );
@@ -88,7 +83,7 @@ std::vector< DataFileInfo > DataTableFile::list( void )
 }
 
 
-DataFileInfo DataTableFile::find( const std::string & p_fileId )
+const DataFileInfo DataTableFile::find( const std::string & p_fileId ) const
 {
     DataFileInfo t_result;
     
@@ -105,7 +100,7 @@ DataFileInfo DataTableFile::find( const std::string & p_fileId )
     return t_result;
 }
 
-DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceUrl )
+const DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceUrl ) const
 {
     DataFileInfo t_result;
     
@@ -123,7 +118,7 @@ DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceUrl )
 }
 
 
-bool DataTableFile::update( const DataFileInfo & p_fileInfo )
+const bool DataTableFile::update( const DataFileInfo & p_fileInfo ) const
 {
     bool t_needUpdate = false;
 
@@ -185,30 +180,26 @@ bool DataTableFile::update( const DataFileInfo & p_fileInfo )
 
 }
 
-bool DataTableFile::remove( const std::string & p_fileId )
+const bool DataTableFile::remove( const DataFileInfo & p_fileInfo ) const
 {
     
-    DataFileInfo t_fileInfo = find( p_fileId );
-    
-    if( p_fileId != t_fileInfo.fileId )
+    if( FileUtils::getInstance()->isFileExist( p_fileInfo.fileName ) )
     {
-        return false;
+        FileUtils::getInstance()->removeFile( FileUtils::getInstance()->fullPathForFilename( p_fileInfo.fileName ) );
     }
     
-    FileUtils::getInstance()->removeFile( FileUtils::getInstance()->fullPathForFilename( t_fileInfo.fileName ) );
-    
     std::stringstream t_ssql;
-    t_ssql << "DELETE FROM " << DataTableFileName << " WHERE fileId=\"" << p_fileId << "\"";
+    t_ssql << "DELETE FROM " << DataTableFileName << " WHERE fileId=\"" << p_fileInfo.fileId << "\"";
     return DataBase::instance().exec( t_ssql.str() );
 }
 
-bool DataTableFile::drop( void )
+const bool DataTableFile::drop( void ) const
 {
     return DataBase::instance().exec( DataTableFileDrapSql );
 }
 
 
-bool DataTableFile::init( void )
+const bool DataTableFile::init( void ) const
 {
     // drop();
 
@@ -221,7 +212,7 @@ bool DataTableFile::init( void )
 }
 
 
-DataFileInfo DataTableFile::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow )
+const DataFileInfo DataTableFile::dataRowToDataUser( std::map<std::string, std::string> & p_dataRow ) const
 {
     DataFileInfo t_result;
 

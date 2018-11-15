@@ -49,7 +49,7 @@ DataTableUser & DataTableUser::instance( void )
     return *sm_dataTableUser;
 }
 
-bool DataTableUser::init( void )
+bool DataTableUser::init( void ) const
 {
 
 //    drop();
@@ -62,7 +62,7 @@ bool DataTableUser::init( void )
     return true;
 }
 
-bool DataTableUser::insert( const DataUserInfo & p_userInfo )
+bool DataTableUser::insert( const DataUserInfo & p_userInfo ) const
 {
     std::stringstream t_ssql;
     
@@ -86,7 +86,7 @@ bool DataTableUser::insert( const DataUserInfo & p_userInfo )
     return true;
 }
 
-std::vector< DataUserInfo > DataTableUser::list( void )
+std::vector< DataUserInfo > DataTableUser::list( void ) const
 {
     std::vector< DataUserInfo > t_result;
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableUserName );
@@ -99,7 +99,7 @@ std::vector< DataUserInfo > DataTableUser::list( void )
     return t_result;
 }
 
-DataUserInfo DataTableUser::find( const std::string & p_userId )
+DataUserInfo DataTableUser::find( const std::string & p_userId ) const
 {
     DataUserInfo t_result;
     
@@ -117,7 +117,7 @@ DataUserInfo DataTableUser::find( const std::string & p_userId )
     return t_result;
 }
 
-DataUserInfo DataTableUser::getActivation( void )
+DataUserInfo DataTableUser::getActivation( void ) const
 {
     DataUserInfo t_result;
     
@@ -140,7 +140,7 @@ DataUserInfo DataTableUser::getActivation( void )
 }
 
 
-bool DataTableUser::update( const DataUserInfo & p_userInfo )
+bool DataTableUser::update( const DataUserInfo & p_userInfo ) const
 {
     bool t_needUpdate = false;
 
@@ -262,7 +262,7 @@ bool DataTableUser::update( const DataUserInfo & p_userInfo )
 }
 
 
-bool DataTableUser::remove( const std::string & p_userId )
+bool DataTableUser::remove( const std::string & p_userId ) const
 {
     std::stringstream t_ssql;
     t_ssql << "DELETE FROM " << DataTableUserName << " WHERE userId=\"" << p_userId << "\"";
@@ -271,17 +271,17 @@ bool DataTableUser::remove( const std::string & p_userId )
     return DataBase::instance().exec( t_sql );
 }
 
-bool DataTableUser::logout( void )
+bool DataTableUser::logout( void ) const
 {
     return DataBase::instance().exec( std::string( "UPDATE " ) + DataTableUserName +  " SET activation=0 WHERE activation=1" );
 }
 
-bool DataTableUser::drop( void )
+bool DataTableUser::drop( void ) const
 {
     return DataBase::instance().exec( DataTableUserDrapSql );
 }
 
-DataUserInfo DataTableUser::dataRowToDataUserInfo( std::map<std::string, std::string> & p_dataRow )
+DataUserInfo DataTableUser::dataRowToDataUserInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
     DataUserInfo t_result;
 

@@ -45,7 +45,7 @@ DataTableCardBatch & DataTableCardBatch::instance( void )
         
         if( !sm_instance->init() )
         {
-            printf( "DataTableFile init faild! \n" );
+            printf( "DataTableCardBatch init faild! \n" );
         }
     }
     
@@ -171,7 +171,7 @@ bool DataTableCardBatch::update( const DataCardBatchInfo & p_cardBatchInfo ) con
         return true;
     }
     
-    t_ssql << " WHERE userId=\"" << p_cardBatchInfo.id << "\"";
+    t_ssql << " WHERE id=\"" << p_cardBatchInfo.id << "\"";
     
     return DataBase::instance().exec( t_ssql.str() );
     

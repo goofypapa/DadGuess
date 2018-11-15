@@ -21,11 +21,9 @@ public:
 
     static DataBase & instance( void );
 
-    // static int callback( void *NotUsed, int argc, char **argv, char **azColName );
-
     static int callback( void *NotUsed, int argc, char **argv, char **azColName );
 
-    bool exec( const std::string & p_sql );
+    bool exec( const std::string & p_sql ) const;
     QueryBack query( const std::string & p_sql );
 
 protected:

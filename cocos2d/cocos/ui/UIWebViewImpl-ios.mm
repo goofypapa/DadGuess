@@ -152,6 +152,8 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
                 self.uiWebView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
             }
         }
+        
+//        self.uiWebView.userInteractionEnabled = NO;        
     }
     if (!self.uiWebView.superview) {
         auto view = cocos2d::Director::getInstance()->getOpenGLView();

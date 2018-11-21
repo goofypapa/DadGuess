@@ -16,8 +16,8 @@
 "id TEXT PRIMARY KEY NOT NULL, "\
 "batchId TEXT NOT NULL, "\
 "rfid INTEGER NOT NULL, "\
-"cover TEXT NOT NULL, "\
-"simpleDrawing TEXT NOT NULL, "\
+"coverFileId TEXT NOT NULL, "\
+"simpleDrawingFileId TEXT NOT NULL, "\
 "activation INTEGER NOT NULL "\
 ")"
 #define DataTableCardDrapSql "DROP TABLE " DataTableCardName
@@ -28,11 +28,11 @@ class DataCardInfo : public DataBaseInfo
 public:
     DataCardInfo();
     
-    DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_cover, const std::string & p_simpleDrawing, const bool activation );
+    DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileId, const std::string & p_simpleDrawingFileId );
     
     virtual std::string toJson( void ) const override;
     
-    std::string id, batchId, cover, simpleDrawing;
+    std::string id, batchId, coverFileId, simpleDrawingFileId;
     int rfid;
     bool activation;
 };

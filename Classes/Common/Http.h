@@ -21,15 +21,15 @@ public:
 
     typedef std::function<void( Http * p_http, std::string )> HttpCallBack;
     typedef std::map< std::string, std::string > HttpParameter;
-    typedef std::function<void( DataFileInfo p_fileInfo )> DownloadFileCallBack;
-    typedef std::function<void( DataFileInfo p_fileInfo, long, long )> DownloadFileProgressCallBack;
+    typedef std::function<void( Http * p_http, DataFileInfo p_fileInfo )> DownloadFileCallBack;
+    typedef std::function<void( Http * p_http, DataFileInfo p_fileInfo, long, long )> DownloadFileProgressCallBack;
 
     static std::string token;
 
     static Http * Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
     static Http * Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final );
 
-    static void DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress = nullptr );
+    static Http * DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress = nullptr );
     
     void http_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
 

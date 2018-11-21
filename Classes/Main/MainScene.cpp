@@ -304,7 +304,7 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
             t_url = "Web_ABC";
             break;
         case 11:
-            Director::getInstance()->replaceScene( DadGuessUpdateScene::CreateScene() );
+            Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
             return;
         default:
             return;

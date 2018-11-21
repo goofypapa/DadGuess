@@ -74,7 +74,7 @@ void CadenceGameLoaderScene::uncacheResource( void )
     size_t t_loadImgListSize = sizeof( sm_loadImgList ) / sizeof( char * );
     size_t t_loadAudioListSize = sizeof( sm_loadAudioList ) / sizeof( char * );
     
-    SpriteFrameCache::getInstance()->removeSpriteFramesFromTexture( Director::getInstance()->getTextureCache()->getTextureForKey( "Cadence/CadenceMain.png" ) );
+    SpriteFrameCache::getInstance()->removeSpriteFramesFromFile( "Cadence/CadenceMain.plist" );
     
     for( size_t i = 0; i < t_loadImgListSize; ++i )
     {

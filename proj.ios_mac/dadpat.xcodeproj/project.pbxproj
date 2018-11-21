@@ -48,13 +48,11 @@
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
 		374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 374B2206213530D400822A84 /* CadenceGameMainScene.cpp */; };
+		3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3752EC9A21A4F66000F549A3 /* Reachability.m */; };
 		376A5D9F212A517900510F6C /* md5.inl in Resources */ = {isa = PBXBuildFile; fileRef = 376A5D9E212A517900510F6C /* md5.inl */; };
 		376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA0212A55B900510F6C /* DataTableFile.cpp */; };
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
 		377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 377750172186E991006518B4 /* DadGuessUpdateScene.cpp */; };
-		3777501C2187EFFB006518B4 /* DadGuess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3777501A2187EFFA006518B4 /* DadGuess.cpp */; };
-		3777501F2187F1B0006518B4 /* DadGuess.png in Resources */ = {isa = PBXBuildFile; fileRef = 3777501D2187F1B0006518B4 /* DadGuess.png */; };
-		377750202187F1B0006518B4 /* DadGuess.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3777501E2187F1B0006518B4 /* DadGuess.plist */; };
 		37775023218809CF006518B4 /* DataTableCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37775021218809CF006518B4 /* DataTableCard.cpp */; };
 		3777502621882509006518B4 /* PianoGameMusicListLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3777502421882509006518B4 /* PianoGameMusicListLayer.cpp */; };
 		379D957E2106D5CD006DA6C1 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 379D957D2106D5CD006DA6C1 /* GameController.framework */; };
@@ -70,6 +68,12 @@
 		379D95F721097457006DA6C1 /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379D95F521097457006DA6C1 /* Dialog.cpp */; };
 		37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B967219BAF6100A870E9 /* DataTableCardBatch.cpp */; };
 		37B0B96C219D019500A870E9 /* DataTableCardAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B96A219D019500A870E9 /* DataTableCardAudio.cpp */; };
+		37B0B96F21A265C100A870E9 /* DadGuessService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B96D21A265C100A870E9 /* DadGuessService.cpp */; };
+		37B0B97221A3EC9100A870E9 /* DadGuessMainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B97021A3EC9100A870E9 /* DadGuessMainScene.cpp */; };
+		37B0B97521A3EF0700A870E9 /* DadGuessUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B97321A3EF0600A870E9 /* DadGuessUpdate.cpp */; };
+		37B0B97721A3F05300A870E9 /* DadGuess in Resources */ = {isa = PBXBuildFile; fileRef = 37B0B97621A3F05300A870E9 /* DadGuess */; };
+		37B0B97A21A3F0C000A870E9 /* CadenceMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B97921A3F0C000A870E9 /* CadenceMain.cpp */; };
+		37B0B97D21A3F9E600A870E9 /* DadGuessMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37B0B97B21A3F9E600A870E9 /* DadGuessMain.cpp */; };
 		37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DD6321056A5C0088EC29 /* sqlite3.c */; };
 		37C2DDB72106B5210088EC29 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB52105E2460088EC29 /* libc++.tbd */; };
 		37C2DDB92106B52F0088EC29 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB82106B52E0088EC29 /* CFNetwork.framework */; };
@@ -96,7 +100,6 @@
 		37EAF97321919FED004DC9D5 /* CadenceGameLoaderScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */; };
 		37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */; };
 		37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */ = {isa = PBXBuildFile; fileRef = 37EAF97E2192BAA9004DC9D5 /* Cadence */; };
-		37EAF9822192BED4004DC9D5 /* CadenceMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */; };
 		37EAF9852193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF9832193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
@@ -228,6 +231,8 @@
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
 		374B2206213530D400822A84 /* CadenceGameMainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameMainScene.cpp; sourceTree = "<group>"; };
 		374B2207213530D400822A84 /* CadenceGameMainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CadenceGameMainScene.h; sourceTree = "<group>"; };
+		3752EC9821A4F66000F549A3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		3752EC9A21A4F66000F549A3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		376A5D9B212A516E00510F6C /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		376A5D9E212A517900510F6C /* md5.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.inl; sourceTree = "<group>"; };
 		376A5DA0212A55B900510F6C /* DataTableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableFile.cpp; sourceTree = "<group>"; };
@@ -236,10 +241,6 @@
 		376A5DA4212BB71600510F6C /* BaseScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseScene.cpp; sourceTree = "<group>"; };
 		377750172186E991006518B4 /* DadGuessUpdateScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessUpdateScene.cpp; sourceTree = "<group>"; };
 		377750182186E991006518B4 /* DadGuessUpdateScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessUpdateScene.h; sourceTree = "<group>"; };
-		3777501A2187EFFA006518B4 /* DadGuess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuess.cpp; sourceTree = "<group>"; };
-		3777501B2187EFFB006518B4 /* DadGuess.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DadGuess.hpp; sourceTree = "<group>"; };
-		3777501D2187F1B0006518B4 /* DadGuess.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DadGuess.png; sourceTree = "<group>"; };
-		3777501E2187F1B0006518B4 /* DadGuess.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DadGuess.plist; sourceTree = "<group>"; };
 		37775021218809CF006518B4 /* DataTableCard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableCard.cpp; sourceTree = "<group>"; };
 		37775022218809CF006518B4 /* DataTableCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableCard.h; sourceTree = "<group>"; };
 		3777502421882509006518B4 /* PianoGameMusicListLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGameMusicListLayer.cpp; sourceTree = "<group>"; };
@@ -262,6 +263,17 @@
 		37B0B968219BAF6100A870E9 /* DataTableCardBatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableCardBatch.h; sourceTree = "<group>"; };
 		37B0B96A219D019500A870E9 /* DataTableCardAudio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableCardAudio.cpp; sourceTree = "<group>"; };
 		37B0B96B219D019500A870E9 /* DataTableCardAudio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableCardAudio.h; sourceTree = "<group>"; };
+		37B0B96D21A265C100A870E9 /* DadGuessService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessService.cpp; sourceTree = "<group>"; };
+		37B0B96E21A265C100A870E9 /* DadGuessService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessService.h; sourceTree = "<group>"; };
+		37B0B97021A3EC9100A870E9 /* DadGuessMainScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessMainScene.cpp; sourceTree = "<group>"; };
+		37B0B97121A3EC9100A870E9 /* DadGuessMainScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessMainScene.h; sourceTree = "<group>"; };
+		37B0B97321A3EF0600A870E9 /* DadGuessUpdate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessUpdate.cpp; sourceTree = "<group>"; };
+		37B0B97421A3EF0600A870E9 /* DadGuessUpdate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DadGuessUpdate.hpp; sourceTree = "<group>"; };
+		37B0B97621A3F05300A870E9 /* DadGuess */ = {isa = PBXFileReference; lastKnownFileType = folder; path = DadGuess; sourceTree = "<group>"; };
+		37B0B97821A3F0BF00A870E9 /* CadenceMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CadenceMain.hpp; sourceTree = "<group>"; };
+		37B0B97921A3F0C000A870E9 /* CadenceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceMain.cpp; sourceTree = "<group>"; };
+		37B0B97B21A3F9E600A870E9 /* DadGuessMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessMain.cpp; sourceTree = "<group>"; };
+		37B0B97C21A3F9E600A870E9 /* DadGuessMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DadGuessMain.hpp; sourceTree = "<group>"; };
 		37C2DD6321056A5C0088EC29 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		37C2DD6521056A5C0088EC29 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		37C2DD6621056A5C0088EC29 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
@@ -307,8 +319,6 @@
 		37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameScene.cpp; sourceTree = "<group>"; };
 		37EAF97C2192B038004DC9D5 /* CadenceGameScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CadenceGameScene.h; sourceTree = "<group>"; };
 		37EAF97E2192BAA9004DC9D5 /* Cadence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cadence; sourceTree = "<group>"; };
-		37EAF9802192BED4004DC9D5 /* CadenceMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CadenceMain.hpp; sourceTree = "<group>"; };
-		37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceMain.cpp; sourceTree = "<group>"; };
 		37EAF9832193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameMusicListScrollView.cpp; sourceTree = "<group>"; };
 		37EAF9842193D8E7004DC9D5 /* CadenceGameMusicListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CadenceGameMusicListScrollView.h; sourceTree = "<group>"; };
 		3EACC98E19EE6D4300EB3C5E /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
@@ -426,6 +436,8 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				3752EC9821A4F66000F549A3 /* Reachability.h */,
+				3752EC9A21A4F66000F549A3 /* Reachability.m */,
 				37C2DFB82112FA650086F680 /* RootViewControllerV.h */,
 				37C2DFB72112FA650086F680 /* RootViewControllerV.mm */,
 				1A88B2631FC3D9C9005C14AE /* Images.xcassets */,
@@ -637,6 +649,10 @@
 			children = (
 				377750172186E991006518B4 /* DadGuessUpdateScene.cpp */,
 				377750182186E991006518B4 /* DadGuessUpdateScene.h */,
+				37B0B96D21A265C100A870E9 /* DadGuessService.cpp */,
+				37B0B96E21A265C100A870E9 /* DadGuessService.h */,
+				37B0B97021A3EC9100A870E9 /* DadGuessMainScene.cpp */,
+				37B0B97121A3EC9100A870E9 /* DadGuessMainScene.h */,
 			);
 			path = DadGuess;
 			sourceTree = "<group>";
@@ -644,10 +660,12 @@
 		379D95E621081D47006DA6C1 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				37EAF9812192BED4004DC9D5 /* CadenceMain.cpp */,
-				37EAF9802192BED4004DC9D5 /* CadenceMain.hpp */,
-				3777501A2187EFFA006518B4 /* DadGuess.cpp */,
-				3777501B2187EFFB006518B4 /* DadGuess.hpp */,
+				37B0B97B21A3F9E600A870E9 /* DadGuessMain.cpp */,
+				37B0B97C21A3F9E600A870E9 /* DadGuessMain.hpp */,
+				37B0B97921A3F0C000A870E9 /* CadenceMain.cpp */,
+				37B0B97821A3F0BF00A870E9 /* CadenceMain.hpp */,
+				37B0B97321A3EF0600A870E9 /* DadGuessUpdate.cpp */,
+				37B0B97421A3EF0600A870E9 /* DadGuessUpdate.hpp */,
 				37DD9D6921803C13002855BE /* PianoGame.cpp */,
 				37DD9D6821803C13002855BE /* PianoGame.hpp */,
 				379D95F521097457006DA6C1 /* Dialog.cpp */,
@@ -762,9 +780,8 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				37B0B97621A3F05300A870E9 /* DadGuess */,
 				37EAF97E2192BAA9004DC9D5 /* Cadence */,
-				3777501E2187F1B0006518B4 /* DadGuess.plist */,
-				3777501D2187F1B0006518B4 /* DadGuess.png */,
 				37DD9D70218055DE002855BE /* PianoGame.plist */,
 				37DD9D6D218055DE002855BE /* PianoGame.png */,
 				37DD9D6E218055DE002855BE /* PianoGameBackground.png */,
@@ -950,7 +967,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				37DD9D73218055DE002855BE /* PianoGameBGRound.png in Resources */,
-				3777501F2187F1B0006518B4 /* DadGuess.png in Resources */,
 				373335A52179C3BC0087D425 /* Web in Resources */,
 				376A5D9F212A517900510F6C /* md5.inl in Resources */,
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
@@ -968,13 +984,13 @@
 				370A78A22112975000252E8D /* Dialog.plist in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				37DD9D74218055DE002855BE /* PianoGame.plist in Resources */,
-				377750202187F1B0006518B4 /* DadGuess.plist in Resources */,
 				379D95ED21082419006DA6C1 /* Main.png in Resources */,
 				3705123721226DFB00F2FE1C /* README.txt in Resources */,
 				3705123C21226DFB00F2FE1C /* ShareSDKUI.bundle in Resources */,
 				379D958C21080A8E006DA6C1 /* BackgroundImage.png in Resources */,
 				37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */,
 				3EACC98F19EE6D4300EB3C5E /* res in Resources */,
+				37B0B97721A3F05300A870E9 /* DadGuess in Resources */,
 				373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */,
 				3705123521226DFB00F2FE1C /* WeiboSDK.bundle in Resources */,
 				37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */,
@@ -1010,6 +1026,7 @@
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
 				3777502621882509006518B4 /* PianoGameMusicListLayer.cpp in Sources */,
 				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
+				37B0B97221A3EC9100A870E9 /* DadGuessMainScene.cpp in Sources */,
 				37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */,
 				374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
@@ -1026,18 +1043,21 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */,
 				37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */,
-				37EAF9822192BED4004DC9D5 /* CadenceMain.cpp in Sources */,
 				376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */,
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,
-				3777501C2187EFFB006518B4 /* DadGuess.cpp in Sources */,
+				37B0B97A21A3F0C000A870E9 /* CadenceMain.cpp in Sources */,
+				37B0B97521A3EF0700A870E9 /* DadGuessUpdate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
+				37B0B97D21A3F9E600A870E9 /* DadGuessMain.cpp in Sources */,
 				37DD9D6721803B55002855BE /* PianoGameMainScene.cpp in Sources */,
 				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,
 				37775023218809CF006518B4 /* DataTableCard.cpp in Sources */,
+				37B0B96F21A265C100A870E9 /* DadGuessService.cpp in Sources */,
 				370511E0211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp in Sources */,
 				37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */,
 				37B0B96C219D019500A870E9 /* DataTableCardAudio.cpp in Sources */,
+				3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */,
 				3705125521226E7D00F2FE1C /* C2DXiOSShareSDK.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

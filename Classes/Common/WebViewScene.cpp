@@ -69,6 +69,11 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
     
     t_splistName << "Web/" << p_url << ".plist";
     
+    m_action = Sprite::create();
+    m_action->setScale( adaptation() );
+    m_action->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
+    addChild( m_action );
+    
     if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
     {
         
@@ -86,12 +91,8 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
         t_animation->setLoops( -1 );
         
         Animate * t_animate = Animate::create( t_animation );
-        
-        auto t_run = Sprite::create();
-        t_run->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
-        
-        addChild( t_run );
-        t_run->runAction( t_animate );
+
+        m_action->runAction( t_animate );
     }
     
     
@@ -124,8 +125,19 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
         }
         
         std::stringstream t_sstrJsCode;
-        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();}";
+        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();};";
         m_webview->evaluateJS( t_sstrJsCode.str() );
+        
+#ifdef TARGET_OS_IPHONE
+        m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
+#endif
+        
+        if( m_action && m_action->isRunning() )
+        {
+            m_action->stopAllActions();
+            m_action->removeFromParent();
+            m_action = nullptr;
+        }
 
 //        m_webview->evaluateJS( "alert(window.goofypapaGame);" );
 //        m_webview->evaluateJS( "alert(window.goofypapaToken);" );
@@ -377,7 +389,7 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
     s_downloadList[ p_audioUrl ] = p_loadAudioCallBack;
     
     
-    Http::DownloadFile( p_audioUrl, "mp3", [this]( DataFileInfo p_fileInfo ){
+    Http::DownloadFile( p_audioUrl, "mp3", [this]( Http * p_http, DataFileInfo p_fileInfo ){
         
         if( s_downloadList.find( p_fileInfo.sourceUrl ) != s_downloadList.end() && s_downloadList[p_fileInfo.sourceUrl] != nullptr )
         {
@@ -400,7 +412,7 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
             }
         }
         
-    }, [this]( DataFileInfo p_fileInfo ){
+    }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
         
         auto t_it = s_downloadList.find( p_fileInfo.sourceUrl );
         if( t_it != s_downloadList.end() )

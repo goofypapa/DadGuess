@@ -28,6 +28,7 @@ public:
     enum AudioType{ commentary = 0, hue };
     
     DataCardAudioInfo();
+    DataCardAudioInfo( const std::string & p_id, const std::string & p_cardId, const std::string & p_fileId, AudioType p_audioType );
     virtual std::string toJson( void ) const override;
     
     std::string id, cardId, fileId;

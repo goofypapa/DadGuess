@@ -11,13 +11,13 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{18,58}</string>
+                <string>{22,74}</string>
                 <key>spriteSourceSize</key>
-                <string>{18,60}</string>
+                <string>{22,74}</string>
                 <key>textureRect</key>
-                <string>{{1,216},{18,58}}</string>
+                <string>{{285,1},{22,74}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>eye.png</key>
             <dict>
@@ -26,11 +26,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{17,16}</string>
+                <string>{20,20}</string>
                 <key>spriteSourceSize</key>
-                <string>{17,16}</string>
+                <string>{20,20}</string>
                 <key>textureRect</key>
-                <string>{{61,216},{17,16}}</string>
+                <string>{{285,77},{20,20}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -39,15 +39,15 @@
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{0,1}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{179,213}</string>
+                <string>{238,282}</string>
                 <key>spriteSourceSize</key>
-                <string>{185,223}</string>
+                <string>{238,282}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{179,213}}</string>
+                <string>{{1,1},{238,282}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -59,13 +59,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>DadGuess.png</string>
+            <string>DadGuessUpdate.png</string>
             <key>size</key>
-            <string>{181,235}</string>
+            <string>{308,240}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:bc4c6cf5b57dfaf8f351c7169d9cbc35:514bc81b27a7cea960ebcd61366f1e96:396dd5823a2560af3ed645cd9c0391ef$</string>
+            <string>$TexturePacker:SmartUpdate:fc00fdeb70dcbbfaafdcaa7decbb3bea:5d66b61d4e72a8e50e4cfe603c476dff:5a3ccc56e0a2abd4cfd9e5161bd302f7$</string>
             <key>textureFileName</key>
-            <string>DadGuess.png</string>
+            <string>DadGuessUpdate.png</string>
         </dict>
     </dict>
 </plist>

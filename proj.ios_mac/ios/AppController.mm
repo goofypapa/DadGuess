@@ -32,6 +32,7 @@
 
 #import "platform/ios/CCEAGLView-ios.h"
 #import "Common.h"
+#import <functional>
 
 @implementation AppController
 
@@ -44,9 +45,16 @@
 static AppDelegate s_sharedApplication;
 static AppController *s_self;
 
+static NetWorkStateListener::NetWorkState s_netWorkState = NetWorkStateListener::NetWorkState::NotReachable;
+static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkStateListener = nullptr;
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     s_self = self;
+    
+    //监听网络状态
+    [self listenNetWorkingStatus];
     
     cocos2d::Application *app = cocos2d::Application::getInstance();
     
@@ -97,6 +105,69 @@ static AppController *s_self;
     return YES;
 }
 
+-(void)listenNetWorkingStatus
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    // 设置网络检测的站点
+    NSString *remoteHostName = @"www.baidu.com";
+    
+    self.hostReachability = [Reachability reachabilityWithHostName:remoteHostName];
+    [self.hostReachability startNotifier];
+    
+    self.internetReachability = [Reachability reachabilityForInternetConnection];
+    [self.internetReachability startNotifier];
+}
+
+/*!
+ * Called by Reachability whenever status changes.
+ */
+- (void) reachabilityChanged:(NSNotification *)note
+{
+    Reachability* curReach = [note object];
+    [curReach isKindOfClass:[Reachability class]];
+//    NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+    [self updateInterfaceWithReachability:curReach];
+}
+
+
+- (void)updateInterfaceWithReachability:(Reachability *)reachability
+{
+    if (reachability == self.hostReachability || reachability == self.internetReachability )
+    {
+        NetworkStatus netStatus = [reachability currentReachabilityStatus];
+        BOOL connectionRequired = [reachability connectionRequired];
+        
+        switch (netStatus)
+        {
+            case NotReachable:        {
+                s_netWorkState = NetWorkStateListener::NetWorkState::NotReachable;
+                break;
+            }
+                
+            case ReachableViaWWAN:        {
+                s_netWorkState = NetWorkStateListener::NetWorkState::WWAN;
+                break;
+            }
+            case ReachableViaWiFi:        {
+                s_netWorkState = NetWorkStateListener::NetWorkState::WiFi;
+                break;
+            }
+        }
+        
+        if( connectionRequired == YES )
+        {
+            s_netWorkState = NetWorkStateListener::NetWorkState::Unknown;
+        }
+        
+        
+        if( s_networkStateListener )
+        {
+            s_networkStateListener( s_netWorkState );
+        }
+        
+        printf( "net state: %d \n", s_netWorkState );
+    }
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
@@ -235,4 +306,19 @@ std::string createUUID( void )
 
     const char  *  t_cString = [t_NSString UTF8String];
     return std::string( t_cString );
+}
+
+NetWorkStateListener::NetWorkState getNetWorkState( void )
+{
+    return s_netWorkState;
+}
+
+void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWorkState ) > p_networkStateListener )
+{
+    s_networkStateListener = p_networkStateListener;
+}
+
+void unbindNetWorkStateListener( void )
+{
+    s_networkStateListener = nullptr;
 }

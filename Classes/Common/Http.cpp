@@ -117,15 +117,15 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
     return t_http;
 }
 
-void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress )
+Http *  Http::DownloadFile( const std::string & p_url, const std::string & p_fileSuffixName, DownloadFileCallBack p_success, DownloadFileCallBack p_final, DownloadFileProgressCallBack p_progress )
 {
 
     auto t_fileInfo = DataTableFile::instance().findBySourceUrl( p_url );
 
     if( !t_fileInfo.fileId.empty() && FileUtils::getInstance()->isFileExist( fullFilePath( t_fileInfo.fileName ) ) )
     {
-        p_success( t_fileInfo );
-        return;
+        p_success( nullptr, t_fileInfo );
+        return nullptr;
     }
 
 
@@ -160,12 +160,12 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
             {
                 if( p_http->getDownloadSuccessCallBack() )
                 {
-                    p_http->getDownloadSuccessCallBack()( t_fileInfo );
+                    p_http->getDownloadSuccessCallBack()( sm_downloadTaskList[p_downloadTask.identifier], t_fileInfo );
                 }
             }else{
                 if( p_http->getDownloadFinalCallBack() )
                 {
-                    p_http->getDownloadFinalCallBack()( t_fileInfo );
+                    p_http->getDownloadFinalCallBack()( sm_downloadTaskList[p_downloadTask.identifier], t_fileInfo );
                 }
             }
 
@@ -195,7 +195,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
 
             if( p_http->getDownloadFinalCallBack() )
             {
-                p_http->getDownloadFinalCallBack()( t_fileInfo );
+                p_http->getDownloadFinalCallBack()( sm_downloadTaskList[p_downloadTask.identifier], t_fileInfo );
             }
             
             t_downloadTaskList.erase( p_downloadTask.identifier );
@@ -218,7 +218,7 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
 
             if( p_http->getDownloadProgressCallBack() )
             {
-                p_http->getDownloadProgressCallBack()( t_fileInfo, p_totalBytesReceived, p_totalBytesExpected );
+                p_http->getDownloadProgressCallBack()( sm_downloadTaskList[p_downloadTask.identifier], t_fileInfo, p_totalBytesReceived, p_totalBytesExpected );
             }
             
         } );
@@ -226,10 +226,19 @@ void Http::DownloadFile( const std::string & p_url, const std::string & p_fileSu
     }
 
     std::string t_taskUUID = createUUID();
-    auto t_downloadTask = sm_downloader->createDownloadFileTask( p_url, fullFilePath( t_taskUUID + "." + p_fileSuffixName ), t_taskUUID );
+    std::string t_fileSuffixName = p_fileSuffixName;
+    
+    if( t_fileSuffixName.empty() )
+    {
+        auto t_tmp = split( p_url, "." );
+        t_fileSuffixName = t_tmp[t_tmp.size() - 1];
+    }
+    
+    auto t_downloadTask = sm_downloader->createDownloadFileTask( p_url, fullFilePath( t_taskUUID + "." + t_fileSuffixName ), t_taskUUID );
 
     sm_downloadTaskList[ t_taskUUID ] = t_http;
 
+    return t_http;
 }
 
 void Http::http_handshakeResponse( network::HttpClient * p_sender, network::HttpResponse * p_response )

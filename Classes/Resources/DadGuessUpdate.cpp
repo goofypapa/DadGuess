@@ -1,51 +1,51 @@
 // ---------------------------------------
-// Sprite definitions for DadGuess
-// Generated with TexturePacker 4.9.0
+// Sprite definitions for DadGuessUpdate
+// Generated with TexturePacker 4.10.0
 //
 // https://www.codeandweb.com/texturepacker
 // ---------------------------------------
 
-#include "DadGuess.hpp"
+#include "DadGuessUpdate.hpp"
 
 USING_NS_CC;
 
 namespace TexturePacker
 {
 
-void DadGuess::addSpriteFramesToCache()
+void DadGuessUpdate::addSpriteFramesToCache()
 {
     SpriteFrameCache *cache = SpriteFrameCache::getInstance();
-    cache->addSpriteFramesWithFile("DadGuess.plist");
+    cache->addSpriteFramesWithFile("DadGuessUpdate.plist");
 };
 
-void DadGuess::removeSpriteFramesFromCache()
+void DadGuessUpdate::removeSpriteFramesFromCache()
 {
     SpriteFrameCache *cache = SpriteFrameCache::getInstance();
-    cache->removeSpriteFramesFromFile("DadGuess.plist");
+    cache->removeSpriteFramesFromFile("DadGuessUpdate.plist");
 };
 
 
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string DadGuess::dot  = "dot.png";
-const std::string DadGuess::eye  = "eye.png";
-const std::string DadGuess::head = "head.png";
+const std::string DadGuessUpdate::dot  = "dot.png";
+const std::string DadGuessUpdate::eye  = "eye.png";
+const std::string DadGuessUpdate::head = "head.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
 // ---------------------------------------------------------
-Sprite* DadGuess::createDotSprite()
+Sprite* DadGuessUpdate::createDotSprite()
 {
     return Sprite::createWithSpriteFrameName(dot);
 }
 
-Sprite* DadGuess::createEyeSprite()
+Sprite* DadGuessUpdate::createEyeSprite()
 {
     return Sprite::createWithSpriteFrameName(eye);
 }
 
-Sprite* DadGuess::createHeadSprite()
+Sprite* DadGuessUpdate::createHeadSprite()
 {
     return Sprite::createWithSpriteFrameName(head);
 }

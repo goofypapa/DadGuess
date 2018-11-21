@@ -6,14 +6,15 @@
 //
 
 #include "DataTableCard.h"
+#include <sstream>
 
 
-DataCardInfo::DataCardInfo() : DataCardInfo( "", "", -1, "", "", false )
+DataCardInfo::DataCardInfo() : DataCardInfo( "", "", -1, "", "" )
 {
     
 }
 
-DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_cover, const std::string & p_simpleDrawing, const bool activation ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), cover( p_cover ), simpleDrawing( p_simpleDrawing ), activation( false )
+DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileId, const std::string & p_simpleDrawingFileId ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), coverFileId( p_coverFileId ), simpleDrawingFileId( p_simpleDrawingFileId ), activation( false )
 {
     
 }
@@ -27,9 +28,9 @@ std::string DataCardInfo::toJson( void ) const
     t_sstr << "\"id\": \"" << id << "\", ";
     t_sstr << "\"batchId\": \"" << batchId << "\", ";
     t_sstr << "\"rfid\": " << rfid << ", ";
-    t_sstr << "\"cover\": \"" << cover << "\", ";
-    t_sstr << "\"simpleDrawing\": \"" << simpleDrawing << "\", ";
-    t_sstr << "\"activation\": " << activation << " ";
+    t_sstr << "\"coverFileId\": \"" << coverFileId << "\", ";
+    t_sstr << "\"simpleDrawingFileId\": \"" << simpleDrawingFileId << "\", ";
+    t_sstr << "\"activation\": " << ( activation == 1 ? "true" : "false" ) << " ";
     
     t_sstr << " }";
     
@@ -57,12 +58,12 @@ bool DataTableCard::insert( const DataCardInfo & p_cardInfo ) const
 {
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, cover, simpleDrawing, activation ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, coverFileId, simpleDrawingFileId, activation ) VALUES( "
     << "\"" << p_cardInfo.id << "\", "
     << "\"" << p_cardInfo.batchId << "\", "
     << "\"" << p_cardInfo.rfid << "\", "
-    << "\"" << p_cardInfo.cover << "\", "
-    << "\"" << p_cardInfo.simpleDrawing << "\", "
+    << "\"" << p_cardInfo.coverFileId << "\", "
+    << "\"" << p_cardInfo.simpleDrawingFileId << "\", "
     << ( p_cardInfo.activation ? 1 : 0 ) << " "
     << ");";
     std::string t_sql = t_ssql.str();
@@ -147,7 +148,7 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
         t_ssql << "rfid = " << p_cardInfo.rfid;
     }
     
-    if( p_cardInfo.cover != t_oldInfo.cover )
+    if( p_cardInfo.coverFileId != t_oldInfo.coverFileId )
     {
         if( t_needUpdate )
         {
@@ -156,10 +157,10 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
             t_needUpdate = true;
         }
         
-        t_ssql << "cover = \"" << p_cardInfo.cover << "\"";
+        t_ssql << "coverFileId = \"" << p_cardInfo.coverFileId << "\"";
     }
     
-    if( p_cardInfo.simpleDrawing != t_oldInfo.simpleDrawing )
+    if( p_cardInfo.simpleDrawingFileId != t_oldInfo.simpleDrawingFileId )
     {
         if( t_needUpdate )
         {
@@ -168,7 +169,7 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
             t_needUpdate = true;
         }
         
-        t_ssql << "simpleDrawing = \"" << p_cardInfo.simpleDrawing << "\"";
+        t_ssql << "simpleDrawingFileId = \"" << p_cardInfo.simpleDrawingFileId << "\"";
     }
     
     if( !t_needUpdate )
@@ -220,5 +221,7 @@ bool DataTableCard::init( void ) const
 
 DataCardInfo DataTableCard::dataRowToDataCardInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
-    return DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["cover"], p_dataRow["simpleDrawing"], atoi( p_dataRow["activation"].c_str() ) == 1 );
+    auto t_result = DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["coverFileId"], p_dataRow["simpleDrawingFileId"] );
+    t_result.activation = atoi( p_dataRow["activation"].c_str() ) == 1;
+    return t_result;
 }

@@ -25,6 +25,7 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
 
 @class RootViewController;
 @class RootViewControllerV;
@@ -35,6 +36,9 @@
 
 @property(nonatomic, readonly) RootViewController* viewController;
 @property(nonatomic, readonly) RootViewControllerV* viewControllerV;//声明实例变量
+
+@property (nonatomic) Reachability *hostReachability;
+@property (nonatomic) Reachability *internetReachability;
 
 +(void)changeRootViewControllerH;//静态方法(修改屏幕为横屏)
 +(void)changeRootViewControllerV;//静态方法(修改屏幕为竖屏)

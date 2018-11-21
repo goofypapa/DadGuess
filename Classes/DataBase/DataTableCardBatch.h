@@ -17,8 +17,8 @@
 "id TEXT PRIMARY KEY NOT NULL, "\
 "name TEXT NOT NULL, "\
 "synopsis TEXT NOT NULL, "\
-"cover TEXT NOT NULL, "\
-"coverMd5 TEXT NOT NULL "\
+"coverFileId TEXT NOT NULL, "\
+"activation INTEGER NOT NULL "\
 ")"
 
 #define DataTableCardBatchDrapSql "DROP TABLE " DataTableCardBatchName
@@ -27,11 +27,12 @@ class DataCardBatchInfo : public DataBaseInfo
 {
 public:
     DataCardBatchInfo();
-    DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_cover, const std::string & p_coverMd5 );
+    DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_coverFileId, const bool p_activation = false );
     
     virtual std::string toJson( void ) const override;
     
-    std::string id, name, synopsis, cover, coverMd5;
+    std::string id, name, synopsis, coverFileId;
+    bool activation;
 };
 
 class DataTableCardBatch

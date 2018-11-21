@@ -22,7 +22,6 @@
 
 #endif
 
-
 USING_NS_CC;
 
 //工具
@@ -58,6 +57,15 @@ const std::string & writeFilePath( void );
 std::string fullFilePath( const std::string & p_file );
 
 std::string fileSuffix( const std::string p_fileName );
+
+namespace NetWorkStateListener
+{
+    enum NetWorkState{ WWAN = 0, WiFi, NotReachable, Unknown };
+}
+NetWorkStateListener::NetWorkState getNetWorkState( void );
+
+void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWorkState ) > );
+void unbindNetWorkStateListener( void );
 
 
 #endif //__COMMON_H__

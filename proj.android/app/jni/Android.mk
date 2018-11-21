@@ -32,6 +32,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableFile.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCard.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardBatch.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardAudio.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessUpdateScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMainScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMusicListLayer.cpp \

@@ -180,6 +180,19 @@ const bool DataTableFile::update( const DataFileInfo & p_fileInfo ) const
 
 }
 
+const bool DataTableFile::remove( const std::string & p_fileId ) const
+{
+    
+    auto t_fileInfo = find( p_fileId );
+    
+    if( t_fileInfo.fileId.compare( p_fileId ) != 0 )
+    {
+        return false;
+    }
+    
+    return remove( t_fileInfo );
+}
+
 const bool DataTableFile::remove( const DataFileInfo & p_fileInfo ) const
 {
     

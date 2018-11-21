@@ -787,7 +787,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userPwd" ] = t_loginPassword;
 
     m_loginType = DataUserInfo::LoginType::phone;
-    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
         
         loginCallBack( p_res );
         
@@ -829,7 +829,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "";
     
-    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "game/user/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
 
         if( !ParseApiResult( t_json, p_res ) )
@@ -891,7 +891,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     t_parameter[ "userMobile" ] = t_phone;
     t_parameter[ "userPwd" ] = t_password;
     
-    Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
         
         if( !ParseApiResult( t_json, p_res ) )
@@ -984,7 +984,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     {
         case cn::sharesdk::C2DXResponseStateSuccess:
         {
-            Http::Post( CONFIG_GOOFYPAPA_DOMAIN + "/user/auth/" + t_loginType +  "/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
+            Http::Post( std::string( DOMAIN_NAME "user/auth/" ) + t_loginType +  "/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
                 loginCallBack( p_res );
             }, []( Http * p_http, std::string p_res ){
                 MessageBox( "网络异常", "" );
@@ -1042,19 +1042,19 @@ void LoginScene::loginCallBack( const std::string & p_str )
 
             if( t_downloadUrl.find( "http" ) == std::string::npos )
             {
-                t_downloadUrl = CONFIG_GOOFYPAPA_DOMAIN + "/" + t_downloadUrl;
+                t_downloadUrl = std::string( DOMAIN_NAME ) + t_downloadUrl;
             }
 
             DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
             if( t_DataFileInfo.fileId.empty() )
             {
-                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( DataFileInfo p_fineInfo ){
+                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( Http * p_http, DataFileInfo p_fineInfo ){
                     DataUserInfo t_updateUser = t_dataUser;
                     t_updateUser.headImg = p_fineInfo.fileId;
 
                     DataTableUser::instance().update( t_updateUser );
 
-                },[]( DataFileInfo p_fileInfo ){
+                },[]( Http * p_http, DataFileInfo p_fileInfo ){
 
                 } );
             }else{

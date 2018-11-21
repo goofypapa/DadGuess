@@ -4,6 +4,6 @@
 #include <string>
 #include "DataTableUser.h"
 
-#define CONFIG_GOOFYPAPA_DOMAIN std::string("https://www.goofypapa.com")
+#define DOMAIN_NAME "http://www.dadpat.com/"
 
 #endif //__CONFIG_H__

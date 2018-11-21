@@ -6,14 +6,14 @@
 //
 
 #include "DataTableCardBatch.h"
+#include <sstream>
 
-
-DataCardBatchInfo::DataCardBatchInfo() : DataCardBatchInfo( "", "", "", "", "" )
+DataCardBatchInfo::DataCardBatchInfo() : DataCardBatchInfo( "", "", "", "", false )
 {
     
 }
 
-DataCardBatchInfo::DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_cover, const std::string & p_coverMd5 ) : id( p_id ), name( p_name ), synopsis( p_synopsis ), cover( p_cover ), coverMd5( p_coverMd5 )
+DataCardBatchInfo::DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_coverFileId, const bool p_activation ) : id( p_id ), name( p_name ), synopsis( p_synopsis ), coverFileId( p_coverFileId ), activation( p_activation )
 {
     
 }
@@ -27,8 +27,8 @@ std::string DataCardBatchInfo::toJson( void ) const
     t_sstr << "\"id\": \"" << id << "\", ";
     t_sstr << "\"name\": \"" << name << "\", ";
     t_sstr << "\"synopsis\": \"" << synopsis << "\", ";
-    t_sstr << "\"cover\": \"" << cover << "\", ";
-    t_sstr << "\"coverMd5\": \"" << coverMd5 << "\"";
+    t_sstr << "\"coverFileId\": \"" << coverFileId << "\", ";
+    t_sstr << "\"activation\": " << ( activation ? "true" : "false" );
     
     t_sstr << " }";
     
@@ -57,12 +57,12 @@ bool DataTableCardBatch::insert( const DataCardBatchInfo & p_cardBatchInfo ) con
     
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardBatchName << "( id, name, synopsis, cover, coverMd5 ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardBatchName << "( id, name, synopsis, coverFileId, activation ) VALUES( "
     << "\"" << p_cardBatchInfo.id << "\", "
     << "\"" << p_cardBatchInfo.name << "\", "
     << "\"" << p_cardBatchInfo.synopsis << "\", "
-    << "\"" << p_cardBatchInfo.cover << "\", "
-    << "\"" << p_cardBatchInfo.coverMd5 << "\""
+    << "\"" << p_cardBatchInfo.coverFileId << "\", "
+    << 0
     << ");";
     std::string t_sql = t_ssql.str();
     if( !DataBase::instance().exec( t_sql ) )
@@ -142,7 +142,7 @@ bool DataTableCardBatch::update( const DataCardBatchInfo & p_cardBatchInfo ) con
         t_ssql << "synopsis = \"" << p_cardBatchInfo.synopsis << "\"";
     }
     
-    if( p_cardBatchInfo.cover != t_oldInfo.cover )
+    if( p_cardBatchInfo.coverFileId != t_oldInfo.coverFileId )
     {
         if( t_needUpdate )
         {
@@ -151,19 +151,7 @@ bool DataTableCardBatch::update( const DataCardBatchInfo & p_cardBatchInfo ) con
             t_needUpdate = true;
         }
         
-        t_ssql << "cover = \"" << p_cardBatchInfo.cover << "\"";
-    }
-    
-    if( p_cardBatchInfo.coverMd5 != t_oldInfo.coverMd5 )
-    {
-        if( t_needUpdate )
-        {
-            t_ssql << ", ";
-        }else{
-            t_needUpdate = true;
-        }
-        
-        t_ssql << "coverMd5 = \"" << p_cardBatchInfo.coverMd5 << "\"";
+        t_ssql << "coverFileId = \"" << p_cardBatchInfo.coverFileId << "\"";
     }
     
     if( !t_needUpdate )
@@ -204,5 +192,5 @@ bool DataTableCardBatch::init( void ) const
 
 DataCardBatchInfo DataTableCardBatch::dataRowToDataCardBatchInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
-    return DataCardBatchInfo( p_dataRow["id"], p_dataRow["name"], p_dataRow["synopsis"], p_dataRow["cover"], p_dataRow["coverMd5"] );
+    return DataCardBatchInfo( p_dataRow["id"], p_dataRow["name"], p_dataRow["synopsis"], p_dataRow["coverFileId"], atoi( p_dataRow["activation"].c_str() ) == 1 );
 }

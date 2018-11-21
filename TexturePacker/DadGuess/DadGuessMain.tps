@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.9.0</string>
+        <string>4.10.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -132,17 +132,17 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../Resources/DadGuess.plist</filename>
+                <filename>../../Resources/DadGuess/DadGuessMain.plist</filename>
             </struct>
             <key>header</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../Classes/Resources/DadGuess.hpp</filename>
+                <filename>../../Classes/Resources/DadGuessMain.hpp</filename>
             </struct>
             <key>source</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../Classes/Resources/DadGuess.cpp</filename>
+                <filename>../../Classes/Resources/DadGuessMain.cpp</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -191,51 +191,117 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">DadGuess/dot.png</key>
+            <key type="filename">main/caicai_home_abc.png</key>
+            <key type="filename">main/caicai_home_animal.png</key>
+            <key type="filename">main/caicai_home_earth.png</key>
+            <key type="filename">main/caicai_home_history.png</key>
+            <key type="filename">main/caicai_home_sky.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>6,19,11,37</rect>
+                <rect>58,58,116,116</rect>
                 <key>scale9Paddings</key>
-                <rect>6,19,11,37</rect>
+                <rect>58,58,116,116</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">DadGuess/eye.png</key>
+            <key type="filename">main/caicai_home_bj.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>5,5,10,10</rect>
+                <rect>480,270,960,540</rect>
                 <key>scale9Paddings</key>
-                <rect>5,5,10,10</rect>
+                <rect>480,270,960,540</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">DadGuess/head.png</key>
+            <key type="filename">main/caicai_home_chinese.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>60,71,119,141</rect>
+                <rect>54,55,108,110</rect>
                 <key>scale9Paddings</key>
-                <rect>60,71,119,141</rect>
+                <rect>54,55,108,110</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_home_icon_blueteeth_no.png</key>
+            <key type="filename">main/caicai_home_icon_blueteeth_yes.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,31,62,62</rect>
+                <key>scale9Paddings</key>
+                <rect>31,31,62,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_home_icon_gohome.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,26,52,52</rect>
+                <key>scale9Paddings</key>
+                <rect>26,26,52,52</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_home_pic_logo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>116,38,231,76</rect>
+                <key>scale9Paddings</key>
+                <rect>116,38,231,76</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_home_pic_product.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>316,98,632,196</rect>
+                <key>scale9Paddings</key>
+                <rect>316,98,632,196</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>DadGuess/dot.png</filename>
-            <filename>DadGuess/eye.png</filename>
-            <filename>DadGuess/head.png</filename>
+            <filename>main/caicai_home_abc.png</filename>
+            <filename>main/caicai_home_animal.png</filename>
+            <filename>main/caicai_home_bj.png</filename>
+            <filename>main/caicai_home_chinese.png</filename>
+            <filename>main/caicai_home_earth.png</filename>
+            <filename>main/caicai_home_history.png</filename>
+            <filename>main/caicai_home_icon_blueteeth_no.png</filename>
+            <filename>main/caicai_home_icon_blueteeth_yes.png</filename>
+            <filename>main/caicai_home_icon_gohome.png</filename>
+            <filename>main/caicai_home_pic_logo.png</filename>
+            <filename>main/caicai_home_pic_product.png</filename>
+            <filename>main/caicai_home_sky.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -48,6 +48,8 @@ public:
     const DataFileInfo findBySourceUrl( const std::string & p_sourceUrl ) const;
 
     const bool update( const DataFileInfo & p_fileInfo ) const;
+    
+    const bool remove( const std::string & p_fileId ) const;
     const bool remove( const DataFileInfo & p_fileInfo ) const;
 
     const bool drop( void ) const;

@@ -59,6 +59,8 @@ private:
     std::map< std::string, unsigned int > s_playList;
     std::map< std::string, std::string > m_playCallBackList;
     
+    cocos2d::Sprite * m_action;
+    
     std::string urlRepair( std::string p_url );
 };
 

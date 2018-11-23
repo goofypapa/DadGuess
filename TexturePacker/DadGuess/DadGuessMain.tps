@@ -88,9 +88,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>8192</int>
             <key>height</key>
-            <int>2048</int>
+            <int>8192</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -191,6 +191,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">main/caicai_back.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">main/caicai_home_abc.png</key>
             <key type="filename">main/caicai_home_animal.png</key>
             <key type="filename">main/caicai_home_earth.png</key>
@@ -287,6 +300,24 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">main/caicai_xq_cover_abc.png</key>
+            <key type="filename">main/caicai_xq_cover_animal.png</key>
+            <key type="filename">main/caicai_xq_cover_chinese.png</key>
+            <key type="filename">main/caicai_xq_cover_earth.png</key>
+            <key type="filename">main/caicai_xq_cover_history.png</key>
+            <key type="filename">main/caicai_xq_cover_sky.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>140,163,279,325</rect>
+                <key>scale9Paddings</key>
+                <rect>140,163,279,325</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -302,6 +333,13 @@
             <filename>main/caicai_home_pic_logo.png</filename>
             <filename>main/caicai_home_pic_product.png</filename>
             <filename>main/caicai_home_sky.png</filename>
+            <filename>main/caicai_xq_cover_abc.png</filename>
+            <filename>main/caicai_xq_cover_animal.png</filename>
+            <filename>main/caicai_xq_cover_chinese.png</filename>
+            <filename>main/caicai_xq_cover_earth.png</filename>
+            <filename>main/caicai_xq_cover_history.png</filename>
+            <filename>main/caicai_xq_cover_sky.png</filename>
+            <filename>main/caicai_back.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

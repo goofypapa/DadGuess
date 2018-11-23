@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:b7d2a785c8bb12aaf25ae1317c21ac89:d39359356ae88d05b9f730783362ee15:a28833b13ad7ee444b0b7bae4b4f0f00$
+// $TexturePacker:SmartUpdate:c0a414173557e8f1bba72ab4d6b8e4c6:55881edd36dd3c1d357f076fe8d3e357:a28833b13ad7ee444b0b7bae4b4f0f00$
 // ---------------------------------------
 
 #ifndef __DADGUESSMAIN_H__
@@ -33,6 +33,7 @@ public:
     // ---------------------
     // sprite name constants
     // ---------------------
+    static const std::string caicai_back;
     static const std::string caicai_home_abc;
     static const std::string caicai_home_animal;
     static const std::string caicai_home_bj;
@@ -45,10 +46,17 @@ public:
     static const std::string caicai_home_pic_logo;
     static const std::string caicai_home_pic_product;
     static const std::string caicai_home_sky;
+    static const std::string caicai_xq_cover_abc;
+    static const std::string caicai_xq_cover_animal;
+    static const std::string caicai_xq_cover_chinese;
+    static const std::string caicai_xq_cover_earth;
+    static const std::string caicai_xq_cover_history;
+    static const std::string caicai_xq_cover_sky;
 
     // --------------
     // Sprite objects
     // --------------
+    static cocos2d::Sprite *createCaicai_backSprite();
     static cocos2d::Sprite *createCaicai_home_abcSprite();
     static cocos2d::Sprite *createCaicai_home_animalSprite();
     static cocos2d::Sprite *createCaicai_home_bjSprite();
@@ -61,6 +69,12 @@ public:
     static cocos2d::Sprite *createCaicai_home_pic_logoSprite();
     static cocos2d::Sprite *createCaicai_home_pic_productSprite();
     static cocos2d::Sprite *createCaicai_home_skySprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_abcSprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_animalSprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_chineseSprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_earthSprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_historySprite();
+    static cocos2d::Sprite *createCaicai_xq_cover_skySprite();
 
 }; // class
 

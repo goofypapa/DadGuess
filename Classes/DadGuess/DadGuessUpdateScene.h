@@ -39,6 +39,8 @@ public:
     
     static void unCacheResource( void );
     
+    static std::map< std::string, std::vector< std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > > > > s_cardList;
+    
 protected:
     
     virtual bool init( void ) override;
@@ -50,6 +52,7 @@ private:
     void checkCardAudioUpdate( std::vector< DataCardAudioInfo > & p_oldCardAudioList, const std::vector< std::pair< std::string, std::string > > & p_seviceCardAudioList, const std::string & p_cardId, const DataCardAudioInfo::AudioType p_audioType );
     void downloadFile( void );
     
+    static std::vector< DataCardBatchInfo > sm_cardBatchList;
     static std::vector< std::string > sm_loadImageList;
     
     void checkUpdateDequeue( void );

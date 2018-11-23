@@ -33,6 +33,8 @@ public:
     
     std::string id, name, synopsis, coverFileId;
     bool activation;
+    
+    static const std::vector< std::string > s_batchIdList;
 };
 
 class DataTableCardBatch

@@ -11,7 +11,6 @@
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AF87B481F6F77D6007BE51C /* AppController.mm */; };
-		1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF87B591F6F77D6007BE51C /* LaunchScreen.storyboard */; };
 		1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AF87B5A1F6F77D6007BE51C /* LaunchScreenBackground.png */; };
 		1AF87B8A1F6F7822007BE51C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AF87B5B1F6F77D6007BE51C /* main.m */; };
 		1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1AF87B5E1F6F77D6007BE51C /* RootViewController.mm */; };
@@ -96,6 +95,9 @@
 		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
+		37EA95B121A56D7000E359E8 /* DadGuessCardListScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA95AF21A56D7000E359E8 /* DadGuessCardListScene.cpp */; };
+		37EA95B521A6AC1500E359E8 /* DadGuessCardListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA95B321A6AC1500E359E8 /* DadGuessCardListScrollView.cpp */; };
+		37EA95C021A7EB6300E359E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */; };
 		37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */; };
 		37EAF97321919FED004DC9D5 /* CadenceGameLoaderScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */; };
 		37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */; };
@@ -178,7 +180,6 @@
 		1AF87B471F6F77D6007BE51C /* AppController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		1AF87B481F6F77D6007BE51C /* AppController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppController.mm; sourceTree = "<group>"; };
 		1AF87B581F6F77D6007BE51C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1AF87B591F6F77D6007BE51C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1AF87B5A1F6F77D6007BE51C /* LaunchScreenBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreenBackground.png; sourceTree = "<group>"; };
 		1AF87B5B1F6F77D6007BE51C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1AF87B5C1F6F77D6007BE51C /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -312,6 +313,11 @@
 		37E6FCC820F6F46E0047F458 /* DataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataBase.h; sourceTree = "<group>"; };
 		37E6FD0220F707490047F458 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		37E6FD0420F71ECA0047F458 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libsqlite3.0.tbd; sourceTree = DEVELOPER_DIR; };
+		37EA95AF21A56D7000E359E8 /* DadGuessCardListScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessCardListScene.cpp; sourceTree = "<group>"; };
+		37EA95B021A56D7000E359E8 /* DadGuessCardListScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessCardListScene.h; sourceTree = "<group>"; };
+		37EA95B321A6AC1500E359E8 /* DadGuessCardListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessCardListScrollView.cpp; sourceTree = "<group>"; };
+		37EA95B421A6AC1500E359E8 /* DadGuessCardListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessCardListScrollView.h; sourceTree = "<group>"; };
+		37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGameMusicListScrollView.cpp; sourceTree = "<group>"; };
 		37EAF96E21899EA7004DC9D5 /* PianoGameMusicListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PianoGameMusicListScrollView.h; sourceTree = "<group>"; };
 		37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameLoaderScene.cpp; sourceTree = "<group>"; };
@@ -436,6 +442,7 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */,
 				3752EC9821A4F66000F549A3 /* Reachability.h */,
 				3752EC9A21A4F66000F549A3 /* Reachability.m */,
 				37C2DFB82112FA650086F680 /* RootViewControllerV.h */,
@@ -444,7 +451,6 @@
 				1AF87B471F6F77D6007BE51C /* AppController.h */,
 				1AF87B481F6F77D6007BE51C /* AppController.mm */,
 				1AF87B581F6F77D6007BE51C /* Info.plist */,
-				1AF87B591F6F77D6007BE51C /* LaunchScreen.storyboard */,
 				1AF87B5A1F6F77D6007BE51C /* LaunchScreenBackground.png */,
 				1AF87B5B1F6F77D6007BE51C /* main.m */,
 				1AF87B5C1F6F77D6007BE51C /* Prefix.pch */,
@@ -653,6 +659,10 @@
 				37B0B96E21A265C100A870E9 /* DadGuessService.h */,
 				37B0B97021A3EC9100A870E9 /* DadGuessMainScene.cpp */,
 				37B0B97121A3EC9100A870E9 /* DadGuessMainScene.h */,
+				37EA95AF21A56D7000E359E8 /* DadGuessCardListScene.cpp */,
+				37EA95B021A56D7000E359E8 /* DadGuessCardListScene.h */,
+				37EA95B321A6AC1500E359E8 /* DadGuessCardListScrollView.cpp */,
+				37EA95B421A6AC1500E359E8 /* DadGuessCardListScrollView.h */,
 			);
 			path = DadGuess;
 			sourceTree = "<group>";
@@ -975,6 +985,7 @@
 				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
 				37DD9D71218055DE002855BE /* PianoGame.png in Resources */,
+				37EA95C021A7EB6300E359E8 /* LaunchScreen.storyboard in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
@@ -996,7 +1007,6 @@
 				37EAF97F2192BAAA004DC9D5 /* Cadence in Resources */,
 				1AF87B891F6F781D007BE51C /* LaunchScreenBackground.png in Resources */,
 				379D958B21080A8E006DA6C1 /* Cloud.png in Resources */,
-				1AF87B881F6F781D007BE51C /* LaunchScreen.storyboard in Resources */,
 				37DD9D6C218040D3002855BE /* PianoGame in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1032,6 +1042,7 @@
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */,
+				37EA95B121A56D7000E359E8 /* DadGuessCardListScene.cpp in Sources */,
 				37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */,
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
@@ -1049,6 +1060,7 @@
 				37B0B97521A3EF0700A870E9 /* DadGuessUpdate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				37B0B97D21A3F9E600A870E9 /* DadGuessMain.cpp in Sources */,
+				37EA95B521A6AC1500E359E8 /* DadGuessCardListScrollView.cpp in Sources */,
 				37DD9D6721803B55002855BE /* PianoGameMainScene.cpp in Sources */,
 				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,

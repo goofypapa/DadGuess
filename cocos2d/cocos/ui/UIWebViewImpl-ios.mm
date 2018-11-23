@@ -153,6 +153,9 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
             }
         }
         
+        self.uiWebView.opaque = NO; //不设置这个值 页面背景始终是白色
+        self.uiWebView.backgroundColor = [UIColor blackColor];
+        
 //        self.uiWebView.userInteractionEnabled = NO;        
     }
     if (!self.uiWebView.superview) {

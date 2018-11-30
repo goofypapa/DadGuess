@@ -117,7 +117,7 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
     m_webview->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
 //    m_webview->loadURL( p_url );
 
-    std::stringstream t_surl;
+    std::stringstream t_surl, t_parameter;
     if( m_resourceId.empty() )
     {
         t_surl << "Web/" << m_dir << "/index.html";
@@ -127,19 +127,24 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         t_surl << "Web/" << m_dir;
         switch (t_index) {
             case 3:
-                t_surl << "/#/details";
-                break;
+                t_surl << "/index.html";
+                t_parameter << "#/details?resourceId=" << m_resourceId;
             default:
                 t_surl << "/details.html";
+                t_parameter << "?resourceId=" << m_resourceId;
                 break;
         }
-        
-//        t_surl << "?resourceId=" << m_resourceId;
     }
     
-    printf( "-------> %s \n", m_resourceId.c_str() );
+    auto fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename( t_surl.str() );
     
-    m_webview->loadFile( t_surl.str() );
+    if( !m_resourceId.empty() )
+    {
+        t_surl.str( "" );
+        t_surl << fullPath << t_parameter.str();
+    }
+    
+    m_webview->loadURL( t_surl.str() );
 
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
     m_webview->setBounces(false);
@@ -156,18 +161,20 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
 #endif
         
-        if( !m_resourceId.empty() )
-        {
-            std::stringstream t_sstrJsCode;
-            t_sstrJsCode << "window.resourceId = \"" << m_resourceId << "\";";
-            m_webview->evaluateJS( t_sstrJsCode.str() );
-        }
+//        if( !m_resourceId.empty() )
+//        {
+//            std::stringstream t_sstrJsCode;
+//            t_sstrJsCode << "window.resourceId = \"" << m_resourceId << "\";";
+//            m_webview->evaluateJS( t_sstrJsCode.str() );
+//        }
         
     } );
 
     m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
 
         printf("---------------> setOnDidFinishLoading");
+        
+        m_webview->evaluateJS( "alert(window.location.href);" );
 
         if( m_firstLoad ){
             m_webview->setOpacityWebView( 0.0f );

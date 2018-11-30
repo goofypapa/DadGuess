@@ -35,6 +35,7 @@
 #include "platform/ios/CCEAGLView-ios.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIWebView.h"
+#include <sstream>
 
 static std::string getFixedBaseUrl(const std::string& baseUrl)
 {
@@ -231,7 +232,14 @@ static std::string getFixedBaseUrl(const std::string& baseUrl)
 
 - (void)loadFile:(const std::string &)filePath {
     if (!self.uiWebView) {[self setupWebView];}
-    NSURL *url = [NSURL fileURLWithPath:@(filePath.c_str())];
+    
+//    NSURL *url = [NSURL fileURLWithPath:@(filePath.c_str())];
+    
+//    NSURL *url = [NSURL URLWithString:@"?resourceId=eed311e89a1729ea2409f70601fbcfab"
+//                        relativeToURL:[NSURL fileURLWithPath:@(filePath.c_str())]];
+    NSURL *url = [NSURL URLWithString:@(filePath.c_str())
+                        relativeToURL:[NSURL fileURLWithPath:@(filePath.c_str())]];
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.uiWebView loadRequest:request];
 }

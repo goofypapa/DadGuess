@@ -153,8 +153,14 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
     m_webview->setBounces(false);
     
-    m_webview->setOnEnterCallback( [this](){
-        printf( "---------> setOnEnterCallback" );
+//    m_webview->setOnEnterCallback( [this](){
+//        printf( "---------> setOnEnterCallback" );
+//
+//    } );
+
+    m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
+
+        printf("---------------> setOnDidFinishLoading");
         
         std::stringstream t_sstrJsCode;
         t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();};";
@@ -164,19 +170,6 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
 #ifdef TARGET_OS_IPHONE
         m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
 #endif
-        
-//        if( !m_resourceId.empty() )
-//        {
-//            std::stringstream t_sstrJsCode;
-//            t_sstrJsCode << "window.resourceId = \"" << m_resourceId << "\";";
-//            m_webview->evaluateJS( t_sstrJsCode.str() );
-//        }
-        
-    } );
-
-    m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
-
-        printf("---------------> setOnDidFinishLoading");
 
         if( m_firstLoad ){
             m_webview->setOpacityWebView( 0.0f );

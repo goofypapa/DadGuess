@@ -129,6 +129,7 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
             case 3:
                 t_surl << "/index.html";
                 t_parameter << "#/details?resourceId=" << m_resourceId;
+                break;
             default:
                 t_surl << "/details.html";
                 t_parameter << "?resourceId=" << m_resourceId;

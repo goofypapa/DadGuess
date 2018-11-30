@@ -34,6 +34,7 @@ std::string DataCardAudioInfo::toJson( void ) const
     return t_sstr.str();
 }
 
+
 DataTableCardAudio & DataTableCardAudio::instance( void )
 {
     static DataTableCardAudio * sm_instance = nullptr;

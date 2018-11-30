@@ -28,11 +28,11 @@ struct Ajax
 class WebViewScene : public BaseScene
 {
 public:
-    static cocos2d::Scene * createWithUrl( const std::string & p_url, const bool p_orientation );
+    static cocos2d::Scene * createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId = "" );
 protected:
     CREATE_FUNC( WebViewScene );
     virtual bool init( void ) override;
-    virtual bool initWithUrl( const std::string & p_url, const bool p_orientation );
+    virtual bool initWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId );
     
     virtual void refreshSource( const DataFileInfo & p_dataInfo ) override;
     
@@ -47,10 +47,11 @@ protected:
     virtual ~WebViewScene( void );
 private:
     cocos2d::experimental::ui::WebView * m_webview;
-    std::string m_url;
+    std::string m_dir, m_groupId;
     bool m_webOrientation;
     bool m_firstLoad;
     
+    std::string m_resourceId;
     
     std::map< Http *, Ajax > s_ajaxPool;
     

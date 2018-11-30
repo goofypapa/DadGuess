@@ -67,5 +67,7 @@ NetWorkStateListener::NetWorkState getNetWorkState( void );
 void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWorkState ) > );
 void unbindNetWorkStateListener( void );
 
+cocos2d::Color4F createColor4FWithStr( const std::string & p_colorStr, const float p_alpha = 1.0f );
+
 
 #endif //__COMMON_H__

@@ -11,6 +11,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "DataTableCard.h"
+#include <map>
 
 #include <vector>
 
@@ -25,10 +26,17 @@ protected:
     
     virtual bool initWithSize( const cocos2d::Size & p_contentSize, const std::string p_groupId );
     
-//    virtual bool onTouchBegan( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
-//    virtual void onTouchMoved( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
-//    virtual void onTouchEnded( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
+    void onTouched( const int p_index );
+    
+    virtual bool onTouchBegan( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
+    virtual void onTouchMoved( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
+    virtual void onTouchEnded( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
 //    virtual void onTouchCancelled( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
+private:
+    static int sm_columns;
+    std::string m_groupId;
+    
+    std::map< int, cocos2d::Vec2 > m_touchBeginLocationList;
 };
 
 #endif //__DAD_GUESS_CARD_LIST_SCROLL_VIEW_H__

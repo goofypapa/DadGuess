@@ -16,17 +16,21 @@
 #include "json/writer.h"
 #include "json/stringbuffer.h"
 
+#include "DataTableCardBatch.h"
+
+#include "DadGuessCardListScene.h"
+
 USING_NS_CC;
 using namespace  rapidjson;
 using namespace cocos2d::ui;
 using namespace experimental;
 
 
-cocos2d::Scene * WebViewScene::createWithUrl( const std::string & p_url, const bool p_orientation )
+cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId )
 {
     auto t_res = create();
     
-    if( !t_res->initWithUrl( p_url, p_orientation) ){
+    if( !t_res->initWithDir( p_dir, p_orientation, p_resourceId ) ){
         delete t_res;
         t_res = nullptr;
     }
@@ -41,10 +45,20 @@ bool WebViewScene::init( void )
 }
 
 
-bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientation )
+bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId )
 {
     m_webOrientation = p_orientation;
-    m_url = p_url;
+    m_dir = p_dir;
+    m_resourceId = p_resourceId;
+    m_groupId = "";
+    
+    static const char * s_webDirList[] = { "Web_Animal", "Web_ABC", "Web_Astronomy", "Web_Earth", "Web_WorldHistory", "Web_HistoryChronology" };
+    if( !p_resourceId.empty() )
+    {
+        m_groupId = m_dir;
+        int t_index = (int)( std::find( DataCardBatchInfo::s_batchIdList.begin(), DataCardBatchInfo::s_batchIdList.end(), m_groupId ) - DataCardBatchInfo::s_batchIdList.begin() );
+        m_dir = s_webDirList[t_index];
+    }
     
     if( m_webOrientation ){
         setAppOrientation( true );
@@ -67,7 +81,7 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
     
     std::stringstream t_splistName;
     
-    t_splistName << "Web/" << p_url << ".plist";
+    t_splistName << "Web/" << m_dir << ".plist";
     
     m_action = Sprite::create();
     m_action->setScale( adaptation() );
@@ -102,15 +116,54 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
 
     m_webview->setPosition( Vec2( origin.x + visibleSize.width * 0.5f, origin.y + visibleSize.height * 0.5f ) );
 //    m_webview->loadURL( p_url );
-    
+
     std::stringstream t_surl;
-    t_surl << "Web/" << p_url << "/index.html";
+    if( m_resourceId.empty() )
+    {
+        t_surl << "Web/" << m_dir << "/index.html";
+    }else{
+        int t_index = (int)( std::find( DataCardBatchInfo::s_batchIdList.begin(), DataCardBatchInfo::s_batchIdList.end(), p_dir ) - DataCardBatchInfo::s_batchIdList.begin() );
+        
+        t_surl << "Web/" << m_dir;
+        switch (t_index) {
+            case 0:
+                t_surl << "/details.html";
+                break;
+            default:
+                t_surl << "/details.html";
+                break;
+        }
+        
+//        t_surl << "?resourceId=" << m_resourceId;
+    }
+    
+    printf( "-------> %s \n", m_resourceId.c_str() );
     
     m_webview->loadFile( t_surl.str() );
 
-
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
     m_webview->setBounces(false);
+    
+    m_webview->setOnEnterCallback( [this](){
+        printf( "---------> setOnEnterCallback" );
+        
+        std::stringstream t_sstrJsCode;
+        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();};";
+        
+        m_webview->evaluateJS( t_sstrJsCode.str() );
+        
+#ifdef TARGET_OS_IPHONE
+        m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
+#endif
+        
+        if( !m_resourceId.empty() )
+        {
+            std::stringstream t_sstrJsCode;
+            t_sstrJsCode << "window.resourceId = \"" << m_resourceId << "\";";
+            m_webview->evaluateJS( t_sstrJsCode.str() );
+        }
+        
+    } );
 
     m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
 
@@ -123,14 +176,6 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
             }) );
             m_firstLoad = false;
         }
-        
-        std::stringstream t_sstrJsCode;
-        t_sstrJsCode << "window.goofypapaGame = true;"  << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();};";
-        m_webview->evaluateJS( t_sstrJsCode.str() );
-        
-#ifdef TARGET_OS_IPHONE
-        m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
-#endif
         
         if( m_action && m_action->isRunning() )
         {
@@ -166,7 +211,12 @@ bool WebViewScene::initWithUrl( const std::string & p_url, const bool p_orientat
                     setAppOrientation( false );
                 }
                 stopAllAudio();
-                Director::getInstance()->replaceScene( MainScene::create() );
+                if( m_resourceId.empty() )
+                {
+                    Director::getInstance()->replaceScene( MainScene::create() );
+                }else{
+                    Director::getInstance()->replaceScene( DadGuessCardListScene::createScene( m_groupId ) );
+                }
             }
             
             if( t_item.compare( "stopAllAudio" ) == 0 )
@@ -457,7 +507,7 @@ WebViewScene::~WebViewScene()
 {
     std::stringstream t_splistName;
     
-    t_splistName << "Web/" << m_url << ".plist";
+    t_splistName << "Web/" << m_dir << ".plist";
     
     if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
     {

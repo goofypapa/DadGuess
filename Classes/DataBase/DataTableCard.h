@@ -47,6 +47,7 @@ public:
     std::vector< DataCardInfo > list( const std::string & p_batchId = "" ) const;
     
     DataCardInfo find( const std::string & p_id ) const;
+    DataCardInfo find( const int p_rfid ) const;
     
     bool update( const DataCardInfo & p_cardInfo ) const;
     bool remove( const std::string & p_id ) const;

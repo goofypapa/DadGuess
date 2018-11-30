@@ -98,6 +98,9 @@
 		37EA95B121A56D7000E359E8 /* DadGuessCardListScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA95AF21A56D7000E359E8 /* DadGuessCardListScene.cpp */; };
 		37EA95B521A6AC1500E359E8 /* DadGuessCardListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA95B321A6AC1500E359E8 /* DadGuessCardListScrollView.cpp */; };
 		37EA95C021A7EB6300E359E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */; };
+		37EA963421ABD1CD00E359E8 /* BluePackage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37EA963321ABD1CD00E359E8 /* BluePackage.mm */; };
+		37EA963621ABD3DB00E359E8 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37EA963521ABD3DB00E359E8 /* CoreBluetooth.framework */; };
+		37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA963F21AD099900E359E8 /* BlueDeviceListener.cpp */; };
 		37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */; };
 		37EAF97321919FED004DC9D5 /* CadenceGameLoaderScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */; };
 		37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF97B2192B038004DC9D5 /* CadenceGameScene.cpp */; };
@@ -318,6 +321,11 @@
 		37EA95B321A6AC1500E359E8 /* DadGuessCardListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DadGuessCardListScrollView.cpp; sourceTree = "<group>"; };
 		37EA95B421A6AC1500E359E8 /* DadGuessCardListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessCardListScrollView.h; sourceTree = "<group>"; };
 		37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		37EA963221ABD1CD00E359E8 /* BluePackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluePackage.h; sourceTree = "<group>"; };
+		37EA963321ABD1CD00E359E8 /* BluePackage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BluePackage.mm; sourceTree = "<group>"; };
+		37EA963521ABD3DB00E359E8 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/CoreBluetooth.framework; sourceTree = DEVELOPER_DIR; };
+		37EA963721ABD52F00E359E8 /* BlueDeviceListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlueDeviceListener.h; sourceTree = "<group>"; };
+		37EA963F21AD099900E359E8 /* BlueDeviceListener.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlueDeviceListener.cpp; sourceTree = "<group>"; };
 		37EAF96D21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PianoGameMusicListScrollView.cpp; sourceTree = "<group>"; };
 		37EAF96E21899EA7004DC9D5 /* PianoGameMusicListScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PianoGameMusicListScrollView.h; sourceTree = "<group>"; };
 		37EAF97121919FEC004DC9D5 /* CadenceGameLoaderScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CadenceGameLoaderScene.cpp; sourceTree = "<group>"; };
@@ -361,6 +369,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37EA963621ABD3DB00E359E8 /* CoreBluetooth.framework in Frameworks */,
 				3705121421226C9D00F2FE1C /* libstdc++.tbd in Frameworks */,
 				3705121321226C8D00F2FE1C /* JavaScriptCore.framework in Frameworks */,
 				3705123F21226DFB00F2FE1C /* QQConnector.framework in Frameworks */,
@@ -442,6 +451,8 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				37EA963221ABD1CD00E359E8 /* BluePackage.h */,
+				37EA963321ABD1CD00E359E8 /* BluePackage.mm */,
 				37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */,
 				3752EC9821A4F66000F549A3 /* Reachability.h */,
 				3752EC9A21A4F66000F549A3 /* Reachability.m */,
@@ -478,6 +489,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37EA963521ABD3DB00E359E8 /* CoreBluetooth.framework */,
 				3705121221226C8D00F2FE1C /* JavaScriptCore.framework */,
 				3705121021226C8000F2FE1C /* libicucore.tbd */,
 				379D957F2106D5E9006DA6C1 /* MediaPlayer.framework */,
@@ -711,6 +723,8 @@
 				37D7DAE721198F0700A101E8 /* WebViewScene.h */,
 				37D7DAE921198F0700A101E8 /* WebViewScene.cpp */,
 				37D7DAEA21198F0700A101E8 /* Common.h */,
+				37EA963721ABD52F00E359E8 /* BlueDeviceListener.h */,
+				37EA963F21AD099900E359E8 /* BlueDeviceListener.cpp */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1038,6 +1052,7 @@
 				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
 				37B0B97221A3EC9100A870E9 /* DadGuessMainScene.cpp in Sources */,
 				37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */,
+				37EA963421ABD1CD00E359E8 /* BluePackage.mm in Sources */,
 				374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
@@ -1048,6 +1063,7 @@
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
 				37EAF9852193D8E7004DC9D5 /* CadenceGameMusicListScrollView.cpp in Sources */,
+				37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */,
 				376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
 				37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */,
@@ -1129,7 +1145,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/ios/WechtLogin/WechtSDK1.8.2_NoPay",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/SinaWeiboSDK",
@@ -1178,7 +1194,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/ios/WechtLogin/WechtSDK1.8.2_NoPay",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/SinaWeiboSDK",

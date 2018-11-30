@@ -266,42 +266,42 @@ void MainScene::settingsOnClick( void )
 
 void MainScene::icoTouchCallBack( int p_icoIndex )
 {
-    std::string t_url = "";
+    std::string t_dir = "";
     bool t_orientation = false;
     switch (p_icoIndex) {
         case 0:
-            t_url = "Web_Animal";
+            t_dir = "Web_Animal";
             t_orientation = true;
             break;
         case 1:
             Director::getInstance()->replaceScene( CadenceGameLoaderScene::create() );
             return;
         case 2:
-            t_url = "Web_Api";
+            t_dir = "Web_Api";
             break;
         case 3:
             Director::getInstance()->replaceScene( PianoGameMainScene::CreateScene() );
             return;
         case 4:
-            t_url = "Web_Earth";
+            t_dir = "Web_Earth";
             break;
         case 5:
-            t_url = "Web_Astronomy";
+            t_dir = "Web_Astronomy";
             break;
         case 6:
-            t_url = "Web_HistoryChronology";
+            t_dir = "Web_HistoryChronology";
             break;
         case 7:
-            t_url = "Web_WorldHistory";
+            t_dir = "Web_WorldHistory";
             break;
         case 8:
-            t_url = "Web_Paintings";
+            t_dir = "Web_Paintings";
             break;
         case 9:
-            t_url = "Web_Calendar";
+            t_dir = "Web_Calendar";
             break;
         case 10:
-            t_url = "Web_ABC";
+            t_dir = "Web_ABC";
             break;
         case 11:
             Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
@@ -311,7 +311,7 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
     }
 //    Director::getInstance()->replaceScene( TransitionSlideInR::create( 0.2f, WebViewScene::createWithUrl( t_url, t_orientation ) ) );
     
-    Director::getInstance()->replaceScene( WebViewScene::createWithUrl( t_url, t_orientation ) );
+    Director::getInstance()->replaceScene( WebViewScene::createWithDir( t_dir, t_orientation ) );
 }
 
 void MainScene::updateUserInfo( void )

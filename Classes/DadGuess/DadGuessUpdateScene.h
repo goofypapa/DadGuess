@@ -45,7 +45,7 @@ protected:
     
     virtual bool init( void ) override;
     
-    virtual ~DadGuessUpdateScene( void );
+    virtual void destroy( void );
 private:
     
     void checkUpdateResponse( Http * p_http );
@@ -74,7 +74,7 @@ private:
     std::map< std::string, DataCardAudioInfo > m_downloadAudioList;
     std::map< Http *, UpdateDownloadItem > m_downloadingList;
     
-    static const char * sm_batchListApi, * sm_cardListApi;
+    static const char * sm_batchListApi, * sm_cardListApi, * sm_cardListApi2, * sm_cardTypeListApi;
     
     std::mutex m_mutex;
 };

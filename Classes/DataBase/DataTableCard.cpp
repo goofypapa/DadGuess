@@ -111,6 +111,24 @@ DataCardInfo DataTableCard::find( const std::string & p_id ) const
     return t_result;
 }
 
+DataCardInfo DataTableCard::find( const int p_rfid ) const
+{
+    DataCardInfo t_result;
+    
+    std::stringstream t_ssql;
+    t_ssql << "SELECT * FROM " << DataTableCardName <<  " WHERE rfid= " << p_rfid ;
+    std::string t_sql = t_ssql.str();
+    
+    auto t_list = DataBase::instance().query( t_sql );
+    
+    if( t_list.size() == 1 )
+    {
+        t_result = dataRowToDataCardInfo( *t_list.begin() );
+    }
+    
+    return t_result;
+}
+
 bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
 {
     bool t_needUpdate = false;

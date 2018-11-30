@@ -262,3 +262,40 @@ std::string fileSuffix( const std::string p_fileName )
 
     return "";
 }
+
+cocos2d::Color4F createColor4FWithStr( const std::string & p_colorStr, const float p_alpha )
+{
+    float r, g, b, a;
+    r = g = b = 0.0f;
+    a = p_alpha;
+    
+    std::string t_colorStr = p_colorStr;
+    
+    auto t_it = t_colorStr.find( "#" );
+    if( t_it != std::string::npos )
+    {
+        t_colorStr.replace( t_it, 1, "" );
+    }
+    
+    if( t_colorStr.length() >= 6 )
+    {
+        int t_r = std::stoi( t_colorStr.substr( 0, 2 ), nullptr, 16 );
+        int t_g = std::stoi( t_colorStr.substr( 2, 2 ), nullptr, 16 );
+        int t_b = std::stoi( t_colorStr.substr( 4, 2 ), nullptr, 16 );
+        
+        if( t_r )
+        {
+            r = t_r / 255.0f;
+        }
+        if( t_g )
+        {
+            g = t_g / 255.0f;
+        }
+        if( t_b )
+        {
+            b = t_b / 255.0f;
+        }
+    }
+    return cocos2d::Color4F( r, g, b, a );
+}
+

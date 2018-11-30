@@ -50,19 +50,35 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     auto t_visibleSizeHalf = Director::getInstance()->getVisibleSize() * 0.5f;
     Vec2 t_origin = Director::getInstance()->getVisibleOrigin();
     
-    std::map< std::string, std::pair< Color4F, Color4F > > t_colorList;
     
-    t_colorList["animal"] = std::pair< Color4F, Color4F >( Color4F( 158.0f / 255.0f, 214.0f / 255.0f, 103.0f / 255.0f, 1.0f ), Color4F( 150.0f / 255.0f, 209.0f / 255.0f, 93.0f / 255.0f, 1.0f ) );
+    auto t_groupInfo = DataTableCardBatch::instance().find( p_groupId );
+    
+    std::map< std::string, std::pair< Color4F, Color4F > > t_colorList;
+    std::map< std::string, std::string > t_iconList;
+    
+    t_colorList["animal"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "9ed667" ), createColor4FWithStr( "96d15d" ) );
+    t_colorList["ABC"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "91eef6" ), createColor4FWithStr( "7be7f4" ) );
+    t_colorList["astronomy"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "a4a3e7" ), createColor4FWithStr( "9d9be4" ) );
+    t_colorList["earth"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "bdcdff" ), createColor4FWithStr( "b4c4f7" ) );
+    t_colorList["historyChronology"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "b9e4ed" ), createColor4FWithStr( "afdbe4" ) );
+    t_colorList["worldHistory"] = std::pair< Color4F, Color4F >( createColor4FWithStr( "b9e4ed" ), createColor4FWithStr( "afdbe4" ) );
+    
+    t_iconList["animal"] = TexturePacker::DadGuessMain::caicai_xq_cover_animal;
+    t_iconList["ABC"] = TexturePacker::DadGuessMain::caicai_xq_cover_abc;
+    t_iconList["astronomy"] = TexturePacker::DadGuessMain::caicai_xq_cover_sky;
+    t_iconList["earth"] = TexturePacker::DadGuessMain::caicai_xq_cover_earth;
+    t_iconList["historyChronology"] = TexturePacker::DadGuessMain::caicai_xq_cover_chinese;
+    t_iconList["worldHistory"] = TexturePacker::DadGuessMain::caicai_xq_cover_history;
     
     auto t_background = DrawNode::create();
-    t_background->drawSolidRect( Vec2::ZERO , Vec2( t_visibleSizeHalf.width, t_visibleSizeHalf.height * 2.0f ), t_colorList["animal"].first );
+    t_background->drawSolidRect( Vec2::ZERO , Vec2( t_visibleSizeHalf.width, t_visibleSizeHalf.height * 2.0f ), t_colorList[p_groupId].first );
     
-    t_background->drawSolidRect( Vec2( t_visibleSizeHalf.width, 0.0f ) , t_visibleSizeHalf * 2.0f, t_colorList["animal"].second );
+    t_background->drawSolidRect( Vec2( t_visibleSizeHalf.width, 0.0f ) , t_visibleSizeHalf * 2.0f, t_colorList[p_groupId].second );
     t_background->setPosition( t_origin );
     
     addChild( t_background );
     
-    auto t_groupLogo = TexturePacker::DadGuessMain::createCaicai_xq_cover_animalSprite();
+    auto t_groupLogo = Sprite::createWithSpriteFrameName( t_iconList[ p_groupId ] );
     
     auto t_groupLogoSizeHalf = t_groupLogo->getContentSize() * 0.5f;
     t_groupLogo->setScale( t_visibleSizeHalf.height * 0.6f / t_groupLogoSizeHalf.height );
@@ -71,40 +87,44 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     t_groupLogo->setPosition( t_groupLogoPos );
     addChild( t_groupLogo );
     
-    auto t_buyButton = DrawNode::create();
-    t_buyButton->setPosition( Vec2::ZERO );
-    
-    auto t_buyButtonDrawBeginPos = Vec2( t_groupLogoPos.x - t_groupLogoSizeScaleHalf.width * 0.972f, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height * 0.98f );
-    
-    auto t_buyButtonSizeHalf = Size( t_groupLogoSizeScaleHalf.width * 0.972f, t_groupLogoSizeScaleHalf.height * 0.175f );
-    
-    t_buyButton->drawSolidRect( t_buyButtonDrawBeginPos, Vec2( t_groupLogoPos.x + t_buyButtonSizeHalf.width, t_buyButtonDrawBeginPos.y + t_buyButtonSizeHalf.height * 2.0f ) , Color4F( 254.0f / 255.0f, 208.0f / 255.0f, 63.0f / 255.0f, 1.0f ) );
-    addChild( t_buyButton );
-    
-    auto t_buyLabel = MenuItemFont::create( "点击购买此套卡片", []( Ref * p_target ){
+    if( !t_groupInfo.activation )
+    {
+        auto t_buyButton = DrawNode::create();
+        t_buyButton->setPosition( Vec2::ZERO );
         
-    } );
-    t_buyLabel->setFontSizeObj( 12 );
-    t_buyLabel->setPosition( t_buyButtonDrawBeginPos + t_buyButtonSizeHalf );
-    t_buyLabel->setContentSize( t_buyButtonSizeHalf * 2.0f );
+        auto t_buyButtonDrawBeginPos = Vec2( t_groupLogoPos.x - t_groupLogoSizeScaleHalf.width * 0.972f, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height * 0.98f );
+        
+        auto t_buyButtonSizeHalf = Size( t_groupLogoSizeScaleHalf.width * 0.972f, t_groupLogoSizeScaleHalf.height * 0.175f );
+        
+        t_buyButton->drawSolidRect( t_buyButtonDrawBeginPos, Vec2( t_groupLogoPos.x + t_buyButtonSizeHalf.width, t_buyButtonDrawBeginPos.y + t_buyButtonSizeHalf.height * 2.0f ) , Color4F( 254.0f / 255.0f, 208.0f / 255.0f, 63.0f / 255.0f, 1.0f ) );
+        addChild( t_buyButton );
+        
+        auto t_buyLabel = MenuItemFont::create( "点击购买此套卡片", []( Ref * p_target ){
+            
+        } );
+        t_buyLabel->setFontSizeObj( 12 );
+        t_buyLabel->setPosition( t_buyButtonDrawBeginPos + t_buyButtonSizeHalf );
+        t_buyLabel->setContentSize( t_buyButtonSizeHalf * 2.0f );
+        
+        auto t_buyLabelSizeHalf = t_buyLabel->getLabel()->getContentSize() * 0.5f;
+        t_buyLabel->getLabel()->setPosition( t_buyButtonSizeHalf - t_buyLabelSizeHalf );
+        
+        auto t_menu = Menu::create( t_buyLabel, NULL);
+        t_menu->setPosition( Vec2::ZERO );
+        addChild( t_menu );
+   
     
-    auto t_buyLabelSizeHalf = t_buyLabel->getLabel()->getContentSize() * 0.5f;
-    t_buyLabel->getLabel()->setPosition( t_buyButtonSizeHalf - t_buyLabelSizeHalf );
-    
-    auto t_menu = Menu::create( t_buyLabel, NULL);
-    t_menu->setPosition( Vec2::ZERO );
-    addChild( t_menu );
-    
-    auto t_unlockPromptTitle = Label::createWithSystemFont( "# 扫卡解锁 #", "", 12 );
-    auto t_unlockPromptTitlePos = Vec2( t_groupLogoPos.x, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height - t_unlockPromptTitle->getContentSize().height * 0.5f - 2.0f );
-    t_unlockPromptTitle->setPosition( t_unlockPromptTitlePos );
-    addChild( t_unlockPromptTitle );
-    
-    auto t_unlockPrompt = Label::createWithSystemFont( "用此套卡片里的任意一张卡片在小鼓上方扫过即可激活该套所有卡片" , "", 10 );
-    t_unlockPrompt->setDimensions( t_visibleSizeHalf.width * 0.8f , 30.0f );
-    t_unlockPrompt->setPosition( Vec2( t_groupLogoPos.x, t_unlockPromptTitlePos.y - 24.0f ) );
-    t_unlockPrompt->setAlignment( TextHAlignment::CENTER );
-    addChild( t_unlockPrompt );
+        auto t_unlockPromptTitle = Label::createWithSystemFont( "# 扫卡解锁 #", "", 12 );
+        auto t_unlockPromptTitlePos = Vec2( t_groupLogoPos.x, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height - t_unlockPromptTitle->getContentSize().height * 0.5f - 2.0f );
+        t_unlockPromptTitle->setPosition( t_unlockPromptTitlePos );
+        addChild( t_unlockPromptTitle );
+        
+        auto t_unlockPrompt = Label::createWithSystemFont( "用此套卡片里的任意一张卡片在小鼓上方扫过即可激活该套所有卡片" , "", 10 );
+        t_unlockPrompt->setDimensions( t_visibleSizeHalf.width * 0.8f , 30.0f );
+        t_unlockPrompt->setPosition( Vec2( t_groupLogoPos.x, t_unlockPromptTitlePos.y - 24.0f ) );
+        t_unlockPrompt->setAlignment( TextHAlignment::CENTER );
+        addChild( t_unlockPrompt );
+    }
     
     auto t_contentPromptTitle = Label::createWithSystemFont( "内容简介", "", 16 );
     auto t_contentPromptTitleSizeHalf = t_contentPromptTitle->getContentSize() * 0.5f;
@@ -113,7 +133,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     
     addChild( t_contentPromptTitle );
     
-    auto t_contentPrompt = Label::createWithSystemFont( "这是卡片详情介绍介绍介绍这是卡片详情介绍介绍介绍这是卡片详情介绍介绍介绍这是卡片详情介绍介绍介", "", 10 );
+    auto t_contentPrompt = Label::createWithSystemFont( t_groupInfo.synopsis, "", 10 );
     auto t_contentPromptSize = Size( t_visibleSizeHalf.width * 0.8f , 50.0f );
     auto t_contentPromptPos = Vec2( t_contentPromptTitlePos.x, t_contentPromptTitlePos.y - t_contentPromptTitleSizeHalf.height - 30.0f  );
     t_contentPrompt->setDimensions( t_contentPromptSize.width , t_contentPromptSize.height );

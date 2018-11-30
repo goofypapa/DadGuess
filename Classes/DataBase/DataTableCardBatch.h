@@ -15,9 +15,7 @@
 
 #define DataTableCardBatchCreateSql "CREATE TABLE IF NOT EXISTS " DataTableCardBatchName "( "\
 "id TEXT PRIMARY KEY NOT NULL, "\
-"name TEXT NOT NULL, "\
 "synopsis TEXT NOT NULL, "\
-"coverFileId TEXT NOT NULL, "\
 "activation INTEGER NOT NULL "\
 ")"
 
@@ -27,11 +25,11 @@ class DataCardBatchInfo : public DataBaseInfo
 {
 public:
     DataCardBatchInfo();
-    DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_coverFileId, const bool p_activation = false );
+    DataCardBatchInfo( const std::string & p_id, const std::string & p_synopsis, const bool p_activation = false );
     
     virtual std::string toJson( void ) const override;
     
-    std::string id, name, synopsis, coverFileId;
+    std::string id, synopsis;
     bool activation;
     
     static const std::vector< std::string > s_batchIdList;
@@ -50,6 +48,8 @@ public:
     
     bool update( const DataCardBatchInfo & p_cardBatchInfo ) const;
     bool remove( const std::string & p_id ) const;
+    
+    bool activation( const DataCardBatchInfo & p_cardBatchInfo ) const;
     
     bool drop( void ) const;
 private:

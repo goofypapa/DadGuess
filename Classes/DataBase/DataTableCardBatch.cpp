@@ -8,15 +8,15 @@
 #include "DataTableCardBatch.h"
 #include <sstream>
 
-std::string batchIdList[] = { "animal" };
+std::string batchIdList[] = { "animal", "ABC", "astronomy", "earth", "worldHistory", "historyChronology" };
 const std::vector< std::string > DataCardBatchInfo::s_batchIdList( batchIdList, batchIdList + sizeof( batchIdList ) / sizeof( std::string ) );
 
-DataCardBatchInfo::DataCardBatchInfo() : DataCardBatchInfo( "", "", "", "", false )
+DataCardBatchInfo::DataCardBatchInfo() : DataCardBatchInfo( "", "" )
 {
     
 }
 
-DataCardBatchInfo::DataCardBatchInfo( const std::string & p_id, const std::string & p_name, const std::string & p_synopsis, const std::string & p_coverFileId, const bool p_activation ) : id( p_id ), name( p_name ), synopsis( p_synopsis ), coverFileId( p_coverFileId ), activation( p_activation )
+DataCardBatchInfo::DataCardBatchInfo( const std::string & p_id, const std::string & p_synopsis, const bool p_activation ) : id( p_id ), synopsis( p_synopsis ), activation( p_activation )
 {
     
 }
@@ -28,9 +28,7 @@ std::string DataCardBatchInfo::toJson( void ) const
     t_sstr << "{ ";
     
     t_sstr << "\"id\": \"" << id << "\", ";
-    t_sstr << "\"name\": \"" << name << "\", ";
     t_sstr << "\"synopsis\": \"" << synopsis << "\", ";
-    t_sstr << "\"coverFileId\": \"" << coverFileId << "\", ";
     t_sstr << "\"activation\": " << ( activation ? "true" : "false" );
     
     t_sstr << " }";
@@ -60,11 +58,9 @@ bool DataTableCardBatch::insert( const DataCardBatchInfo & p_cardBatchInfo ) con
     
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardBatchName << "( id, name, synopsis, coverFileId, activation ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardBatchName << "( id, synopsis, activation ) VALUES( "
     << "\"" << p_cardBatchInfo.id << "\", "
-    << "\"" << p_cardBatchInfo.name << "\", "
     << "\"" << p_cardBatchInfo.synopsis << "\", "
-    << "\"" << p_cardBatchInfo.coverFileId << "\", "
     << 0
     << ");";
     std::string t_sql = t_ssql.str();
@@ -121,18 +117,6 @@ bool DataTableCardBatch::update( const DataCardBatchInfo & p_cardBatchInfo ) con
     std::stringstream t_ssql;
     t_ssql << "UPDATE " << DataTableCardBatchName << " SET ";
     
-    if( p_cardBatchInfo.name != t_oldInfo.name )
-    {
-        if( t_needUpdate )
-        {
-            t_ssql << ", ";
-        }else{
-            t_needUpdate = true;
-        }
-        
-        t_ssql << "name = \"" << p_cardBatchInfo.name << "\"";
-    }
-    
     if( p_cardBatchInfo.synopsis != t_oldInfo.synopsis )
     {
         if( t_needUpdate )
@@ -143,18 +127,6 @@ bool DataTableCardBatch::update( const DataCardBatchInfo & p_cardBatchInfo ) con
         }
         
         t_ssql << "synopsis = \"" << p_cardBatchInfo.synopsis << "\"";
-    }
-    
-    if( p_cardBatchInfo.coverFileId != t_oldInfo.coverFileId )
-    {
-        if( t_needUpdate )
-        {
-            t_ssql << ", ";
-        }else{
-            t_needUpdate = true;
-        }
-        
-        t_ssql << "coverFileId = \"" << p_cardBatchInfo.coverFileId << "\"";
     }
     
     if( !t_needUpdate )
@@ -183,6 +155,15 @@ bool DataTableCardBatch::drop( void ) const
     return DataBase::instance().exec( DataTableCardBatchDrapSql );
 }
 
+bool DataTableCardBatch::activation( const DataCardBatchInfo & p_cardBatchInfo ) const
+{
+    std::stringstream t_ssql;
+    t_ssql << "UPDATE " << DataTableCardBatchName << " SET activation = 1 WHERE id = \"" << p_cardBatchInfo.id << "\"";
+    std::string t_sql = t_ssql.str();
+    
+    return DataBase::instance().exec( t_sql );
+}
+
 
 bool DataTableCardBatch::init( void ) const
 {
@@ -195,5 +176,5 @@ bool DataTableCardBatch::init( void ) const
 
 DataCardBatchInfo DataTableCardBatch::dataRowToDataCardBatchInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
-    return DataCardBatchInfo( p_dataRow["id"], p_dataRow["name"], p_dataRow["synopsis"], p_dataRow["coverFileId"], atoi( p_dataRow["activation"].c_str() ) == 1 );
+    return DataCardBatchInfo( p_dataRow["id"], p_dataRow["synopsis"], atoi( p_dataRow["activation"].c_str() ) == 1 );
 }

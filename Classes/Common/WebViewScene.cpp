@@ -126,8 +126,8 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         
         t_surl << "Web/" << m_dir;
         switch (t_index) {
-            case 0:
-                t_surl << "/details.html";
+            case 3:
+                t_surl << "/#/details";
                 break;
             default:
                 t_surl << "/details.html";

@@ -257,11 +257,10 @@ void DadGuessMainScene::scanCard( int p_rfid )
             auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( t_audioUrl );
             if( !t_audioFileInfo.fileId.empty() )
             {
+                t_audioInfo.fileId = t_audioFileInfo.fileId;
                 playAudio( t_audioInfo );
                 return;
             }
-            
-            
             
             auto t_http = Http::DownloadFile( t_audioUrl, "", [=]( Http * p_http, DataFileInfo p_fileInfo ){
                 
@@ -280,8 +279,10 @@ void DadGuessMainScene::scanCard( int p_rfid )
             }, [=]( Http * p_http, DataFileInfo p_fileInfo ){
                 
             } );
-            
-            s_downloadAudioList[ t_http ] = t_audioInfo;
+            if( t_http )
+            {
+                s_downloadAudioList[ t_http ] = t_audioInfo;
+            }
             return;
         }
         Http::HttpParameter t_httpParameter;

@@ -126,25 +126,28 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         
         t_surl << "Web/" << m_dir;
         switch (t_index) {
+            case 1:
+                t_surl << "/ting.html";
+                break;
             case 3:
                 t_surl << "/index.html";
-                t_parameter << "#/details?resourceId=" << m_resourceId;
+                t_parameter << "#/details";
+                break;
+            case 4:
+                t_surl << "/lunboNew.html";
                 break;
             default:
                 t_surl << "/details.html";
-                t_parameter << "?resourceId=" << m_resourceId;
                 break;
         }
+        t_parameter << "?resourceId=" << m_resourceId;
     }
     
     auto fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename( t_surl.str() );
     
-    if( !m_resourceId.empty() )
-    {
-        t_surl.str( "" );
-        t_surl << fullPath << t_parameter.str();
-    }
-    
+    t_surl.str( "" );
+    t_surl << fullPath << t_parameter.str();
+
     m_webview->loadURL( t_surl.str() );
 
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
@@ -174,8 +177,6 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
     m_webview->setOnDidFinishLoading([this]( experimental::ui::WebView * p_scene, std::string p_url ){
 
         printf("---------------> setOnDidFinishLoading");
-        
-        m_webview->evaluateJS( "alert(window.location.href);" );
 
         if( m_firstLoad ){
             m_webview->setOpacityWebView( 0.0f );

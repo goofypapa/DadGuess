@@ -688,6 +688,13 @@ bool DadGuessUpdateScene::init( void )
         
         for( auto t_batchId : DataCardBatchInfo::s_batchIdList )
         {
+            
+            auto t_cardBatchInfo = DataTableCardBatch::instance().find( t_batchId );
+            if( t_cardBatchInfo.activation )
+            {
+                DataTableCard::activation( t_cardBatchInfo.id );
+            }
+            
             if( s_cardList.find( t_batchId ) == s_cardList.end() )
             {
                 s_cardList[t_batchId] = std::vector< std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > > >();

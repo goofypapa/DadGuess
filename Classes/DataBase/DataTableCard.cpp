@@ -216,7 +216,7 @@ bool DataTableCard::activation( const DataCardInfo & p_cardInfo ) const
     return DataBase::instance().exec( t_ssql.str() );
 }
 
-bool DataTableCard::activation( const std::string & p_batchId ) const
+bool DataTableCard::activation( const std::string & p_batchId )
 {
     std::stringstream t_ssql;
     t_ssql << "UPDATE " << DataTableCardName << " SET activation = 1 WHERE batchId=\"" << p_batchId << "\"";

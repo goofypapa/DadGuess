@@ -225,10 +225,10 @@ void DadGuessMainScene::scanCard( int p_rfid )
     
     
     //激活分组
-//    if( !t_cardBatchInfo.activation )
-//    {
-//        DataTableCardBatch::instance().activation( t_cardBatchInfo );
-//    }
+    if( !t_cardBatchInfo.activation )
+    {
+        DataTableCardBatch::instance().activation( t_cardBatchInfo );
+    }
     
     // 卡片未激活
     if( !t_cardInfo.activation )

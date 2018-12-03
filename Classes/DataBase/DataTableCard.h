@@ -53,7 +53,7 @@ public:
     bool remove( const std::string & p_id ) const;
     
     bool activation( const DataCardInfo & p_cardInfo ) const;
-    bool activation( const std::string & p_batchId ) const;
+    static bool activation( const std::string & p_batchId );
     
     bool drop( void ) const;
     

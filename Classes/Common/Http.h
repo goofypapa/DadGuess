@@ -39,9 +39,13 @@ public:
 
 private:
 
+    static int sm_overtime;
+
     static std::string parseParameter( HttpParameter * p_parameter );
     static DataFileInfo convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );
     static std::map< const std::string, Http * > sm_downloadTaskList;
+
+    static std::map< Http *, std::string > sm_cacheKeyList;
 
     HttpCallBack m_success, m_final;
     DownloadFileCallBack m_downloadSuccessCallBack, m_downloadFinalCallBack;

@@ -204,6 +204,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">main/caicai_bluesearch_pic_blue.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>62,72,124,143</rect>
+                <key>scale9Paddings</key>
+                <rect>62,72,124,143</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_bluesearch_pic_fontbj.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>97,45,195,89</rect>
+                <key>scale9Paddings</key>
+                <rect>97,45,195,89</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">main/caicai_home_abc.png</key>
             <key type="filename">main/caicai_home_animal.png</key>
             <key type="filename">main/caicai_home_earth.png</key>
@@ -300,6 +326,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">main/caicai_icon_goback.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">main/caicai_xq_cover_abc.png</key>
             <key type="filename">main/caicai_xq_cover_animal.png</key>
             <key type="filename">main/caicai_xq_cover_chinese.png</key>
@@ -340,6 +379,9 @@
             <filename>main/caicai_xq_cover_history.png</filename>
             <filename>main/caicai_xq_cover_sky.png</filename>
             <filename>main/caicai_back.png</filename>
+            <filename>main/caicai_bluesearch_pic_blue.png</filename>
+            <filename>main/caicai_bluesearch_pic_fontbj.png</filename>
+            <filename>main/caicai_icon_goback.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

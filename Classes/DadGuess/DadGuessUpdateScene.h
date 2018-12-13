@@ -39,7 +39,7 @@ public:
     
     static void unCacheResource( void );
     
-    static std::map< std::string, std::vector< std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > > > > s_cardList;
+    static std::map< std::string, std::vector< std::pair< DataCardInfo, DataFileInfo > > > s_cardList;
     
 protected:
     
@@ -70,7 +70,6 @@ private:
     
     std::queue< UpdateDownloadItem > m_downloadList;
     std::map< std::string, DataCardBatchInfo > m_downloadCardBatchCoverList;
-    std::map< std::string, DataCardInfo > m_downloadCardImageList;
     std::map< std::string, DataCardAudioInfo > m_downloadAudioList;
     std::map< Http *, UpdateDownloadItem > m_downloadingList;
     

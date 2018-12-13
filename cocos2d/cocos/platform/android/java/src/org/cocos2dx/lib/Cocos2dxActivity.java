@@ -24,13 +24,19 @@ THE SOFTWARE.
  ****************************************************************************/
 package org.cocos2dx.lib;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +47,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.net.ConnectivityManager;
+import android.bluetooth.BluetoothAdapter;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 
 import org.cocos2dx.lib.Cocos2dxHelper.Cocos2dxHelperListener;
 
@@ -48,6 +58,8 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLContext;
+
+import android.content.pm.ActivityInfo;
 
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
     // ===========================================================
@@ -70,12 +82,43 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     private boolean hasFocus = false;
     private boolean showVirtualButton = false;
 
+    private NetBroadcastReceiver netWorkStateReceiver;
+
     public Cocos2dxGLSurfaceView getGLSurfaceView(){
         return  mGLSurfaceView;
     }
 
     public static Context getContext() {
         return sContext;
+    }
+
+    //横屏
+    public static void ChangeLand(){
+        sContext.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE );
+    }
+    //竖屏
+    public static void ChangePort(){
+        sContext.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
+    }
+    //获得当前屏幕方向
+    public static int getDirection(){
+        //int strDirec=sContext.getRequestedOrientation();
+        //Log.e("direction",new String(strDirec+""));
+        //System.out.println(strDirec);
+        return sContext.getRequestedOrientation();
+    }
+
+    public static void openBlue()
+    {
+        //检测定位权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ( sContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions( sContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1 );
+                return;
+            }
+        }
+        Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        sContext.startActivityForResult(intent, 1);
     }
     
     public void setKeepScreenOn(boolean value) {
@@ -100,6 +143,51 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
             System.loadLibrary(libName);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // 授权被允许
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("-------->", "授权请求被允许");
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    sContext.startActivityForResult(intent, 1);
+
+                } else {
+                    Log.e("-------->", "授权请求被拒绝");
+
+                    new AlertDialog.Builder(Cocos2dxActivity.this)
+                            .setMessage("需要开启定位权限才能使用此功能")
+                            .setPositiveButton("设置", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //引导用户到设置中去进行设置
+                                    Intent intent = new Intent();
+                                    intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                    intent.setData(Uri.fromParts("package", getPackageName(), null));
+                                    startActivity(intent);
+
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            })
+                            .create()
+                            .show();
+
+                }
+                return;
+            }
         }
     }
     
@@ -173,6 +261,13 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         this.hideVirtualButton();
        	resumeIfHasFocus();
 
+        if (netWorkStateReceiver == null) {
+            netWorkStateReceiver = new NetBroadcastReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(netWorkStateReceiver, filter);
+
         Cocos2dxEngineDataManager.resume();
     }
     
@@ -201,6 +296,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         Cocos2dxHelper.onPause();
         mGLSurfaceView.onPause();
         Cocos2dxEngineDataManager.pause();
+        unregisterReceiver(netWorkStateReceiver);
     }
     
     @Override

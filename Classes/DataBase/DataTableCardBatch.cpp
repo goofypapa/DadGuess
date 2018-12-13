@@ -75,12 +75,14 @@ std::vector< DataCardBatchInfo > DataTableCardBatch::list( void ) const
 {
     std::vector< DataCardBatchInfo > t_result;
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " DataTableCardBatchName ) );
     
     for( auto t_row : t_list )
     {
         t_result.push_back( dataRowToDataCardBatchInfo( t_row ) );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }
@@ -93,12 +95,14 @@ DataCardBatchInfo DataTableCardBatch::find( const std::string & p_id ) const
     t_ssql << "SELECT * FROM " << DataTableCardBatchName <<  " WHERE id= \"" << p_id << "\"";
     std::string t_sql = t_ssql.str();
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataCardBatchInfo( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }

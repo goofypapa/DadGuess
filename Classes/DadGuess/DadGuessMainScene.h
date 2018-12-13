@@ -15,6 +15,8 @@
 #include <vector>
 #include "DataTableCardAudio.h"
 
+#include "ui/CocosGUI.h"
+
 class DadGuessMainScene : public BaseScene
 {
 public:
@@ -31,7 +33,7 @@ protected:
     virtual void destroy( void );
 private:
     static bool sm_blueState;
-    cocos2d::Sprite * m_blueConnectState;
+    cocos2d::ui::Button * m_blueConnectState;
     BlueDeviceListener * m_blueDeviceConnectedListener;
     
     static const char * sm_cardAudioInfoApi, * sm_cardAudioInfoApiAnimal;

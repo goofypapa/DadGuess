@@ -81,6 +81,9 @@ public class Cocos2dxWebView extends WebView {
         this.getSettings().setDomStorageEnabled(true);
         this.getSettings().setJavaScriptEnabled(true);
 
+        this.setBackgroundColor(0); // 设置背景色
+//        this.getBackground().setAlpha(0); // 设置填充透明度 范围：0-255
+
         // `searchBoxJavaBridge_` has big security risk. http://jvn.jp/en/jp/JVN53768697
         try {
             Method method = this.getClass().getMethod("removeJavascriptInterface", new Class[]{String.class});

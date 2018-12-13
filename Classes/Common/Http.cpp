@@ -14,6 +14,8 @@
 #include <vector>
 #include "md5.hpp"
 #include "BaseScene.h"
+#include "DataTableWebServiceDataCache.h"
+#include <thread>
 
 USING_NS_CC;
 using namespace network;
@@ -21,12 +23,34 @@ using namespace network;
 
 network::Downloader * Http::sm_downloader = nullptr;
 std::map< const std::string, Http * > Http::sm_downloadTaskList;
+std::map< Http *, std::string > Http::sm_cacheKeyList;
 
 std::string Http::token = "";
 
+int Http::sm_overtime = 1000 * 60 * 24 * 1;
+
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
+
+    time_t t_curTime;
+    time(&t_curTime);
+
+    std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
+    std::string t_cacheKey = p_url + t_data;
+
+    auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
+    if( !t_dataCacheInfo.id.empty() && t_curTime - t_dataCacheInfo.date < sm_overtime )
+    {
+        Http * t_http = new Http;
+        std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+            p_callBack( p_id, sqlStrToStr(  p_res ) );
+            delete p_id;
+        }, p_success, t_http, t_dataCacheInfo.res ).detach();
+        return t_http;
+    }
+
     Http * t_http = new Http;
+    sm_cacheKeyList[ t_http ] = t_cacheKey;
 
     t_http->m_success = p_success;
     t_http->m_final = p_final;
@@ -44,7 +68,7 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
             t_url << p_url << "&";
         }
 
-        t_url << parseParameter( p_parameter );
+        t_url << t_data;
 
         t_requerstUrl = t_url.str();
     }
@@ -78,7 +102,26 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
 
 Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
+    time_t t_curTime;
+    time(&t_curTime);
+
+    std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
+    std::string t_cacheKey = p_url + t_data;
+    
+    auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
+
+    if( !t_dataCacheInfo.id.empty() && t_curTime - t_dataCacheInfo.date < sm_overtime )
+    {
+        Http * t_http = new Http;
+        std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+            p_callBack( p_id, sqlStrToStr(  p_res ) );
+            delete p_id;
+        }, p_success, t_http, t_dataCacheInfo.res ).detach();
+        return t_http;
+    }
+
     Http * t_http = new Http;
+    sm_cacheKeyList[ t_http ] = t_cacheKey;
 
     t_http->m_success = p_success;
     t_http->m_final = p_final;
@@ -104,7 +147,6 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
     
     request -> setHeaders( headers );
     // 传入发送的数据及数据
-    std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
     request -> setRequestData(t_data.c_str(), t_data.size());
 
     //    设置请求tag
@@ -307,6 +349,23 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
     {
         m_final( this, t_strResponse );
     }else{
+
+        if( sm_cacheKeyList.find( this ) != sm_cacheKeyList.end() )
+        {
+            time_t t_curTime;
+            time(&t_curTime);
+            
+            auto t_url = sm_cacheKeyList[this];
+            auto t_cacheInfo = DataWebServiceDataCacheInfo( createUUID(), t_url, strToSqlStr( t_strResponse ), t_curTime );
+            auto t_oldCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cacheKeyList[this] );
+            if( t_oldCacheInfo.id.empty() )
+            {
+                DataTableWebServiceDataCache::instance().insert( t_cacheInfo );
+            }else{
+                DataTableWebServiceDataCache::instance().update( t_cacheInfo );
+            }
+        }
+
         m_success( this, t_strResponse );
     }
     

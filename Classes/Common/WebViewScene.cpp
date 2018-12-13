@@ -142,14 +142,21 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         }
         t_parameter << "?resourceId=" << m_resourceId;
     }
-    
+#ifdef TARGET_OS_IPHONE
     auto fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename( t_surl.str() );
+#else
+    auto fullPath = t_surl.str();
+#endif
     
     t_surl.str( "" );
+#ifdef TARGET_OS_IPHONE
     t_surl << fullPath << t_parameter.str();
+#else
+    t_surl << "file:///android_asset/" << fullPath << t_parameter.str();
+#endif
 
     m_webview->loadURL( t_surl.str() );
-
+    
     m_webview->setJavascriptInterfaceScheme( "goofypapa" );
     m_webview->setBounces(false);
     
@@ -186,8 +193,8 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
             m_action = nullptr;
         }
 
-//        m_webview->evaluateJS( "alert(window.goofypapaGame);" );
-//        m_webview->evaluateJS( "alert(window.goofypapaToken);" );
+    //    m_webview->evaluateJS( "alert(window.goofypapaGame);" );
+    //    m_webview->evaluateJS( "alert(window.goofypapaToken);" );
     });
 
     m_webview->setOnJSCallback( [this]( experimental::ui::WebView * p_scene, std::string p_url ){

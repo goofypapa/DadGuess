@@ -56,7 +56,7 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
     for( int i = 0; i < t_cardList.size(); ++i )
     {
         
-        auto t_itemTexture = Director::getInstance()->getTextureCache()->getTextureForKey( t_cardList[i].second.first.fileName );
+        auto t_itemTexture = Director::getInstance()->getTextureCache()->getTextureForKey( t_cardList[i].second.fileName );
         
         if( !t_itemTexture )
         {

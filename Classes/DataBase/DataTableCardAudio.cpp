@@ -8,12 +8,12 @@
 #include "DataTableCardAudio.h"
 #include <sstream>
 
-DataCardAudioInfo::DataCardAudioInfo() : DataCardAudioInfo( "", "", "", AudioType::commentary )
+DataCardAudioInfo::DataCardAudioInfo() : DataCardAudioInfo( "", "", "", "", AudioType::commentary )
 {
     
 }
 
-DataCardAudioInfo::DataCardAudioInfo( const std::string & p_id, const std::string & p_cardId, const std::string & p_fileId, AudioType p_audioType ) : id( p_id ), cardId( p_cardId ), fileId( p_fileId ), audioType( p_audioType )
+DataCardAudioInfo::DataCardAudioInfo( const std::string & p_id, const std::string & p_cardId, const std::string & p_fileUrl, const std::string & p_fileMd5, AudioType p_audioType ) : id( p_id ), cardId( p_cardId ), fileUrl( p_fileUrl ), fileMd5( p_fileMd5 ), audioType( p_audioType )
 {
     
 }
@@ -26,7 +26,8 @@ std::string DataCardAudioInfo::toJson( void ) const
     
     t_sstr << "\"id\": \"" << id << "\", ";
     t_sstr << "\"cardId\": \"" << cardId << "\", ";
-    t_sstr << "\"fileId\": \"" << fileId << "\", ";
+    t_sstr << "\"fileUrl\": \"" << fileUrl << "\", ";
+    t_sstr << "\"fileMd5\": \"" << fileMd5 << "\", ";
     t_sstr << "\"audioType\": " << audioType;
     
     t_sstr << " }";
@@ -56,10 +57,11 @@ bool DataTableCardAudio::insert( const DataCardAudioInfo & p_cardAudioInfo ) con
     
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardAudioName << "( id, cardId, fileId, audioType ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardAudioName << "( id, cardId, fileUrl, fileMd5, audioType ) VALUES( "
     << "\"" << p_cardAudioInfo.id << "\", "
     << "\"" << p_cardAudioInfo.cardId << "\", "
-    << "\"" << p_cardAudioInfo.fileId << "\", "
+    << "\"" << p_cardAudioInfo.fileUrl << "\", "
+    << "\"" << p_cardAudioInfo.fileMd5 << "\", "
     << p_cardAudioInfo.audioType
     << ");";
     std::string t_sql = t_ssql.str();
@@ -75,12 +77,14 @@ std::vector< DataCardAudioInfo > DataTableCardAudio::list( const std::string & p
     
     t_ssql << "SELECT * FROM " << DataTableCardAudioName << " WHERE cardId=\"" << p_cardId << "\"";
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_ssql.str() );
     
     for( auto t_row : t_list )
     {
         t_result.push_back( dataRowToDataCardAudioInfo( t_row ) );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }
@@ -93,12 +97,14 @@ DataCardAudioInfo DataTableCardAudio::find( const std::string & p_id ) const
     t_ssql << "SELECT * FROM " << DataTableCardAudioName <<  " WHERE id= \"" << p_id << "\"";
     std::string t_sql = t_ssql.str();
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataCardAudioInfo( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }
@@ -128,7 +134,7 @@ bool DataTableCardAudio::update( const DataCardAudioInfo & p_cardAudioInfo ) con
         t_ssql << "cardId = \"" << p_cardAudioInfo.cardId << "\"";
     }
     
-    if( p_cardAudioInfo.fileId != t_oldInfo.fileId )
+    if( p_cardAudioInfo.fileUrl != t_oldInfo.fileUrl )
     {
         if( t_needUpdate )
         {
@@ -137,7 +143,19 @@ bool DataTableCardAudio::update( const DataCardAudioInfo & p_cardAudioInfo ) con
             t_needUpdate = true;
         }
         
-        t_ssql << "fileId = \"" << p_cardAudioInfo.fileId << "\"";
+        t_ssql << "fileUrl = \"" << p_cardAudioInfo.fileUrl << "\"";
+    }
+
+    if( p_cardAudioInfo.fileMd5 != t_oldInfo.fileMd5 )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "fileMd5 = \"" << p_cardAudioInfo.fileMd5 << "\"";
     }
     
     if( p_cardAudioInfo.audioType != t_oldInfo.audioType )
@@ -201,5 +219,5 @@ DataCardAudioInfo DataTableCardAudio::dataRowToDataCardAudioInfo( std::map<std::
         default:
             break;
     }
-    return DataCardAudioInfo( p_dataRow["id"], p_dataRow["cardId"], p_dataRow["fileId"], t_audioType );
+    return DataCardAudioInfo( p_dataRow["id"], p_dataRow["cardId"], p_dataRow["fileUrl"], p_dataRow["fileMd5"], t_audioType );
 }

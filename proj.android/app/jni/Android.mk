@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/Message.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/Http.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/WebViewScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/BlueDeviceListener.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/MainScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/DialogPersonalCenterLayer.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/DialogSettingsLayer.cpp \
@@ -26,15 +27,21 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/Dialog.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/PianoGame.cpp \
-                   $(LOCAL_PATH)/../../../Classes/Resources/DadGuess.cpp \
                    $(LOCAL_PATH)/../../../Classes/Resources/CadenceMain.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Resources/DadGuessMain.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Resources/DadGuessUpdate.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataBase.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableUser.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableFile.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCard.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardBatch.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardAudio.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessCardListScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessCardListScrollView.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessMainScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessService.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessUpdateScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessBlueScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMainScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMusicListLayer.cpp \
                    $(LOCAL_PATH)/../../../Classes/PianoGame/PianoGameMusicListScrollView.cpp \

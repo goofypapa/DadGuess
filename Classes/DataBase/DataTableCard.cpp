@@ -14,7 +14,7 @@ DataCardInfo::DataCardInfo() : DataCardInfo( "", "", -1, "", "" )
     
 }
 
-DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileId, const std::string & p_simpleDrawingFileId ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), coverFileId( p_coverFileId ), simpleDrawingFileId( p_simpleDrawingFileId ), activation( false )
+DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileUrl, const std::string & p_coverFileMd5 ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), coverFileUrl( p_coverFileUrl ), coverFileMd5( p_coverFileMd5 ), activation( false )
 {
     
 }
@@ -28,8 +28,8 @@ std::string DataCardInfo::toJson( void ) const
     t_sstr << "\"id\": \"" << id << "\", ";
     t_sstr << "\"batchId\": \"" << batchId << "\", ";
     t_sstr << "\"rfid\": " << rfid << ", ";
-    t_sstr << "\"coverFileId\": \"" << coverFileId << "\", ";
-    t_sstr << "\"simpleDrawingFileId\": \"" << simpleDrawingFileId << "\", ";
+    t_sstr << "\"coverFileUrl\": \"" << coverFileUrl << "\", ";
+    t_sstr << "\"coverFileMd5\": \"" << coverFileMd5 << "\", ";
     t_sstr << "\"activation\": " << ( activation == 1 ? "true" : "false" ) << " ";
     
     t_sstr << " }";
@@ -58,12 +58,12 @@ bool DataTableCard::insert( const DataCardInfo & p_cardInfo ) const
 {
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, coverFileId, simpleDrawingFileId, activation ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, coverFileUrl, coverFileMd5, activation ) VALUES( "
     << "\"" << p_cardInfo.id << "\", "
     << "\"" << p_cardInfo.batchId << "\", "
     << "\"" << p_cardInfo.rfid << "\", "
-    << "\"" << p_cardInfo.coverFileId << "\", "
-    << "\"" << p_cardInfo.simpleDrawingFileId << "\", "
+    << "\"" << p_cardInfo.coverFileUrl << "\", "
+    << "\"" << p_cardInfo.coverFileMd5 << "\", "
     << ( p_cardInfo.activation ? 1 : 0 ) << " "
     << ");";
     std::string t_sql = t_ssql.str();
@@ -83,12 +83,14 @@ std::vector< DataCardInfo > DataTableCard::list( const std::string & p_batchId )
         t_ssql << " WHERE batchId = \"" << p_batchId << "\"";
     }
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_ssql.str() );
     
     for( auto t_row : t_list )
     {
         t_result.push_back( dataRowToDataCardInfo( t_row ) );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }
@@ -101,12 +103,14 @@ DataCardInfo DataTableCard::find( const std::string & p_id ) const
     t_ssql << "SELECT * FROM " << DataTableCardName <<  " WHERE id= \"" << p_id << "\"";
     std::string t_sql = t_ssql.str();
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataCardInfo( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }
@@ -119,12 +123,14 @@ DataCardInfo DataTableCard::find( const int p_rfid ) const
     t_ssql << "SELECT * FROM " << DataTableCardName <<  " WHERE rfid= " << p_rfid ;
     std::string t_sql = t_ssql.str();
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataCardInfo( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }
@@ -166,7 +172,7 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
         t_ssql << "rfid = " << p_cardInfo.rfid;
     }
     
-    if( p_cardInfo.coverFileId != t_oldInfo.coverFileId )
+    if( p_cardInfo.coverFileUrl != t_oldInfo.coverFileUrl )
     {
         if( t_needUpdate )
         {
@@ -175,10 +181,10 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
             t_needUpdate = true;
         }
         
-        t_ssql << "coverFileId = \"" << p_cardInfo.coverFileId << "\"";
+        t_ssql << "coverFileUrl = \"" << p_cardInfo.coverFileUrl << "\"";
     }
     
-    if( p_cardInfo.simpleDrawingFileId != t_oldInfo.simpleDrawingFileId )
+    if( p_cardInfo.coverFileMd5 != t_oldInfo.coverFileMd5 )
     {
         if( t_needUpdate )
         {
@@ -187,7 +193,7 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
             t_needUpdate = true;
         }
         
-        t_ssql << "simpleDrawingFileId = \"" << p_cardInfo.simpleDrawingFileId << "\"";
+        t_ssql << "coverFileMd5 = \"" << p_cardInfo.coverFileMd5 << "\"";
     }
     
     if( !t_needUpdate )
@@ -239,7 +245,7 @@ bool DataTableCard::init( void ) const
 
 DataCardInfo DataTableCard::dataRowToDataCardInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
-    auto t_result = DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["coverFileId"], p_dataRow["simpleDrawingFileId"] );
+    auto t_result = DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["coverFileUrl"], p_dataRow["coverFileMd5"] );
     t_result.activation = atoi( p_dataRow["activation"].c_str() ) == 1;
     return t_result;
 }

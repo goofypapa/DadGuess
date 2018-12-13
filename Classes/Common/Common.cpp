@@ -152,7 +152,41 @@ std::vector<std::string> split( const std::string & p_str, const char p_clapboar
 {
     return split( p_str, std::string( 1, p_clapboard ) );
 }
+static const std::string s_doubleQuotationMarkSplaceholder = ">^DoubleQuotationMarkSplaceholder$<";
+std::string strToSqlStr( const std::string & p_str )
+{
+    std::string t_result = p_str;
+    const std::string t_replaceStr = "\"";
+    size_t t_pos = 0;
+    size_t t_find = std::string::npos;
+    
+    do{
+        if( t_find != std::string::npos )
+        {
+            t_result.replace( t_find, t_replaceStr.size(), s_doubleQuotationMarkSplaceholder );
+        }
+        t_find = t_result.find( t_replaceStr, t_pos );
+    }while( t_find != std::string::npos );
 
+    return t_result;
+}
+std::string sqlStrToStr( const std::string & p_sqlStr )
+{
+    std::string t_result = p_sqlStr;
+    const std::string t_replaceStr = "\"";
+    size_t t_pos = 0;
+    size_t t_find = std::string::npos;
+    
+    do{
+        if( t_find != std::string::npos )
+        {
+            t_result.replace( t_find, s_doubleQuotationMarkSplaceholder.size(), t_replaceStr );
+        }
+        t_find = t_result.find( s_doubleQuotationMarkSplaceholder, t_pos );
+    }while( t_find != std::string::npos );
+
+    return t_result;
+}
 
 std::string toString( __Dictionary & p_dirtionary )
 {

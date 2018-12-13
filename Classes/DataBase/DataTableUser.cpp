@@ -107,12 +107,14 @@ DataUserInfo DataTableUser::find( const std::string & p_userId ) const
     t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE userId= \"" << p_userId << "\"";
     std::string t_sql = t_ssql.str();
 
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
 
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataUserInfo( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }
@@ -125,16 +127,17 @@ DataUserInfo DataTableUser::getActivation( void ) const
     t_ssql << "SELECT * FROM " << DataTableUserName <<  " WHERE activation= 1";
     std::string t_sql = t_ssql.str();
     
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_sql );
     
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataUserInfo( *t_list.begin() );
-
     }else if( t_list.size() )
     {
         logout();
     }
+    DataBase::sm_mutex.unlock();
     
     return t_result;
 }

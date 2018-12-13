@@ -43,6 +43,7 @@
 		3705125D212577C700F2FE1C /* Http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3705125C212577C600F2FE1C /* Http.cpp */; };
 		370A78A22112975000252E8D /* Dialog.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A02112975000252E8D /* Dialog.plist */; };
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
+		3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */; };
 		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
@@ -229,6 +230,8 @@
 		3705125C212577C600F2FE1C /* Http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Http.cpp; sourceTree = "<group>"; };
 		370A78A02112975000252E8D /* Dialog.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Dialog.plist; sourceTree = "<group>"; };
 		370A78A12112975000252E8D /* Dialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dialog.png; sourceTree = "<group>"; };
+		3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableWebServiceDataCache.cpp; sourceTree = "<group>"; };
+		3710E0B721BFBA050052CFF0 /* DataTableWebServiceDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableWebServiceDataCache.h; sourceTree = "<group>"; };
 		373335A32179C3BC0087D425 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
@@ -783,6 +786,8 @@
 		37E6FCC420F6F46E0047F458 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
+				3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */,
+				3710E0B721BFBA050052CFF0 /* DataTableWebServiceDataCache.h */,
 				37C2DD6221056A5C0088EC29 /* sqlite3 */,
 				37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */,
 				37E6FCC620F6F46E0047F458 /* DataTableUser.h */,
@@ -1052,6 +1057,7 @@
 				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
 				37B0B97221A3EC9100A870E9 /* DadGuessMainScene.cpp in Sources */,
 				37EAF97D2192B038004DC9D5 /* CadenceGameScene.cpp in Sources */,
+				3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */,
 				37EA963421ABD1CD00E359E8 /* BluePackage.mm in Sources */,
 				374B2208213530D500822A84 /* CadenceGameMainScene.cpp in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,

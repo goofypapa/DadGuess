@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:c0a414173557e8f1bba72ab4d6b8e4c6:55881edd36dd3c1d357f076fe8d3e357:a28833b13ad7ee444b0b7bae4b4f0f00$
+// $TexturePacker:SmartUpdate:cfc2449607e3a857d8bdec4a077052f4:bffa683e238c3ed64c5f2aa450a202cb:a28833b13ad7ee444b0b7bae4b4f0f00$
 // ---------------------------------------
 
 #ifndef __DADGUESSMAIN_H__
@@ -34,6 +34,8 @@ public:
     // sprite name constants
     // ---------------------
     static const std::string caicai_back;
+    static const std::string caicai_bluesearch_pic_blue;
+    static const std::string caicai_bluesearch_pic_fontbj;
     static const std::string caicai_home_abc;
     static const std::string caicai_home_animal;
     static const std::string caicai_home_bj;
@@ -46,6 +48,7 @@ public:
     static const std::string caicai_home_pic_logo;
     static const std::string caicai_home_pic_product;
     static const std::string caicai_home_sky;
+    static const std::string caicai_icon_goback;
     static const std::string caicai_xq_cover_abc;
     static const std::string caicai_xq_cover_animal;
     static const std::string caicai_xq_cover_chinese;
@@ -57,6 +60,8 @@ public:
     // Sprite objects
     // --------------
     static cocos2d::Sprite *createCaicai_backSprite();
+    static cocos2d::Sprite *createCaicai_bluesearch_pic_blueSprite();
+    static cocos2d::Sprite *createCaicai_bluesearch_pic_fontbjSprite();
     static cocos2d::Sprite *createCaicai_home_abcSprite();
     static cocos2d::Sprite *createCaicai_home_animalSprite();
     static cocos2d::Sprite *createCaicai_home_bjSprite();
@@ -69,6 +74,7 @@ public:
     static cocos2d::Sprite *createCaicai_home_pic_logoSprite();
     static cocos2d::Sprite *createCaicai_home_pic_productSprite();
     static cocos2d::Sprite *createCaicai_home_skySprite();
+    static cocos2d::Sprite *createCaicai_icon_gobackSprite();
     static cocos2d::Sprite *createCaicai_xq_cover_abcSprite();
     static cocos2d::Sprite *createCaicai_xq_cover_animalSprite();
     static cocos2d::Sprite *createCaicai_xq_cover_chineseSprite();

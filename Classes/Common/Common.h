@@ -45,6 +45,10 @@ void clearTouchAnswer( void );
 std::vector<std::string> split( const std::string & p_str, const std::string & p_clapboard );
 std::vector<std::string> split( const std::string & p_str, const char p_clapboard );
 
+//sql 字符串转义
+std::string strToSqlStr( const std::string & p_str );
+std::string sqlStrToStr( const std::string & p_sqlStr );
+
 void setAppOrientation( const bool p_isPortrait );
 
 std::string createUUID( void );

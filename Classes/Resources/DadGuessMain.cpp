@@ -29,6 +29,8 @@ void DadGuessMain::removeSpriteFramesFromCache()
 // sprite name constants
 // ---------------------
 const std::string DadGuessMain::caicai_back                    = "caicai_back.png";
+const std::string DadGuessMain::caicai_bluesearch_pic_blue     = "caicai_bluesearch_pic_blue.png";
+const std::string DadGuessMain::caicai_bluesearch_pic_fontbj   = "caicai_bluesearch_pic_fontbj.png";
 const std::string DadGuessMain::caicai_home_abc                = "caicai_home_abc.png";
 const std::string DadGuessMain::caicai_home_animal             = "caicai_home_animal.png";
 const std::string DadGuessMain::caicai_home_bj                 = "caicai_home_bj.png";
@@ -41,6 +43,7 @@ const std::string DadGuessMain::caicai_home_icon_gohome        = "caicai_home_ic
 const std::string DadGuessMain::caicai_home_pic_logo           = "caicai_home_pic_logo.png";
 const std::string DadGuessMain::caicai_home_pic_product        = "caicai_home_pic_product.png";
 const std::string DadGuessMain::caicai_home_sky                = "caicai_home_sky.png";
+const std::string DadGuessMain::caicai_icon_goback             = "caicai_icon_goback.png";
 const std::string DadGuessMain::caicai_xq_cover_abc            = "caicai_xq_cover_abc.png";
 const std::string DadGuessMain::caicai_xq_cover_animal         = "caicai_xq_cover_animal.png";
 const std::string DadGuessMain::caicai_xq_cover_chinese        = "caicai_xq_cover_chinese.png";
@@ -54,6 +57,16 @@ const std::string DadGuessMain::caicai_xq_cover_sky            = "caicai_xq_cove
 Sprite* DadGuessMain::createCaicai_backSprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_back);
+}
+
+Sprite* DadGuessMain::createCaicai_bluesearch_pic_blueSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_bluesearch_pic_blue);
+}
+
+Sprite* DadGuessMain::createCaicai_bluesearch_pic_fontbjSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_bluesearch_pic_fontbj);
 }
 
 Sprite* DadGuessMain::createCaicai_home_abcSprite()
@@ -114,6 +127,11 @@ Sprite* DadGuessMain::createCaicai_home_pic_productSprite()
 Sprite* DadGuessMain::createCaicai_home_skySprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_home_sky);
+}
+
+Sprite* DadGuessMain::createCaicai_icon_gobackSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_icon_goback);
 }
 
 Sprite* DadGuessMain::createCaicai_xq_cover_abcSprite()

@@ -72,12 +72,14 @@ const bool DataTableFile::insert( const DataFileInfo & p_fileInfo ) const
 const std::vector< DataFileInfo > DataTableFile::list( void ) const
 {
     std::vector< DataFileInfo > t_result;
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableFileName );
 
     for( auto t_row : t_list )
     {
         t_result.push_back( dataRowToDataUser( t_row ) );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }
@@ -90,12 +92,14 @@ const DataFileInfo DataTableFile::find( const std::string & p_fileId ) const
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableFileName <<  " WHERE fileId= \"" << p_fileId << "\"";
 
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_ssql.str() );
 
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataUser( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }
@@ -107,12 +111,14 @@ const DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceU
     std::stringstream t_ssql;
     t_ssql << "SELECT * FROM " << DataTableFileName <<  " WHERE sourceUrl = \"" << p_sourceUrl << "\"";
 
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_ssql.str() );
 
     if( t_list.size() == 1 )
     {
         t_result = dataRowToDataUser( *t_list.begin() );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }

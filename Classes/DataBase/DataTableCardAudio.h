@@ -15,7 +15,8 @@
 #define DataTableCardAudioCreateSql "CREATE TABLE IF NOT EXISTS " DataTableCardAudioName "( "\
 "id TEXT PRIMARY KEY NOT NULL, "\
 "cardId TEXT NOT NULL, "\
-"fileId TEXT NOT NULL, "\
+"fileUrl TEXT NOT NULL, "\
+"fileMd5 TEXT NOT NULL, "\
 "audioType INTEGER NOT NULL "\
 ")"
 
@@ -28,10 +29,10 @@ public:
     enum AudioType{ commentary = 0, hue };
     
     DataCardAudioInfo();
-    DataCardAudioInfo( const std::string & p_id, const std::string & p_cardId, const std::string & p_fileId, AudioType p_audioType );
+    DataCardAudioInfo( const std::string & p_id, const std::string & p_cardId, const std::string & p_fileUrl, const std::string & p_fileMd5, AudioType p_audioType );
     virtual std::string toJson( void ) const override;
     
-    std::string id, cardId, fileId;
+    std::string id, cardId, fileUrl, fileMd5;
     AudioType audioType;
 };
 

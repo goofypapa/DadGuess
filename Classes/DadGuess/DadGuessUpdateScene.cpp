@@ -16,6 +16,7 @@
 #include "Config.h"
 #include "DadGuessMainScene.h"
 #include <unistd.h>
+#include <thread>
 
 USING_NS_CC;
 using namespace rapidjson;
@@ -28,7 +29,7 @@ const char * DadGuessUpdateScene::sm_cardTypeListApi = DOMAIN_NAME "api/card/app
 std::vector< std::string > DadGuessUpdateScene::sm_loadImageList;
 std::vector< DataCardBatchInfo > DadGuessUpdateScene::sm_cardBatchList;
 
-std::map< std::string, std::vector< std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > > > > DadGuessUpdateScene::s_cardList;
+std::map< std::string, std::vector< std::pair< DataCardInfo, DataFileInfo > > > DadGuessUpdateScene::s_cardList;
 
 bool DadGuessUpdateScene::init( void )
 {
@@ -104,7 +105,6 @@ bool DadGuessUpdateScene::init( void )
         Http::HttpParameter t_parameter;
         
         m_checkUpdateHandlerList.push_back( Http::Post( sm_cardTypeListApi , &t_parameter, [this]( Http * p_http, std::string p_res ){
-            
             Document t_readdoc;
             
             t_readdoc.Parse<0>( p_res.c_str() );
@@ -167,7 +167,9 @@ bool DadGuessUpdateScene::init( void )
         
             Document t_readdoc;
             
+            m_mutex.lock();
             t_readdoc.Parse<0>( p_res.c_str() );
+            m_mutex.unlock();
             
             if( t_readdoc.HasParseError() )
             {
@@ -235,13 +237,15 @@ bool DadGuessUpdateScene::init( void )
             auto t_batchId = m_checkCardUpdateBatchIdList[p_http];
             
             auto t_cardBatchInfo = DataTableCardBatch::instance().find( t_batchId );
-            
+
             auto t_localCardList = DataTableCard::instance().list( t_batchId );
             m_checkCardUpdateBatchIdList.erase( p_http );
             
             Document t_readdoc;
             
+            m_mutex.lock();
             t_readdoc.Parse<0>( p_res.c_str() );
+            m_mutex.unlock();
             
             if( t_readdoc.HasParseError() )
             {
@@ -261,12 +265,22 @@ bool DadGuessUpdateScene::init( void )
             for( int i = 0; i < t_data.Capacity(); ++i )
             {
                 auto & t_item = t_data[i];
+
+                std::string t_coverImageUrl = "";
+                std::string t_coverImageMd5 = "";
+                
+                if( t_item["coverImage"].IsObject() )
+                {
+                    std::stringstream t_sstr;
+                    t_coverImageUrl = std::string( DOMAIN_NAME ) + t_item["coverImage"]["attUrl"].GetString();
+                    t_coverImageMd5 = t_item["coverImage"]["md5"].GetString();
+                }
                 
                 auto t_cardInfo = DataCardInfo( t_item["resourceId"].GetString(),
                                                t_item["ownerId"].GetString(),
                                                t_item["rfId"].GetInt(),
-                                               "",
-                                               ""
+                                               t_coverImageUrl,
+                                               t_coverImageMd5
                                                );
                 
                 bool t_batchIsExist = false;
@@ -286,196 +300,126 @@ bool DadGuessUpdateScene::init( void )
                 
                 t_cardInfo.batchId = t_batchId;
                 
-                std::string t_coverImageUrl = "";
-                std::string t_coverImageMd5 = "";
+                auto t_oldCardInfoIt = t_localCardList.begin();
                 
-                if( t_item["coverImage"].IsObject() )
+                while( t_oldCardInfoIt != t_localCardList.end() )
                 {
-                    std::stringstream t_sstr;
-                    t_coverImageUrl = std::string( DOMAIN_NAME ) + t_item["coverImage"]["attUrl"].GetString();
-                    t_coverImageMd5 = t_item["coverImage"]["md5"].GetString();
+                    if( t_oldCardInfoIt->id.compare( t_cardInfo.id ) == 0 )
+                    {
+                        break;
+                    }
+                    t_oldCardInfoIt++;
                 }
-                
-                std::string t_simpleDrawingUrl = "";
-                std::string t_simpleDrawingMd5 = "";
-                if( t_item["handDrawImage"].IsObject() )
-                {
-                    t_simpleDrawingUrl = std::string( DOMAIN_NAME ) + t_item["handDrawImage"]["attUrl"].GetString();
-                    t_simpleDrawingMd5 = t_item["handDrawImage"]["md5"].GetString();
-                }
-                
-                auto t_oldCardInfo = DataTableCard::instance().find( t_cardInfo.id );
-                bool t_needDownloadCoverImage = true, t_needDownloadSimpleDrawing = true;
-                if( !t_oldCardInfo.id.empty() )
+
+                bool t_needDownloadCoverImage = true;
+                if( t_oldCardInfoIt != t_localCardList.end() )
                 {
                     t_needDownloadCoverImage = false;
-                    t_needDownloadSimpleDrawing = false;
-                    t_cardInfo.activation = t_oldCardInfo.activation;
-                    for( auto i = 0; i < t_localCardList.size(); ++i )
-                    {
-                        if( t_localCardList[i].id.compare( t_cardInfo.id ) == 0 )
-                        {
-                            t_localCardList.erase( t_localCardList.begin() + i );
-                            break;
-                        }
-                    }
+                    t_cardInfo.activation = t_oldCardInfoIt->activation;
                     
-                    auto t_coverFileInfo = DataTableFile::instance().find( t_oldCardInfo.coverFileId );
-                    t_cardInfo.coverFileId = t_coverFileInfo.fileId;
+                    auto t_coverFileInfo = DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl );
                     if( t_coverFileInfo.sourceUrl.compare( t_coverImageUrl ) != 0 || t_coverFileInfo.fileMd5.compare( t_coverImageMd5 ) != 0 )
                     {
                         DataTableFile::instance().remove( t_coverFileInfo );
                         t_needDownloadCoverImage = !t_coverImageUrl.empty() && !t_coverImageMd5.empty();
                     }
                     
-                    auto t_simpleDrawingFileInfo = DataTableFile::instance().find( t_oldCardInfo.simpleDrawingFileId );
-                    
-                    t_cardInfo.simpleDrawingFileId = t_simpleDrawingFileInfo.fileId;
-                    if( t_simpleDrawingFileInfo.sourceUrl.compare( t_simpleDrawingUrl ) != 0 || t_simpleDrawingFileInfo.fileMd5.compare( t_simpleDrawingMd5 ) != 0 )
-                    {
-                        DataTableFile::instance().remove( t_simpleDrawingFileInfo );
-                        t_needDownloadSimpleDrawing = !t_simpleDrawingUrl.empty() && !t_simpleDrawingMd5.empty();
-                    }
-                    
                     DataTableCard::instance().update( t_cardInfo );
+                    
+                    t_localCardList.erase( t_oldCardInfoIt );
                 }else{
                     DataTableCard::instance().insert( t_cardInfo );
                 }
                 
                 if( t_needDownloadCoverImage )
                 {
-                    m_downloadCardImageList[ t_coverImageUrl ] = t_cardInfo;
                     //添加卡片封面到下载队列
                     UpdateDownloadItem t_downloadItem{
                         t_coverImageUrl,
                         t_coverImageMd5,
-                        [this]( const DataFileInfo & p_fileInfo ){
-                            auto t_it = m_downloadCardImageList.find( p_fileInfo.sourceUrl );
-                            
-                            if( t_it == m_downloadCardImageList.end() )
-                            {
-                                return;
-                            }
-                            auto t_newCardInfo = t_it->second;
-                            
-                            auto t_cardInfo = DataTableCard::instance().find( t_newCardInfo.id );
-                            
-                            if( t_cardInfo.id.compare( t_newCardInfo.id ) == 0 )
-                            {
-                                t_cardInfo.coverFileId = p_fileInfo.fileId;
-                                DataTableCard::instance().update( t_cardInfo );
-                            }
-                        }
+                        nullptr
                     };
                     m_downloadList.push( t_downloadItem );
                 }
                 
-                if( t_needDownloadSimpleDrawing )
-                {
-                    m_downloadCardImageList[ t_simpleDrawingUrl ] = t_cardInfo;
-                    //添加卡片简笔画到下载队列
-                    UpdateDownloadItem t_downloadItem{
-                        t_simpleDrawingUrl,
-                        t_simpleDrawingMd5,
-                        [this]( const DataFileInfo & p_fileInfo ){
-                            auto t_it = m_downloadCardImageList.find( p_fileInfo.sourceUrl );
-                            
-                            if( t_it == m_downloadCardImageList.end() )
-                            {
-                                return;
-                            }
-                            auto t_newCardInfo = t_it->second;
-                            
-                            auto t_cardInfo = DataTableCard::instance().find( t_newCardInfo.id );
-                            
-                            if( t_cardInfo.id.compare( t_newCardInfo.id ) == 0 )
-                            {
-                                t_cardInfo.simpleDrawingFileId = p_fileInfo.fileId;
-                                DataTableCard::instance().update( t_cardInfo );
-                            }
-                        }
-                    };
-                    m_downloadList.push( t_downloadItem );
-                }
+
+                // //检查音频更新
+                // if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
+                // {
+                //     //未激活卡片不更新音频
+                //     continue;
+                // }
                 
+                // auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
                 
-                //检查音频更新
-                if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
-                {
-                    //未激活卡片不更新音频
-                    continue;
-                }
+                // if( t_item["audios"].IsArray() )
+                // {
+                //     auto & t_dataAudios = t_item["audios"];
+                //     std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                //     if( t_dataAudios.IsArray() )
+                //     {
+                //         for( int i = 0; i < t_dataAudios.Capacity(); ++i )
+                //         {
+                //             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
+                //             auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                //             t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                //         }
+                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::hue );
+                //     }
+                // }
                 
-                auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
-                
-                if( t_item["audios"].IsArray() )
-                {
-                    auto & t_dataAudios = t_item["audios"];
-                    std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                    if( t_dataAudios.IsArray() )
-                    {
-                        for( int i = 0; i < t_dataAudios.Capacity(); ++i )
-                        {
-                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
-                            auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                            t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                        }
-                        checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::hue );
-                    }
-                }
-                
-                if( t_item["descAudio"].IsArray() )
-                {
-                    auto & t_dataDescAudios = t_item["descAudio"];
-                    if( t_dataDescAudios.IsArray() )
-                    {
-                        std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                        for ( int i = 0; i < t_dataDescAudios.Capacity(); ++i)
-                        {
-                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
-                            auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
-                            t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                        }
+                // if( t_item["descAudio"].IsArray() )
+                // {
+                //     auto & t_dataDescAudios = t_item["descAudio"];
+                //     if( t_dataDescAudios.IsArray() )
+                //     {
+                //         std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                //         for ( int i = 0; i < t_dataDescAudios.Capacity(); ++i)
+                //         {
+                //             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
+                //             auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
+                //             t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                //         }
                         
-                        checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                    }
-                }
+                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
+                //     }
+                // }
                 
-                if( t_item["pronAudio"].IsObject() )
-                {
-                    auto & t_dataPronAudio = t_item["pronAudio"];
-                    std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                // if( t_item["pronAudio"].IsObject() )
+                // {
+                //     auto & t_dataPronAudio = t_item["pronAudio"];
+                //     std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
                     
-                    if( t_dataPronAudio.IsObject() )
-                    {
-                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
-                        auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
-                        t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                //     if( t_dataPronAudio.IsObject() )
+                //     {
+                //         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
+                //         auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
+                //         t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
                         
-                        checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                    }
-                }
+                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
+                //     }
+                // }
                 
-                //删除多余音频
-                for( int i = 0; i < t_audioList.size(); ++i )
-                {
-                    DataTableFile::instance().remove( t_audioList[i].fileId );
-                    DataTableCardAudio::instance().remove( t_audioList[i].id );
-                }
+                // //删除多余音频
+                // for( int i = 0; i < t_audioList.size(); ++i )
+                // {
+                //     DataTableFile::instance().remove( t_audioList[i].fileId );
+                //     DataTableCardAudio::instance().remove( t_audioList[i].id );
+                // }
             }
             
             //删除多余的卡片
+            
             for( int i = 0; i < t_localCardList.size(); ++i )
             {
                 auto t_cardInfo = t_localCardList[i];
-                DataTableFile::instance().remove( t_cardInfo.coverFileId );
-                DataTableFile::instance().remove( t_cardInfo.simpleDrawingFileId );
+                DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl ) );
                 
                 auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                 
                 for( int n = 0; n < t_cardAudioList.size(); ++n )
                 {
-                    DataTableFile::instance().remove( t_cardAudioList[n].fileId );
+                    DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardAudioList[n].fileUrl ) );
                 }
                 
                 DataTableCard::instance().remove( t_cardInfo.id );
@@ -535,115 +479,98 @@ bool DadGuessUpdateScene::init( void )
                 {
                     auto & t_item = t_data[i];
                     
+
+                    auto t_coverImageUrl = std::string( DOMAIN_NAME ) + std::string( t_item["iconPath"].GetString() ).substr( 1 );
+                    auto t_coverImageMd5 = std::string( t_item["iconMd5"].GetString() );
                     auto t_cardInfo = DataCardInfo( t_item["cardId"].GetString(),
                                                    t_item["cardType"].GetString(),
                                                    t_item["rfId"].GetInt(),
-                                                   "",
-                                                   ""
+                                                   t_coverImageUrl,
+                                                   t_coverImageMd5
                                                    );
+
+                    auto t_oldCardInfoIt = t_localCardList.begin();
+                    while( t_oldCardInfoIt != t_localCardList.end() )
+                    {
+                        if( t_oldCardInfoIt->id.compare( t_cardInfo.id ) == 0 )
+                        {
+                            break;
+                        }
+                        t_oldCardInfoIt++;
+                    }
                     
-                    auto t_coverImageUrl = std::string( DOMAIN_NAME ) + t_item["iconPath"].GetString();
-                    auto t_coverImageMd5 = t_item["iconMd5"].GetString();
-                    
-                    auto t_oldCardInfo = DataTableCard::instance().find( t_cardInfo.id );
                     bool t_needDownloadCoverImage = true;
-                    if( !t_oldCardInfo.id.empty() )
+                    if( t_oldCardInfoIt != t_localCardList.end() )
                     {
                         t_needDownloadCoverImage = false;
-                        t_cardInfo.activation = t_oldCardInfo.activation;
-                        for( auto i = 0; i < t_localCardList.size(); ++i )
-                        {
-                            if( t_localCardList[i].id.compare( t_cardInfo.id ) == 0 )
-                            {
-                                t_localCardList.erase( t_localCardList.begin() + i );
-                                break;
-                            }
-                        }
+                        t_cardInfo.activation = t_oldCardInfoIt->activation;
                         
-                        auto t_coverFileInfo = DataTableFile::instance().find( t_oldCardInfo.coverFileId );
-                        t_cardInfo.coverFileId = t_coverFileInfo.fileId;
+                        auto t_coverFileInfo = DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl );
                         if( t_coverFileInfo.sourceUrl.compare( t_coverImageUrl ) != 0 || t_coverFileInfo.fileMd5.compare( t_coverImageMd5 ) != 0 )
                         {
                             DataTableFile::instance().remove( t_coverFileInfo );
                             t_needDownloadCoverImage = true;
                         }
                         DataTableCard::instance().update( t_cardInfo );
+                        
+                        t_localCardList.erase( t_oldCardInfoIt );
                     }else{
                         DataTableCard::instance().insert( t_cardInfo );
                     }
                     
                     if( t_needDownloadCoverImage )
                     {
-                        m_downloadCardImageList[ t_coverImageUrl ] = t_cardInfo;
                         //添加卡片封面到下载队列
                         UpdateDownloadItem t_downloadItem{
                             t_coverImageUrl,
-                            "",
-                            [this]( const DataFileInfo & p_fileInfo ){
-                                auto t_it = m_downloadCardImageList.find( p_fileInfo.sourceUrl );
-                                
-                                if( t_it == m_downloadCardImageList.end() )
-                                {
-                                    return;
-                                }
-                                auto t_newCardInfo = t_it->second;
-
-                                auto t_cardInfo = DataTableCard::instance().find( t_newCardInfo.id );
-                                
-                                if( t_cardInfo.id.compare( t_newCardInfo.id ) == 0 )
-                                {
-                                    t_cardInfo.coverFileId = p_fileInfo.fileId;
-                                    
-                                    DataTableCard::instance().update( t_cardInfo );
-                                }
-                            }
+                            t_coverImageMd5,
+                            nullptr
                         };
                         m_downloadList.push( t_downloadItem );
                     }
                     
-                    //检查音频更新
-                    if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
-                    {
-                        //未激活卡片不更新音频
-                        continue;
-                    }
+                    // //检查音频更新
+                    // if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
+                    // {
+                    //     //未激活卡片不更新音频
+                    //     continue;
+                    // }
                     
-                    auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
+                    // auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
                     
-                    auto & t_dataAudios = t_item["audios"];
-                    std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                    if( t_dataAudios.IsArray() )
-                    {
-                        for( int i = 0; i < t_dataAudios.Capacity(); ++i )
-                        {
-                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
-                            auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                            t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                        }
+                    // auto & t_dataAudios = t_item["audios"];
+                    // std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                    // if( t_dataAudios.IsArray() )
+                    // {
+                    //     for( int i = 0; i < t_dataAudios.Capacity(); ++i )
+                    //     {
+                    //         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + std::string( t_dataAudios[i]["attUrl"].GetString() ).substr( 1 );
+                    //         auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                    //         t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                    //     }
                         
-                        checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                    }
+                    //     checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
+                    // }
                     
-                    //删除多余音频
-                    for( int i = 0; i < t_audioList.size(); ++i )
-                    {
-                        DataTableFile::instance().remove( t_audioList[i].fileId );
-                        DataTableCardAudio::instance().remove( t_audioList[i].id );
-                    }
+                    // //删除多余音频
+                    // for( int i = 0; i < t_audioList.size(); ++i )
+                    // {
+                    //     DataTableFile::instance().remove( t_audioList[i].fileId );
+                    //     DataTableCardAudio::instance().remove( t_audioList[i].id );
+                    // }
                 }
                 
                 //删除多余的卡片
                 for( int i = 0; i < t_localCardList.size(); ++i )
                 {
                     auto t_cardInfo = t_localCardList[i];
-                    DataTableFile::instance().remove( t_cardInfo.coverFileId );
-                    DataTableFile::instance().remove( t_cardInfo.simpleDrawingFileId );
+                    DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl ) );
                     
                     auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                     
                     for( int n = 0; n < t_cardAudioList.size(); ++n )
                     {
-                        DataTableFile::instance().remove( t_cardAudioList[n].fileId );
+                        DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardAudioList[n].fileUrl ) );
                     }
                     
                     DataTableCard::instance().remove( t_cardInfo.id );
@@ -697,25 +624,21 @@ bool DadGuessUpdateScene::init( void )
             
             if( s_cardList.find( t_batchId ) == s_cardList.end() )
             {
-                s_cardList[t_batchId] = std::vector< std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > > >();
+                s_cardList[t_batchId] = std::vector< std::pair< DataCardInfo, DataFileInfo > >();
+            }else{
+                s_cardList[t_batchId].clear();
             }
             
             auto t_cardList = DataTableCard::instance().list( t_batchId );
             for( auto t_cardInfo : t_cardList )
             {
-                auto t_coverFileInfo = DataTableFile::instance().find( t_cardInfo.coverFileId );
-                auto simpleDrawingFileInfo = DataTableFile::instance().find( t_cardInfo.simpleDrawingFileId );
-                
-                auto t_pair = std::pair< DataCardInfo, std::pair< DataFileInfo, DataFileInfo > >( t_cardInfo, std::pair< DataFileInfo, DataFileInfo >( t_coverFileInfo, simpleDrawingFileInfo ) );
+                auto t_coverFileInfo = DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl );
+
+                auto t_pair = std::pair< DataCardInfo, DataFileInfo >( t_cardInfo, t_coverFileInfo );
                 
                 if( !t_coverFileInfo.fileName.empty() )
                 {
                     sm_loadImageList.push_back( t_coverFileInfo.fileName );
-                }
-                
-                if( !simpleDrawingFileInfo.fileName.empty() )
-                {
-                    sm_loadImageList.push_back( simpleDrawingFileInfo.fileName );
                 }
                 
                 s_cardList[ t_batchId ].push_back( t_pair );
@@ -757,7 +680,7 @@ bool DadGuessUpdateScene::init( void )
     }
     m_checkUpdateQueue.push( loadImage );
     m_checkUpdateQueue.push( goMainScene );
-    
+
     checkUpdateDequeue();
     
     return true;
@@ -781,18 +704,16 @@ void DadGuessUpdateScene::checkCardAudioUpdate( std::vector< DataCardAudioInfo >
         auto t_dataAudioMd5 = p_seviceCardAudioList[i].second;
         
         auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( t_dataAudioUrl );
-        auto t_serviceAudioInfo = DataCardAudioInfo( "", p_cardId, "", p_audioType );
+        auto t_serviceAudioInfo = DataCardAudioInfo( "", p_cardId, t_dataAudioUrl, t_dataAudioMd5, p_audioType );
         bool t_needDownloadAudioFile = true;
         if( !t_audioFileInfo.fileId.empty() )
         {
             //
-            t_serviceAudioInfo.fileId = t_audioFileInfo.fileId;
             for( int n = 0; n < p_oldCardAudioList.size(); ++n )
             {
-                if( p_oldCardAudioList[n].fileId.compare( t_audioFileInfo.fileId ) == 0 )
+                if( p_oldCardAudioList[n].fileUrl.compare( t_audioFileInfo.sourceUrl ) == 0 && p_oldCardAudioList[n].fileMd5.compare( t_audioFileInfo.fileMd5 ) == 0 )
                 {
                     t_needDownloadAudioFile = false;
-                    t_serviceAudioInfo.id = p_oldCardAudioList[n].id;
                     p_oldCardAudioList.erase( p_oldCardAudioList.begin() + n );
                     break;
                 }
@@ -812,27 +733,7 @@ void DadGuessUpdateScene::checkCardAudioUpdate( std::vector< DataCardAudioInfo >
             UpdateDownloadItem t_downloadItem{
                 t_dataAudioUrl,
                 t_dataAudioMd5,
-                [this]( const DataFileInfo & p_fileInfo ){
-                    auto t_it = m_downloadAudioList.find( p_fileInfo.sourceUrl );
-                    if( t_it == m_downloadAudioList.end() )
-                    {
-                        return;
-                    }
-                    
-                    auto t_newCardAudioInfo = t_it->second;
-                    m_downloadAudioList.erase( t_it );
-                    auto t_CardAudioInfo = DataTableCardAudio::instance().find( t_newCardAudioInfo.id );
-                    
-                    if( t_CardAudioInfo.id.compare( t_newCardAudioInfo.id ) == 0 )
-                    {
-                        t_CardAudioInfo.fileId = p_fileInfo.fileId;
-                        DataTableCardAudio::instance().update( t_CardAudioInfo );
-                        return;
-                    }
-                    
-                    t_newCardAudioInfo.fileId = p_fileInfo.fileId;
-                    DataTableCardAudio::instance().insert( t_newCardAudioInfo );
-                }
+                nullptr
             };
             m_downloadList.push( t_downloadItem );
         }
@@ -860,7 +761,10 @@ void DadGuessUpdateScene::downloadFile( void )
                 return;
             }
             
-            t_it->second._downloadCallBack( p_fileInfo );
+            if( t_it->second._downloadCallBack )
+            {
+                t_it->second._downloadCallBack( p_fileInfo );
+            }
             m_downloadingList.erase( t_it );
             
             {
@@ -886,7 +790,10 @@ void DadGuessUpdateScene::downloadFile( void )
             m_downloadingList[ t_downloadHandle ] = t_downloadItem;
         }else{
             //download file return nullptr PS: file exist
-            t_downloadItem._downloadCallBack( DataTableFile::instance().findBySourceUrl( t_downloadItem.url ) );
+            if( t_downloadItem._downloadCallBack )
+            {
+                t_downloadItem._downloadCallBack( DataTableFile::instance().findBySourceUrl( t_downloadItem.url ) );
+            }
         }
     }
 }

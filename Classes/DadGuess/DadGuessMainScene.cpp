@@ -16,8 +16,6 @@
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
 
-#include "ui/CocosGUI.h"
-
 #include "AudioEngine.h"
 #include "Http.h"
 
@@ -78,9 +76,10 @@ bool DadGuessMainScene::init( void )
     t_logo->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_logoSizeHalf.height - 5.0f ) );
     
     addChild( t_logo );
-    
-    m_blueConnectState = sm_blueState ? TexturePacker::DadGuessMain::createCaicai_home_icon_blueteeth_yesSprite() : TexturePacker::DadGuessMain::createCaicai_home_icon_blueteeth_noSprite();
-    
+
+
+    m_blueConnectState = Button::create( sm_blueState ? TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_yes : TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_no , "", "", Button::TextureResType::PLIST );
+
     m_blueConnectState->setScale( adaptation() );
     auto t_blueConnectStateSizeHalf = m_blueConnectState->getContentSize() * m_blueConnectState->getScale() * 0.5f;
     m_blueConnectState->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_blueConnectStateSizeHalf.width - 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_blueConnectStateSizeHalf.height - 15.0f ) );
@@ -200,8 +199,7 @@ bool DadGuessMainScene::init( void )
     }
     
     m_blueDeviceConnectedListener = new BlueDeviceListener( [this]( bool p_connected ){
-        m_blueConnectState->setSpriteFrame( p_connected ? TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_yes : TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_no );
-
+        m_blueConnectState->loadTextureNormal( sm_blueState ? TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_yes : TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_no, Button::TextureResType::PLIST );
     }, nullptr );
 
     return true;
@@ -214,6 +212,11 @@ void DadGuessMainScene::destroy( void )
 
 void DadGuessMainScene::scanCard( int p_rfid )
 {
+
+    static std::map< std::string, std::vector< DataCardAudioInfo > > s_cardAudioPool;
+    
+    printf( "-------> scan: %d \n", p_rfid );
+    
     auto t_cardInfo = DataTableCard::instance().find( p_rfid );
     
     if( t_cardInfo.id.empty() )
@@ -229,67 +232,11 @@ void DadGuessMainScene::scanCard( int p_rfid )
     {
         DataTableCardBatch::instance().activation( t_cardBatchInfo );
     }
-    
-    // 卡片未激活
-    if( !t_cardInfo.activation )
+
+    if( s_cardAudioPool.find( t_cardInfo.id ) == s_cardAudioPool.end() )
     {
-        static std::map< Http *, DataCardAudioInfo > s_downloadAudioList;
-        static std::map< std::string, std::vector< std::pair< std::string , DataCardAudioInfo> > > s_notActivationCardList;
-        //查看缓存
-        
-        if( s_notActivationCardList.find( t_cardInfo.id ) != s_notActivationCardList.end() )
-        {
-            auto & t_audioUrlList = s_notActivationCardList[t_cardInfo.id];
-            
-            int t_index = (int)t_audioUrlList.size();
-            
-            if( t_index == 0 )
-            {
-                return;
-            }
-            
-            while ( t_index == t_audioUrlList.size() ) {
-                t_index = (int)floor( rand_0_1() * t_audioUrlList.size() );
-            }
-            
-            auto t_audioUrl = t_audioUrlList[t_index].first;
-            auto t_audioInfo = t_audioUrlList[t_index].second;
-            auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( t_audioUrl );
-            if( !t_audioFileInfo.fileId.empty() )
-            {
-                t_audioInfo.fileId = t_audioFileInfo.fileId;
-                playAudio( t_audioInfo );
-                return;
-            }
-            
-            auto t_http = Http::DownloadFile( t_audioUrl, "", [=]( Http * p_http, DataFileInfo p_fileInfo ){
-                
-                if( s_downloadAudioList.find( p_http ) == s_downloadAudioList.end() )
-                {
-                    return;
-                }
-                
-                auto t_audioInfo = s_downloadAudioList[p_http];
-                t_audioInfo.fileId = p_fileInfo.fileId;
-                
-                DataTableCardAudio::instance().insert( t_audioInfo );
-                
-                playAudio( t_audioInfo );
-                
-            }, [=]( Http * p_http, DataFileInfo p_fileInfo ){
-                
-            } );
-            if( t_http )
-            {
-                s_downloadAudioList[ t_http ] = t_audioInfo;
-            }
-            return;
-        }
         Http::HttpParameter t_httpParameter;
         t_httpParameter["RFID"] =  std::to_string( p_rfid );
-        
-        printf( "------rfid: %d \n", p_rfid );
-        
         if( t_cardInfo.batchId.compare( DataCardBatchInfo::s_batchIdList[0] ) != 0 )
         {
             
@@ -313,18 +260,51 @@ void DadGuessMainScene::scanCard( int p_rfid )
                 auto & t_data = t_readdoc["data"];
                 auto t_cardId = t_data["cardId"].GetString();
                 auto & t_dataAudios = t_data["audios"];
+
+                if( s_cardAudioPool.find( t_cardId ) == s_cardAudioPool.end() )
+                {
+                    s_cardAudioPool[ t_cardId ] = std::vector< DataCardAudioInfo >();
+                }
+
+                auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
                 if( t_dataAudios.IsArray() )
                 {
-                    std::vector< std::pair< std::string , DataCardAudioInfo> > t_audioList;
                     for( int i = 0; i < t_dataAudios.Capacity(); ++i )
                     {
-                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
+                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + std::string( t_dataAudios[i]["attUrl"].GetString() ).substr( 1 );
+                        auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
+                        
 
-                        t_audioList.push_back( std::pair< std::string , DataCardAudioInfo>( t_dataAudioUrl, DataCardAudioInfo( createUUID(), t_cardId, "", DataCardAudioInfo::AudioType::commentary ) ) );
+                        auto t_findCardAudioIt = t_cardAudioList.begin();
+                        while( t_findCardAudioIt != t_cardAudioList.end() )
+                        {
+                            if( t_findCardAudioIt->fileUrl.compare( t_cardAudioInfo.fileUrl ) == 0 )
+                            {
+                                break;
+                            }
+
+                            t_findCardAudioIt++;
+                        }
+
+                        if( t_findCardAudioIt != t_cardAudioList.end() )
+                        {
+                            t_cardAudioInfo.id = t_findCardAudioIt->id;
+                            DataTableCardAudio::instance().update( t_cardAudioInfo );
+                            t_cardAudioList.erase( t_findCardAudioIt );
+                        }else{
+                            t_cardAudioInfo.id = createUUID();
+                            DataTableCardAudio::instance().insert( t_cardAudioInfo );
+                        }
+
+
+                        s_cardAudioPool[ t_cardId ].push_back( t_cardAudioInfo );
                     }
                     
-                    s_notActivationCardList[ t_cardId ] = t_audioList;
-                    
+                    for( auto t_removeCardAudioInfo : t_cardAudioList )
+                    {
+                        DataTableCardAudio::instance().remove( t_removeCardAudioInfo.id );
+                    }
                     scanCard( p_rfid );
                 }
                 
@@ -334,6 +314,8 @@ void DadGuessMainScene::scanCard( int p_rfid )
         }else{
             //获取动物卡片音频
             Http::Post( sm_cardAudioInfoApiAnimal, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
+                
+                 printf( "---------> %s \n", p_res.c_str() );
                 
                 Document t_readdoc;
                 
@@ -354,16 +336,20 @@ void DadGuessMainScene::scanCard( int p_rfid )
                 auto & t_data = t_readdoc["data"];
                 auto t_cardId = t_data["resourceId"].GetString();
                 
-                
-                std::vector< std::pair< std::string , DataCardAudioInfo> > t_audioList;
+                auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
+
                 auto & t_dataAudios = t_data["audios"];
+
+                std::vector< DataCardAudioInfo > t_tmpAudioList;
+
                 if( t_dataAudios.IsArray() )
                 {
                     for( int i = 0; i < t_dataAudios.Capacity(); ++i )
                     {
                         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
-                        
-                        t_audioList.push_back( std::pair< std::string , DataCardAudioInfo>( t_dataAudioUrl, DataCardAudioInfo( createUUID(), t_cardId, "", DataCardAudioInfo::AudioType::hue ) ) );
+                        auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::hue );
+                        t_tmpAudioList.push_back( t_cardAudioInfo );
                     }
                 }
                 
@@ -374,8 +360,9 @@ void DadGuessMainScene::scanCard( int p_rfid )
                     for( int i = 0; i < t_dataDescAudios.Capacity(); ++i )
                     {
                         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
-                        
-                        t_audioList.push_back( std::pair< std::string , DataCardAudioInfo>( t_dataAudioUrl, DataCardAudioInfo( createUUID(), t_cardId, "", DataCardAudioInfo::AudioType::commentary ) ) );
+                        auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
+                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
+                        t_tmpAudioList.push_back( t_cardAudioInfo );
                     }
                 }
                 
@@ -384,26 +371,55 @@ void DadGuessMainScene::scanCard( int p_rfid )
                 if( t_dataPronAudio.IsObject() )
                 {
                     auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
-                    
-                    t_audioList.push_back( std::pair< std::string , DataCardAudioInfo>( t_dataAudioUrl, DataCardAudioInfo( createUUID(), t_cardId, "", DataCardAudioInfo::AudioType::commentary ) ) );
+                    auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
+                    auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5,  DataCardAudioInfo::AudioType::commentary );
+                    t_tmpAudioList.push_back( t_cardAudioInfo );
                 }
-                
-                s_notActivationCardList[ t_cardId ] = t_audioList;
-                
+
+                for( auto t_cardAudioInfo : t_tmpAudioList )
+                {
+                    auto t_findCardAudioIt = t_cardAudioList.begin();
+                    while( t_findCardAudioIt != t_cardAudioList.end() )
+                    {
+                        if( t_findCardAudioIt->fileUrl.compare( t_cardAudioInfo.fileUrl ) == 0 )
+                        {
+                            break;
+                        }
+
+                        t_findCardAudioIt++;
+                    }
+
+                    if( t_findCardAudioIt != t_cardAudioList.end() )
+                    {
+                        t_cardAudioInfo.id = t_findCardAudioIt->id;
+                        DataTableCardAudio::instance().update( t_cardAudioInfo );
+                        t_cardAudioList.erase( t_findCardAudioIt );
+                    }else{
+                        t_cardAudioInfo.id = createUUID();
+                        DataTableCardAudio::instance().insert( t_cardAudioInfo );
+                    }
+
+                    s_cardAudioPool[ t_cardId ].push_back( t_cardAudioInfo );
+                }
+
+                for( auto t_removeCardAudioInfo : t_cardAudioList )
+                {
+                    DataTableCardAudio::instance().remove( t_removeCardAudioInfo.id );
+                }
+
                 scanCard( p_rfid );
                 
             }, [=]( Http * p_http, const std::string & p_res ){
                 printf( "---------> request card info fial %s \n", p_res.c_str() );
             } );
         }
-        
-        //下载音频
-        printf( "---------> batchId: %s \n", t_cardInfo.batchId.c_str() );
+
         return;
     }
     
-    auto t_audioList = DataTableCardAudio::instance().list( t_cardInfo.id );
     
+    auto t_audioList = s_cardAudioPool[ t_cardInfo.id ];
+
     int t_index = (int)t_audioList.size();
     
     if( t_index == 0 )
@@ -423,8 +439,23 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
 {
     static int s_soloPlayId = -1;
     static DataCardAudioInfo s_prvePlayAudio;
+
+    static std::map< Http *, DataCardAudioInfo > s_downloadPool;
     
-    auto t_audioFileInfo = DataTableFile::instance().find( p_audioInfo.fileId );
+    auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( p_audioInfo.fileUrl );
+
+    if( t_audioFileInfo.fileId.empty() )
+    {
+        auto t_http = Http::DownloadFile( p_audioInfo.fileUrl, "", [=]( Http * p_http, DataFileInfo p_fileInfo ){
+            playAudio( s_downloadPool[ p_http ] );
+        }, [=]( Http * p_http, DataFileInfo p_fileInfo ){
+            printf( " download audio fial \n" );
+        } );
+
+        s_downloadPool[ t_http ] = p_audioInfo;
+        return;
+    }
+
     if( p_audioInfo.audioType == DataCardAudioInfo::AudioType::commentary )
     {
         AudioEngine::stopAll();

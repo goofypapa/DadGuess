@@ -6,6 +6,8 @@ USING_NS_CC;
 
 DataBase::QueryBack * DataBase::m_queryBack = nullptr;
 
+std::mutex DataBase::sm_mutex;
+
 DataBase & DataBase::instance( void )
 {
     static DataBase * sm_dataBase = nullptr;
@@ -41,7 +43,9 @@ int DataBase::callback( void *NotUsed, int argc, char **argv, char **azColName )
 bool DataBase::exec( const std::string & p_sql ) const
 {
     char * t_ErrMsg = nullptr;
+    sm_mutex.lock();
     int t_res = sqlite3_exec( m_dataBase, p_sql.c_str(), nullptr, 0, &t_ErrMsg);
+    sm_mutex.unlock();
     if( t_res != SQLITE_OK )
     {
         printf( "SQL error: %s\n", t_ErrMsg);
@@ -58,7 +62,6 @@ DataBase::QueryBack DataBase::query( const std::string & p_sql )
     m_queryBack = &t_result;
     char * t_ErrMsg = nullptr;
     int t_res = sqlite3_exec( m_dataBase, p_sql.c_str(), callback, 0, &t_ErrMsg);
-    
     if( t_res != SQLITE_OK )
     {
         printf( "SQL error: %s\n", t_ErrMsg);

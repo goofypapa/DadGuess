@@ -15,17 +15,24 @@
 #include <vector>
 
 typedef std::function< void( bool ) > FuncOnConnectStateChanged;
-typedef std::function< void( const std::vector< unsigned char > & ) > FuncOnRecvedData;;
+typedef std::function< void( const std::vector< unsigned char > & ) > FuncOnRecvedData;
+typedef std::function< void( const std::string &, const std::string ) > FuncOnScanDevice;
 
 
 class BlueDeviceListener
 {
 public:
+
     static void listen( void );
-    BlueDeviceListener( const FuncOnConnectStateChanged &, const FuncOnRecvedData & );
+
+    static void scan( void );
+    static void connect( const std::string & p_deviceId );
+
+    BlueDeviceListener( const FuncOnConnectStateChanged &, const FuncOnRecvedData & p_onRecvData = nullptr, const FuncOnScanDevice & p_onScanDevice = nullptr );
     
     static void _onConnectStateChanged( bool p_state );
     static void _onRecvedData( const std::vector< unsigned char > & );
+    static void _onScanDevice( const std::string & p_deviceId, const std::string & p_deviceName );
     
     ~BlueDeviceListener();
 private:
@@ -33,6 +40,7 @@ private:
     
     FuncOnConnectStateChanged m_onConnectStateChanged;
     FuncOnRecvedData m_onRecvedData;
+    FuncOnScanDevice m_onScanDevice;
     
     bool m_connected;
     static bool m_listened;

@@ -315,8 +315,6 @@ void DadGuessMainScene::scanCard( int p_rfid )
             //获取动物卡片音频
             Http::Post( sm_cardAudioInfoApiAnimal, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
                 
-                 printf( "---------> %s \n", p_res.c_str() );
-                
                 Document t_readdoc;
                 
                 t_readdoc.Parse<0>( p_res.c_str() );

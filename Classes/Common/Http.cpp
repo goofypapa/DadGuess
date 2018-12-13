@@ -27,7 +27,7 @@ std::map< Http *, std::string > Http::sm_cacheKeyList;
 
 std::string Http::token = "";
 
-int Http::sm_overtime = 1000 * 60 * 24 * 1;
+const int Http::sm_overtime = 60 * 60 * 24 * 1;
 
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
 {
@@ -39,7 +39,7 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
     std::string t_cacheKey = p_url + t_data;
 
     auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
-    if( !t_dataCacheInfo.id.empty() && t_curTime - t_dataCacheInfo.date < sm_overtime )
+    if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
     {
         Http * t_http = new Http;
         std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
@@ -110,7 +110,7 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
     
     auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
 
-    if( !t_dataCacheInfo.id.empty() && t_curTime - t_dataCacheInfo.date < sm_overtime )
+    if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
     {
         Http * t_http = new Http;
         std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
@@ -285,7 +285,6 @@ Http *  Http::DownloadFile( const std::string & p_url, const std::string & p_fil
 
 void Http::http_handshakeResponse( network::HttpClient * p_sender, network::HttpResponse * p_response )
 {
-    
     std::vector<char> * t_hander = p_response->getResponseHeader();
     
     if( t_hander->size() == 0 )
@@ -358,12 +357,15 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
             auto t_url = sm_cacheKeyList[this];
             auto t_cacheInfo = DataWebServiceDataCacheInfo( createUUID(), t_url, strToSqlStr( t_strResponse ), t_curTime );
             auto t_oldCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cacheKeyList[this] );
+
             if( t_oldCacheInfo.id.empty() )
             {
                 DataTableWebServiceDataCache::instance().insert( t_cacheInfo );
             }else{
                 DataTableWebServiceDataCache::instance().update( t_cacheInfo );
             }
+
+            sm_cacheKeyList.erase( this );
         }
 
         m_success( this, t_strResponse );

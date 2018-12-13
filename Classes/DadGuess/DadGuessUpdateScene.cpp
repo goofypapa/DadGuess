@@ -17,6 +17,7 @@
 #include "DadGuessMainScene.h"
 #include <unistd.h>
 #include <thread>
+#include "DataTableWebServiceDataCache.h"
 
 USING_NS_CC;
 using namespace rapidjson;
@@ -656,7 +657,6 @@ bool DadGuessUpdateScene::init( void )
         };
         
         m_loadResourceCount = (int)sm_loadImageList.size();
-        printf( "------> load image: %d \n", m_loadResourceCount );
         for( size_t i = 0; i < sm_loadImageList.size(); ++i )
         {
             Director::getInstance()->getTextureCache()->addImageAsync( sm_loadImageList[i], [=]( Texture2D * p_txt ){
@@ -672,7 +672,14 @@ bool DadGuessUpdateScene::init( void )
         destroy();
     };
     
-    if( getNetWorkState() == NetWorkStateListener::NetWorkState::WiFi || getNetWorkState() == NetWorkStateListener::NetWorkState::WWAN )
+
+    auto t_webDataCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cardTypeListApi );
+    time_t t_curTime;
+    time(&t_curTime);
+
+    printf( "--------------->>>> %ld > %d \n", t_curTime - t_webDataCacheInfo.date, Http::sm_overtime );
+
+    if( ( t_webDataCacheInfo.id.empty() || t_curTime - t_webDataCacheInfo.date > Http::sm_overtime ) && getNetWorkState() == NetWorkStateListener::NetWorkState::WiFi || getNetWorkState() == NetWorkStateListener::NetWorkState::WWAN )
     {
         m_checkUpdateQueue.push( t_checkCardBatchUpdate );
         m_checkUpdateQueue.push( t_checkCardUpdate );

@@ -37,9 +37,10 @@ public:
     DownloadFileCallBack getDownloadFinalCallBack( void );
     DownloadFileProgressCallBack getDownloadProgressCallBack( void );
 
-private:
 
-    static int sm_overtime;
+    static const int sm_overtime;
+
+private:
 
     static std::string parseParameter( HttpParameter * p_parameter );
     static DataFileInfo convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );

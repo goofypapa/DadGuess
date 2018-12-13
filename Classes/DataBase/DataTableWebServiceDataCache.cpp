@@ -83,7 +83,7 @@ bool DataTableWebServiceDataCache::update( const DataWebServiceDataCacheInfo & p
      bool t_needUpdate = false;
     
     DataWebServiceDataCacheInfo t_oldInfo = find( p_webServiceDataCacheInfo.url );
-    if( !t_oldInfo.id.empty() )
+    if( t_oldInfo.id.empty() )
     {
         return false;
     }
@@ -112,7 +112,7 @@ bool DataTableWebServiceDataCache::update( const DataWebServiceDataCacheInfo & p
             t_needUpdate = true;
         }
         
-        t_ssql << "res = " << p_webServiceDataCacheInfo.date;
+        t_ssql << "date = " << p_webServiceDataCacheInfo.date;
     }
 
     if( !t_needUpdate )

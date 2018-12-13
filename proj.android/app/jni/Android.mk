@@ -36,6 +36,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCard.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardBatch.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/DataTableCardAudio.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableKeyValue.cpp \
+                   $(LOCAL_PATH)/../../../Classes/DataBase/DataTableWebServiceDataCache.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessCardListScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessCardListScrollView.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessMainScene.cpp \

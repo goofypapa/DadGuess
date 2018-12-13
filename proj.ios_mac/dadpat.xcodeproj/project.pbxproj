@@ -44,6 +44,7 @@
 		370A78A22112975000252E8D /* Dialog.plist in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A02112975000252E8D /* Dialog.plist */; };
 		370A78A32112975000252E8D /* Dialog.png in Resources */ = {isa = PBXBuildFile; fileRef = 370A78A12112975000252E8D /* Dialog.png */; };
 		3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */; };
+		3710E0BD21C210210052CFF0 /* DataTableKeyValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3710E0BB21C210210052CFF0 /* DataTableKeyValue.cpp */; };
 		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
@@ -232,6 +233,8 @@
 		370A78A12112975000252E8D /* Dialog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dialog.png; sourceTree = "<group>"; };
 		3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableWebServiceDataCache.cpp; sourceTree = "<group>"; };
 		3710E0B721BFBA050052CFF0 /* DataTableWebServiceDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableWebServiceDataCache.h; sourceTree = "<group>"; };
+		3710E0BB21C210210052CFF0 /* DataTableKeyValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableKeyValue.cpp; sourceTree = "<group>"; };
+		3710E0BC21C210210052CFF0 /* DataTableKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableKeyValue.h; sourceTree = "<group>"; };
 		373335A32179C3BC0087D425 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
@@ -786,6 +789,8 @@
 		37E6FCC420F6F46E0047F458 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
+				3710E0BB21C210210052CFF0 /* DataTableKeyValue.cpp */,
+				3710E0BC21C210210052CFF0 /* DataTableKeyValue.h */,
 				3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */,
 				3710E0B721BFBA050052CFF0 /* DataTableWebServiceDataCache.h */,
 				37C2DD6221056A5C0088EC29 /* sqlite3 */,
@@ -1075,6 +1080,7 @@
 				37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				37EAF96F21899EA7004DC9D5 /* PianoGameMusicListScrollView.cpp in Sources */,
+				3710E0BD21C210210052CFF0 /* DataTableKeyValue.cpp in Sources */,
 				37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */,
 				376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */,
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,

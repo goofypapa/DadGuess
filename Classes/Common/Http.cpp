@@ -29,24 +29,26 @@ std::string Http::token = "";
 
 const int Http::sm_overtime = 60 * 60 * 24 * 1;
 
-Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
+Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
-
-    time_t t_curTime;
-    time(&t_curTime);
 
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
     std::string t_cacheKey = p_url + t_data;
 
-    auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
-    if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
+    if( p_enableCache )
     {
-        Http * t_http = new Http;
-        std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
-            p_callBack( p_id, sqlStrToStr(  p_res ) );
-            delete p_id;
-        }, p_success, t_http, t_dataCacheInfo.res ).detach();
-        return t_http;
+        time_t t_curTime;
+        time(&t_curTime);
+        auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
+        if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
+        {
+            Http * t_http = new Http;
+            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+                p_callBack( p_id, sqlStrToStr(  p_res ) );
+                delete p_id;
+            }, p_success, t_http, t_dataCacheInfo.res ).detach();
+            return t_http;
+        }
     }
 
     Http * t_http = new Http;
@@ -100,24 +102,27 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
     return t_http;
 }
 
-Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final )
+Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
-    time_t t_curTime;
-    time(&t_curTime);
-
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
-    std::string t_cacheKey = p_url + t_data;
+    std::string t_cacheKey =  p_url + t_data;
     
     auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
 
-    if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
+    if( p_enableCache )
     {
-        Http * t_http = new Http;
-        std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
-            p_callBack( p_id, sqlStrToStr(  p_res ) );
-            delete p_id;
-        }, p_success, t_http, t_dataCacheInfo.res ).detach();
-        return t_http;
+        time_t t_curTime;
+        time(&t_curTime);
+        auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
+        if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
+        {
+            Http * t_http = new Http;
+            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+                p_callBack( p_id, sqlStrToStr(  p_res ) );
+                delete p_id;
+            }, p_success, t_http, t_dataCacheInfo.res ).detach();
+            return t_http;
+        }
     }
 
     Http * t_http = new Http;

@@ -15,6 +15,7 @@
 
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
+#include "DataTableKeyValue.h"
 
 #include "AudioEngine.h"
 #include "Http.h"
@@ -30,6 +31,8 @@ using namespace rapidjson;
 
 const char * DadGuessMainScene::sm_cardAudioInfoApi = DOMAIN_NAME "api/card/app/get.do";
 const char * DadGuessMainScene::sm_cardAudioInfoApiAnimal = DOMAIN_NAME "api/card/res/get.do";
+const char * DadGuessMainScene::sm_checkoutCardAudioUpdateKey = "CheckoutCardAudioUpdate";
+const long DadGuessMainScene::sm_checkoutCardAudioUpdateOverTime = 60 * 60 * 24 * 2;
 
 BlueDeviceListener * DadGuessMainScene::sm_blueDeviceScanCardListener = nullptr;
 bool DadGuessMainScene::sm_blueState = false;
@@ -226,7 +229,6 @@ void DadGuessMainScene::scanCard( int p_rfid )
     
     auto t_cardBatchInfo = DataTableCardBatch::instance().find( t_cardInfo.batchId );
     
-    
     //激活分组
     if( !t_cardBatchInfo.activation )
     {
@@ -235,47 +237,173 @@ void DadGuessMainScene::scanCard( int p_rfid )
 
     if( s_cardAudioPool.find( t_cardInfo.id ) == s_cardAudioPool.end() )
     {
-        Http::HttpParameter t_httpParameter;
-        t_httpParameter["RFID"] =  std::to_string( p_rfid );
-        if( t_cardInfo.batchId.compare( DataCardBatchInfo::s_batchIdList[0] ) != 0 )
+        static bool t_needCheckAudioUpdate = true;
+        if( t_cardBatchInfo.activation )
         {
+            time_t t_curTime;
+            time(&t_curTime);
             
-            Http::Post( sm_cardAudioInfoApi, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
-                Document t_readdoc;
-                
-                t_readdoc.Parse<0>( p_res.c_str() );
-                
-                if( t_readdoc.HasParseError() )
-                {
-                    printf( "GetParseError %d \n", t_readdoc.GetParseError() );
-                }
-                
-                auto t_success = t_readdoc["success"].GetBool();
-                if( !t_success )
-                {
-                    printf( "------------> 检查更新失败" );
-                    return;
-                }
-                
-                auto & t_data = t_readdoc["data"];
-                auto t_cardId = t_data["cardId"].GetString();
-                auto & t_dataAudios = t_data["audios"];
+            std::stringstream t_sstr;
+            t_sstr << sm_checkoutCardAudioUpdateKey << t_cardInfo.id;
+            
+            auto t_keyValueInfo = DataTableKeyValue::instance().get( t_sstr.str() );
 
-                if( s_cardAudioPool.find( t_cardId ) == s_cardAudioPool.end() )
-                {
-                    s_cardAudioPool[ t_cardId ] = std::vector< DataCardAudioInfo >();
-                }
+            if( !t_keyValueInfo.key.empty() && t_keyValueInfo.getBooleanValue() && t_curTime - t_keyValueInfo.date < sm_checkoutCardAudioUpdateOverTime )
+            {
+                t_needCheckAudioUpdate = false;
+            }
+        }
 
-                auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
-                if( t_dataAudios.IsArray() )
-                {
-                    for( int i = 0; i < t_dataAudios.Capacity(); ++i )
+        if( t_needCheckAudioUpdate )
+        {
+            std::stringstream t_sstr;
+            t_sstr << sm_checkoutCardAudioUpdateKey << t_cardInfo.id;
+            DataTableKeyValue::instance().set( DataKeyValueInfo( t_sstr.str(), false ) );
+            Http::HttpParameter t_httpParameter;
+            t_httpParameter["RFID"] =  std::to_string( p_rfid );
+            if( t_cardInfo.batchId.compare( DataCardBatchInfo::s_batchIdList[0] ) != 0 )
+            {
+                
+                Http::Post( sm_cardAudioInfoApi, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
+                    Document t_readdoc;
+                    
+                    t_readdoc.Parse<0>( p_res.c_str() );
+                    
+                    if( t_readdoc.HasParseError() )
                     {
-                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + std::string( t_dataAudios[i]["attUrl"].GetString() ).substr( 1 );
-                        auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
-                        
+                        printf( "GetParseError %d \n", t_readdoc.GetParseError() );
+                    }
+                    
+                    auto t_success = t_readdoc["success"].GetBool();
+                    if( !t_success )
+                    {
+                        printf( "------------> 服务器错误\n" );
+                        return;
+                    }
+                    
+                    auto & t_data = t_readdoc["data"];
+                    auto t_cardId = t_data["cardId"].GetString();
+                    auto & t_dataAudios = t_data["audios"];
 
+                    if( s_cardAudioPool.find( t_cardId ) == s_cardAudioPool.end() )
+                    {
+                        s_cardAudioPool[ t_cardId ] = std::vector< DataCardAudioInfo >();
+                    }
+
+                    auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
+                    if( t_dataAudios.IsArray() )
+                    {
+                        for( int i = 0; i < t_dataAudios.Capacity(); ++i )
+                        {
+                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + std::string( t_dataAudios[i]["attUrl"].GetString() ).substr( 1 );
+                            auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                            auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
+                            
+
+                            auto t_findCardAudioIt = t_cardAudioList.begin();
+                            while( t_findCardAudioIt != t_cardAudioList.end() )
+                            {
+                                if( t_findCardAudioIt->fileUrl.compare( t_cardAudioInfo.fileUrl ) == 0 )
+                                {
+                                    break;
+                                }
+
+                                t_findCardAudioIt++;
+                            }
+
+                            if( t_findCardAudioIt != t_cardAudioList.end() )
+                            {
+                                t_cardAudioInfo.id = t_findCardAudioIt->id;
+                                DataTableCardAudio::instance().update( t_cardAudioInfo );
+                                t_cardAudioList.erase( t_findCardAudioIt );
+                            }else{
+                                t_cardAudioInfo.id = createUUID();
+                                DataTableCardAudio::instance().insert( t_cardAudioInfo );
+                            }
+
+
+                            s_cardAudioPool[ t_cardId ].push_back( t_cardAudioInfo );
+                        }
+                        
+                        for( auto t_removeCardAudioInfo : t_cardAudioList )
+                        {
+                            DataTableCardAudio::instance().remove( t_removeCardAudioInfo.id );
+                        }
+
+                        std::stringstream t_sstr;
+                        t_sstr << sm_checkoutCardAudioUpdateKey << std::string( t_cardId );
+                        DataTableKeyValue::instance().set( DataKeyValueInfo( t_sstr.str(), true ) );
+                        scanCard( p_rfid );
+                    }
+                    
+                }, [=]( Http * p_http, const std::string & p_res ){
+                    printf( "---------> request card info fial %s \n", p_res.c_str() );
+                } );
+            }else{
+                //获取动物卡片音频
+                Http::Post( sm_cardAudioInfoApiAnimal, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
+                    
+                    Document t_readdoc;
+                    
+                    t_readdoc.Parse<0>( p_res.c_str() );
+                    
+                    if( t_readdoc.HasParseError() )
+                    {
+                        printf( "GetParseError %d \n", t_readdoc.GetParseError() );
+                    }
+                    
+                    auto t_success = t_readdoc["success"].GetBool();
+                    if( !t_success )
+                    {
+                        printf( "------------> 检查更新失败" );
+                        return;
+                    }
+                    
+                    auto & t_data = t_readdoc["data"];
+                    auto t_cardId = t_data["resourceId"].GetString();
+                    
+                    auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
+
+                    auto & t_dataAudios = t_data["audios"];
+
+                    std::vector< DataCardAudioInfo > t_tmpAudioList;
+
+                    if( t_dataAudios.IsArray() )
+                    {
+                        for( int i = 0; i < t_dataAudios.Capacity(); ++i )
+                        {
+                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
+                            auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
+                            auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::hue );
+                            t_tmpAudioList.push_back( t_cardAudioInfo );
+                        }
+                    }
+                    
+                    auto & t_dataDescAudios = t_data["descAudio"];
+                    
+                    if( t_dataDescAudios.IsArray() )
+                    {
+                        for( int i = 0; i < t_dataDescAudios.Capacity(); ++i )
+                        {
+                            auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
+                            auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
+                            auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
+                            t_tmpAudioList.push_back( t_cardAudioInfo );
+                        }
+                    }
+                    
+                    auto & t_dataPronAudio = t_data["pronAudio"];
+                    
+                    if( t_dataPronAudio.IsObject() )
+                    {
+                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
+                        auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
+                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5,  DataCardAudioInfo::AudioType::commentary );
+                        t_tmpAudioList.push_back( t_cardAudioInfo );
+                    }
+
+                    for( auto t_cardAudioInfo : t_tmpAudioList )
+                    {
                         auto t_findCardAudioIt = t_cardAudioList.begin();
                         while( t_findCardAudioIt != t_cardAudioList.end() )
                         {
@@ -297,124 +425,33 @@ void DadGuessMainScene::scanCard( int p_rfid )
                             DataTableCardAudio::instance().insert( t_cardAudioInfo );
                         }
 
-
                         s_cardAudioPool[ t_cardId ].push_back( t_cardAudioInfo );
                     }
-                    
+
                     for( auto t_removeCardAudioInfo : t_cardAudioList )
                     {
                         DataTableCardAudio::instance().remove( t_removeCardAudioInfo.id );
                     }
+                    std::stringstream t_sstr;
+                    t_sstr << sm_checkoutCardAudioUpdateKey << std::string( t_cardId );
+                    DataTableKeyValue::instance().set( DataKeyValueInfo( t_sstr.str(), true ) );
                     scanCard( p_rfid );
-                }
-                
-            }, [=]( Http * p_http, const std::string & p_res ){
-                printf( "---------> request card info fial %s \n", p_res.c_str() );
-            } );
-        }else{
-            //获取动物卡片音频
-            Http::Post( sm_cardAudioInfoApiAnimal, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
-                
-                Document t_readdoc;
-                
-                t_readdoc.Parse<0>( p_res.c_str() );
-                
-                if( t_readdoc.HasParseError() )
-                {
-                    printf( "GetParseError %d \n", t_readdoc.GetParseError() );
-                }
-                
-                auto t_success = t_readdoc["success"].GetBool();
-                if( !t_success )
-                {
-                    printf( "------------> 检查更新失败" );
-                    return;
-                }
-                
-                auto & t_data = t_readdoc["data"];
-                auto t_cardId = t_data["resourceId"].GetString();
-                
-                auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardId );
-
-                auto & t_dataAudios = t_data["audios"];
-
-                std::vector< DataCardAudioInfo > t_tmpAudioList;
-
-                if( t_dataAudios.IsArray() )
-                {
-                    for( int i = 0; i < t_dataAudios.Capacity(); ++i )
-                    {
-                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
-                        auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::hue );
-                        t_tmpAudioList.push_back( t_cardAudioInfo );
-                    }
-                }
-                
-                auto & t_dataDescAudios = t_data["descAudio"];
-                
-                if( t_dataDescAudios.IsArray() )
-                {
-                    for( int i = 0; i < t_dataDescAudios.Capacity(); ++i )
-                    {
-                        auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
-                        auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
-                        auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5, DataCardAudioInfo::AudioType::commentary );
-                        t_tmpAudioList.push_back( t_cardAudioInfo );
-                    }
-                }
-                
-                auto & t_dataPronAudio = t_data["pronAudio"];
-                
-                if( t_dataPronAudio.IsObject() )
-                {
-                    auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
-                    auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
-                    auto t_cardAudioInfo = DataCardAudioInfo( "", t_cardId, t_dataAudioUrl, t_dataAudioMd5,  DataCardAudioInfo::AudioType::commentary );
-                    t_tmpAudioList.push_back( t_cardAudioInfo );
-                }
-
-                for( auto t_cardAudioInfo : t_tmpAudioList )
-                {
-                    auto t_findCardAudioIt = t_cardAudioList.begin();
-                    while( t_findCardAudioIt != t_cardAudioList.end() )
-                    {
-                        if( t_findCardAudioIt->fileUrl.compare( t_cardAudioInfo.fileUrl ) == 0 )
-                        {
-                            break;
-                        }
-
-                        t_findCardAudioIt++;
-                    }
-
-                    if( t_findCardAudioIt != t_cardAudioList.end() )
-                    {
-                        t_cardAudioInfo.id = t_findCardAudioIt->id;
-                        DataTableCardAudio::instance().update( t_cardAudioInfo );
-                        t_cardAudioList.erase( t_findCardAudioIt );
-                    }else{
-                        t_cardAudioInfo.id = createUUID();
-                        DataTableCardAudio::instance().insert( t_cardAudioInfo );
-                    }
-
-                    s_cardAudioPool[ t_cardId ].push_back( t_cardAudioInfo );
-                }
-
-                for( auto t_removeCardAudioInfo : t_cardAudioList )
-                {
-                    DataTableCardAudio::instance().remove( t_removeCardAudioInfo.id );
-                }
-
-                scanCard( p_rfid );
-                
-            }, [=]( Http * p_http, const std::string & p_res ){
-                printf( "---------> request card info fial %s \n", p_res.c_str() );
-            } );
+                    
+                }, [=]( Http * p_http, const std::string & p_res ){
+                    printf( "---------> request card info fial %s \n", p_res.c_str() );
+                } );
+            }
+            return;
         }
 
-        return;
+        s_cardAudioPool[ t_cardInfo.id ] = DataTableCardAudio::instance().list( t_cardInfo.id );
+        
     }
     
+    if( !t_cardInfo.activation )
+    {
+        DataTableCard::instance().activation( t_cardInfo );
+    }
     
     auto t_audioList = s_cardAudioPool[ t_cardInfo.id ];
 

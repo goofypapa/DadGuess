@@ -54,6 +54,8 @@ private:
     
     static std::vector< DataCardBatchInfo > sm_cardBatchList;
     static std::vector< std::string > sm_loadImageList;
+
+    bool m_needCehckUpdate;
     
     void checkUpdateDequeue( void );
     
@@ -74,6 +76,9 @@ private:
     std::map< Http *, UpdateDownloadItem > m_downloadingList;
     
     static const char * sm_batchListApi, * sm_cardListApi, * sm_cardListApi2, * sm_cardTypeListApi;
+    static const char * s_checkUpdateKey;
+
+    static const long s_updateOverTime;
     
     std::mutex m_mutex;
 };

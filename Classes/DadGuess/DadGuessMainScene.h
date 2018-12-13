@@ -37,7 +37,8 @@ private:
     BlueDeviceListener * m_blueDeviceConnectedListener;
     
     static const char * sm_cardAudioInfoApi, * sm_cardAudioInfoApiAnimal;
-    
+    static const char * sm_checkoutCardAudioUpdateKey;
+    static const long sm_checkoutCardAudioUpdateOverTime;
 };
 
 #endif //__DAD_GUESS_MAIN_SCENE_H__

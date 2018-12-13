@@ -17,7 +17,7 @@
 #include "DadGuessMainScene.h"
 #include <unistd.h>
 #include <thread>
-#include "DataTableWebServiceDataCache.h"
+#include "DataTableKeyValue.h"
 
 USING_NS_CC;
 using namespace rapidjson;
@@ -26,6 +26,9 @@ const char * DadGuessUpdateScene::sm_batchListApi = DOMAIN_NAME "resource/batch/
 const char * DadGuessUpdateScene::sm_cardListApi = DOMAIN_NAME "api/card/res/list.do";
 const char * DadGuessUpdateScene::sm_cardListApi2 = DOMAIN_NAME "api/card/app/list.do";
 const char * DadGuessUpdateScene::sm_cardTypeListApi = DOMAIN_NAME "api/card/app/type/list.do";
+
+const char * DadGuessUpdateScene::s_checkUpdateKey = "DadGuessCardCheckUpdate";
+const long DadGuessUpdateScene::s_updateOverTime = 60 * 60 * 24 * 2;
 
 std::vector< std::string > DadGuessUpdateScene::sm_loadImageList;
 std::vector< DataCardBatchInfo > DadGuessUpdateScene::sm_cardBatchList;
@@ -670,17 +673,37 @@ bool DadGuessUpdateScene::init( void )
         m_hand->stopAllActions();
         Director::getInstance()->replaceScene( DadGuessMainScene::create() );
         destroy();
+
+        if( m_needCehckUpdate )
+        {
+            DataTableKeyValue::instance().set( DataKeyValueInfo( s_checkUpdateKey, true ) );
+        }
     };
     
 
-    auto t_webDataCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cardTypeListApi );
-    time_t t_curTime;
-    time(&t_curTime);
+    m_needCehckUpdate = true;
 
-    printf( "--------------->>>> %ld > %d \n", t_curTime - t_webDataCacheInfo.date, Http::sm_overtime );
-
-    if( ( t_webDataCacheInfo.id.empty() || t_curTime - t_webDataCacheInfo.date > Http::sm_overtime ) && getNetWorkState() == NetWorkStateListener::NetWorkState::WiFi || getNetWorkState() == NetWorkStateListener::NetWorkState::WWAN )
+    if( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN )
     {
+        m_needCehckUpdate = false;
+    }
+
+    auto t_keyValue = DataTableKeyValue::instance().get( s_checkUpdateKey );
+
+    if( m_needCehckUpdate && !t_keyValue.key.empty() )
+    {
+        time_t t_curTime;
+        time(&t_curTime);
+        
+        if( t_curTime - t_keyValue.date < s_updateOverTime && t_keyValue.getBooleanValue() )
+        {
+           m_needCehckUpdate = false; 
+        }
+    }
+
+    if( m_needCehckUpdate )
+    {
+        DataTableKeyValue::instance().set( DataKeyValueInfo( s_checkUpdateKey, false ) );
         m_checkUpdateQueue.push( t_checkCardBatchUpdate );
         m_checkUpdateQueue.push( t_checkCardUpdate );
         m_checkUpdateQueue.push( t_downloadFile );

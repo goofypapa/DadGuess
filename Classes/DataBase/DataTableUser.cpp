@@ -89,12 +89,15 @@ bool DataTableUser::insert( const DataUserInfo & p_userInfo ) const
 std::vector< DataUserInfo > DataTableUser::list( void ) const
 {
     std::vector< DataUserInfo > t_result;
+
+    DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( std::string( "SELECT * FROM " ) + DataTableUserName );
 
     for( auto t_row : t_list )
     {
         t_result.push_back( dataRowToDataUserInfo( t_row ) );
     }
+    DataBase::sm_mutex.unlock();
 
     return t_result;
 }

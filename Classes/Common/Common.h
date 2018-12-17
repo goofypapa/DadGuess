@@ -22,6 +22,8 @@
 
 #endif
 
+#define PI 3.1415926535897932385f
+
 USING_NS_CC;
 
 //工具

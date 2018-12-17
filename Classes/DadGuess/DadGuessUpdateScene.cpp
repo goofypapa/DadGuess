@@ -345,71 +345,6 @@ bool DadGuessUpdateScene::init( void )
                     };
                     m_downloadList.push( t_downloadItem );
                 }
-                
-
-                // //检查音频更新
-                // if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
-                // {
-                //     //未激活卡片不更新音频
-                //     continue;
-                // }
-                
-                // auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
-                
-                // if( t_item["audios"].IsArray() )
-                // {
-                //     auto & t_dataAudios = t_item["audios"];
-                //     std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                //     if( t_dataAudios.IsArray() )
-                //     {
-                //         for( int i = 0; i < t_dataAudios.Capacity(); ++i )
-                //         {
-                //             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
-                //             auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                //             t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                //         }
-                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::hue );
-                //     }
-                // }
-                
-                // if( t_item["descAudio"].IsArray() )
-                // {
-                //     auto & t_dataDescAudios = t_item["descAudio"];
-                //     if( t_dataDescAudios.IsArray() )
-                //     {
-                //         std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                //         for ( int i = 0; i < t_dataDescAudios.Capacity(); ++i)
-                //         {
-                //             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataDescAudios[i]["attUrl"].GetString();
-                //             auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
-                //             t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                //         }
-                        
-                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                //     }
-                // }
-                
-                // if( t_item["pronAudio"].IsObject() )
-                // {
-                //     auto & t_dataPronAudio = t_item["pronAudio"];
-                //     std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                    
-                //     if( t_dataPronAudio.IsObject() )
-                //     {
-                //         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataPronAudio["attUrl"].GetString();
-                //         auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
-                //         t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                        
-                //         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                //     }
-                // }
-                
-                // //删除多余音频
-                // for( int i = 0; i < t_audioList.size(); ++i )
-                // {
-                //     DataTableFile::instance().remove( t_audioList[i].fileId );
-                //     DataTableCardAudio::instance().remove( t_audioList[i].id );
-                // }
             }
             
             //删除多余的卡片
@@ -533,35 +468,6 @@ bool DadGuessUpdateScene::init( void )
                         m_downloadList.push( t_downloadItem );
                     }
                     
-                    // //检查音频更新
-                    // if( !t_cardBatchInfo.activation && !t_cardInfo.activation )
-                    // {
-                    //     //未激活卡片不更新音频
-                    //     continue;
-                    // }
-                    
-                    // auto t_audioList = DataTableCardAudio::instance().list( t_oldCardInfo.id );
-                    
-                    // auto & t_dataAudios = t_item["audios"];
-                    // std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
-                    // if( t_dataAudios.IsArray() )
-                    // {
-                    //     for( int i = 0; i < t_dataAudios.Capacity(); ++i )
-                    //     {
-                    //         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + std::string( t_dataAudios[i]["attUrl"].GetString() ).substr( 1 );
-                    //         auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                    //         t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
-                    //     }
-                        
-                    //     checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_oldCardInfo.id, DataCardAudioInfo::AudioType::commentary );
-                    // }
-                    
-                    // //删除多余音频
-                    // for( int i = 0; i < t_audioList.size(); ++i )
-                    // {
-                    //     DataTableFile::instance().remove( t_audioList[i].fileId );
-                    //     DataTableCardAudio::instance().remove( t_audioList[i].id );
-                    // }
                 }
                 
                 //删除多余的卡片

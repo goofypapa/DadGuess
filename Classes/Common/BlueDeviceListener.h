@@ -26,6 +26,7 @@ public:
     static void listen( void );
 
     static void scan( void );
+    static void cancelScan( void );
     static void connect( const std::string & p_deviceId );
 
     BlueDeviceListener( const FuncOnConnectStateChanged &, const FuncOnRecvedData & p_onRecvData = nullptr, const FuncOnScanDevice & p_onScanDevice = nullptr );

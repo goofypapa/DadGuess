@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:cfc2449607e3a857d8bdec4a077052f4:bffa683e238c3ed64c5f2aa450a202cb:a28833b13ad7ee444b0b7bae4b4f0f00$
+// $TexturePacker:SmartUpdate:45067819def2f69a1c78eb34ba909d7a:c4bb2fc5ebb2dbb3be5e04ef522ebaa2:a28833b13ad7ee444b0b7bae4b4f0f00$
 // ---------------------------------------
 
 #ifndef __DADGUESSMAIN_H__
@@ -34,6 +34,7 @@ public:
     // sprite name constants
     // ---------------------
     static const std::string caicai_back;
+    static const std::string caicai_bluesearch_pic_background;
     static const std::string caicai_bluesearch_pic_blue;
     static const std::string caicai_bluesearch_pic_fontbj;
     static const std::string caicai_home_abc;
@@ -60,6 +61,7 @@ public:
     // Sprite objects
     // --------------
     static cocos2d::Sprite *createCaicai_backSprite();
+    static cocos2d::Sprite *createCaicai_bluesearch_pic_backgroundSprite();
     static cocos2d::Sprite *createCaicai_bluesearch_pic_blueSprite();
     static cocos2d::Sprite *createCaicai_bluesearch_pic_fontbjSprite();
     static cocos2d::Sprite *createCaicai_home_abcSprite();

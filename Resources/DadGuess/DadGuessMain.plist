@@ -15,7 +15,22 @@
                 <key>spriteSourceSize</key>
                 <string>{96,96}</string>
                 <key>textureRect</key>
-                <string>{{201,1923},{96,96}}</string>
+                <string>{{2835,1317},{96,96}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>caicai_bluesearch_pic_background.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,1}</string>
+                <key>spriteSize</key>
+                <string>{397,398}</string>
+                <key>spriteSourceSize</key>
+                <string>{397,400}</string>
+                <key>textureRect</key>
+                <string>{{1083,1515},{397,398}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -30,9 +45,9 @@
                 <key>spriteSourceSize</key>
                 <string>{248,287}</string>
                 <key>textureRect</key>
-                <string>{{2597,1},{248,287}}</string>
+                <string>{{2546,1213},{248,287}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_bluesearch_pic_fontbj.png</key>
             <dict>
@@ -45,9 +60,9 @@
                 <key>spriteSourceSize</key>
                 <string>{389,178}</string>
                 <key>textureRect</key>
-                <string>{{2108,1865},{389,178}}</string>
+                <string>{{1482,1515},{389,178}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_home_abc.png</key>
             <dict>
@@ -60,7 +75,7 @@
                 <key>spriteSourceSize</key>
                 <string>{232,232}</string>
                 <key>textureRect</key>
-                <string>{{2421,1213},{216,218}}</string>
+                <string>{{2094,1699},{216,218}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -75,9 +90,9 @@
                 <key>spriteSourceSize</key>
                 <string>{232,232}</string>
                 <key>textureRect</key>
-                <string>{{2203,1435},{212,224}}</string>
+                <string>{{2449,1463},{212,224}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_home_bj.png</key>
             <dict>
@@ -105,7 +120,7 @@
                 <key>spriteSourceSize</key>
                 <string>{216,220}</string>
                 <key>textureRect</key>
-                <string>{{2203,1213},{216,220}}</string>
+                <string>{{1876,1699},{216,220}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -120,7 +135,7 @@
                 <key>spriteSourceSize</key>
                 <string>{232,232}</string>
                 <key>textureRect</key>
-                <string>{{2417,1435},{212,224}}</string>
+                <string>{{2546,1677},{212,224}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -135,7 +150,7 @@
                 <key>spriteSourceSize</key>
                 <string>{232,232}</string>
                 <key>textureRect</key>
-                <string>{{2597,290},{232,232}}</string>
+                <string>{{2312,1678},{232,232}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -150,7 +165,7 @@
                 <key>spriteSourceSize</key>
                 <string>{124,124}</string>
                 <key>textureRect</key>
-                <string>{{1,1923},{94,124}}</string>
+                <string>{{2449,1213},{94,124}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -165,9 +180,9 @@
                 <key>spriteSourceSize</key>
                 <string>{124,124}</string>
                 <key>textureRect</key>
-                <string>{{397,1923},{80,86}}</string>
+                <string>{{2449,1339},{80,86}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_home_icon_gohome.png</key>
             <dict>
@@ -180,9 +195,9 @@
                 <key>spriteSourceSize</key>
                 <string>{104,104}</string>
                 <key>textureRect</key>
-                <string>{{97,1923},{102,104}}</string>
+                <string>{{2835,1213},{102,104}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_home_pic_logo.png</key>
             <dict>
@@ -195,9 +210,9 @@
                 <key>spriteSourceSize</key>
                 <string>{463,152}</string>
                 <key>textureRect</key>
-                <string>{{1643,1865},{463,152}}</string>
+                <string>{{2295,1213},{463,152}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_home_pic_product.png</key>
             <dict>
@@ -212,7 +227,7 @@
                 <key>textureRect</key>
                 <string>{{1083,1},{1264,392}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>caicai_home_sky.png</key>
             <dict>
@@ -225,7 +240,7 @@
                 <key>spriteSourceSize</key>
                 <string>{232,232}</string>
                 <key>textureRect</key>
-                <string>{{2499,1661},{212,222}}</string>
+                <string>{{1662,1699},{212,222}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -240,7 +255,7 @@
                 <key>spriteSourceSize</key>
                 <string>{96,96}</string>
                 <key>textureRect</key>
-                <string>{{299,1923},{96,96}}</string>
+                <string>{{2835,1415},{96,96}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -255,7 +270,7 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{1083,1267},{558,650}}</string>
+                <string>{{2349,1},{558,650}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -270,9 +285,9 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{1477,1},{558,650}}</string>
+                <string>{{1083,395},{558,650}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_xq_cover_chinese.png</key>
             <dict>
@@ -285,9 +300,9 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{1477,653},{558,650}}</string>
+                <string>{{1735,395},{558,650}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
             <key>caicai_xq_cover_earth.png</key>
             <dict>
@@ -300,9 +315,9 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{2037,1},{558,650}}</string>
+                <string>{{1083,955},{558,650}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_xq_cover_history.png</key>
             <dict>
@@ -315,9 +330,9 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{1643,1213},{558,650}}</string>
+                <string>{{2295,653},{558,650}}</string>
                 <key>textureRotated</key>
-                <false/>
+                <true/>
             </dict>
             <key>caicai_xq_cover_sky.png</key>
             <dict>
@@ -330,9 +345,9 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{2129,653},{558,650}}</string>
+                <string>{{1735,1047},{558,650}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -346,9 +361,9 @@
             <key>realTextureFileName</key>
             <string>DadGuessMain.png</string>
             <key>size</key>
-            <string>{2846,2048}</string>
+            <string>{2946,1922}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:cfc2449607e3a857d8bdec4a077052f4:bffa683e238c3ed64c5f2aa450a202cb:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
+            <string>$TexturePacker:SmartUpdate:45067819def2f69a1c78eb34ba909d7a:c4bb2fc5ebb2dbb3be5e04ef522ebaa2:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
             <key>textureFileName</key>
             <string>DadGuessMain.png</string>
         </dict>

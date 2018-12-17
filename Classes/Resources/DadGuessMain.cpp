@@ -28,28 +28,29 @@ void DadGuessMain::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string DadGuessMain::caicai_back                    = "caicai_back.png";
-const std::string DadGuessMain::caicai_bluesearch_pic_blue     = "caicai_bluesearch_pic_blue.png";
-const std::string DadGuessMain::caicai_bluesearch_pic_fontbj   = "caicai_bluesearch_pic_fontbj.png";
-const std::string DadGuessMain::caicai_home_abc                = "caicai_home_abc.png";
-const std::string DadGuessMain::caicai_home_animal             = "caicai_home_animal.png";
-const std::string DadGuessMain::caicai_home_bj                 = "caicai_home_bj.png";
-const std::string DadGuessMain::caicai_home_chinese            = "caicai_home_chinese.png";
-const std::string DadGuessMain::caicai_home_earth              = "caicai_home_earth.png";
-const std::string DadGuessMain::caicai_home_history            = "caicai_home_history.png";
-const std::string DadGuessMain::caicai_home_icon_blueteeth_no  = "caicai_home_icon_blueteeth_no.png";
-const std::string DadGuessMain::caicai_home_icon_blueteeth_yes = "caicai_home_icon_blueteeth_yes.png";
-const std::string DadGuessMain::caicai_home_icon_gohome        = "caicai_home_icon_gohome.png";
-const std::string DadGuessMain::caicai_home_pic_logo           = "caicai_home_pic_logo.png";
-const std::string DadGuessMain::caicai_home_pic_product        = "caicai_home_pic_product.png";
-const std::string DadGuessMain::caicai_home_sky                = "caicai_home_sky.png";
-const std::string DadGuessMain::caicai_icon_goback             = "caicai_icon_goback.png";
-const std::string DadGuessMain::caicai_xq_cover_abc            = "caicai_xq_cover_abc.png";
-const std::string DadGuessMain::caicai_xq_cover_animal         = "caicai_xq_cover_animal.png";
-const std::string DadGuessMain::caicai_xq_cover_chinese        = "caicai_xq_cover_chinese.png";
-const std::string DadGuessMain::caicai_xq_cover_earth          = "caicai_xq_cover_earth.png";
-const std::string DadGuessMain::caicai_xq_cover_history        = "caicai_xq_cover_history.png";
-const std::string DadGuessMain::caicai_xq_cover_sky            = "caicai_xq_cover_sky.png";
+const std::string DadGuessMain::caicai_back                      = "caicai_back.png";
+const std::string DadGuessMain::caicai_bluesearch_pic_background = "caicai_bluesearch_pic_background.png";
+const std::string DadGuessMain::caicai_bluesearch_pic_blue       = "caicai_bluesearch_pic_blue.png";
+const std::string DadGuessMain::caicai_bluesearch_pic_fontbj     = "caicai_bluesearch_pic_fontbj.png";
+const std::string DadGuessMain::caicai_home_abc                  = "caicai_home_abc.png";
+const std::string DadGuessMain::caicai_home_animal               = "caicai_home_animal.png";
+const std::string DadGuessMain::caicai_home_bj                   = "caicai_home_bj.png";
+const std::string DadGuessMain::caicai_home_chinese              = "caicai_home_chinese.png";
+const std::string DadGuessMain::caicai_home_earth                = "caicai_home_earth.png";
+const std::string DadGuessMain::caicai_home_history              = "caicai_home_history.png";
+const std::string DadGuessMain::caicai_home_icon_blueteeth_no    = "caicai_home_icon_blueteeth_no.png";
+const std::string DadGuessMain::caicai_home_icon_blueteeth_yes   = "caicai_home_icon_blueteeth_yes.png";
+const std::string DadGuessMain::caicai_home_icon_gohome          = "caicai_home_icon_gohome.png";
+const std::string DadGuessMain::caicai_home_pic_logo             = "caicai_home_pic_logo.png";
+const std::string DadGuessMain::caicai_home_pic_product          = "caicai_home_pic_product.png";
+const std::string DadGuessMain::caicai_home_sky                  = "caicai_home_sky.png";
+const std::string DadGuessMain::caicai_icon_goback               = "caicai_icon_goback.png";
+const std::string DadGuessMain::caicai_xq_cover_abc              = "caicai_xq_cover_abc.png";
+const std::string DadGuessMain::caicai_xq_cover_animal           = "caicai_xq_cover_animal.png";
+const std::string DadGuessMain::caicai_xq_cover_chinese          = "caicai_xq_cover_chinese.png";
+const std::string DadGuessMain::caicai_xq_cover_earth            = "caicai_xq_cover_earth.png";
+const std::string DadGuessMain::caicai_xq_cover_history          = "caicai_xq_cover_history.png";
+const std::string DadGuessMain::caicai_xq_cover_sky              = "caicai_xq_cover_sky.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
@@ -57,6 +58,11 @@ const std::string DadGuessMain::caicai_xq_cover_sky            = "caicai_xq_cove
 Sprite* DadGuessMain::createCaicai_backSprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_back);
+}
+
+Sprite* DadGuessMain::createCaicai_bluesearch_pic_backgroundSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_bluesearch_pic_background);
 }
 
 Sprite* DadGuessMain::createCaicai_bluesearch_pic_blueSprite()

@@ -21,6 +21,8 @@ class DadGuessMainScene : public BaseScene
 {
 public:
     CREATE_FUNC( DadGuessMainScene );
+
+    static bool sm_blueState;
 protected:
     virtual bool init( void ) override;
     
@@ -32,7 +34,6 @@ protected:
     
     virtual void destroy( void );
 private:
-    static bool sm_blueState;
     cocos2d::ui::Button * m_blueConnectState;
     BlueDeviceListener * m_blueDeviceConnectedListener;
     

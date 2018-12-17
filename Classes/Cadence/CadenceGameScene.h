@@ -12,8 +12,6 @@
 #include <vector>
 #include <string>
 
-#define PI 3.1415926535897932385f
-
 class CadenceGameScene : public BaseScene
 {
 public:

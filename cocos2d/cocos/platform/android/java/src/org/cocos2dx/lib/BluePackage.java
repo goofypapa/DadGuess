@@ -31,13 +31,19 @@ public abstract class BluePackage {
     static private BluetoothSocket m_socket = null;
     static private InputStream m_inStream = null;
 
+    static private boolean sm_scanDevice = false, sm_connectIng = false;
+
     static BluetoothAdapter m_blueToolThAdapter;
     static BroadcastReceiver m_broadcastReceiver;
     static Map< String,BluetoothDevice> m_bluetoothDeviceList = new HashMap<>();
     static BluetoothDevice m_device;
 
     public static native void scanedDevice( String p_deviceAddess, String p_deviceName );
+    public static native void recvData( String p_data );
     public static native void connectDeviceStateChange( int p_connectState );
+
+    static private String sm_data;
+
 
     public static void listen()
     {
@@ -116,6 +122,10 @@ public abstract class BluePackage {
 //                    if( m_bluetoothDevice == null ){
 //                        Log.d("DEBUG", "没有找到设备");
 //                    }
+
+                    if( sm_scanDevice ) {
+                        scan();
+                    }
                 }
 
                 //蓝牙状态
@@ -132,9 +142,12 @@ public abstract class BluePackage {
                             break;
                         case BluetoothAdapter.STATE_TURNING_OFF:
                             Log.d("DEBUG", "正在关闭蓝牙");
+
+                            cancelPair(m_device);
                             break;
                         case BluetoothAdapter.STATE_OFF:
                             Log.d("DEBUG", "蓝牙已关闭");
+                            sm_scanDevice = false;
                             break;
                     }
                 }
@@ -162,6 +175,9 @@ public abstract class BluePackage {
 
     public static void openDevice()
     {
+
+        Cocos2dxActivity.openLocationAccess();
+
         if(m_blueToolThAdapter.isEnabled())
         {
             scan();
@@ -174,6 +190,9 @@ public abstract class BluePackage {
 
     public static void scan()
     {
+
+        sm_scanDevice = true;
+
         m_bluetoothDeviceList.clear();
         Set<BluetoothDevice> pairedDevices = m_blueToolThAdapter.getBondedDevices();
         //
@@ -185,24 +204,37 @@ public abstract class BluePackage {
                         continue;
                     }
 
-                    cancelPair( device );
-//                    m_bluetoothDeviceList.put( device.getAddress(), device );
-//                    scanedDevice( device.getAddress(), device.getName() );
-//                    Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress() );
+                    if( checkConnected( device ) ) {
+                        m_bluetoothDeviceList.put(device.getAddress(), device);
+                        scanedDevice(device.getAddress(), device.getName());
+                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
+                    }else{
+                        cancelPair( device );
+                    }
                 }
             }
         }
 
         if( m_blueToolThAdapter.isDiscovering() )
         {
-            m_blueToolThAdapter.cancelDiscovery();
+            return;
         }
         m_blueToolThAdapter.startDiscovery();
+    }
+
+    public static void stopScan()
+    {
+        sm_scanDevice = false;
+        if( m_blueToolThAdapter.isDiscovering() )
+        {
+            m_blueToolThAdapter.cancelDiscovery();
+        }
     }
 
     public static void connect( String p_deviceAddess )
     {
         Log.d( "------->", "connect" + p_deviceAddess );
+
         if( m_bluetoothDeviceList.containsKey( p_deviceAddess ) )
         {
             BluetoothDevice t_device = m_bluetoothDeviceList.get( p_deviceAddess );
@@ -211,6 +243,12 @@ public abstract class BluePackage {
                 pair( t_device );
                 return;
             }
+
+            if( sm_connectIng )
+            {
+                return;
+            }
+            sm_connectIng = true;
 
             listenSocket( t_device );
         }
@@ -249,8 +287,15 @@ public abstract class BluePackage {
                 try {
                     m_socket = m_device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 } catch (Exception e) {
-                    connectDeviceStateChange( 1 );
                     Log.d("DEBUG", "创建Socket失败" + e.toString());
+                    ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            connectDeviceStateChange( 1 );
+                            sm_connectIng = false;
+                        }
+                    });
+
                     return;
                 }
 
@@ -263,12 +308,26 @@ public abstract class BluePackage {
                             m_socket.connect();
                         } catch (IOException e) {
                             Log.d("DEBUG", "连接Socket失败" + e.toString());
+                            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    connectDeviceStateChange( 1 );
+                                    sm_connectIng = false;
+                                }
+                            });
                         }
                         try {
                             m_inStream = m_socket.getInputStream();
                         } catch (IOException e) {
                             Log.d("DEBUG", "获取流异常" + e.toString());
-                            connectDeviceStateChange( 2 );
+
+                            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    connectDeviceStateChange( 2 );
+                                    sm_connectIng = false;
+                                }
+                            });
                             return;
                         }
 
@@ -280,7 +339,16 @@ public abstract class BluePackage {
                         while (m_socket != null) {
                             try {
                                 int t_size = m_inStream.read(t_buffer);
-                                Log.d("DEBUG", "卡号：" + byteArrayToHexStr(t_buffer, t_size));
+
+                                sm_data = byteArrayToHexStr(t_buffer, t_size);
+                                ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        recvData( sm_data );
+                                    }
+                                });
+
+                                Log.d("DEBUG", "卡号：" + sm_data );
                             } catch (IOException e) {
                                 t_socketConnected = false;
 
@@ -300,7 +368,13 @@ public abstract class BluePackage {
 
                         Log.d("DEBUG", "断开连接");
                         closeA2DP();
-                        connectDeviceStateChange( 3 );
+                        ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                connectDeviceStateChange( 3 );
+                                sm_connectIng = false;
+                            }
+                        });
                     }
                 }).start();
             }
@@ -309,8 +383,15 @@ public abstract class BluePackage {
 
     private static void connectA2DP( BluetoothDevice p_device ) {
 
-        if( checkConnected() )
+        if( checkConnected( p_device ) )
         {
+            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    connectDeviceStateChange( 0 );
+                    sm_connectIng = false;
+                }
+            });
             //已经连接
             return;
         }
@@ -343,13 +424,26 @@ public abstract class BluePackage {
             Method connectMethod =BluetoothA2dp.class.getMethod("connect",
                     BluetoothDevice.class);
             connectMethod.invoke( m_bluetoothA2dp, p_device );
-            Log.d("DEBUG", "连接a2dp成功");
-            connectDeviceStateChange( 0 );
+
+            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("DEBUG", "连接a2dp成功");
+                    connectDeviceStateChange( 0 );
+                    sm_connectIng = false;
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("DEBUG", "连接a2dp失败" + e.toString());
-            connectDeviceStateChange( 4 );
+            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    connectDeviceStateChange( 4 );
+                    sm_connectIng = false;
+                }
+            });
         }
     }
 
@@ -393,7 +487,7 @@ public abstract class BluePackage {
         return new String(hexChars);
     }
 
-    private static boolean checkConnected()
+    private static boolean checkConnected( BluetoothDevice p_device )
     {
         try {//得到连接状态的方法
             Method method = m_blueToolThAdapter.getClass().getDeclaredMethod("getConnectionState", (Class[]) null);
@@ -408,7 +502,7 @@ public abstract class BluePackage {
                     Method isConnectedMethod = BluetoothDevice.class.getDeclaredMethod("isConnected", (Class[]) null);
                     method.setAccessible(true);
                     boolean isConnected = (boolean) isConnectedMethod.invoke(device, (Object[]) null);
-                    if(isConnected && device.getName().equals(sm_blueName)){
+                    if(isConnected && device.getName().equals(p_device.getName() ) && device.getAddress().equals( p_device.getAddress() ) ){
                         Log.d("DEBUG", "connected:"+device.getName());
                         return true;
                     }

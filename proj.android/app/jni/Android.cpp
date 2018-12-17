@@ -5,12 +5,13 @@
 #include "Common.h"
 #include "BlueDeviceListener.h"
 #include "platform/android/jni/JniHelper.h"
+#include <string.h>
 
 #include <functional>
 
-static JNIEnv * s_env = nullptr;
-
 char* jstringToChar(JNIEnv* env, jstring jstr);
+
+unsigned char charToHex( char p_c );
 
 void BlueDeviceListener::listen( void )
 {
@@ -20,8 +21,6 @@ void BlueDeviceListener::listen( void )
     {
         info.env->CallStaticVoidMethod(info.classID,info.methodID);
     }
-
-    scan();
 }
 
 void BlueDeviceListener::scan( void )
@@ -34,13 +33,23 @@ void BlueDeviceListener::scan( void )
     }
 }
 
+void BlueDeviceListener::cancelScan( void )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/lib/BluePackage","stopScan","()V");
+    if(ret)
+    {
+        info.env->CallStaticVoidMethod(info.classID,info.methodID);
+    }
+}
+
 void BlueDeviceListener::connect( const std::string & p_deviceId )
 {
     JniMethodInfo info;
     bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/lib/BluePackage","connect","(Ljava/lang/String;)V");
     if(ret)
     {
-        jstring param = s_env->NewStringUTF( p_deviceId.c_str() );
+        jstring param = info.env->NewStringUTF( p_deviceId.c_str() );
         info.env->CallStaticVoidMethod(info.classID,info.methodID, param);
     }
 }
@@ -67,7 +76,6 @@ extern "C"
 {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_NetBroadcastReceiver_netStateChange(JNIEnv *env, jobject clazz, jint netState)
     {
-        s_env = env;
         NetWorkStateListener::NetWorkState t_netWorkState = NetWorkStateListener::NetWorkState::NotReachable;
 
         switch( netState )
@@ -99,16 +107,32 @@ extern "C"
         }
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_scanedDevice(JNIEnv *env, jobject clazz, jstring p_deviceAddess, jstring p_deviceName )
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_scanedDevice( JNIEnv *env, jobject clazz, jstring p_deviceAddess, jstring p_deviceName )
     {
-        s_env = env;
         std::string t_deviceAddess = jstringToChar( env, p_deviceAddess );
         std::string t_deviceName = jstringToChar( env, p_deviceName );
 
         BlueDeviceListener::_onScanDevice( t_deviceAddess, t_deviceName );
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_connectDeviceStateChange( jint p_connectState )
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_recvData( JNIEnv *env, jobject clazz, jstring p_data )
+    {
+        char * t_source = jstringToChar( env, p_data );
+
+        printf( "-------------> %s \n", t_source );
+
+        std::vector< unsigned char > t_data;
+
+        for( int i = 0; i < strlen( t_source ) - 1; i += 2 )
+        {
+            unsigned char t_char = ( charToHex( t_source[i] ) << 4 ) + charToHex( t_source[i + 1] ) ;
+            t_data.push_back( t_char );
+        }
+
+        BlueDeviceListener::_onRecvedData( t_data );
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_connectDeviceStateChange( JNIEnv *env, jobject clazz, jint p_connectState )
     {
         BlueDeviceListener::_onConnectStateChanged( !p_connectState );
     }
@@ -179,4 +203,21 @@ char* jstringToChar(JNIEnv* env, jstring jstr)
     }
     env->ReleaseByteArrayElements(barr, ba, 0);
     return rtn;
+}
+
+unsigned char charToHex( char p_c )
+{
+    if( p_c >= '0' && p_c <= '9' )
+    {
+        return p_c - '0';
+    }
+    if( p_c >= 'a' && p_c <= 'f' )
+    {
+        return 10 + p_c - 'a';
+    }
+    if( p_c >= 'A' && p_c <= 'F' )
+    {
+        return 10 + p_c - 'A';
+    }
+    return 0;
 }

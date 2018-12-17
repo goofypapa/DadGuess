@@ -108,7 +108,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         return sContext.getRequestedOrientation();
     }
 
-    public static void openBlue()
+    public static void openLocationAccess()
     {
         //检测定位权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -117,6 +117,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
                 return;
             }
         }
+    }
+
+    public static void openBlue()
+    {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         sContext.startActivityForResult(intent, 1);
     }

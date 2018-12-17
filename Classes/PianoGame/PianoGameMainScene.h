@@ -17,8 +17,6 @@
 #include <string>
 #include <map>
 
-#define PI 3.1415926535897932385f
-
 class PianoGameMainScene : public BaseScene
 {
 public:

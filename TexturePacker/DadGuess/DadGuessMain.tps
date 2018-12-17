@@ -204,6 +204,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">main/caicai_bluesearch_pic_background.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>99,100,199,200</rect>
+                <key>scale9Paddings</key>
+                <rect>99,100,199,200</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">main/caicai_bluesearch_pic_blue.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -382,6 +395,7 @@
             <filename>main/caicai_bluesearch_pic_blue.png</filename>
             <filename>main/caicai_bluesearch_pic_fontbj.png</filename>
             <filename>main/caicai_icon_goback.png</filename>
+            <filename>main/caicai_bluesearch_pic_background.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

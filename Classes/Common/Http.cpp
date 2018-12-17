@@ -31,7 +31,6 @@ const int Http::sm_overtime = 60 * 60 * 24 * 1;
 
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
-
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
     std::string t_cacheKey = p_url + t_data;
 
@@ -160,7 +159,7 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
     HttpClient::getInstance()->send( request );
     //    释放HttpRequest对象
     request->release();
-    
+
     return t_http;
 }
 

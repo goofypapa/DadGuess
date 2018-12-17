@@ -22,8 +22,6 @@
 #include "DataTableCardBatch.h"
 #include "DataTableCardAudio.h"
 
-#define PI 3.1415926535897932385f
-
 struct UpdateDownloadItem
 {
 public:

@@ -12,6 +12,7 @@
 #include "MainScene.h"
 #include "DadGuessUpdateScene.h"
 #include "DadGuessCardListScene.h"
+#include "DadGuessBlueScene.h"
 
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
@@ -87,6 +88,22 @@ bool DadGuessMainScene::init( void )
     auto t_blueConnectStateSizeHalf = m_blueConnectState->getContentSize() * m_blueConnectState->getScale() * 0.5f;
     m_blueConnectState->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_blueConnectStateSizeHalf.width - 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_blueConnectStateSizeHalf.height - 15.0f ) );
     addChild( m_blueConnectState );
+
+    touchAnswer( m_blueConnectState, [this]( Ref * p_target ){
+        printf( "----------> %s \n", sm_blueState ? "connected" : "not connected" );
+
+        if( !sm_blueState )
+        {
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    printf( "-----ios-----" );
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    Director::getInstance()->replaceScene( DadGuessBlueScene::create() );
+    destroy();
+#endif
+        }
+
+    }, adaptation() * 1.2f, adaptation() );
     
     auto t_product = TexturePacker::DadGuessMain::createCaicai_home_pic_productSprite();
     auto t_productSizeHalf = t_product->getContentSize() * 0.5f;
@@ -160,7 +177,7 @@ bool DadGuessMainScene::init( void )
         t_btnList[i]->setTag( i );
         touchAnswer( t_btnList[i], t_btnTouched, t_adaptation * 1.2f, t_adaptation );
     }
-    
+
     BlueDeviceListener::listen();
     
     if( sm_blueDeviceScanCardListener == nullptr )
@@ -169,34 +186,32 @@ bool DadGuessMainScene::init( void )
             printf( "--------> connected: %s \n", ( p_connected ? "true" : "false" ) );
             sm_blueState = p_connected;
         }, [this]( const std::vector< unsigned char > & p_data ){
+            static std::map< int, bool > s_scanCardList;
             
-            static std::vector< unsigned char > s_lastData;
-            
-            bool t_isEqual = false;
-            if( s_lastData.size() == p_data.size() )
+            if( p_data[0] == 0xAB && ( p_data[1] == 0x03 || p_data[1] == 0x04 ) )
             {
-                t_isEqual = true;
-                for( int i = 0; i < s_lastData.size(); ++i )
+                int t_rfid = ( p_data[2] << 8 ) + p_data[3];
+
+                if( p_data[1] == 0x03 )
                 {
-                    if( s_lastData[ i ] != p_data[ i ] )
+                    if( s_scanCardList.find( t_rfid ) == s_scanCardList.end() )
                     {
-                        t_isEqual = false;
-                        break;
+                        s_scanCardList[t_rfid] = false;
                     }
+
+                    if( s_scanCardList[t_rfid] )
+                    {
+                        return;
+                    }
+                    s_scanCardList[t_rfid] = true;
+                    DadGuessMainScene::scanCard( t_rfid );
                 }
-            }
-            
-            if( t_isEqual )
-            {
-                return;
-            }
-            s_lastData = p_data;
-            
-            if( p_data[0] == 0xAB && p_data[1] == 0x03 )
-            {
-                int t_rfid = p_data[2] * 256 + p_data[3];
-                
-                DadGuessMainScene::scanCard( t_rfid );
+
+                if( p_data[1] == 0x04 )
+                {
+                    // s_scanCardList[t_rfid] = false;
+                    s_scanCardList.clear();
+                }
             }
         } );
     }
@@ -221,7 +236,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
     printf( "-------> scan: %d \n", p_rfid );
     
     auto t_cardInfo = DataTableCard::instance().find( p_rfid );
-    
+
     if( t_cardInfo.id.empty() )
     {
         return;
@@ -237,7 +252,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
 
     if( s_cardAudioPool.find( t_cardInfo.id ) == s_cardAudioPool.end() )
     {
-        static bool t_needCheckAudioUpdate = true;
+        bool t_needCheckAudioUpdate = true;
         if( t_cardBatchInfo.activation )
         {
             time_t t_curTime;
@@ -445,7 +460,6 @@ void DadGuessMainScene::scanCard( int p_rfid )
         }
 
         s_cardAudioPool[ t_cardInfo.id ] = DataTableCardAudio::instance().list( t_cardInfo.id );
-        
     }
     
     if( !t_cardInfo.activation )

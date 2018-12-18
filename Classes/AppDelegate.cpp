@@ -24,7 +24,7 @@
 
 #include "AppDelegate.h"
 #include "Login/LoginScene.h"
-#include "MainScene.h"
+#include "DadGuess/DadGuessUpdateScene.h"
 #include "C2DXShareSDK.h"
 #include "Config.h"
 #include "DataTableUser.h"
@@ -173,7 +173,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     if( t_isLogin )
     {
-        t_startScene = MainScene::CreateScene();
+        t_startScene = DadGuessUpdateScene::create();
     }else{
         t_startScene = LoginScene::CreateScene();
     }

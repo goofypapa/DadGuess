@@ -9,10 +9,13 @@
 #include "DadGuessMain.hpp"
 #include "Config.h"
 #include "Common.h"
+#include "Main.hpp"
+#include "Dialog.hpp"
 #include "MainScene.h"
 #include "DadGuessUpdateScene.h"
 #include "DadGuessCardListScene.h"
 #include "DadGuessBlueScene.h"
+#include "DataTableFile.h"
 
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
@@ -24,6 +27,8 @@
 #include "json/document.h"
 #include "json/writer.h"
 #include "json/stringbuffer.h"
+
+#define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -45,6 +50,13 @@ bool DadGuessMainScene::init( void )
         return false;
     }
     
+    m_loginUser = DataTableUser::instance().getActivation();
+    //加载贴图
+    TexturePacker::Main::addSpriteFramesToCache();
+    TexturePacker::Dialog::addSpriteFramesToCache();
+    
+    m_enableMainButton = true;
+    
     auto t_visibleSizeHalf = Director::getInstance()->getVisibleSize() * 0.5f;
     Vec2 t_origin = Director::getInstance()->getVisibleOrigin();
     
@@ -59,19 +71,66 @@ bool DadGuessMainScene::init( void )
     
     addChild( t_background, 0 );
     
-    auto t_homeButton = Button::create( TexturePacker::DadGuessMain::caicai_home_icon_gohome, TexturePacker::DadGuessMain::caicai_home_icon_gohome, "", Button::TextureResType::PLIST );
-    t_homeButton->setScale( adaptation() );
-    auto t_homeButtonSizeHalf = t_homeButton->getContentSize() * t_homeButton->getScale() * 0.5f;
     
-    t_homeButton->setPosition( Vec2( t_origin.x + t_homeButtonSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_homeButtonSizeHalf.height - 15.0f ) );
+    auto t_userHeadBorder = Button::create( TexturePacker::Main::mainUserHeadBackground, TexturePacker::Main::mainUserHeadBackground, "", Widget::TextureResType::PLIST );
+    auto t_userHeadBorderSizeHalf = t_userHeadBorder->getContentSize() * 0.5f;
+    auto t_userHeadBorderPosition = Vec2( t_origin.x + t_userHeadBorderSizeHalf.width * adaptation() + 15.0f , t_origin.y + t_visibleSizeHalf.height * 2.0f - t_userHeadBorderSizeHalf.height * adaptation() - 10.0f );
     
-    addChild( t_homeButton );
+    t_userHeadBorder->setPosition( t_userHeadBorderPosition );
+    t_userHeadBorder->setScale( adaptation() );
+    this->addChild( t_userHeadBorder );
     
-    touchAnswer( t_homeButton, [this]( Ref * p_target ){
-        Director::getInstance()->replaceScene( MainScene::create() );
-        DadGuessUpdateScene::unCacheResource();
-        destroy();
-    }, adaptation() * 1.2f, adaptation());
+    
+    touchAnswer( t_userHeadBorder , [this]( Ref * p_ref ){
+        
+        if( !m_enableMainButton ) return;
+        
+        m_enableMainButton = false;
+        m_dialogPersonalCenter->show();
+    }, adaptation() * 1.1f, adaptation() );
+    
+    auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+    
+    m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName ) ;
+    
+    auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
+    m_personalHead->setPosition( Vec2( t_userHeadBorderSizeHalf.width, t_userHeadBorderSizeHalf.height ) );
+    m_personalHead->setScale( t_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+    t_userHeadBorder->addChild( m_personalHead );
+    
+    GLProgram * t_userHeadProgram = GLProgramCache::getInstance()->getGLProgram( "UserHead" );
+    if( !t_userHeadProgram )
+    {
+        t_userHeadProgram = GLProgram::createWithFilenames( "UserHead.vert", "UserHead.frag" );
+        GLProgramCache::getInstance()->addGLProgram( t_userHeadProgram, "UserHead" );
+    }
+    
+    GLProgramState * t_userHeadProgramState = GLProgramState::getOrCreateWithGLProgram( t_userHeadProgram );
+    m_personalHead->setGLProgramState( t_userHeadProgramState );
+    
+    auto t_personalName = Label::createWithTTF( m_loginUser.userName, PAGE_FONT, 16 );
+    
+    t_personalName->setAlignment( TextHAlignment::LEFT );
+    t_personalName->setAnchorPoint( Point( 0.0f, 0.5f ) );
+    
+    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width * adaptation() + 5.0f, t_userHeadBorderPosition.y ) );
+    
+    this->addChild( t_personalName );
+    
+    
+//    auto t_homeButton = Button::create( TexturePacker::DadGuessMain::caicai_home_icon_gohome, TexturePacker::DadGuessMain::caicai_home_icon_gohome, "", Button::TextureResType::PLIST );
+//    t_homeButton->setScale( adaptation() );
+//    auto t_homeButtonSizeHalf = t_homeButton->getContentSize() * t_homeButton->getScale() * 0.5f;
+//
+//    t_homeButton->setPosition( Vec2( t_origin.x + t_homeButtonSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_homeButtonSizeHalf.height - 15.0f ) );
+//
+//    addChild( t_homeButton );
+    
+//    touchAnswer( t_homeButton, [this]( Ref * p_target ){
+//        Director::getInstance()->replaceScene( MainScene::create() );
+//        DadGuessUpdateScene::unCacheResource();
+//        destroy();
+//    }, adaptation() * 1.2f, adaptation());
     
     auto t_logo = TexturePacker::DadGuessMain::createCaicai_home_pic_logoSprite();
     t_logo->setScale( adaptation() );
@@ -90,6 +149,7 @@ bool DadGuessMainScene::init( void )
     addChild( m_blueConnectState );
 
     touchAnswer( m_blueConnectState, [this]( Ref * p_target ){
+        if( !m_enableMainButton ) return;
         printf( "----------> %s \n", sm_blueState ? "connected" : "not connected" );
 
         if( !sm_blueState )
@@ -164,6 +224,7 @@ bool DadGuessMainScene::init( void )
     
     //
     auto t_btnTouched = [this]( Ref * p_target ){
+        if( !m_enableMainButton ) return;
         int t_tag = ((Button *)p_target)->getTag();
         
         Director::getInstance()->replaceScene( DadGuessCardListScene::createScene( DataCardBatchInfo::s_batchIdList[t_tag] ) );
@@ -219,6 +280,22 @@ bool DadGuessMainScene::init( void )
     m_blueDeviceConnectedListener = new BlueDeviceListener( [this]( bool p_connected ){
         m_blueConnectState->loadTextureNormal( sm_blueState ? TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_yes : TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_no, Button::TextureResType::PLIST );
     }, nullptr );
+    
+    
+    //用户中心
+    m_dialogPersonalCenter = DialogPersonalCenterLayer::create();
+    m_dialogPersonalCenter->setPosition( Vec2( t_visibleSizeHalf.width + t_origin.x, t_visibleSizeHalf.height + t_origin.y ) );
+    this->addChild( m_dialogPersonalCenter );
+    
+    m_dialogPersonalCenter->hideCallBack = [this, t_personalName](){
+        m_enableMainButton = true;
+        auto t_userInfo = DataTableUser::instance().getActivation();
+        
+        t_personalName->initWithTTF( t_userInfo.userName, PAGE_FONT, 16 );
+        
+        updateUserInfo();
+        
+    };
 
     return true;
 }
@@ -519,3 +596,25 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         AudioEngine::play2d( t_audioFileInfo.fileName );
     }
 }
+
+void DadGuessMainScene::updateUserInfo( void )
+{
+    m_loginUser = DataTableUser::instance().getActivation();
+}
+
+void DadGuessMainScene::refreshSource( const DataFileInfo & p_fileInfo )
+{
+    auto t_loginUser = DataTableUser::instance().getActivation();
+    
+    if( t_loginUser.headImg == p_fileInfo.fileId )
+    {
+        m_loginUser = t_loginUser;
+        
+        auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
+        if( !t_fileInfo.fileName.empty() )
+        {
+            m_personalHead->setTexture( t_fileInfo.fileName );
+        }
+    }
+}
+

@@ -32,7 +32,7 @@ const int Http::sm_overtime = 60 * 60 * 24 * 1;
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
-    std::string t_cacheKey = p_url + t_data;
+    std::string t_cacheKey = strToSqlStr( p_url + t_data );
 
     if( p_enableCache )
     {
@@ -104,10 +104,8 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
 Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
-    std::string t_cacheKey =  p_url + t_data;
+    std::string t_cacheKey = strToSqlStr( p_url + t_data );
     
-    auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
-
     if( p_enableCache )
     {
         time_t t_curTime;

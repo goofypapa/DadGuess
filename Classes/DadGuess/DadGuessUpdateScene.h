@@ -39,6 +39,8 @@ public:
     
     static std::map< std::string, std::vector< std::pair< DataCardInfo, DataFileInfo > > > s_cardList;
     
+    static bool s_updateed;
+    
 protected:
     
     virtual bool init( void ) override;

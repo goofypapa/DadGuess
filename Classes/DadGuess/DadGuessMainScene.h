@@ -14,6 +14,8 @@
 #include <map>
 #include <vector>
 #include "DataTableCardAudio.h"
+#include "DataTableUser.h"
+#include "DialogPersonalCenterLayer.h"
 
 #include "ui/CocosGUI.h"
 
@@ -21,7 +23,7 @@ class DadGuessMainScene : public BaseScene
 {
 public:
     CREATE_FUNC( DadGuessMainScene );
-
+    void updateUserInfo( void );
     static bool sm_blueState;
 protected:
     virtual bool init( void ) override;
@@ -32,10 +34,17 @@ protected:
     
     static BlueDeviceListener * sm_blueDeviceScanCardListener;
     
+    virtual void refreshSource( const DataFileInfo & p_fileInfo ) override;
+    
     virtual void destroy( void );
 private:
     cocos2d::ui::Button * m_blueConnectState;
     BlueDeviceListener * m_blueDeviceConnectedListener;
+    cocos2d::Sprite * m_personalHead;
+    DataUserInfo m_loginUser;
+    DialogPersonalCenterLayer * m_dialogPersonalCenter;
+    
+    bool m_enableMainButton;
     
     static const char * sm_cardAudioInfoApi, * sm_cardAudioInfoApiAnimal;
     static const char * sm_checkoutCardAudioUpdateKey;

@@ -14,7 +14,8 @@
 #include "Config.h"
 #include "Message.h"
 #include "../DataBase/DataValidate.h"
-#include "MainScene.h"
+#include "../DadGuess/DadGuessUpdateScene.h"
+#include "../DadGuess/DadGuessMainScene.h"
 #include "Login.hpp"
 #include "DataTableUser.h"
 #include "DataTableFile.h"
@@ -717,9 +718,14 @@ void LoginScene::loginWechatCallBack( const char * p_code )
         
     }, []( Http * p_http, std::string p_res ){
         
-    });
+    }, false);
     
-    Director::getInstance()->replaceScene( MainScene::CreateScene() );
+    if( DadGuessUpdateScene::s_updateed )
+    {
+        Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+    }else{
+        Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+    }
 }
 
 void LoginScene::loginBack()
@@ -794,7 +800,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     }, []( Http * p_http, std::string p_res ){
         MessageBox( "网络异常", "" );
         printf( "final: %s \n", p_res.c_str() );
-    } );
+    }, false);
 }
 
 void LoginScene::phoneRegister( cocos2d::Ref* pSender )
@@ -860,7 +866,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
         printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
-    } );
+    }, false );
 }
 
 void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
@@ -917,7 +923,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
         printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
-    } );
+    }, false );
 }
 
 
@@ -988,7 +994,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
                 loginCallBack( p_res );
             }, []( Http * p_http, std::string p_res ){
                 MessageBox( "网络异常", "" );
-            });
+            }, false);
         }
             break;
         case cn::sharesdk::C2DXResponseStateFail:
@@ -1068,7 +1074,12 @@ void LoginScene::loginCallBack( const std::string & p_str )
                 DataTableUser::instance().insert( t_dataUser );
             }
             
-            Director::getInstance()->replaceScene( MainScene::CreateScene() );
+            if( DadGuessUpdateScene::s_updateed )
+            {
+                Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+            }else{
+                Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+            }
             return;
         }
     }

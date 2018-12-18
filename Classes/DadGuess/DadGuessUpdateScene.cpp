@@ -30,6 +30,8 @@ const char * DadGuessUpdateScene::sm_cardTypeListApi = DOMAIN_NAME "api/card/app
 const char * DadGuessUpdateScene::s_checkUpdateKey = "DadGuessCardCheckUpdate";
 const long DadGuessUpdateScene::s_updateOverTime = 60 * 60 * 24 * 2;
 
+bool DadGuessUpdateScene::s_updateed = false;
+
 std::vector< std::string > DadGuessUpdateScene::sm_loadImageList;
 std::vector< DataCardBatchInfo > DadGuessUpdateScene::sm_cardBatchList;
 
@@ -41,6 +43,9 @@ bool DadGuessUpdateScene::init( void )
     {
         return false;
     }
+
+    auto t_loginUser = DataTableUser::instance().getActivation();
+    Http::token = t_loginUser.token;
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile( "DadGuess/DadGuessUpdate.plist", Director::getInstance()->getTextureCache()->addImage( "DadGuess/DadGuessUpdate.png" ) );
     
@@ -584,6 +589,7 @@ bool DadGuessUpdateScene::init( void )
         {
             DataTableKeyValue::instance().set( DataKeyValueInfo( s_checkUpdateKey, true ) );
         }
+        s_updateed = true;
     };
     
 

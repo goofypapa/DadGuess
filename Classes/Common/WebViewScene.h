@@ -12,6 +12,7 @@
 #include "ui/CocosGUI.h"
 #include <string>
 #include <map>
+#include <stack>
 #include <functional>
 #include "DataTableFile.h"
 #include "BaseScene.h"
@@ -29,6 +30,8 @@ class WebViewScene : public BaseScene
 {
 public:
     static cocos2d::Scene * createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId = "" );
+    
+    virtual void update( float p_dt ) override;
 protected:
     CREATE_FUNC( WebViewScene );
     virtual bool init( void ) override;
@@ -50,6 +53,8 @@ private:
     std::string m_dir, m_groupId;
     bool m_webOrientation;
     bool m_firstLoad;
+    
+    std::stack< std::function<void( void ) > > m_httpCallBackList;
     
     std::string m_resourceId;
     

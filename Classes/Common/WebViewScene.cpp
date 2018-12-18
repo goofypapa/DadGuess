@@ -317,7 +317,11 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                         auto & t_ajax = s_ajaxPool[ p_http ];
                         std::stringstream t_sstr;
                         t_sstr << t_ajax.successCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
-                        m_webview->evaluateJS( t_sstr.str() );
+                        std::string t_str = t_sstr.str();
+                        m_httpCallBackList.push( [this, t_str](){
+                            printf( "----------Post: %s \n", t_str.c_str() );
+                            m_webview->evaluateJS( t_str );
+                        });
                         
                         s_ajaxPool.erase( p_http );
                     }
@@ -331,7 +335,10 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                         auto & t_ajax = s_ajaxPool[ p_http ];
                         std::stringstream t_sstr;
                         t_sstr << t_ajax.fialCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
-                        m_webview->evaluateJS( t_sstr.str() );
+                        std::string t_str = t_sstr.str();
+                        m_httpCallBackList.push( [this, t_str](){
+                            m_webview->evaluateJS( t_str );
+                        });
                         s_ajaxPool.erase( p_http );
                     }
                 };
@@ -344,8 +351,11 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         
     } );
     
+    
     m_webview->setOpacityWebView( 0.0f );
     this->addChild( m_webview );
+    
+    schedule( schedule_selector(WebViewScene::update) );
     
     return true;
 }
@@ -396,6 +406,7 @@ void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string 
             {
                 std::stringstream t_sstr;
                 t_sstr << m_playCallBackList[t_audio] << "(\"" << t_audio << "\");";
+                std::string t_str = t_sstr.str();
                 m_webview->evaluateJS( t_sstr.str() );
                 m_playCallBackList.erase( t_audio );
             }
@@ -521,5 +532,15 @@ WebViewScene::~WebViewScene()
     if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
     {
         SpriteFrameCache::getInstance()->removeSpriteFramesFromFile( t_splistName.str() );
+    }
+}
+
+void WebViewScene::update( float p_dt )
+{
+    while( !m_httpCallBackList.empty() )
+    {
+        auto t_callBack = m_httpCallBackList.top();
+        m_httpCallBackList.pop();
+        t_callBack();
     }
 }

@@ -13,8 +13,6 @@
 #include "LoginScene.h"
 #include "DataTableFile.h"
 #include "Http.h"
-#include "CadenceGameLoaderScene.h"
-#include "PianoGameMainScene.h"
 #include "DadGuessUpdateScene.h"
 
 #include "WebViewScene.h"
@@ -274,13 +272,13 @@ void MainScene::icoTouchCallBack( int p_icoIndex )
             t_orientation = true;
             break;
         case 1:
-            Director::getInstance()->replaceScene( CadenceGameLoaderScene::create() );
+//            Director::getInstance()->replaceScene( CadenceGameLoaderScene::create() );
             return;
         case 2:
             t_dir = "Web_Api";
             break;
         case 3:
-            Director::getInstance()->replaceScene( PianoGameMainScene::CreateScene() );
+//            Director::getInstance()->replaceScene( PianoGameMainScene::CreateScene() );
             return;
         case 4:
             t_dir = "Web_Earth";

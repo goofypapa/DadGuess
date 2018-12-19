@@ -6,6 +6,7 @@
 #include "BlueDeviceListener.h"
 #include "platform/android/jni/JniHelper.h"
 #include <string.h>
+#include <map>
 
 #include <functional>
 
@@ -72,6 +73,22 @@ NetWorkStateListener::NetWorkState getNetWorkState( void )
     return s_netWorkState;
 }
 
+static std::map< std::string, std::pair< HttpCallBack, HttpCallBack > > s_httpRequestPool;
+void httpPost( const std::string & p_url, const std::string & p_data, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","httpPost","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+    if(ret)
+    {
+        jstring t_url = info.env->NewStringUTF( p_url.c_str() );
+        jstring t_data = info.env->NewStringUTF( p_data.c_str() );
+        jstring t_token = info.env->NewStringUTF( p_token.c_str() );
+        jstring t_requestId = info.env->NewStringUTF( p_requestId.c_str() );
+        info.env->CallStaticVoidMethod(info.classID,info.methodID, t_url, t_data, t_token, t_requestId);
+    }
+    s_httpRequestPool[ p_requestId ] = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+}
+
 extern "C"
 {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_NetBroadcastReceiver_netStateChange(JNIEnv *env, jobject clazz, jint netState)
@@ -135,6 +152,30 @@ extern "C"
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_connectDeviceStateChange( JNIEnv *env, jobject clazz, jint p_connectState )
     {
         BlueDeviceListener::_onConnectStateChanged( !p_connectState );
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpResponse(JNIEnv *env, jobject clazz, jboolean p_state, jstring p_requestId, jstring p_res)
+    {
+        std::string t_requestId = jstringToChar( env, p_requestId );
+        std::string t_res = jstringToChar( env, p_res );
+        auto t_it = s_httpRequestPool.find( t_requestId );
+        if( t_it == s_httpRequestPool.end() )
+        {
+            return;
+        }
+
+        printf( "---------> reponse: %s \n ", t_res.c_str() );
+
+        auto t_callBack = s_httpRequestPool[t_requestId].second;
+        if( p_state != 0 )
+        {
+            t_callBack = s_httpRequestPool[t_requestId].first;
+        }
+
+        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_callBack, t_requestId, t_res]{
+            t_callBack( t_requestId, t_res );
+        });
+        s_httpRequestPool.erase( t_it );
     }
 }
 

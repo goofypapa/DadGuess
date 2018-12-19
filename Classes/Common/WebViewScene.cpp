@@ -436,6 +436,7 @@ void WebViewScene::stopAllAudio( void )
 {
     AudioEngine::stopAll();
     s_playList.clear();
+    s_downloadList.clear();
 }
 
 void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void( DataFileInfo p_audioFile )> p_loadAudioCallBack )

@@ -19,6 +19,7 @@
 #include "Login.hpp"
 #include "DataTableUser.h"
 #include "DataTableFile.h"
+#include <thread>
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -794,9 +795,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
 
     m_loginType = DataUserInfo::LoginType::phone;
     Http::Post( DOMAIN_NAME "user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
-        
         loginCallBack( p_res );
-        
     }, []( Http * p_http, std::string p_res ){
         MessageBox( "网络异常", "" );
         printf( "final: %s \n", p_res.c_str() );
@@ -829,13 +828,19 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     }
     
     std::map< std::string, std::string > t_parameter;
+    t_parameter[ "authCode" ] = t_phone;
+    t_parameter[ "authType" ] = "mobile";
+    t_parameter[ "authCredential" ] = t_password;
+    t_parameter[ "userType" ] = "GAME_USER";
+    
+    t_parameter[ "loginName" ] = t_phone;
     t_parameter[ "userMobile" ] = t_phone;
+    t_parameter[ "userEmail" ] = "";
     t_parameter[ "userName" ] = t_phone;
-    t_parameter[ "userPwd" ] = t_password;
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "";
     
-    Http::Post( DOMAIN_NAME "game/user/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "user/auth/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
 
         if( !ParseApiResult( t_json, p_res ) )
@@ -1046,25 +1051,28 @@ void LoginScene::loginCallBack( const std::string & p_str )
 
             std::string t_downloadUrl = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
 
-            if( t_downloadUrl.find( "http" ) == std::string::npos )
+            if( !t_downloadUrl.empty() )
             {
-                t_downloadUrl = std::string( DOMAIN_NAME ) + t_downloadUrl;
-            }
+                if( t_downloadUrl.find( "http" ) == std::string::npos )
+                {
+                    t_downloadUrl = std::string( DOMAIN_NAME ) + t_downloadUrl;
+                }
 
-            DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
-            if( t_DataFileInfo.fileId.empty() )
-            {
-                Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( Http * p_http, DataFileInfo p_fineInfo ){
-                    DataUserInfo t_updateUser = t_dataUser;
-                    t_updateUser.headImg = p_fineInfo.fileId;
+                DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
+                if( t_DataFileInfo.fileId.empty() )
+                {
+                    Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( Http * p_http, DataFileInfo p_fineInfo ){
+                        DataUserInfo t_updateUser = t_dataUser;
+                        t_updateUser.headImg = p_fineInfo.fileId;
 
-                    DataTableUser::instance().update( t_updateUser );
+                        DataTableUser::instance().update( t_updateUser );
 
-                },[]( Http * p_http, DataFileInfo p_fileInfo ){
-
-                } );
-            }else{
-                t_dataUser.headImg = t_DataFileInfo.fileId;
+                    },[t_dataUser]( Http * p_http, DataFileInfo p_fileInfo ){
+                        DataTableUser::instance().remove( t_dataUser.userId );
+                    } );
+                }else{
+                    t_dataUser.headImg = t_DataFileInfo.fileId;
+                }
             }
             
             if( DataTableUser::instance().find( t_dataUser.userId ).userId == t_dataUser.userId  )

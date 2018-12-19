@@ -33,10 +33,12 @@ public:
     
     void http_handshakeResponse( cocos2d::network::HttpClient *p_sender, cocos2d::network::HttpResponse *p_response );
 
+    HttpCallBack getSuccessCallBack( void );
+    HttpCallBack getFinalCallBack( void );
+
     DownloadFileCallBack getDownloadSuccessCallBack( void );
     DownloadFileCallBack getDownloadFinalCallBack( void );
     DownloadFileProgressCallBack getDownloadProgressCallBack( void );
-
 
     static const int sm_overtime;
 

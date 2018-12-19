@@ -55,6 +55,9 @@ void setAppOrientation( const bool p_isPortrait );
 
 std::string createUUID( void );
 
+typedef std::function<void( const std::string & p_requestId, const std::string & p_res )> HttpCallBack;
+void httpPost( const std::string & p_url, const std::string & p_data, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal );
+
 //shareSDK 工具
 std::string toString( __Dictionary & p_dirtionary );
 std::string toString( Ref * p_obj );

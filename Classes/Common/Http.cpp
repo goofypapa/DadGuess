@@ -94,7 +94,7 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
     //    设置请求tag
     request->setTag("GET");
     //    生成HttpClient对象，并且发送请求
-    HttpClient::getInstance()->send( request );
+    HttpClient::getInstance()->sendImmediate( request );
     //    释放HttpRequest对象
     request->release();
 
@@ -127,36 +127,44 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
 
     t_http->m_success = p_success;
     t_http->m_final = p_final;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    httpPost( p_url, t_data, token, createUUID(), [t_http]( std::string p_requestId, std::string p_res ){
+        t_http->getSuccessCallBack()( t_http, p_res );
+    }, [t_http]( std::string p_requestId, std::string p_res ){
+        t_http->getFinalCallBack()( t_http, p_res );
+    } );
+#else
 
-    //    生成HttpRequest对象
-    auto request = new HttpRequest();
-    //    设置请求
-    request->setUrl( p_url.c_str() );
-    //    设置请求方式  POST类型
-    request->setRequestType( HttpRequest::Type::POST );
-    //    设置请求完成后的回调函数
-    
-    request->setResponseCallback( CC_CALLBACK_2( Http::http_handshakeResponse, t_http ) );
+   //    生成HttpRequest对象
+   auto request = new HttpRequest();
+   //    设置请求
+   request->setUrl( p_url.c_str() );
+   //    设置请求方式  POST类型
+   request->setRequestType( HttpRequest::Type::POST );
+   //    设置请求完成后的回调函数
 
-    std::vector<std::string> headers;
-    headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
-    // 设置请求头，如果数据为键值对则不需要设置
+   request->setResponseCallback( CC_CALLBACK_2( Http::http_handshakeResponse, t_http ) );
 
-    if( !token.empty() )
-    {
-        headers.push_back( std::string( "Authorization: " ) + token );
-    }
-    
-    request -> setHeaders( headers );
-    // 传入发送的数据及数据
-    request -> setRequestData(t_data.c_str(), t_data.size());
+   std::vector<std::string> headers;
+   headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
+   // 设置请求头，如果数据为键值对则不需要设置
 
-    //    设置请求tag
-    request->setTag("POST");
-    //    生成HttpClient对象，并且发送请求
-    HttpClient::getInstance()->send( request );
-    //    释放HttpRequest对象
-    request->release();
+   if( !token.empty() )
+   {
+       headers.push_back( std::string( "Authorization: " ) + token );
+   }
+
+   request -> setHeaders( headers );
+   // 传入发送的数据及数据
+   request -> setRequestData(t_data.c_str(), t_data.size());
+
+   //    设置请求tag
+   request->setTag("POST");
+   //    生成HttpClient对象，并且发送请求
+   HttpClient::getInstance()->send( request );
+   //    释放HttpRequest对象
+   request->release();
+#endif
 
     return t_http;
 }
@@ -374,6 +382,15 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
     }
     
     delete this;
+}
+
+Http::HttpCallBack Http::getSuccessCallBack( void )
+{
+    return m_success;
+}
+Http::HttpCallBack Http::getFinalCallBack( void )
+{
+    return m_final;
 }
 
 Http::DownloadFileCallBack Http::getDownloadSuccessCallBack( void )

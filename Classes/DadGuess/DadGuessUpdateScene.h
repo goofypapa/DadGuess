@@ -41,6 +41,8 @@ public:
     
     static bool s_updateed;
     
+    virtual void update( float p_dt ) override;
+    
 protected:
     
     virtual bool init( void ) override;

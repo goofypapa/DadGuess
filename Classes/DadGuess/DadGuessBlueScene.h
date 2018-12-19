@@ -13,6 +13,8 @@ public:
     CREATE_FUNC( DadGuessBlueScene );
 protected:
     virtual bool init( void ) override;
+
+    virtual ~DadGuessBlueScene( void );
 private:
     BlueDeviceListener * m_blueDeviceListener;
 

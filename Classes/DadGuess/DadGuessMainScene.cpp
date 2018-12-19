@@ -129,7 +129,6 @@ bool DadGuessMainScene::init( void )
 //    touchAnswer( t_homeButton, [this]( Ref * p_target ){
 //        Director::getInstance()->replaceScene( MainScene::create() );
 //        DadGuessUpdateScene::unCacheResource();
-//        destroy();
 //    }, adaptation() * 1.2f, adaptation());
     
     auto t_logo = TexturePacker::DadGuessMain::createCaicai_home_pic_logoSprite();
@@ -159,7 +158,6 @@ bool DadGuessMainScene::init( void )
     printf( "-----ios-----" );
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     Director::getInstance()->replaceScene( DadGuessBlueScene::create() );
-    destroy();
 #endif
         }
 
@@ -228,7 +226,6 @@ bool DadGuessMainScene::init( void )
         int t_tag = ((Button *)p_target)->getTag();
         
         Director::getInstance()->replaceScene( DadGuessCardListScene::createScene( DataCardBatchInfo::s_batchIdList[t_tag] ) );
-        destroy();
     };
     
     Button * t_btnList[] = { t_btnAnimal, t_btnAbc, t_btnSky, t_btnEart, t_btnHistory, t_btnChineseHistory };
@@ -300,7 +297,7 @@ bool DadGuessMainScene::init( void )
     return true;
 }
 
-void DadGuessMainScene::destroy( void )
+DadGuessMainScene::~DadGuessMainScene( void )
 {
     delete m_blueDeviceConnectedListener;
 }

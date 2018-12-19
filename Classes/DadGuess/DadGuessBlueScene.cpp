@@ -39,6 +39,12 @@ bool DadGuessBlueScene::init( void )
         BlueDeviceListener::cancelScan();
     }, adaptation() * 1.2f, adaptation() );
 
+    auto t_blueTips = Label::createWithSystemFont( "确保硬件处于开机状态，并且距离手机5米范围内", "", 14 );
+    auto t_blueTipsSizeHalf = t_blueTips->getContentSize() * 0.5f;
+    t_blueTips->setPosition( Vec2( t_sceneCenter.x, t_origin.y + t_blueTipsSizeHalf.height + 10.0f ) );
+    addChild( t_blueTips );
+
+    t_sceneCenter.y += t_blueTipsSizeHalf.height;
 
     //搜索动画
 
@@ -60,10 +66,6 @@ bool DadGuessBlueScene::init( void )
     t_blueIcon->setScale( adaptation() );
     t_blueIcon->setPosition( t_sceneCenter );
     addChild( t_blueIcon, 100 );
-
-    auto t_blueTips = Label::createWithSystemFont( "确保硬件处于开机状态，并且距离手机5米范围内", "", 14 );
-    t_blueTips->setPosition( Vec2( t_sceneCenter.x, t_origin.y + 20.0f ) );
-    addChild( t_blueTips );
 
     m_blueDeviceListener = new BlueDeviceListener(  [this]( bool p_connected ){
         printf( "------------->connected: %s \n", ( p_connected ? "true" : "false" ) );
@@ -117,3 +119,9 @@ bool DadGuessBlueScene::init( void )
 
     return true;
 }
+
+ DadGuessBlueScene::~DadGuessBlueScene( void )
+ {
+     delete m_blueDeviceListener;
+     
+ }

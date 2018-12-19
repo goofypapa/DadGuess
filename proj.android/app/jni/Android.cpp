@@ -129,7 +129,10 @@ extern "C"
         std::string t_deviceAddess = jstringToChar( env, p_deviceAddess );
         std::string t_deviceName = jstringToChar( env, p_deviceName );
 
-        BlueDeviceListener::_onScanDevice( t_deviceAddess, t_deviceName );
+        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_deviceAddess, t_deviceName]{
+            BlueDeviceListener::_onScanDevice( t_deviceAddess, t_deviceName );
+        });
+
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_recvData( JNIEnv *env, jobject clazz, jstring p_data )
@@ -146,12 +149,17 @@ extern "C"
             t_data.push_back( t_char );
         }
 
-        BlueDeviceListener::_onRecvedData( t_data );
+//        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_data]{
+            BlueDeviceListener::_onRecvedData( t_data );
+//        });
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_connectDeviceStateChange( JNIEnv *env, jobject clazz, jint p_connectState )
     {
-        BlueDeviceListener::_onConnectStateChanged( !p_connectState );
+        bool t_state = !p_connectState;
+        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_state]{
+            BlueDeviceListener::_onConnectStateChanged( t_state );
+        });
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpResponse(JNIEnv *env, jobject clazz, jboolean p_state, jstring p_requestId, jstring p_res)

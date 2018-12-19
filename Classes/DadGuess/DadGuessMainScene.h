@@ -36,7 +36,7 @@ protected:
     
     virtual void refreshSource( const DataFileInfo & p_fileInfo ) override;
     
-    virtual void destroy( void );
+    virtual ~DadGuessMainScene( void );
 private:
     cocos2d::ui::Button * m_blueConnectState;
     BlueDeviceListener * m_blueDeviceConnectedListener;

@@ -42,8 +42,7 @@ public abstract class BluePackage {
     public static native void recvData( String p_data );
     public static native void connectDeviceStateChange( int p_connectState );
 
-    static private String sm_data;
-
+    static boolean s_deviceConnected = false;
 
     public static void listen()
     {
@@ -142,7 +141,6 @@ public abstract class BluePackage {
                             break;
                         case BluetoothAdapter.STATE_TURNING_OFF:
                             Log.d("DEBUG", "正在关闭蓝牙");
-
                             cancelPair(m_device);
                             break;
                         case BluetoothAdapter.STATE_OFF:
@@ -170,8 +168,6 @@ public abstract class BluePackage {
         m_blueToolThAdapter = BluetoothAdapter.getDefaultAdapter();
 
     }
-
-
 
     public static void openDevice()
     {
@@ -275,7 +271,6 @@ public abstract class BluePackage {
         }
     }
 
-
     private static void listenSocket( BluetoothDevice p_device ) {
         m_device = p_device;
 
@@ -315,6 +310,7 @@ public abstract class BluePackage {
                                     sm_connectIng = false;
                                 }
                             });
+                            return;
                         }
                         try {
                             m_inStream = m_socket.getInputStream();

@@ -59,9 +59,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
                     $(LOCAL_PATH)/../../../Classes/Common \
                     $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3 \
                     $(LOCAL_PATH)/../../../Classes/Resources \
-                    $(LOCAL_PATH)/../../../Classes/PianoGame \
                     $(LOCAL_PATH)/../../../Classes/DadGuess \
-                    $(LOCAL_PATH)/../../../Classes/Cadence \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/JSON \

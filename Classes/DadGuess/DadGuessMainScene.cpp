@@ -22,7 +22,6 @@
 #include "DataTableKeyValue.h"
 
 #include "AudioEngine.h"
-#include "Http.h"
 
 #include "json/document.h"
 #include "json/writer.h"
@@ -42,6 +41,8 @@ const long DadGuessMainScene::sm_checkoutCardAudioUpdateOverTime = 60 * 60 * 24 
 
 BlueDeviceListener * DadGuessMainScene::sm_blueDeviceScanCardListener = nullptr;
 bool DadGuessMainScene::sm_blueState = false;
+
+Http * DadGuessMainScene::sm_lastDownload = nullptr;
 
 bool DadGuessMainScene::init( void )
 {
@@ -243,6 +244,10 @@ bool DadGuessMainScene::init( void )
         sm_blueDeviceScanCardListener = new BlueDeviceListener( [this]( bool p_connected ){
             printf( "--------> connected: %s \n", ( p_connected ? "true" : "false" ) );
             sm_blueState = p_connected;
+            if( !sm_blueState )
+            {
+                AudioEngine::stopAll();
+            }
         }, [this]( const std::vector< unsigned char > & p_data ){
             static std::map< int, bool > s_scanCardList;
             
@@ -570,11 +575,13 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
     if( t_audioFileInfo.fileId.empty() )
     {
         auto t_http = Http::DownloadFile( p_audioInfo.fileUrl, "", [=]( Http * p_http, DataFileInfo p_fileInfo ){
-            playAudio( s_downloadPool[ p_http ] );
+            if( sm_lastDownload == p_http ){
+                playAudio( s_downloadPool[ p_http ] );
+            }
         }, [=]( Http * p_http, DataFileInfo p_fileInfo ){
             printf( " download audio fial \n" );
         } );
-
+        sm_lastDownload = t_http;
         s_downloadPool[ t_http ] = p_audioInfo;
         return;
     }

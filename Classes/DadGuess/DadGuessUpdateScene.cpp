@@ -738,21 +738,19 @@ void DadGuessUpdateScene::downloadFile( void )
             
             
         }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
-            printf( "download final" );
-            {
-                
-                UpdateDownloadItem t_downloadItem{
-                    p_fileInfo.sourceUrl,
-                    "",
-                    nullptr
-                };
-                m_downloadList.push( t_downloadItem );
-                
-                m_mutex.lock();
-                checkUpdateResponse( p_http );
-                m_mutex.unlock();
-                
-            }
+            printf( "download final: %s \n", p_fileInfo.sourceUrl.c_str() );
+
+            UpdateDownloadItem t_downloadItem{
+                p_fileInfo.sourceUrl,
+                "",
+                nullptr
+            };
+            m_downloadList.push( t_downloadItem );
+            
+            m_mutex.lock();
+            checkUpdateResponse( p_http );
+            m_mutex.unlock();
+
         });
         
         if( t_downloadHandle )

@@ -8,6 +8,7 @@
 #include "DadGuessCardListScrollView.h"
 #include "DadGuessUpdateScene.h"
 #include "WebViewScene.h"
+#include "Common.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -85,6 +86,12 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
 void DadGuessCardListScrollView::onTouched( const int p_index )
 {
     auto & t_cardList = DadGuessUpdateScene::s_cardList[m_groupId];
+
+    if( m_groupId.compare( DataCardBatchInfo::s_batchIdList[0] ) == 0 )
+    {
+        setAppOrientation( true );
+    }
+
     Director::getInstance()->replaceScene( WebViewScene::createWithDir( m_groupId, m_groupId.compare( DataCardBatchInfo::s_batchIdList[0] ) == 0, t_cardList[p_index].first.id ) );
 }
 

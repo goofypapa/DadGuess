@@ -60,10 +60,6 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         m_dir = s_webDirList[t_index];
     }
     
-    if( m_webOrientation ){
-        setAppOrientation( true );
-    }
-    
     if( !BaseScene::init() )
     {
         return false;

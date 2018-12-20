@@ -16,6 +16,7 @@
 #include "DataTableCardAudio.h"
 #include "DataTableUser.h"
 #include "DialogPersonalCenterLayer.h"
+#include "Http.h"
 
 #include "ui/CocosGUI.h"
 
@@ -45,6 +46,8 @@ private:
     DialogPersonalCenterLayer * m_dialogPersonalCenter;
     
     bool m_enableMainButton;
+
+    static Http * sm_lastDownload;
     
     static const char * sm_cardAudioInfoApi, * sm_cardAudioInfoApiAnimal;
     static const char * sm_checkoutCardAudioUpdateKey;

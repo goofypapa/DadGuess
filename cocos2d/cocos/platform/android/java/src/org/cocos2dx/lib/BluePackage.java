@@ -203,12 +203,10 @@ public abstract class BluePackage {
                     }
 
                     if( checkConnected( device ) ) {
-//                        m_bluetoothDeviceList.put(device.getAddress(), device);
-//                        scanedDevice(device.getAddress(), device.getName());
+//                        setPriority( device, 100 ); //设置priority
+                        m_bluetoothDeviceList.put(device.getAddress(), device);
+                        scanedDevice(device.getAddress(), device.getName());
 
-//                        _connectA2dp( device );
-//                        closeA2DP();
-//                        cancelPair( device );
                         Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
                     }else{
                         cancelPair( device );
@@ -273,7 +271,7 @@ public abstract class BluePackage {
             Method removeBondMethod = BluetoothDevice.class.getMethod("removeBond");
             removeBondMethod.invoke( p_device );
         }catch (Exception e){
-
+            Log.d( "removeBond", e.toString() );
         }
     }
 
@@ -289,13 +287,8 @@ public abstract class BluePackage {
                     m_socket = m_device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 } catch (Exception e) {
                     Log.d("DEBUG", "创建Socket失败" + e.toString());
-                    ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            connectDeviceStateChange( 1 );
-                            sm_connectIng = false;
-                        }
-                    });
+                    connectDeviceStateChange( 1 );
+                    sm_connectIng = false;
 
                     return;
                 }
@@ -320,13 +313,8 @@ public abstract class BluePackage {
                                     m_socket.close();
                                 }catch (IOException ie){ }
 
-                                ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        connectDeviceStateChange( 1 );
-                                        sm_connectIng = false;
-                                    }
-                                });
+                                connectDeviceStateChange( 1 );
+                                sm_connectIng = false;
                                 return;
                             }
                         }
@@ -335,13 +323,8 @@ public abstract class BluePackage {
                         } catch (IOException e) {
                             Log.d("DEBUG", "获取流异常" + e.toString());
 
-                            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    connectDeviceStateChange( 2 );
-                                    sm_connectIng = false;
-                                }
-                            });
+                            connectDeviceStateChange( 2 );
+                            sm_connectIng = false;
                             return;
                         }
 
@@ -354,13 +337,14 @@ public abstract class BluePackage {
                             try {
                                 int t_size = m_inStream.read(t_buffer);
 
+                                if( !checkConnected( m_device ) )
+                                {
+                                    break;
+                                }
+
                                 sm_data = byteArrayToHexStr(t_buffer, t_size);
-                                ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        recvData( sm_data );
-                                    }
-                                });
+
+                                recvData( sm_data );
 
                                 Log.d("DEBUG", "卡号：" + sm_data );
                             } catch (IOException e) {
@@ -382,13 +366,8 @@ public abstract class BluePackage {
 
                         Log.d("DEBUG", "断开连接");
                         closeA2DP();
-                        ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                connectDeviceStateChange( 3 );
-                                sm_connectIng = false;
-                            }
-                        });
+                        connectDeviceStateChange( 3 );
+                        sm_connectIng = false;
                     }
                 }).start();
             }
@@ -399,13 +378,8 @@ public abstract class BluePackage {
 
         if( checkConnected( p_device ) )
         {
-            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connectDeviceStateChange( 0 );
-                    sm_connectIng = false;
-                }
-            });
+            connectDeviceStateChange( 0 );
+            sm_connectIng = false;
             //已经连接
             return;
         }
@@ -439,25 +413,15 @@ public abstract class BluePackage {
                     BluetoothDevice.class);
             connectMethod.invoke( m_bluetoothA2dp, p_device );
 
-            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("DEBUG", "连接a2dp成功");
-                    connectDeviceStateChange( 0 );
-                    sm_connectIng = false;
-                }
-            });
+            Log.d("DEBUG", "连接a2dp成功");
+            connectDeviceStateChange( 0 );
+            sm_connectIng = false;
 
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("DEBUG", "连接a2dp失败" + e.toString());
-            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connectDeviceStateChange( 4 );
-                    sm_connectIng = false;
-                }
-            });
+            connectDeviceStateChange( 4 );
+            sm_connectIng = false;
         }
     }
 

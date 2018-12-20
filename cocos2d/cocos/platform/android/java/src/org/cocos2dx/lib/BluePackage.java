@@ -38,6 +38,8 @@ public abstract class BluePackage {
     static Map< String,BluetoothDevice> m_bluetoothDeviceList = new HashMap<>();
     static BluetoothDevice m_device;
 
+    static String sm_data;
+
     public static native void scanedDevice( String p_deviceAddess, String p_deviceName );
     public static native void recvData( String p_data );
     public static native void connectDeviceStateChange( int p_connectState );
@@ -201,8 +203,12 @@ public abstract class BluePackage {
                     }
 
                     if( checkConnected( device ) ) {
-                        m_bluetoothDeviceList.put(device.getAddress(), device);
-                        scanedDevice(device.getAddress(), device.getName());
+//                        m_bluetoothDeviceList.put(device.getAddress(), device);
+//                        scanedDevice(device.getAddress(), device.getName());
+
+//                        _connectA2dp( device );
+//                        closeA2DP();
+//                        cancelPair( device );
                         Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
                     }else{
                         cancelPair( device );
@@ -303,14 +309,26 @@ public abstract class BluePackage {
                             m_socket.connect();
                         } catch (IOException e) {
                             Log.d("DEBUG", "连接Socket失败" + e.toString());
-                            ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    connectDeviceStateChange( 1 );
-                                    sm_connectIng = false;
-                                }
-                            });
-                            return;
+
+                            try {
+                                Method t_m = m_device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
+                                m_socket = (BluetoothSocket) t_m.invoke(m_device, 1);
+                                m_socket.connect();
+                            } catch (Exception ae) {
+                                Log.e("BLUE",ae.toString());
+                                try{
+                                    m_socket.close();
+                                }catch (IOException ie){ }
+
+                                ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        connectDeviceStateChange( 1 );
+                                        sm_connectIng = false;
+                                    }
+                                });
+                                return;
+                            }
                         }
                         try {
                             m_inStream = m_socket.getInputStream();

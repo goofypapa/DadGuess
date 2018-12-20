@@ -213,6 +213,8 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
             return;
         }
 
+        Window window = this.getWindow();
+
         this.hideVirtualButton();
 
         onLoadNativeLibraries();
@@ -237,8 +239,12 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
             mEditBoxHelper = new Cocos2dxEditBoxHelper(mFrameLayout);
         }
 
-        Window window = this.getWindow();
+
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+//        WindowManager.LayoutParams lp = window.getAttributes();
+//        lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
+//        window.setAttributes(lp);
 
         // Audio configuration
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);

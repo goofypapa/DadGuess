@@ -112,7 +112,7 @@ android {
         abortOnError false
     }
 
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
 }
 
 android.applicationVariants.all { variant ->

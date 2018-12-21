@@ -221,11 +221,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{1264,392}</string>
+                <string>{1260,392}</string>
                 <key>spriteSourceSize</key>
-                <string>{1264,392}</string>
+                <string>{1260,392}</string>
                 <key>textureRect</key>
-                <string>{{1083,1},{1264,392}}</string>
+                <string>{{1083,1},{1260,392}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -270,7 +270,7 @@
                 <key>spriteSourceSize</key>
                 <string>{558,650}</string>
                 <key>textureRect</key>
-                <string>{{2349,1},{558,650}}</string>
+                <string>{{2345,1},{558,650}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -363,7 +363,7 @@
             <key>size</key>
             <string>{2946,1922}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:45067819def2f69a1c78eb34ba909d7a:c4bb2fc5ebb2dbb3be5e04ef522ebaa2:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
+            <string>$TexturePacker:SmartUpdate:ea0b78bffb23429c8c4fe8d2b365cd12:7f242e399117fcc40f1e0c231af32804:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
             <key>textureFileName</key>
             <string>DadGuessMain.png</string>
         </dict>

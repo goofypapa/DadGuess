@@ -202,15 +202,18 @@ public abstract class BluePackage {
                         continue;
                     }
 
-                    if( checkConnected( device ) ) {
-//                        setPriority( device, 100 ); //设置priority
-                        m_bluetoothDeviceList.put(device.getAddress(), device);
-                        scanedDevice(device.getAddress(), device.getName());
+                    m_bluetoothDeviceList.put(device.getAddress(), device);
+                    scanedDevice(device.getAddress(), device.getName());
 
-                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
-                    }else{
-                        cancelPair( device );
-                    }
+//                    if( checkConnected( device ) ) {
+////                        setPriority( device, 100 ); //设置priority
+//                        m_bluetoothDeviceList.put(device.getAddress(), device);
+//                        scanedDevice(device.getAddress(), device.getName());
+//
+//                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
+//                    }else{
+//                        cancelPair( device );
+//                    }
                 }
             }
         }
@@ -337,10 +340,10 @@ public abstract class BluePackage {
                             try {
                                 int t_size = m_inStream.read(t_buffer);
 
-                                if( !checkConnected( m_device ) )
-                                {
-                                    break;
-                                }
+//                                if( !checkConnected( m_device ) )
+//                                {
+//                                    break;
+//                                }
 
                                 sm_data = byteArrayToHexStr(t_buffer, t_size);
 

@@ -66,7 +66,7 @@ public class Cocos2dxWebView extends WebView {
     public Cocos2dxWebView(Context context) {
         this(context, -1);
     }
-
+    
     @SuppressLint("SetJavaScriptEnabled")
     public Cocos2dxWebView(Context context, int viewTag) {
         super(context);

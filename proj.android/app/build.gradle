@@ -4,7 +4,7 @@ android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
 
     defaultConfig {
-        applicationId "org.cocos2dx.com.goofypapa.guess"
+        applicationId "com.goofypapa.guess"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
         versionCode 1
@@ -69,7 +69,7 @@ android {
             }
             keyAlias 'key-0'
             keyPassword 'goofypapa0722'
-            storeFile file('/Users/benbaba/Project/ dadpat.jks')
+            storeFile file('/Users/benbaba/Project/dadpat.jks')
             storePassword 'goofypapa0722'
         }
     }

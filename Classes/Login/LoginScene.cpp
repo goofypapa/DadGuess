@@ -674,6 +674,7 @@ void LoginScene::update( float p_delta )
 
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
+    printf( "--------------> login wechat \n" );
     m_loginType = DataUserInfo::LoginType::wechat;
     cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
@@ -693,8 +694,6 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
 
 void LoginScene::loginWechatCallBack( const char * p_code )
 {
-    
-    printf( "-------> %s \n", p_code );
     if( !p_code )
     {
         return;
@@ -950,7 +949,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     
     std::string t_result = toString( *result );
     
-    printf( "--------> %s \n", t_result.c_str() );
+    printf( "--------> getUserResultHandler: %s \n", t_result.c_str() );
     
     std::string t_loginType = "";
     

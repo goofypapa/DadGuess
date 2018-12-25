@@ -4,50 +4,20 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>dot.png</key>
+            <key>caicai_update_background.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{22,74}</string>
+                <string>{2208,1242}</string>
                 <key>spriteSourceSize</key>
-                <string>{22,74}</string>
+                <string>{2208,1242}</string>
                 <key>textureRect</key>
-                <string>{{285,1},{22,74}}</string>
+                <string>{{1,1},{2208,1242}}</string>
                 <key>textureRotated</key>
                 <false/>
-            </dict>
-            <key>eye.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{20,20}</string>
-                <key>spriteSourceSize</key>
-                <string>{20,20}</string>
-                <key>textureRect</key>
-                <string>{{285,77},{20,20}}</string>
-                <key>textureRotated</key>
-                <false/>
-            </dict>
-            <key>head.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{238,282}</string>
-                <key>spriteSourceSize</key>
-                <string>{238,282}</string>
-                <key>textureRect</key>
-                <string>{{1,1},{238,282}}</string>
-                <key>textureRotated</key>
-                <true/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -61,9 +31,9 @@
             <key>realTextureFileName</key>
             <string>DadGuessUpdate.png</string>
             <key>size</key>
-            <string>{308,240}</string>
+            <string>{2210,1244}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:fc00fdeb70dcbbfaafdcaa7decbb3bea:5d66b61d4e72a8e50e4cfe603c476dff:5a3ccc56e0a2abd4cfd9e5161bd302f7$</string>
+            <string>$TexturePacker:SmartUpdate:16084cc22679be8b6d0925d47561d73a:5e8d24feb3243499b16fa4fb4216386c:5a3ccc56e0a2abd4cfd9e5161bd302f7$</string>
             <key>textureFileName</key>
             <string>DadGuessUpdate.png</string>
         </dict>

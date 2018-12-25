@@ -78,5 +78,8 @@ void unbindNetWorkStateListener( void );
 
 cocos2d::Color4F createColor4FWithStr( const std::string & p_colorStr, const float p_alpha = 1.0f );
 
+//跳转到系统蓝牙设置页面
+void goSystemBlue( void );
+
 
 #endif //__COMMON_H__

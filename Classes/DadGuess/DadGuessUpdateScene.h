@@ -48,6 +48,9 @@ protected:
     virtual bool init( void ) override;
     
     virtual void destroy( void );
+    
+    void tryUpdate( void );
+    
 private:
     
     void checkUpdateResponse( Http * p_http );
@@ -57,12 +60,11 @@ private:
     static std::vector< DataCardBatchInfo > sm_cardBatchList;
     static std::vector< std::string > sm_loadImageList;
 
-    bool m_needCehckUpdate;
+    bool m_needCehckUpdate, m_checked;
     
     void checkUpdateDequeue( void );
     
     cocos2d::Label * m_messageLabel;
-    cocos2d::Sprite * m_hand;
     
     int m_loadResourceCount;
     

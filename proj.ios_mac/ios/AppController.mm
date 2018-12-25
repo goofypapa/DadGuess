@@ -105,6 +105,10 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
     return YES;
 }
 
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 -(void)listenNetWorkingStatus
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -321,4 +325,12 @@ void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWor
 void unbindNetWorkStateListener( void )
 {
     s_networkStateListener = nullptr;
+}
+
+void goSystemBlue()
+{
+    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
+    if ([[UIApplication sharedApplication] canOpenURL:url]){
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+    }
 }

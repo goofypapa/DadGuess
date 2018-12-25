@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.10.0</string>
+        <string>4.11.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -88,9 +88,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>4096</int>
             <key>height</key>
-            <int>2048</int>
+            <int>4096</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -191,51 +191,23 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">update/dot.png</key>
+            <key type="filename">update/caicai_update_background.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>6,19,11,37</rect>
+                <rect>552,311,1104,621</rect>
                 <key>scale9Paddings</key>
-                <rect>6,19,11,37</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">update/eye.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9Paddings</key>
-                <rect>5,5,10,10</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">update/head.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>60,71,119,141</rect>
-                <key>scale9Paddings</key>
-                <rect>60,71,119,141</rect>
+                <rect>552,311,1104,621</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>update/dot.png</filename>
-            <filename>update/eye.png</filename>
-            <filename>update/head.png</filename>
+            <filename>update/caicai_update_background.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -693,11 +693,13 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
 
 void LoginScene::loginWechatCallBack( const char * p_code )
 {
+    
+    printf( "-------> %s \n", p_code );
     if( !p_code )
     {
         return;
     }
-    
+
     std::map< std::string, std::string > t_parameter;
     t_parameter[ "appid" ] = "wxc6d5d8bca1f1c5a9";
     t_parameter[ "secret" ] = "c5460ffde4c1c93dcc71392108bfa01d";
@@ -947,6 +949,9 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
 {
     
     std::string t_result = toString( *result );
+    
+    printf( "--------> %s \n", t_result.c_str() );
+    
     std::string t_loginType = "";
     
     rapidjson::Document t_json;

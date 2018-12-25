@@ -54,63 +54,45 @@ bool DadGuessUpdateScene::init( void )
     
     auto t_centerPos = Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height );
     
-    DrawNode * t_backgroundColor = DrawNode::create();
     
-    t_backgroundColor->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height ) );
-    
-    t_backgroundColor->drawSolidRect( Vec2( -t_visibleSizeHalf.width, -t_visibleSizeHalf.height ), Vec2( t_visibleSizeHalf.width, t_visibleSizeHalf.height ), Color4F( 122.0f / 255.0f, 212.0f / 255.0f, 249.0f / 255.0f, 1.0f ) );
-    
-    addChild( t_backgroundColor );
-    
-    m_hand = TexturePacker::DadGuessUpdate::createHeadSprite();
-    m_hand->setScale( adaptation() );
-    auto t_headSizeHalf = m_hand->getContentSize() * 0.5f;
-    auto t_headPos = t_centerPos + Vec2( 0.0f, t_visibleSizeHalf.height * 0.2f );
-    m_hand->setPosition( t_headPos );
-    addChild( m_hand );
-    
-    auto t_dot = TexturePacker::DadGuessUpdate::createDotSprite();
-    float t_dotDistance = t_headSizeHalf.width * 1.5f;
-    t_dot->setPosition( Vec2( t_headSizeHalf.width, t_headSizeHalf.height ) );
-    m_hand->addChild( t_dot );
-    
-    auto  t_eyeDistance = t_headSizeHalf.width * 0.07f;
-    auto t_eyeLeft = TexturePacker::DadGuessUpdate::createEyeSprite();
-    auto t_eyeLeftPos = Vec2( t_headSizeHalf.width * 0.73f, t_headSizeHalf.height * 0.885f );
-    t_eyeLeft->setPosition( t_eyeLeftPos );
-    m_hand->addChild( t_eyeLeft );
-    
-    auto t_eyeRight = TexturePacker::DadGuessUpdate::createEyeSprite();
-    auto t_eyeRightPos = Vec2( t_headSizeHalf.width * 1.27f, t_headSizeHalf.height * 0.885f );
-    t_eyeRight->setPosition( t_eyeRightPos );
-    m_hand->addChild( t_eyeRight );
-    
-    
-    m_hand->runAction( RepeatForever::create( ActionFloat::create( 3.0f , 0.0f, 1.0f, [=]( const float t_dt ){
-        float t_seed = t_dt * PI * -2.0f;
-        t_dot->setPosition( Vec2( t_headSizeHalf.width + cos( t_seed ) * t_dotDistance, t_headSizeHalf.height + sin( t_seed ) * t_dotDistance ) );
-        t_dot->setRotation( t_dt * 360.0f );
-        
-        auto t_eyeOffset = Vec2( cos( t_seed ) * t_eyeDistance, sin( t_seed ) * t_eyeDistance );
-        t_eyeLeft->setPosition( t_eyeLeftPos + t_eyeOffset );
-        t_eyeRight->setPosition( t_eyeRightPos + t_eyeOffset );
-        
-    }) ) );
+    auto t_background = TexturePacker::DadGuessUpdate::createCaicai_update_backgroundSprite();
+    auto t_backgroundSizeHalf = t_background->getContentSize() * 0.5f ;
+    t_background->setScale( t_backgroundSizeHalf.width / t_visibleSizeHalf.width, t_backgroundSizeHalf.height / t_visibleSizeHalf.height );
+    t_background->setPosition( t_centerPos );
+    addChild( t_background );
     
     
     //更新内容提示
     m_messageLabel = Label::createWithSystemFont( "正在检查更新..." , "", 12 );
-    m_messageLabel->setPosition( t_headPos - Vec2( 0.0f, t_dotDistance * adaptation() * 2.0f ) );
+    auto t_messageLabelSizeHalf = m_messageLabel->getContentSize() * 0.5f;
+    m_messageLabel->setPosition( Vec2( t_centerPos.x, t_origin.y + t_visibleSizeHalf.height * 0.3f + t_messageLabelSizeHalf.height ) );
     addChild( m_messageLabel );
     
+    tryUpdate();
+
+    schedule( schedule_selector(DadGuessUpdateScene::update) );
     
+    return true;
+}
+
+void DadGuessUpdateScene::update( float p_dt )
+{
+    if( m_currUpdateFunc )
+    {
+        m_currUpdateFunc();
+        m_currUpdateFunc = nullptr;
+    }
+}
+
+void DadGuessUpdateScene::tryUpdate( void )
+{
     //检查更新
-    
+    m_checked = true;
     //更新批次
     auto t_checkCardBatchUpdate = [this]( void ){
         
         m_messageLabel->setString( "正在检查卡片批次更新..." );
-
+        
         Http::HttpParameter t_parameter;
         
         m_checkUpdateHandlerList.push_back( Http::Post( sm_cardTypeListApi , &t_parameter, [this]( Http * p_http, std::string p_res ){
@@ -164,6 +146,8 @@ bool DadGuessUpdateScene::init( void )
             {
                 m_checkUpdateHandlerList.erase( t_it );
             }
+            
+            m_checked = false;
         } ) );
         
         
@@ -197,7 +181,7 @@ bool DadGuessUpdateScene::init( void )
                 {
                     continue;
                 }
-
+                
                 DataCardBatchInfo t_serviceCardBatchInfo( t_item["batchId"].GetString(),
                                                          t_item["batchDesc"].IsNull() ? "" : t_item["batchDesc"].GetString()
                                                          );
@@ -221,69 +205,70 @@ bool DadGuessUpdateScene::init( void )
             {
                 m_checkUpdateHandlerList.erase( t_it );
             }
+            
+            m_checked = false;
         } ) );
     };
     
-    
     //更新卡片
     auto t_checkCardUpdate = [this](){
-
+        
         //更新动物卡片
         m_messageLabel->setString( "正在检查卡片更新..." );
         
         Http::HttpParameter t_parameter;
-
+        
         auto t_http = Http::Post( sm_cardListApi, &t_parameter, [this]( Http * p_http, std::string p_res ){
-
+            
             auto t_batchId = m_checkCardUpdateBatchIdList[p_http];
-
+            
             auto t_cardBatchInfo = DataTableCardBatch::instance().find( t_batchId );
-
+            
             auto t_localCardList = DataTableCard::instance().list( t_batchId );
             m_checkCardUpdateBatchIdList.erase( p_http );
-
+            
             Document t_readdoc;
-
+            
             m_mutex.lock();
             t_readdoc.Parse<0>( p_res.c_str() );
             m_mutex.unlock();
-
+            
             if( t_readdoc.HasParseError() )
             {
                 printf( "GetParseError %d \n", t_readdoc.GetParseError() );
             }
-
+            
             auto t_success = t_readdoc["success"].GetBool();
             if( !t_success )
             {
                 printf( "------------> 检查更新失败" );
                 return;
             }
-
+            
             auto & t_data = t_readdoc["data"];
-
+            
             //更新动物卡片
             for( int i = 0; i < t_data.Capacity(); ++i )
             {
                 auto & t_item = t_data[i];
-
+                
                 std::string t_coverImageUrl = "";
                 std::string t_coverImageMd5 = "";
-
+                
                 if( t_item["coverImage"].IsObject() )
                 {
                     std::stringstream t_sstr;
                     t_coverImageUrl = std::string( DOMAIN_NAME ) + t_item["coverImage"]["attUrl"].GetString();
                     t_coverImageMd5 = t_item["coverImage"]["md5"].GetString();
                 }
-
+                
                 auto t_cardInfo = DataCardInfo( t_item["resourceId"].GetString(),
                                                t_item["ownerId"].GetString(),
                                                t_item["rfId"].GetInt(),
                                                t_coverImageUrl,
                                                t_coverImageMd5
                                                );
-
+                
                 bool t_batchIsExist = false;
                 for( auto t_batchInfo : sm_cardBatchList )
                 {
@@ -293,16 +278,16 @@ bool DadGuessUpdateScene::init( void )
                         break;
                     }
                 }
-
+                
                 if( !t_batchIsExist )
                 {
                     continue;
                 }
-
+                
                 t_cardInfo.batchId = t_batchId;
-
+                
                 auto t_oldCardInfoIt = t_localCardList.begin();
-
+                
                 while( t_oldCardInfoIt != t_localCardList.end() )
                 {
                     if( t_oldCardInfoIt->id.compare( t_cardInfo.id ) == 0 )
@@ -311,27 +296,27 @@ bool DadGuessUpdateScene::init( void )
                     }
                     t_oldCardInfoIt++;
                 }
-
+                
                 bool t_needDownloadCoverImage = true;
                 if( t_oldCardInfoIt != t_localCardList.end() )
                 {
                     t_needDownloadCoverImage = false;
                     t_cardInfo.activation = t_oldCardInfoIt->activation;
-
+                    
                     auto t_coverFileInfo = DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl );
                     if( t_coverFileInfo.sourceUrl.compare( t_coverImageUrl ) != 0 || t_coverFileInfo.fileMd5.compare( t_coverImageMd5 ) != 0 )
                     {
                         DataTableFile::instance().remove( t_coverFileInfo );
                         t_needDownloadCoverImage = !t_coverImageUrl.empty() && !t_coverImageMd5.empty();
                     }
-
+                    
                     DataTableCard::instance().update( t_cardInfo );
-
+                    
                     t_localCardList.erase( t_oldCardInfoIt );
                 }else{
                     DataTableCard::instance().insert( t_cardInfo );
                 }
-
+                
                 if( t_needDownloadCoverImage )
                 {
                     //添加卡片封面到下载队列
@@ -343,34 +328,34 @@ bool DadGuessUpdateScene::init( void )
                     m_downloadList.push( t_downloadItem );
                 }
             }
-
+            
             //删除多余的卡片
-
+            
             for( int i = 0; i < t_localCardList.size(); ++i )
             {
                 auto t_cardInfo = t_localCardList[i];
                 DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl ) );
-
+                
                 auto t_cardAudioList = DataTableCardAudio::instance().list( t_cardInfo.id );
-
+                
                 for( int n = 0; n < t_cardAudioList.size(); ++n )
                 {
                     DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_cardAudioList[n].fileUrl ) );
                 }
-
+                
                 DataTableCard::instance().remove( t_cardInfo.id );
-
+                
             }
-
+            
             {
                 m_mutex.lock();
                 checkUpdateResponse( p_http );
                 m_mutex.unlock();
             }
-
-
+            
+            
         }, [this]( Http * p_http, std::string p_res ){
-
+            m_checked = false;
         } );
         
         m_checkCardUpdateBatchIdList[t_http] = DataCardBatchInfo::s_batchIdList[0];
@@ -498,7 +483,7 @@ bool DadGuessUpdateScene::init( void )
                     }
                     
                 }, [this]( Http * p_http, std::string p_res ){
-                    
+                     m_checked = false;
                 } );
                 
                 m_checkCardUpdateBatchIdList[t_http] = t_pt["cardType"];
@@ -529,6 +514,13 @@ bool DadGuessUpdateScene::init( void )
     };
     
     auto loadImage = [this](void){
+        
+        if( !m_checked )
+        {
+            tryUpdate();
+            return;
+        }
+        
         m_messageLabel->setString( "加载资源..." );
         
         
@@ -557,7 +549,7 @@ bool DadGuessUpdateScene::init( void )
             for( auto t_cardInfo : t_cardList )
             {
                 auto t_coverFileInfo = DataTableFile::instance().findBySourceUrl( t_cardInfo.coverFileUrl );
-
+                
                 auto t_pair = std::pair< DataCardInfo, DataFileInfo >( t_cardInfo, t_coverFileInfo );
                 
                 if( !t_coverFileInfo.fileName.empty() )
@@ -590,10 +582,9 @@ bool DadGuessUpdateScene::init( void )
     };
     
     auto goMainScene = [this](void){
-        m_hand->stopAllActions();
         Director::getInstance()->replaceScene( DadGuessMainScene::create() );
         destroy();
-
+        
         if( m_needCehckUpdate )
         {
             DataTableKeyValue::instance().set( DataKeyValueInfo( s_checkUpdateKey, true ) );
@@ -601,27 +592,39 @@ bool DadGuessUpdateScene::init( void )
         s_updateed = true;
     };
     
-
+    
     m_needCehckUpdate = true;
-
+    
     if( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN )
     {
         m_needCehckUpdate = false;
     }
-
+    
     auto t_keyValue = DataTableKeyValue::instance().get( s_checkUpdateKey );
-
-    if( m_needCehckUpdate && !t_keyValue.key.empty() )
+    
+    bool t_isFirstOpen = t_keyValue.key.empty();
+    
+    if( m_needCehckUpdate && !t_isFirstOpen )
     {
         time_t t_curTime;
         time(&t_curTime);
         
         if( t_curTime - t_keyValue.date < s_updateOverTime && t_keyValue.getBooleanValue() )
         {
-           m_needCehckUpdate = false; 
+            m_needCehckUpdate = false;
         }
     }
-
+    
+    if( t_isFirstOpen || !t_keyValue.getBooleanValue() )
+    {
+        m_needCehckUpdate = true;
+    }
+    
+    while( !m_checkUpdateQueue.empty() )
+    {
+        m_checkUpdateQueue.pop();
+    }
+    
     if( m_needCehckUpdate )
     {
         DataTableKeyValue::instance().set( DataKeyValueInfo( s_checkUpdateKey, false ) );
@@ -631,21 +634,8 @@ bool DadGuessUpdateScene::init( void )
     }
     m_checkUpdateQueue.push( loadImage );
     m_checkUpdateQueue.push( goMainScene );
-
+    
     checkUpdateDequeue();
-    
-    schedule( schedule_selector(DadGuessUpdateScene::update) );
-    
-    return true;
-}
-
-void DadGuessUpdateScene::update( float p_dt )
-{
-    if( m_currUpdateFunc )
-    {
-        m_currUpdateFunc();
-        m_currUpdateFunc = nullptr;
-    }
 }
 
 void DadGuessUpdateScene::checkUpdateResponse( Http * p_http )

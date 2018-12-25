@@ -1,6 +1,6 @@
 // ---------------------------------------
 // Sprite definitions for DadGuessUpdate
-// Generated with TexturePacker 4.10.0
+// Generated with TexturePacker 4.11.1
 //
 // https://www.codeandweb.com/texturepacker
 // ---------------------------------------
@@ -28,26 +28,14 @@ void DadGuessUpdate::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string DadGuessUpdate::dot  = "dot.png";
-const std::string DadGuessUpdate::eye  = "eye.png";
-const std::string DadGuessUpdate::head = "head.png";
+const std::string DadGuessUpdate::caicai_update_background = "caicai_update_background.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
 // ---------------------------------------------------------
-Sprite* DadGuessUpdate::createDotSprite()
+Sprite* DadGuessUpdate::createCaicai_update_backgroundSprite()
 {
-    return Sprite::createWithSpriteFrameName(dot);
-}
-
-Sprite* DadGuessUpdate::createEyeSprite()
-{
-    return Sprite::createWithSpriteFrameName(eye);
-}
-
-Sprite* DadGuessUpdate::createHeadSprite()
-{
-    return Sprite::createWithSpriteFrameName(head);
+    return Sprite::createWithSpriteFrameName(caicai_update_background);
 }
 
 

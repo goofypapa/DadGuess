@@ -16,6 +16,7 @@
 #include "DadGuessCardListScene.h"
 #include "DadGuessBlueScene.h"
 #include "DataTableFile.h"
+#include "BlueDeviceListener.h"
 
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
@@ -152,15 +153,17 @@ bool DadGuessMainScene::init( void )
         if( !m_enableMainButton ) return;
         printf( "----------> %s \n", sm_blueState ? "connected" : "not connected" );
 
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+        goSystemBlue();
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if( !sm_blueState )
         {
-
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    printf( "-----ios-----" );
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    Director::getInstance()->replaceScene( DadGuessBlueScene::create() );
-#endif
+            Director::getInstance()->replaceScene( DadGuessBlueScene::create() );
+        }else{
+            BlueDeviceListener::deconnect();
         }
+#endif
+        
 
     }, adaptation() * 1.2f, adaptation() );
     

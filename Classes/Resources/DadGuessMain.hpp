@@ -1,10 +1,10 @@
 // ---------------------------------------
 // Sprite definitions for DadGuessMain
-// Generated with TexturePacker 4.10.0
+// Generated with TexturePacker 4.11.1
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:ea0b78bffb23429c8c4fe8d2b365cd12:7f242e399117fcc40f1e0c231af32804:a28833b13ad7ee444b0b7bae4b4f0f00$
+// $TexturePacker:SmartUpdate:df0638fa4e5a7bfe0b3787d839a75c83:7f242e399117fcc40f1e0c231af32804:a28833b13ad7ee444b0b7bae4b4f0f00$
 // ---------------------------------------
 
 #ifndef __DADGUESSMAIN_H__

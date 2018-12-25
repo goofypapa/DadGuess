@@ -257,6 +257,12 @@ public abstract class BluePackage {
         }
     }
 
+    public static void deconnect( )
+    {
+        closeA2DP();
+        cancelPair( m_device );
+    }
+
     private static void pair( BluetoothDevice p_device )
     {
         if( p_device.getBondState() == BluetoothDevice.BOND_BONDING )
@@ -339,11 +345,6 @@ public abstract class BluePackage {
                         while (m_socket != null) {
                             try {
                                 int t_size = m_inStream.read(t_buffer);
-
-//                                if( !checkConnected( m_device ) )
-//                                {
-//                                    break;
-//                                }
 
                                 sm_data = byteArrayToHexStr(t_buffer, t_size);
 

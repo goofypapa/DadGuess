@@ -1,10 +1,10 @@
 // ---------------------------------------
 // Sprite definitions for DadGuessUpdate
-// Generated with TexturePacker 4.10.0
+// Generated with TexturePacker 4.11.1
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:fc00fdeb70dcbbfaafdcaa7decbb3bea:5d66b61d4e72a8e50e4cfe603c476dff:5a3ccc56e0a2abd4cfd9e5161bd302f7$
+// $TexturePacker:SmartUpdate:16084cc22679be8b6d0925d47561d73a:5e8d24feb3243499b16fa4fb4216386c:5a3ccc56e0a2abd4cfd9e5161bd302f7$
 // ---------------------------------------
 
 #ifndef __DADGUESSUPDATE_H__
@@ -33,16 +33,12 @@ public:
     // ---------------------
     // sprite name constants
     // ---------------------
-    static const std::string dot;
-    static const std::string eye;
-    static const std::string head;
+    static const std::string caicai_update_background;
 
     // --------------
     // Sprite objects
     // --------------
-    static cocos2d::Sprite *createDotSprite();
-    static cocos2d::Sprite *createEyeSprite();
-    static cocos2d::Sprite *createHeadSprite();
+    static cocos2d::Sprite *createCaicai_update_backgroundSprite();
 
 }; // class
 

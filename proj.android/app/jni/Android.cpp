@@ -55,6 +55,16 @@ void BlueDeviceListener::connect( const std::string & p_deviceId )
     }
 }
 
+void BlueDeviceListener::deconnect( void )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/lib/BluePackage","deconnect","()V");
+    if(ret)
+    {
+        info.env->CallStaticVoidMethod(info.classID,info.methodID);
+    }
+}
+
 
 static NetWorkStateListener::NetWorkState s_netWorkState = NetWorkStateListener::NetWorkState::Unknown;
 static std::function< void( NetWorkStateListener::NetWorkState ) > s_networkStateListener = nullptr;

@@ -29,9 +29,13 @@ struct Ajax
 class WebViewScene : public BaseScene
 {
 public:
+
     static cocos2d::Scene * createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId = "" );
     
     virtual void update( float p_dt ) override;
+
+    static void _stopAllAudio( void );
+
 protected:
     CREATE_FUNC( WebViewScene );
     virtual bool init( void ) override;
@@ -49,6 +53,9 @@ protected:
     
     virtual ~WebViewScene( void );
 private:
+
+    static WebViewScene * sm_instance;
+
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_dir, m_groupId;
     bool m_webOrientation;

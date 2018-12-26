@@ -26,6 +26,8 @@ using namespace cocos2d::ui;
 using namespace experimental;
 
 
+WebViewScene * WebViewScene::sm_instance = nullptr;
+
 cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId )
 {
     auto t_res = create();
@@ -41,6 +43,7 @@ cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const b
 bool WebViewScene::init( void )
 {
     m_firstLoad = true;
+    sm_instance = this;
     return true;
 }
 
@@ -428,6 +431,33 @@ void WebViewScene::stopAudio( const std::string & p_audioUrl )
     }
 }
 
+void WebViewScene::_stopAllAudio( void )
+{
+    if( !sm_instance )
+    {
+        return;
+    }
+    sm_instance->s_downloadList.clear();
+
+    if( sm_instance->s_playList.size() <= 0 )
+    {
+        return;
+    }
+
+    std::stringstream t_sstr;
+    for( auto t_item : sm_instance->s_playList )
+    {
+        AudioEngine::stop( t_item.second );
+        t_sstr << sm_instance->m_playCallBackList[t_item.first] << "(\"" << t_item.first << "\");";
+    }
+
+    std::string t_str = t_sstr.str();
+    sm_instance->m_webview->evaluateJS( t_sstr.str() );
+
+    sm_instance->m_playCallBackList.clear();
+    sm_instance->s_playList.clear();
+}
+
 void WebViewScene::stopAllAudio( void )
 {
     AudioEngine::stopAll();
@@ -522,6 +552,7 @@ std::string WebViewScene::urlRepair( std::string p_url )
 
 WebViewScene::~WebViewScene()
 {
+    sm_instance = nullptr;
     std::stringstream t_splistName;
     
     t_splistName << "Web/" << m_dir << ".plist";

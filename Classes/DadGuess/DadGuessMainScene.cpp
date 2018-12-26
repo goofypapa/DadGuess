@@ -17,6 +17,7 @@
 #include "DadGuessBlueScene.h"
 #include "DataTableFile.h"
 #include "BlueDeviceListener.h"
+#include "WebViewScene.h"
 
 #include "DataTableCard.h"
 #include "DataTableCardAudio.h"
@@ -588,6 +589,8 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         s_downloadPool[ t_http ] = p_audioInfo;
         return;
     }
+
+    WebViewScene::_stopAllAudio();
 
     if( p_audioInfo.audioType == DataCardAudioInfo::AudioType::commentary )
     {

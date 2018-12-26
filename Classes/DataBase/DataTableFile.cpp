@@ -114,7 +114,7 @@ const DataFileInfo DataTableFile::findBySourceUrl( const std::string & p_sourceU
     DataBase::sm_mutex.lock();
     auto t_list = DataBase::instance().query( t_ssql.str() );
 
-    if( t_list.size() == 1 )
+    if( t_list.size() >= 1 )
     {
         t_result = dataRowToDataUser( *t_list.begin() );
     }

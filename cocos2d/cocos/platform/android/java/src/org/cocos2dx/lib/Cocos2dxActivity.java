@@ -62,6 +62,9 @@ import javax.microedition.khronos.egl.EGLContext;
 import android.content.pm.ActivityInfo;
 
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
+
+    public static native void scanCard( int p_cardId );
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -246,6 +249,9 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 //        lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT;
 //        window.setAttributes(lp);
 
+        //nfc初始化设置
+        NfcUtils nfcUtils = new NfcUtils(this);
+
         // Audio configuration
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -256,6 +262,25 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     @Override
     public void onBackPressed() {
 //         super.onBackPressed();//注释掉这行,back键不退出activity
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //当该Activity接收到NFC标签时，运行该方法
+        //调用工具方法，读取NFC数据
+
+        try{
+            String str = NfcUtils.readNFCFromTag(intent);
+            if( str.length() > 0 )
+            {
+                int cardId = Integer.parseInt( str.substring( 28, 32 ), 16 );
+                scanCard( cardId );
+            }
+        }catch( Exception e ){
+            Log.d( "-------->", e.toString() );
+        }
+
     }
 
     //native method,call GLViewImpl::getGLContextAttrs() to get the OpenGL ES context attributions
@@ -273,6 +298,18 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     protected void onResume() {
     	Log.d(TAG, "onResume()");
         super.onResume();
+
+        //开启前台调度系统
+        if( NfcUtils.NfcCheck( this ) != null ) {
+            if( NfcUtils.mPendingIntent == null )
+            {
+                Log.d( "------>", "NfcInit" );
+                NfcUtils.NfcInit( this );
+            }
+
+            NfcUtils.mNfcAdapter.enableForegroundDispatch(this, NfcUtils.mPendingIntent, NfcUtils.mIntentFilter, NfcUtils.mTechList);
+        }
+
         Cocos2dxAudioFocusManager.registerAudioFocusListener(this);
         this.hideVirtualButton();
        	resumeIfHasFocus();
@@ -308,6 +345,12 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     protected void onPause() {
     	Log.d(TAG, "onPause()");
         super.onPause();
+
+        //关闭前台调度系统
+        if( NfcUtils.NfcCheck( this ) != null ) {
+            NfcUtils.mNfcAdapter.disableForegroundDispatch(this);
+        }
+
         Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
         Cocos2dxHelper.onPause();
         mGLSurfaceView.onPause();

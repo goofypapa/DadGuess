@@ -26,10 +26,10 @@ public:
     CREATE_FUNC( DadGuessMainScene );
     void updateUserInfo( void );
     static bool sm_blueState;
+
+    static void scanCard( int p_rfid );
 protected:
     virtual bool init( void ) override;
-    
-    static void scanCard( int p_rfid );
     
     static void playAudio( const DataCardAudioInfo & p_audioInfo );
     

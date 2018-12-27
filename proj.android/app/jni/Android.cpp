@@ -5,6 +5,7 @@
 #include "Common.h"
 #include "BlueDeviceListener.h"
 #include "platform/android/jni/JniHelper.h"
+#include "DadGuessMainScene.h"
 #include <string.h>
 #include <map>
 
@@ -194,6 +195,11 @@ extern "C"
             t_callBack( t_requestId, t_res );
         });
         s_httpRequestPool.erase( t_it );
+    }
+
+    JNIEXPORT void JNICALL JNICALL Java_org_cocos2dx_lib_Cocos2dxActivity_scanCard( JNIEnv *env, jobject clazz, jint p_cardId )
+    {
+        DadGuessMainScene::scanCard( p_cardId );
     }
 }
 

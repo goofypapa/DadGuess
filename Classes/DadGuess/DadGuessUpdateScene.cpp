@@ -57,7 +57,7 @@ bool DadGuessUpdateScene::init( void )
     
     auto t_background = TexturePacker::DadGuessUpdate::createCaicai_update_backgroundSprite();
     auto t_backgroundSizeHalf = t_background->getContentSize() * 0.5f ;
-    t_background->setScale( t_backgroundSizeHalf.width / t_visibleSizeHalf.width, t_backgroundSizeHalf.height / t_visibleSizeHalf.height );
+    t_background->setScale( t_visibleSizeHalf.width / t_backgroundSizeHalf.width, t_visibleSizeHalf.height / t_backgroundSizeHalf.height );
     t_background->setPosition( t_centerPos );
     addChild( t_background );
     

@@ -47,6 +47,7 @@ const char * DeviceNamePrefix = "爸爸猜猜";
         case 4:
         {
             NSLog(@"CBCentralManagerStatePoweredOff");//蓝牙未开启
+            BlueDeviceListener::_onConnectStateChanged( false );
         }
             break;
         case 5:

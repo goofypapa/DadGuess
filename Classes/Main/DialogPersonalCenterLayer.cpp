@@ -332,7 +332,7 @@ bool DialogPersonalCenterLayer::init( void )
 
         auto t_loginUser = DataTableUser::instance().getActivation();
 
-        Http::Post( DOMAIN_NAME "user/auth/logout.do", nullptr, []( Http * p_http, std::string p_res ){
+        Http::Post( DOMAIN_NAME "/user/auth/logout.do", nullptr, []( Http * p_http, std::string p_res ){
 
         },[]( Http * p_http, std::string p_res ){
 
@@ -399,7 +399,7 @@ void DialogPersonalCenterLayer::hide()
         t_parameter["userMobile"] = "";
         t_parameter["userEmail"] = "";
         
-        Http::Post( DOMAIN_NAME "user/update.do", &t_parameter, []( Http * p_http, std::string p_str ){
+        Http::Post( DOMAIN_NAME "/user/update.do", &t_parameter, []( Http * p_http, std::string p_str ){
             printf( "/user/update.do success: %s \n", p_str.c_str() );
         }, []( Http * p_http, std::string p_str ){
             printf( "/user/update.do final: %s \n", p_str.c_str() );

@@ -795,7 +795,7 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userPwd" ] = t_loginPassword;
 
     m_loginType = DataUserInfo::LoginType::phone;
-    Http::Post( DOMAIN_NAME "user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "/user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
         loginCallBack( p_res );
     }, []( Http * p_http, std::string p_res ){
         MessageBox( "网络异常", "" );
@@ -841,7 +841,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "";
     
-    Http::Post( DOMAIN_NAME "user/auth/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "/user/auth/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
 
         if( !ParseApiResult( t_json, p_res ) )
@@ -903,7 +903,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     t_parameter[ "userMobile" ] = t_phone;
     t_parameter[ "userPwd" ] = t_password;
     
-    Http::Post( DOMAIN_NAME "game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    Http::Post( DOMAIN_NAME "/game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
         
         if( !ParseApiResult( t_json, p_res ) )
@@ -999,7 +999,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     {
         case cn::sharesdk::C2DXResponseStateSuccess:
         {
-            Http::Post( std::string( DOMAIN_NAME "user/auth/" ) + t_loginType +  "/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
+            Http::Post( std::string( DOMAIN_NAME "/user/auth/" ) + t_loginType +  "/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
                 loginCallBack( p_res );
             }, []( Http * p_http, std::string p_res ){
                 MessageBox( "网络异常", "" );
@@ -1059,7 +1059,7 @@ void LoginScene::loginCallBack( const std::string & p_str )
             {
                 if( t_downloadUrl.find( "http" ) == std::string::npos )
                 {
-                    t_downloadUrl = std::string( DOMAIN_NAME ) + t_downloadUrl;
+                    t_downloadUrl = std::string( DOMAIN_NAME ) + "/" + t_downloadUrl;
                 }
 
                 DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );

@@ -170,9 +170,9 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         printf("---------------> setOnDidFinishLoading");
         
         std::stringstream t_sstrJsCode;
-        t_sstrJsCode << "window.goofypapaGame = true;" << "window.domainName = \"" << DOMAIN_NAME << "\";" << "window.goofypapaToken=function(){return \"" << Http::token << "\";}if(window.goofypapaInit){ window.goofypapaInit();}";
+        t_sstrJsCode << "window.goofypapaGame = true;" << "window.domainName = \"" << DOMAIN_NAME << "\";" << "window.goofypapaToken=function(){return \"" << Http::token << "\";};if(window.goofypapaInit){ window.goofypapaInit();}";
         m_webview->evaluateJS( t_sstrJsCode.str() );
-        
+
 #ifdef TARGET_OS_IPHONE
         m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
 #endif

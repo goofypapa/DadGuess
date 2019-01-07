@@ -8,7 +8,7 @@
 #include "DataTableCardBatch.h"
 #include <sstream>
 
-std::string batchIdList[] = { "animal", "ABC", "astronomy", "earth", "worldHistory", "historyChronology", "ceshi" };
+std::string batchIdList[] = { "animal", "ABC", "astronomy", "earth", "worldHistory", "historyChronology", "ceshi", "astrEnglish", "animalEn" };
 const std::vector< std::string > DataCardBatchInfo::s_batchIdList( batchIdList, batchIdList + sizeof( batchIdList ) / sizeof( std::string ) );
 
 DataCardBatchInfo::DataCardBatchInfo() : DataCardBatchInfo( "", "" )

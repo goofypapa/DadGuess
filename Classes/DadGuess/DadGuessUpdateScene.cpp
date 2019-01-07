@@ -329,6 +329,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                 }
 
 //下载音频文件
+#ifdef GOOFYPAPA_OFF_LINE
                 auto t_audioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                 
                 if( t_item["audios"].IsArray() )
@@ -385,6 +386,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                     DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_audioList[i].fileUrl ).fileId );
                     DataTableCardAudio::instance().remove( t_audioList[i].id );
                 }
+#endif
             }
             
             //删除多余的卡片
@@ -517,6 +519,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                         }
 
                         //下载音频文件
+#ifdef GOOFYPAPA_OFF_LINE
                         auto t_audioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                     
                         auto & t_dataAudios = t_item["audios"];
@@ -539,7 +542,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                             DataTableFile::instance().remove( DataTableFile::instance().findBySourceUrl( t_audioList[i].fileUrl ).fileId );
                             DataTableCardAudio::instance().remove( t_audioList[i].id );
                         }
-                        
+#endif
                     }
                     
                     //删除多余的卡片
@@ -681,27 +684,31 @@ void DadGuessUpdateScene::tryUpdate( void )
     
     
     m_needCehckUpdate = true;
-    
-    if( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN )
-    {
-        m_needCehckUpdate = false;
-    }
-    
+
+
     auto t_keyValue = DataTableKeyValue::instance().get( s_checkUpdateKey );
     
     bool t_isFirstOpen = t_keyValue.key.empty();
     
-    if( m_needCehckUpdate && !t_isFirstOpen )
+    //不是第一次加载
+    if( !t_isFirstOpen )
     {
         time_t t_curTime;
         time(&t_curTime);
-        
+        printf( "---------------> %d %d %d %d \n", t_curTime, t_keyValue.date, t_curTime - t_keyValue.date, s_updateOverTime );
         if( t_curTime - t_keyValue.date < s_updateOverTime && t_keyValue.getBooleanValue() )
         {
             m_needCehckUpdate = false;
         }
     }
-    
+
+    //没有网络不更新
+    if( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN )
+    {
+        m_needCehckUpdate = false;
+    }
+
+    //第一次打开必须更新
     if( t_isFirstOpen || !t_keyValue.getBooleanValue() )
     {
         m_needCehckUpdate = true;

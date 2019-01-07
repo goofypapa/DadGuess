@@ -29,6 +29,8 @@
 #include "json/writer.h"
 #include "json/stringbuffer.h"
 
+#include <unistd.h>
+
 #define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
 
 USING_NS_CC;
@@ -287,6 +289,24 @@ bool DadGuessMainScene::init( void )
         m_blueConnectState->loadTextureNormal( sm_blueState ? TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_yes : TexturePacker::DadGuessMain::caicai_home_icon_blueteeth_no, Button::TextureResType::PLIST );
     }, nullptr );
     
+
+    // auto t_test = MenuItemFont::create( "play", []( Ref * p_target ){
+        
+    //     int t_index = 72;
+    //     while ( t_index == 72 ) {
+    //         t_index = (int)floor( rand_0_1() * 72 );
+    //     }
+
+    //     scanCard( t_index + 1 );
+    // } );
+
+    // auto t_testSizeHalf = t_test->getContentSize() * 0.5f;
+
+    // t_test->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_testSizeHalf.width - 20.0f, t_origin.y + t_testSizeHalf.height + 20.0f ) );
+
+    // auto t_menu = Menu::create( t_test, NULL );
+    // t_menu->setPosition( Vec2::ZERO );
+    // addChild( t_menu );
     
     //用户中心
     m_dialogPersonalCenter = DialogPersonalCenterLayer::create();
@@ -338,19 +358,23 @@ void DadGuessMainScene::scanCard( int p_rfid )
         bool t_needCheckAudioUpdate = true;
         if( t_cardInfo.activation )
         {
-            // time_t t_curTime;
-            // time(&t_curTime);
+            time_t t_curTime;
+            time(&t_curTime);
             
-            // std::stringstream t_sstr;
-            // t_sstr << sm_checkoutCardAudioUpdateKey << t_cardInfo.id;
+            std::stringstream t_sstr;
+            t_sstr << sm_checkoutCardAudioUpdateKey << t_cardInfo.id;
             
-            // auto t_keyValueInfo = DataTableKeyValue::instance().get( t_sstr.str() );
+            auto t_keyValueInfo = DataTableKeyValue::instance().get( t_sstr.str() );
 
-            // if( !t_keyValueInfo.key.empty() && t_keyValueInfo.getBooleanValue() && t_curTime - t_keyValueInfo.date < sm_checkoutCardAudioUpdateOverTime )
-            // {
+            if( !t_keyValueInfo.key.empty() && t_keyValueInfo.getBooleanValue() && t_curTime - t_keyValueInfo.date < sm_checkoutCardAudioUpdateOverTime )
+            {
                 t_needCheckAudioUpdate = false;
-            // }
+            }
         }
+
+#ifdef GOOFYPAPA_OFF_LINE
+        t_needCheckAudioUpdate = false;
+#endif
 
         if( t_needCheckAudioUpdate )
         {
@@ -595,6 +619,8 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
 
     WebViewScene::_stopAllAudio();
 
+
+    printf( "-------> play: %s \n", t_audioFileInfo.fileName.c_str() );
     if( p_audioInfo.audioType == DataCardAudioInfo::AudioType::commentary )
     {
         AudioEngine::stopAll();
@@ -606,7 +632,18 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         {
             AudioEngine::stop( s_soloPlayId );
         }
+
         AudioEngine::play2d( t_audioFileInfo.fileName );
+
+        // std::thread( [t_audioFileInfo](){
+        //     usleep( 500 * 1000 );
+
+        //     Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_audioFileInfo]{
+        //         AudioEngine::play2d( t_audioFileInfo.fileName );
+        //     });
+
+        // } ).detach();
+        
     }
 }
 

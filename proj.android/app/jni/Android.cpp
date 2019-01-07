@@ -234,20 +234,22 @@ void setAppOrientation( const bool p_isPortrait )
 
 std::string createUUID( void )
 {
+    std::string t_result = "";
+     std::thread( [&t_result](){
+        JniMethodInfo info;
+        //getStaticMethodInfo判断java定义的静态函数是否存在，返回bool
+        bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","createUUID","()Ljava/lang/String;");
+        if(ret)
+        {
+            //传入类ID和方法ID，小心方法名写错，第一个字母是大写
+            jstring t_str = (jstring)info.env->CallStaticObjectMethod(info.classID,info.methodID);
 
-    JniMethodInfo info;
-    //getStaticMethodInfo判断java定义的静态函数是否存在，返回bool
-    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","createUUID","()Ljava/lang/String;");
-    if(ret)
-    {
-        //传入类ID和方法ID，小心方法名写错，第一个字母是大写
-        jstring t_str = (jstring)info.env->CallStaticObjectMethod(info.classID,info.methodID);
+            char * t_c = jstringToChar( info.env, t_str);
+            t_result = t_c;
+        }
+     }).join();
 
-        char * t_c = jstringToChar( info.env, t_str);
-        return t_c;
-    }
-
-    return "";
+    return t_result;
 }
 
 

@@ -172,8 +172,6 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         std::stringstream t_sstrJsCode;
         t_sstrJsCode << "window.goofypapaGame = true;" << "window.domainName = \"" << DOMAIN_NAME << "\";" << "window.goofypapaToken=function(){return \"" << Http::token << "\";}if(window.goofypapaInit){ window.goofypapaInit();}";
         m_webview->evaluateJS( t_sstrJsCode.str() );
-
-        printf( "--------------> %s \n", t_sstrJsCode.str().c_str() );
         
 #ifdef TARGET_OS_IPHONE
         m_webview->evaluateJS( "document.documentElement.style.webkitTouchCallout = \"none\";document.documentElement.style.webkitUserSelect = \"none\";" );
@@ -194,7 +192,7 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
             m_action = nullptr;
         }
 
-       m_webview->evaluateJS( "alert(window.domainName);" );
+    //    m_webview->evaluateJS( "alert(window.domainName);" );
     //    m_webview->evaluateJS( "alert(window.goofypapaToken);" );
     });
 

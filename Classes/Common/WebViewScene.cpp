@@ -317,8 +317,8 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                         std::stringstream t_sstr;
                         t_sstr << t_ajax.successCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
                         std::string t_str = t_sstr.str();
-                        m_httpCallBackList.push( [this, t_str](){
-                            printf( "----------Post: %s \n", t_str.c_str() );
+
+                        Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
                             m_webview->evaluateJS( t_str );
                         });
                         
@@ -335,7 +335,8 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                         std::stringstream t_sstr;
                         t_sstr << t_ajax.fialCallBack << "(\"" << t_ajax.key << "\", " << p_res << ");";
                         std::string t_str = t_sstr.str();
-                        m_httpCallBackList.push( [this, t_str](){
+
+                        Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
                             m_webview->evaluateJS( t_str );
                         });
                         s_ajaxPool.erase( p_http );
@@ -353,8 +354,6 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
     
     m_webview->setOpacityWebView( 0.0f );
     this->addChild( m_webview );
-    
-    schedule( schedule_selector(WebViewScene::update) );
     
     return true;
 }
@@ -560,15 +559,5 @@ WebViewScene::~WebViewScene()
     if( FileUtils::getInstance()->isFileExist( t_splistName.str() ) )
     {
         SpriteFrameCache::getInstance()->removeSpriteFramesFromFile( t_splistName.str() );
-    }
-}
-
-void WebViewScene::update( float p_dt )
-{
-    while( !m_httpCallBackList.empty() )
-    {
-        auto t_callBack = m_httpCallBackList.top();
-        m_httpCallBackList.pop();
-        t_callBack();
     }
 }

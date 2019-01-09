@@ -31,8 +31,6 @@ class WebViewScene : public BaseScene
 public:
 
     static cocos2d::Scene * createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId = "" );
-    
-    virtual void update( float p_dt ) override;
 
     static void _stopAllAudio( void );
 
@@ -60,8 +58,6 @@ private:
     std::string m_dir, m_groupId;
     bool m_webOrientation;
     bool m_firstLoad;
-    
-    std::stack< std::function<void( void ) > > m_httpCallBackList;
     
     std::string m_resourceId;
     

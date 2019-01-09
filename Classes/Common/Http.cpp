@@ -74,6 +74,14 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
         t_requerstUrl = t_url.str();
     }
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    httpGet( t_requerstUrl, token, createUUID(), [t_http]( std::string p_requestId, std::string p_res ){
+        t_http->getSuccessCallBack()( t_http, p_res );
+    }, [t_http]( std::string p_requestId, std::string p_res ){
+        t_http->getFinalCallBack()( t_http, p_res );
+    } );
+#else
+
     //    生成HttpRequest对象
     auto request = new HttpRequest();
 
@@ -97,6 +105,7 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
     HttpClient::getInstance()->sendImmediate( request );
     //    释放HttpRequest对象
     request->release();
+#endif
 
     return t_http;
 }

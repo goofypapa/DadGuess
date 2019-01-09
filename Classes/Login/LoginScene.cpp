@@ -700,8 +700,8 @@ void LoginScene::loginWechatCallBack( const char * p_code )
     }
 
     std::map< std::string, std::string > t_parameter;
-    t_parameter[ "appid" ] = "wxc6d5d8bca1f1c5a9";
-    t_parameter[ "secret" ] = "c5460ffde4c1c93dcc71392108bfa01d";
+    t_parameter[ "appid" ] = "wx6e751377fd8a4f4c";
+    t_parameter[ "secret" ] = "f1d1db8212d281e7cff7d2f856b00d51";
     t_parameter[ "code" ] = p_code;
     t_parameter[ "grant_type" ] = "authorization_code";
     
@@ -722,12 +722,14 @@ void LoginScene::loginWechatCallBack( const char * p_code )
         
     }, false);
     
-    if( DadGuessUpdateScene::s_updateed )
-    {
-        Director::getInstance()->replaceScene( DadGuessMainScene::create() );
-    }else{
-        Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
-    }
+    Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+        if( DadGuessUpdateScene::s_updateed )
+        {
+            Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+        }else{
+            Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+        }
+    });
 }
 
 void LoginScene::loginBack()
@@ -1086,12 +1088,15 @@ void LoginScene::loginCallBack( const std::string & p_str )
                 DataTableUser::instance().insert( t_dataUser );
             }
             
-            if( DadGuessUpdateScene::s_updateed )
-            {
-                Director::getInstance()->replaceScene( DadGuessMainScene::create() );
-            }else{
-                Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
-            }
+            Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+                if( DadGuessUpdateScene::s_updateed )
+                {
+                    Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+                }else{
+                    Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+                }
+            });
+
             return;
         }
     }

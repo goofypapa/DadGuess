@@ -25,11 +25,15 @@
  ****************************************************************************/
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 
 @interface RootViewController : UIViewController {
 
 }
+
+@property(strong, nonatomic)AVAudioPlayer *mPlayer;
+@property(assign, nonatomic)CGFloat mCount;
 - (BOOL) prefersStatusBarHidden;
 
 @end

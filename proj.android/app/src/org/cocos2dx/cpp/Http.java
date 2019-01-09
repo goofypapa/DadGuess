@@ -15,7 +15,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class Http {
-    String m_url, m_data, m_token, m_requestId, m_result;
+    String m_url, m_data, m_token, m_requestId, m_result, m_requestType;
     boolean m_requesting;
 
     public static native void HttpResponse( boolean p_state, String p_requestId, String p_res );
@@ -32,6 +32,18 @@ public class Http {
 
     public void post( )
     {
+        m_requestType = "POST";
+        request();
+    }
+
+    public void get()
+    {
+        m_requestType = "GET";
+        request();
+    }
+
+    private void request()
+    {
         if( m_requesting ) return;
         m_requesting = true;
         new Thread(new Runnable() {
@@ -41,23 +53,27 @@ public class Http {
                 try {
                     URL t_url = new URL(m_url);
                     HttpURLConnection t_httpURLConnection = (HttpURLConnection) t_url.openConnection();
-                    t_httpURLConnection.setConnectTimeout(0);            //设置连接超时时间
+                    t_httpURLConnection.setConnectTimeout(0);              //设置连接超时时间
                     t_httpURLConnection.setDoInput(true);                  //打开输入流，以便从服务器获取数据
-                    t_httpURLConnection.setDoOutput(true);                 //打开输出流，以便向服务器提交数据
-                    t_httpURLConnection.setRequestMethod("POST");           //设置以Post方式提交数据
-                    t_httpURLConnection.setUseCaches(false);               //使用Post方式不能使用缓存
 
-                    byte[] t_data = m_data.getBytes();
-
-                    //设置请求体的类型是文本类型
-                    t_httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    //设置请求体的长度
-                    t_httpURLConnection.setRequestProperty("Content-Length", String.valueOf(t_data.length));
+                    t_httpURLConnection.setRequestMethod(m_requestType);   //设置提交数据方式
                     //token
                     t_httpURLConnection.setRequestProperty("Authorization", m_token);
-                    //获得输出流，向服务器写入数据
-                    OutputStream t_outputStream = t_httpURLConnection.getOutputStream();
-                    t_outputStream.write(t_data);
+
+                    if( m_requestType == "POST" )
+                    {
+                        byte[] t_data = m_data.getBytes();
+
+                        t_httpURLConnection.setDoOutput(true);                 //打开输出流，以便向服务器提交数据
+                        t_httpURLConnection.setUseCaches(false);               //使用Post方式不能使用缓存
+                        //设置请求体的类型是文本类型
+                        t_httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        //设置请求体的长度
+                        t_httpURLConnection.setRequestProperty("Content-Length", String.valueOf(t_data.length));
+                        //获得输出流，向服务器写入数据
+                        OutputStream t_outputStream = t_httpURLConnection.getOutputStream();
+                        t_outputStream.write(t_data);
+                    }
 
                     int t_response = t_httpURLConnection.getResponseCode();            //获得服务器的响应码
                     if(t_response == HttpURLConnection.HTTP_OK) {

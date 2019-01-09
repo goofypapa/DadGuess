@@ -8,6 +8,7 @@
 #include "DadGuessMainScene.h"
 #include <string.h>
 #include <map>
+#include <thread>
 
 #include <functional>
 
@@ -85,6 +86,20 @@ NetWorkStateListener::NetWorkState getNetWorkState( void )
 }
 
 static std::map< std::string, std::pair< HttpCallBack, HttpCallBack > > s_httpRequestPool;
+void httpGet( const std::string & p_url, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","httpGet","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+    if(ret)
+    {
+        jstring t_url = info.env->NewStringUTF( p_url.c_str() );
+        jstring t_token = info.env->NewStringUTF( p_token.c_str() );
+        jstring t_requestId = info.env->NewStringUTF( p_requestId.c_str() );
+        info.env->CallStaticVoidMethod(info.classID,info.methodID, t_url, t_token, t_requestId);
+    }
+    s_httpRequestPool[ p_requestId ] = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+}
+
 void httpPost( const std::string & p_url, const std::string & p_data, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
 {
     JniMethodInfo info;
@@ -183,17 +198,16 @@ extern "C"
             return;
         }
 
-        printf( "---------> reponse: %s \n ", t_res.c_str() );
-
         auto t_callBack = s_httpRequestPool[t_requestId].second;
         if( p_state != 0 )
         {
             t_callBack = s_httpRequestPool[t_requestId].first;
         }
 
-        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_callBack, t_requestId, t_res]{
+        std::thread( [=](){
             t_callBack( t_requestId, t_res );
-        });
+        } ).detach();
+        
         s_httpRequestPool.erase( t_it );
     }
 

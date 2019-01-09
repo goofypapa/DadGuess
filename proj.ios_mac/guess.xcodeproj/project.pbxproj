@@ -49,6 +49,8 @@
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
 		3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3752EC9A21A4F66000F549A3 /* Reachability.m */; };
+		37553A2921E4A2C3002EBF8C /* empty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37553A2821E4A2C3002EBF8C /* empty.mp3 */; };
+		37553A2B21E4A778002EBF8C /* ToBeWithYou.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37553A2A21E4A778002EBF8C /* ToBeWithYou.mp3 */; };
 		376A5D9F212A517900510F6C /* md5.inl in Resources */ = {isa = PBXBuildFile; fileRef = 376A5D9E212A517900510F6C /* md5.inl */; };
 		376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA0212A55B900510F6C /* DataTableFile.cpp */; };
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
@@ -226,6 +228,8 @@
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
 		3752EC9821A4F66000F549A3 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		3752EC9A21A4F66000F549A3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		37553A2821E4A2C3002EBF8C /* empty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = empty.mp3; sourceTree = "<group>"; };
+		37553A2A21E4A778002EBF8C /* ToBeWithYou.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ToBeWithYou.mp3; sourceTree = "<group>"; };
 		376A5D9B212A516E00510F6C /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		376A5D9E212A517900510F6C /* md5.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.inl; sourceTree = "<group>"; };
 		376A5DA0212A55B900510F6C /* DataTableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableFile.cpp; sourceTree = "<group>"; };
@@ -418,6 +422,8 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				37553A2A21E4A778002EBF8C /* ToBeWithYou.mp3 */,
+				37553A2821E4A2C3002EBF8C /* empty.mp3 */,
 				37EA963221ABD1CD00E359E8 /* BluePackage.h */,
 				37EA963321ABD1CD00E359E8 /* BluePackage.mm */,
 				37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */,
@@ -926,8 +932,10 @@
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				370A78A32112975000252E8D /* Dialog.png in Resources */,
 				37E2AE79212BE5FB00DB6912 /* UserHead.vert in Resources */,
+				37553A2921E4A2C3002EBF8C /* empty.mp3 in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
 				37EA95C021A7EB6300E359E8 /* LaunchScreen.storyboard in Resources */,
+				37553A2B21E4A778002EBF8C /* ToBeWithYou.mp3 in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
 				1A88B2641FC3D9C9005C14AE /* Images.xcassets in Resources */,
 				373CDF0C2100376400D77EF2 /* Empty.png in Resources */,
@@ -1211,11 +1219,12 @@
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					"$(SRCROOT)/../cocos2d/cocos/editor-support",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
 		};
@@ -1235,12 +1244,12 @@
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					"$(SRCROOT)/../cocos2d/cocos/editor-support",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};

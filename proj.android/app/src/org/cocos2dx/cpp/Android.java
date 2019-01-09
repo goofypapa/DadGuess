@@ -13,4 +13,9 @@ public class Android {
     {
         new Http( p_url, p_data, p_token, p_requestId ).post();
     }
+
+    public static void httpGet( String p_url, String p_token, String p_requestId )
+    {
+        new Http( p_url, "", p_token, p_requestId ).get();
+    }
 }

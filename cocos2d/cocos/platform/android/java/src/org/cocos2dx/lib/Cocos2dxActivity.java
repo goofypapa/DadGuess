@@ -351,10 +351,11 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
             NfcUtils.mNfcAdapter.disableForegroundDispatch(this);
         }
 
-        Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
-        Cocos2dxHelper.onPause();
-        mGLSurfaceView.onPause();
-        Cocos2dxEngineDataManager.pause();
+         Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
+         Cocos2dxHelper.onPause();
+//         //锁屏或后台播放音频
+//         mGLSurfaceView.onPause();
+         Cocos2dxEngineDataManager.pause();
         unregisterReceiver(netWorkStateReceiver);
     }
     

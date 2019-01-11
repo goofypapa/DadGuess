@@ -808,7 +808,15 @@ void DadGuessUpdateScene::downloadFile( void )
             {
                 DataTableFile::instance().insert( p_fileInfo );
             }
-            
+
+            m_alreadyDownloadSize++;
+            std::stringstream t_sstr;
+            t_sstr.setf( std::ios::fixed );
+            t_sstr.precision( 2 );
+            t_sstr << "正在下载..." << "(" << ( (float)m_alreadyDownloadSize / m_needDownloadSize ) * 100.0f << "%)";
+            std::string t_str = t_sstr.str();
+            m_messageLabel->setString( t_str );
+ 
             auto t_it = m_downloadingList.find( p_http );
             if( t_it == m_downloadingList.end() )
             {
@@ -823,15 +831,6 @@ void DadGuessUpdateScene::downloadFile( void )
             m_downloadingList.erase( t_it );
             m_mutex.unlock();
 
-            std::stringstream t_sstr;
-            t_sstr.setf( std::ios::fixed );
-            t_sstr.precision( 2 );
-            t_sstr << "正在下载..." << "(" << ( (float)m_alreadyDownloadSize++ / m_needDownloadSize ) * 100.0f << "%)";
-            std::string t_str = t_sstr.str();
-            Director::getInstance()->getScheduler()->performFunctionInCocosThread([this,t_str]{
-                m_messageLabel->setString( t_str );
-            });
-            m_messageLabel->setString( t_sstr.str() );
             {
                 m_mutex.lock();
                 downloadFile();

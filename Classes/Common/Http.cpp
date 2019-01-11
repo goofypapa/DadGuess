@@ -24,6 +24,7 @@ using namespace network;
 network::Downloader * Http::sm_downloader = nullptr;
 std::map< const std::string, Http * > Http::sm_downloadTaskList;
 std::map< Http *, std::string > Http::sm_cacheKeyList;
+std::mutex Http::sm_downloadMutex;
 
 std::string Http::token = "";
 
@@ -196,6 +197,90 @@ Http *  Http::DownloadFile( const std::string & p_url, const std::string & p_fil
     t_http->m_downloadFinalCallBack = p_final;
     t_http->m_downloadProgressCallBack = p_progress;
 
+    std::string t_taskUUID = createUUID();
+    std::string t_fileSuffixName = p_fileSuffixName;
+    
+    if( t_fileSuffixName.empty() )
+    {
+        auto t_tmp = split( p_url, "." );
+        t_fileSuffixName = t_tmp[t_tmp.size() - 1];
+    }
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+    std::string t_url = p_url;
+    std::string t_storagePath = fullFilePath( t_taskUUID + "." + t_fileSuffixName );
+    httpDownload( t_taskUUID, t_url, t_storagePath, [t_http]( std::string p_taskId, int p_fileSize ){
+        
+    }, [t_http, t_url, t_storagePath]( std::string p_taskId ){
+
+        auto t_filePath = split( t_storagePath, "/" );
+
+        DataFileInfo t_fileInfo;
+        t_fileInfo.fileId = p_taskId;
+        t_fileInfo.sourceUrl = t_url;
+        t_fileInfo.fileName = t_filePath[ t_filePath.size() - 1 ];
+        t_fileInfo.fileMd5 = "";
+
+        if( FileUtils::getInstance()->isFileExist( t_storagePath ) )
+        {
+            //计算文件md5
+            auto t_if = std::ifstream( t_storagePath, std::ios::in );
+            t_fileInfo.fileMd5 = WS_TOOLS::md5( t_if ).digest();
+        }
+
+        if( DataTableFile::instance().insert( t_fileInfo ) )
+        {
+            if( t_http->getDownloadSuccessCallBack() )
+            {
+                t_http->getDownloadSuccessCallBack()( sm_downloadTaskList[p_taskId], t_fileInfo );
+            }
+        }else{
+            if( t_http->getDownloadFinalCallBack() )
+            {
+                t_http->getDownloadFinalCallBack()( sm_downloadTaskList[p_taskId], t_fileInfo );
+            }
+        }
+
+        auto t_activityScene = BaseScene::activityScene();
+        if( t_activityScene )
+        {
+            t_activityScene->refreshSource( t_fileInfo );
+        }
+
+        sm_downloadMutex.lock();
+        sm_downloadTaskList.erase( p_taskId );
+        sm_downloadMutex.unlock();
+
+        delete t_http;
+
+    }, [t_http, t_url, t_storagePath]( std::string p_taskId, std::string p_msg ){
+        printf( "---------> download final: %s %s \n", p_taskId.c_str(), p_msg.c_str() );
+
+        auto t_filePath = split( t_storagePath, "/" );
+
+        DataFileInfo t_fileInfo;
+        t_fileInfo.fileId = p_taskId;
+        t_fileInfo.sourceUrl = t_url;
+        t_fileInfo.fileName = t_filePath[ t_filePath.size() - 1 ];
+        t_fileInfo.fileMd5 = "";
+
+        if( t_http->getDownloadFinalCallBack() )
+        {
+            t_http->getDownloadFinalCallBack()( sm_downloadTaskList[p_taskId], t_fileInfo );
+        }
+        
+        sm_downloadMutex.lock();
+        sm_downloadTaskList.erase( p_taskId );
+        sm_downloadMutex.unlock();
+
+        delete t_http;
+
+    }, [t_http]( std::string p_taskId, float p_rate ){
+        // printf( "---------> download rate: %s %f \n", p_taskId.c_str(), p_rate );
+    } );
+
+#else
     if( sm_downloader == nullptr )
     {
         sm_downloader = new network::Downloader();
@@ -285,17 +370,10 @@ Http *  Http::DownloadFile( const std::string & p_url, const std::string & p_fil
         } );
 
     }
-
-    std::string t_taskUUID = createUUID();
-    std::string t_fileSuffixName = p_fileSuffixName;
-    
-    if( t_fileSuffixName.empty() )
-    {
-        auto t_tmp = split( p_url, "." );
-        t_fileSuffixName = t_tmp[t_tmp.size() - 1];
-    }
     
     auto t_downloadTask = sm_downloader->createDownloadFileTask( p_url, fullFilePath( t_taskUUID + "." + t_fileSuffixName ), t_taskUUID );
+
+#endif
 
     sm_downloadTaskList[ t_taskUUID ] = t_http;
 

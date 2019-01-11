@@ -12,6 +12,7 @@
 #include <string>
 #include <functional>
 #include <map>
+#include <mutex>
 #include "cocos/network/CCDownloader.h"
 #include "DataTableFile.h"
 
@@ -49,6 +50,8 @@ private:
     static std::map< const std::string, Http * > sm_downloadTaskList;
 
     static std::map< Http *, std::string > sm_cacheKeyList;
+
+    static std::mutex sm_downloadMutex;
 
     HttpCallBack m_success, m_final;
     DownloadFileCallBack m_downloadSuccessCallBack, m_downloadFinalCallBack;

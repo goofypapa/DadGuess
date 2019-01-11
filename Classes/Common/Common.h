@@ -59,6 +59,15 @@ typedef std::function<void( const std::string & p_requestId, const std::string &
 void httpGet( const std::string & p_url, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal );
 void httpPost( const std::string & p_url, const std::string & p_data, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal );
 
+typedef std::function<void( const std::string & p_taskId, const int p_fileSize )> HttpDownloadStartCallBack;
+typedef std::function<void( const std::string & p_taskId )> HttpDownloadEndCallBack;
+typedef std::function<void( const std::string & p_taskId, const std::string & p_meg )> HttpDownloadFinalCallBack;
+typedef std::function<void( const std::string & p_taskId, const float p_downloadRate )> HttpDownloadRateCallBack;
+
+void httpDownload(  const std::string & p_taskId, const std::string & p_url, const std::string & p_filePath, HttpDownloadStartCallBack p_callBackStart, HttpDownloadEndCallBack p_callBackEnd, HttpDownloadFinalCallBack p_callBackFinal, HttpDownloadRateCallBack p_callBackRate );
+
+bool whetherSupportNFC( void );
+
 //shareSDK 工具
 std::string toString( __Dictionary & p_dirtionary );
 std::string toString( Ref * p_obj );

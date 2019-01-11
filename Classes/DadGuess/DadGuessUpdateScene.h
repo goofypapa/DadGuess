@@ -66,7 +66,7 @@ private:
     
     cocos2d::Label * m_messageLabel;
     
-    int m_loadResourceCount;
+    int m_loadResourceCount, m_needDownloadSize, m_alreadyDownloadSize;
     
     std::queue< std::function<void(void)> > m_checkUpdateQueue;
     std::function< void(void) > m_currUpdateFunc;

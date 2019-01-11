@@ -1,11 +1,13 @@
 package org.cocos2dx.cpp;
 
 import android.content.Context;
+import android.os.Message;
 import android.util.Log;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +20,15 @@ public class Http {
     String m_url, m_data, m_token, m_requestId, m_result, m_requestType;
     boolean m_requesting;
 
+    String m_filePath;
+
     public static native void HttpResponse( boolean p_state, String p_requestId, String p_res );
+
+    public static native void HttpDownloadStart( String p_taskId, int p_fileSize );
+    public static native void HttpDownloadEnd( String p_taskId );
+    public static native void HttpDownloadFinal( String p_taskId, String p_msg );
+    public static native void HttpDownloadRate( String p_taskId, float p_rate );
+
 
     public Http( String p_url, String p_data, String p_token, String p_requestId )
     {
@@ -42,6 +52,57 @@ public class Http {
         request();
     }
 
+    public void downloadFile( String p_filePath )
+    {
+        m_filePath = p_filePath;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL t_url = new URL(m_url);
+                    HttpURLConnection t_conn = (HttpURLConnection)t_url.openConnection();
+
+                    InputStream t_is = t_conn.getInputStream();
+                    while( t_conn.getResponseCode() == 302 ){
+                        String newUrl = t_conn.getHeaderField("Location");
+                        if( t_url.equals(newUrl) )return;
+                        t_url = new URL( newUrl );
+                        t_conn = (HttpURLConnection)t_url.openConnection();
+                        t_is.close();
+                        t_is = t_conn.getInputStream();
+                    }
+
+                    int t_downloadFileSie = t_conn.getContentLength();
+                    int t_currDownloadSize = 0;
+
+                    HttpDownloadStart( m_requestId, t_downloadFileSie );
+
+                    byte[] t_bs = new byte[1024];
+
+                    int t_readLen;
+
+                    OutputStream t_os = new FileOutputStream( m_filePath );
+
+                    while((t_readLen = t_is.read(t_bs)) > 0){
+
+                        t_currDownloadSize += t_readLen;
+                        HttpDownloadRate( m_requestId, (float)t_currDownloadSize / t_downloadFileSie );
+
+                        t_os.write(t_bs, 0, t_readLen);
+                    }
+
+                    t_os.close();
+                    t_is.close();
+
+                    HttpDownloadEnd( m_requestId );
+
+                }catch (Exception e){
+                    HttpDownloadFinal( m_requestId, e.toString() );
+                }
+            }
+        }).start();
+    }
+
     private void request()
     {
         if( m_requesting ) return;
@@ -60,7 +121,7 @@ public class Http {
                     //token
                     t_httpURLConnection.setRequestProperty("Authorization", m_token);
 
-                    if( m_requestType == "POST" )
+                    if( m_requestType.equals("POST") )
                     {
                         byte[] t_data = m_data.getBytes();
 

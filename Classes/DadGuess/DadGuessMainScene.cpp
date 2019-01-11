@@ -226,6 +226,10 @@ bool DadGuessMainScene::init( void )
     
     t_btnChineseHistory->setPosition( Vec2( t_center.x + t_btnChineseHistorySizeHalf.width, t_center.y  - t_btnChineseHistorySizeHalf.height + 7.0f ) );
     addChild( t_btnChineseHistory );
+
+    bool t_isWhetherSupportNFC = whetherSupportNFC();
+
+    printf( "-----------> whetherSupportNFC: %d \n", t_isWhetherSupportNFC );
     
     //
     auto t_btnTouched = [this]( Ref * p_target ){

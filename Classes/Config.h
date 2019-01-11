@@ -5,7 +5,7 @@
 #include "DataTableUser.h"
 
 // #define DOMAIN_NAME "http://www.dadpat.com"
-#define DOMAIN_NAME "http://192.168.1.100:8080"
+#define DOMAIN_NAME "http://192.168.5.100:8080"
 // #define GOOFYPAPA_OFF_LINE
 
 #endif //__CONFIG_H__

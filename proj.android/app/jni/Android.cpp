@@ -9,6 +9,7 @@
 #include <string.h>
 #include <map>
 #include <thread>
+#include <mutex>
 
 #include <functional>
 
@@ -86,6 +87,7 @@ NetWorkStateListener::NetWorkState getNetWorkState( void )
 }
 
 static std::map< std::string, std::pair< HttpCallBack, HttpCallBack > > s_httpRequestPool;
+static std::mutex s_httpRequestMutex;
 void httpGet( const std::string & p_url, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
 {
     JniMethodInfo info;
@@ -97,7 +99,11 @@ void httpGet( const std::string & p_url, const std::string & p_token, const std:
         jstring t_requestId = info.env->NewStringUTF( p_requestId.c_str() );
         info.env->CallStaticVoidMethod(info.classID,info.methodID, t_url, t_token, t_requestId);
     }
-    s_httpRequestPool[ p_requestId ] = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+
+    auto t_tmp = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+    s_httpRequestMutex.lock();
+    s_httpRequestPool[ p_requestId ] = t_tmp;
+    s_httpRequestMutex.unlock();
 }
 
 void httpPost( const std::string & p_url, const std::string & p_data, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
@@ -112,7 +118,63 @@ void httpPost( const std::string & p_url, const std::string & p_data, const std:
         jstring t_requestId = info.env->NewStringUTF( p_requestId.c_str() );
         info.env->CallStaticVoidMethod(info.classID,info.methodID, t_url, t_data, t_token, t_requestId);
     }
-    s_httpRequestPool[ p_requestId ] = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+    auto t_tmp = std::pair< HttpCallBack, HttpCallBack >( p_callBackSuccess, p_callBackFinal );
+    s_httpRequestMutex.lock();
+    s_httpRequestPool[ p_requestId ] = t_tmp;
+    s_httpRequestMutex.unlock();
+}
+
+struct DownloadCallBackFuns{
+    HttpDownloadStartCallBack callBackStart;
+    HttpDownloadEndCallBack callBackEnd;
+    HttpDownloadFinalCallBack callBackFinal;
+    HttpDownloadRateCallBack callBackRate;
+};
+static std::map< std::string, DownloadCallBackFuns > s_httpDownloadPool;
+static std::mutex s_httpDownloadMutex;
+void httpDownload(  const std::string & p_taskId, const std::string & p_url, const std::string & p_filePath, HttpDownloadStartCallBack p_callBackStart, HttpDownloadEndCallBack p_callBackEnd, HttpDownloadFinalCallBack p_callBackFinal, HttpDownloadRateCallBack p_callBackRate )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","httpDownload","(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+    if(ret)
+    {
+        jstring t_taskId = info.env->NewStringUTF( p_taskId.c_str() );
+        jstring t_url = info.env->NewStringUTF( p_url.c_str() );
+        jstring t_filePath = info.env->NewStringUTF( p_filePath.c_str() );
+
+        info.env->CallStaticVoidMethod(info.classID,info.methodID, t_taskId, t_url, t_filePath);
+    }
+
+    DownloadCallBackFuns t_downloadCallBackFuns{ p_callBackStart, p_callBackEnd, p_callBackFinal, p_callBackRate };
+    s_httpDownloadMutex.lock();
+    s_httpDownloadPool[ p_taskId ] = t_downloadCallBackFuns;
+    s_httpDownloadMutex.unlock();
+}
+
+bool whetherSupportNFC( void )
+{
+    bool t_result = false;
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","whetherSupportNFC","()Z");
+    if(ret)
+    {
+        t_result = info.env->CallStaticBooleanMethod(info.classID,info.methodID);
+    }
+
+    return t_result;
+}
+
+bool whetherOpenNFC( void )
+{
+    bool t_result = false;
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","whetherOpenNFC","()Z");
+    if(ret)
+    {
+        t_result = info.env->CallStaticBooleanMethod(info.classID,info.methodID);
+    }
+
+    return t_result;
 }
 
 extern "C"
@@ -175,9 +237,7 @@ extern "C"
             t_data.push_back( t_char );
         }
 
-//        Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_data]{
-            BlueDeviceListener::_onRecvedData( t_data );
-//        });
+        BlueDeviceListener::_onRecvedData( t_data );
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_BluePackage_connectDeviceStateChange( JNIEnv *env, jobject clazz, jint p_connectState )
@@ -198,17 +258,101 @@ extern "C"
             return;
         }
 
-        auto t_callBack = s_httpRequestPool[t_requestId].second;
+        auto t_callBack = t_it->second.second;
         if( p_state != 0 )
         {
-            t_callBack = s_httpRequestPool[t_requestId].first;
+            t_callBack = t_it->second.first;
         }
 
         std::thread( [=](){
             t_callBack( t_requestId, t_res );
         } ).detach();
-        
+
+        s_httpRequestMutex.lock();
         s_httpRequestPool.erase( t_it );
+        s_httpRequestMutex.unlock();
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpDownloadStart(JNIEnv *env, jobject clazz, jstring p_taskId, jint p_fileSize)
+    {
+        std::string t_taskId = jstringToChar( env, p_taskId );
+        auto t_fileSize = p_fileSize;
+        auto t_it = s_httpDownloadPool.find( t_taskId );
+        if( t_it == s_httpDownloadPool.end() )
+        {
+            return;
+        }
+
+        auto t_callBackStart = t_it->second.callBackStart;
+        if( t_callBackStart )
+        {
+            std::thread( [=](){
+                        t_callBackStart( t_taskId, t_fileSize );
+                    } ).detach();
+        }
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpDownloadEnd(JNIEnv *env, jobject clazz, jstring p_taskId)
+    {
+        std::string t_taskId = jstringToChar( env, p_taskId );
+        auto t_it = s_httpDownloadPool.find( t_taskId );
+        if( t_it == s_httpDownloadPool.end() )
+        {
+            return;
+        }
+
+        auto t_callBackEnd = t_it->second.callBackEnd;
+        if( t_callBackEnd )
+        {
+            std::thread( [=](){
+                        t_callBackEnd( t_taskId );
+                    } ).detach();
+        }
+
+        s_httpDownloadMutex.lock();
+        s_httpDownloadPool.erase( t_taskId );
+        s_httpDownloadMutex.unlock();
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpDownloadFinal(JNIEnv *env, jobject clazz, jstring p_taskId, jstring p_msg)
+    {
+        std::string t_taskId = jstringToChar( env, p_taskId );
+        std::string t_msg = jstringToChar( env, p_msg );
+        auto t_it = s_httpDownloadPool.find( t_taskId );
+        if( t_it == s_httpDownloadPool.end() )
+        {
+            return;
+        }
+
+        auto t_callBackFinal = t_it->second.callBackFinal;
+        if( t_callBackFinal )
+        {
+            std::thread( [=](){
+                        t_callBackFinal( t_taskId, t_msg );
+                    } ).detach();
+        }
+        s_httpDownloadMutex.lock();
+        s_httpDownloadPool.erase( t_taskId );
+        s_httpDownloadMutex.unlock();
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpDownloadRate(JNIEnv *env, jobject clazz, jstring p_taskId, jfloat p_rate)
+    {
+        std::string t_taskId = jstringToChar( env, p_taskId );
+        float t_rate = p_rate;
+        auto t_it = s_httpDownloadPool.find( t_taskId );
+        if( t_it == s_httpDownloadPool.end() )
+        {
+            return;
+        }
+
+        auto t_callBackRate = t_it->second.callBackRate;
+        if( t_callBackRate )
+        {
+            std::thread( [=](){
+                        t_callBackRate( t_taskId, t_rate );
+                    } ).detach();
+        }
     }
 
     JNIEXPORT void JNICALL JNICALL Java_org_cocos2dx_lib_Cocos2dxActivity_scanCard( JNIEnv *env, jobject clazz, jint p_cardId )

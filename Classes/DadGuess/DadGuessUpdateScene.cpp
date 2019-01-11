@@ -591,6 +591,8 @@ void DadGuessUpdateScene::tryUpdate( void )
         printf( "---------> download size: %d \n", m_downloadList.size() );
         if( m_downloadList.size() )
         {
+            m_needDownloadSize = m_downloadList.size();
+            m_alreadyDownloadSize = 0;
             m_messageLabel->setString( "正在下载..." );
             downloadFile();
         }
@@ -817,16 +819,25 @@ void DadGuessUpdateScene::downloadFile( void )
             {
                 t_it->second._downloadCallBack( p_fileInfo );
             }
+            m_mutex.lock();
             m_downloadingList.erase( t_it );
-            
+            m_mutex.unlock();
+
+            std::stringstream t_sstr;
+            t_sstr.setf( std::ios::fixed );
+            t_sstr.precision( 2 );
+            t_sstr << "正在下载..." << "(" << ( (float)m_alreadyDownloadSize++ / m_needDownloadSize ) * 100.0f << "%)";
+            std::string t_str = t_sstr.str();
+            Director::getInstance()->getScheduler()->performFunctionInCocosThread([this,t_str]{
+                m_messageLabel->setString( t_str );
+            });
+            m_messageLabel->setString( t_sstr.str() );
             {
                 m_mutex.lock();
                 downloadFile();
                 checkUpdateResponse( p_http );
                 m_mutex.unlock();
             }
-            
-            
         }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
             printf( "download final: %s \n", p_fileInfo.sourceUrl.c_str() );
             
@@ -836,10 +847,9 @@ void DadGuessUpdateScene::downloadFile( void )
                 return;
             }
 
+            m_mutex.lock();
             m_downloadList.push( t_it->second );
             m_downloadingList.erase( t_it );
-            
-            m_mutex.lock();
             downloadFile();
             checkUpdateResponse( p_http );
             m_mutex.unlock();

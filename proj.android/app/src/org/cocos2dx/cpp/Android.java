@@ -1,6 +1,10 @@
 package org.cocos2dx.cpp;
 
+import android.nfc.NfcAdapter;
 import android.util.Log;
+
+import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.NfcUtils;
 
 public class Android {
 
@@ -17,5 +21,20 @@ public class Android {
     public static void httpGet( String p_url, String p_token, String p_requestId )
     {
         new Http( p_url, "", p_token, p_requestId ).get();
+    }
+
+    public static void httpDownload( String p_taskId, String p_url, String p_filePath )
+    {
+        new Http( p_url, "", "", p_taskId ).downloadFile( p_filePath );
+    }
+
+    public static boolean whetherSupportNFC()
+    {
+        return NfcAdapter.getDefaultAdapter( (Cocos2dxActivity)Cocos2dxActivity.getContext() ) != null;
+    }
+
+    public static boolean whetherOpenNFC()
+    {
+        return NfcUtils.NfcCheck( (Cocos2dxActivity)Cocos2dxActivity.getContext() ) != null;
     }
 }

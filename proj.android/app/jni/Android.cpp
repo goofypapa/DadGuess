@@ -4,6 +4,7 @@
 
 #include "Common.h"
 #include "BlueDeviceListener.h"
+#include "NFCDeviceListener.h"
 #include "platform/android/jni/JniHelper.h"
 #include "DadGuessMainScene.h"
 #include <string.h>
@@ -177,6 +178,16 @@ bool whetherOpenNFC( void )
     return t_result;
 }
 
+void openNFC( void )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","openNFC","()V");
+    if(ret)
+    {
+        info.env->CallStaticVoidMethod(info.classID,info.methodID);
+    }
+}
+
 extern "C"
 {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_NetBroadcastReceiver_netStateChange(JNIEnv *env, jobject clazz, jint netState)
@@ -246,6 +257,19 @@ extern "C"
         Director::getInstance()->getScheduler()->performFunctionInCocosThread([t_state]{
             BlueDeviceListener::_onConnectStateChanged( t_state );
         });
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_NfcUtils_NFCStateChange( JNIEnv *env, jobject clazz, jboolean p_state )
+    {
+        static bool s_NFCState = false;
+        if( s_NFCState == p_state )
+        {
+            return;
+        }
+
+        s_NFCState = p_state;
+
+        NFCDeviceListener::NfcStateChange( s_NFCState );
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpResponse(JNIEnv *env, jobject clazz, jboolean p_state, jstring p_requestId, jstring p_res)
@@ -357,7 +381,7 @@ extern "C"
 
     JNIEXPORT void JNICALL JNICALL Java_org_cocos2dx_lib_Cocos2dxActivity_scanCard( JNIEnv *env, jobject clazz, jint p_cardId )
     {
-        DadGuessMainScene::scanCard( p_cardId );
+        NFCDeviceListener::NfcScanCard( p_cardId );
     }
 }
 

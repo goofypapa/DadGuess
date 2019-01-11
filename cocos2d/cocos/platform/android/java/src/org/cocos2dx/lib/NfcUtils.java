@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 
 public class NfcUtils {
 
+    public static native void NFCStateChange( boolean p_state );
+
     //nfc
     public static NfcAdapter mNfcAdapter;
     public static IntentFilter[] mIntentFilter = null;

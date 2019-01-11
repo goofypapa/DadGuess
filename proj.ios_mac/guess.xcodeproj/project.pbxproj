@@ -51,6 +51,7 @@
 		3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3752EC9A21A4F66000F549A3 /* Reachability.m */; };
 		37553A2921E4A2C3002EBF8C /* empty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37553A2821E4A2C3002EBF8C /* empty.mp3 */; };
 		37553A2B21E4A778002EBF8C /* ToBeWithYou.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37553A2A21E4A778002EBF8C /* ToBeWithYou.mp3 */; };
+		37553A2E21E86891002EBF8C /* NFCDeviceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */; };
 		376A5D9F212A517900510F6C /* md5.inl in Resources */ = {isa = PBXBuildFile; fileRef = 376A5D9E212A517900510F6C /* md5.inl */; };
 		376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA0212A55B900510F6C /* DataTableFile.cpp */; };
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
@@ -230,6 +231,8 @@
 		3752EC9A21A4F66000F549A3 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		37553A2821E4A2C3002EBF8C /* empty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = empty.mp3; sourceTree = "<group>"; };
 		37553A2A21E4A778002EBF8C /* ToBeWithYou.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ToBeWithYou.mp3; sourceTree = "<group>"; };
+		37553A2C21E86891002EBF8C /* NFCDeviceListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFCDeviceListener.h; sourceTree = "<group>"; };
+		37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFCDeviceListener.cpp; sourceTree = "<group>"; };
 		376A5D9B212A516E00510F6C /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		376A5D9E212A517900510F6C /* md5.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.inl; sourceTree = "<group>"; };
 		376A5DA0212A55B900510F6C /* DataTableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableFile.cpp; sourceTree = "<group>"; };
@@ -682,6 +685,8 @@
 		37D7DAE321198F0700A101E8 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */,
+				37553A2C21E86891002EBF8C /* NFCDeviceListener.h */,
 				376A5D9D212A517900510F6C /* achieve */,
 				376A5D9B212A516E00510F6C /* md5.hpp */,
 				3705125C212577C600F2FE1C /* Http.cpp */,
@@ -984,6 +989,7 @@
 				3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */,
 				37EA963421ABD1CD00E359E8 /* BluePackage.mm in Sources */,
 				379D95F021083F31006DA6C1 /* Login.cpp in Sources */,
+				37553A2E21E86891002EBF8C /* NFCDeviceListener.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */,
 				37EA95B121A56D7000E359E8 /* DadGuessCardListScene.cpp in Sources */,

@@ -288,6 +288,8 @@
             </struct>
             <key type="filename">main/caicai_home_icon_blueteeth_no.png</key>
             <key type="filename">main/caicai_home_icon_blueteeth_yes.png</key>
+            <key type="filename">main/caicai_home_icon_nfc_off.png</key>
+            <key type="filename">main/caicai_home_icon_nfc_on.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -396,6 +398,8 @@
             <filename>main/caicai_bluesearch_pic_fontbj.png</filename>
             <filename>main/caicai_icon_goback.png</filename>
             <filename>main/caicai_bluesearch_pic_background.png</filename>
+            <filename>main/caicai_home_icon_nfc_off.png</filename>
+            <filename>main/caicai_home_icon_nfc_on.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

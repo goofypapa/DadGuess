@@ -41,6 +41,8 @@ const std::string DadGuessMain::caicai_home_history              = "caicai_home_
 const std::string DadGuessMain::caicai_home_icon_blueteeth_no    = "caicai_home_icon_blueteeth_no.png";
 const std::string DadGuessMain::caicai_home_icon_blueteeth_yes   = "caicai_home_icon_blueteeth_yes.png";
 const std::string DadGuessMain::caicai_home_icon_gohome          = "caicai_home_icon_gohome.png";
+const std::string DadGuessMain::caicai_home_icon_nfc_off         = "caicai_home_icon_nfc_off.png";
+const std::string DadGuessMain::caicai_home_icon_nfc_on          = "caicai_home_icon_nfc_on.png";
 const std::string DadGuessMain::caicai_home_pic_logo             = "caicai_home_pic_logo.png";
 const std::string DadGuessMain::caicai_home_pic_product          = "caicai_home_pic_product.png";
 const std::string DadGuessMain::caicai_home_sky                  = "caicai_home_sky.png";
@@ -118,6 +120,16 @@ Sprite* DadGuessMain::createCaicai_home_icon_blueteeth_yesSprite()
 Sprite* DadGuessMain::createCaicai_home_icon_gohomeSprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_home_icon_gohome);
+}
+
+Sprite* DadGuessMain::createCaicai_home_icon_nfc_offSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_home_icon_nfc_off);
+}
+
+Sprite* DadGuessMain::createCaicai_home_icon_nfc_onSprite()
+{
+    return Sprite::createWithSpriteFrameName(caicai_home_icon_nfc_on);
 }
 
 Sprite* DadGuessMain::createCaicai_home_pic_logoSprite()

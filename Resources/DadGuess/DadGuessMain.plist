@@ -180,7 +180,7 @@
                 <key>spriteSourceSize</key>
                 <string>{124,124}</string>
                 <key>textureRect</key>
-                <string>{{2449,1339},{80,86}}</string>
+                <string>{{2675,1463},{80,86}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -198,6 +198,36 @@
                 <string>{{2835,1213},{102,104}}</string>
                 <key>textureRotated</key>
                 <true/>
+            </dict>
+            <key>caicai_home_icon_nfc_off.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{15,1}</string>
+                <key>spriteSize</key>
+                <string>{94,122}</string>
+                <key>spriteSourceSize</key>
+                <string>{124,124}</string>
+                <key>textureRect</key>
+                <string>{{2449,1339},{94,122}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>caicai_home_icon_nfc_on.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{16,-19}</string>
+                <key>spriteSize</key>
+                <string>{80,80}</string>
+                <key>spriteSourceSize</key>
+                <string>{124,124}</string>
+                <key>textureRect</key>
+                <string>{{2675,1545},{80,80}}</string>
+                <key>textureRotated</key>
+                <false/>
             </dict>
             <key>caicai_home_pic_logo.png</key>
             <dict>
@@ -363,7 +393,7 @@
             <key>size</key>
             <string>{2946,1922}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:df0638fa4e5a7bfe0b3787d839a75c83:7f242e399117fcc40f1e0c231af32804:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
+            <string>$TexturePacker:SmartUpdate:afd04ee4150a9c33b600ecd0b667f803:66da4a3505e9af59098538048d686f32:a28833b13ad7ee444b0b7bae4b4f0f00$</string>
             <key>textureFileName</key>
             <string>DadGuessMain.png</string>
         </dict>

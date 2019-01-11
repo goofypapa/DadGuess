@@ -44,7 +44,7 @@ bool DialogPersonalCenterLayer::init( void )
     auto t_DialogCentBackgroundSize = m_dialogCentBackground->getContentSize();
     this->addChild(m_dialogCentBackground);
     
-    m_dialogCentSaveButton = Button::create( TexturePacker::Dialog::saveButton, TexturePacker::Dialog::saveButton, "", TextureResType::PLIST );
+    m_dialogCentSaveButton = Button::create( TexturePacker::Dialog::saveButton, TexturePacker::Dialog::saveButton, "", Button::TextureResType::PLIST );
     auto t_DialogCentSaveButtonSize = m_dialogCentSaveButton->getContentSize();
     
     m_dialogCentSaveButton->setScale( adaptation() );
@@ -74,7 +74,7 @@ bool DialogPersonalCenterLayer::init( void )
     
     float t_padding = t_DialogCentBackgroundSize.width * 0.06f;
     
-    auto t_personalHeadBackground = Button::create( TexturePacker::Dialog::personalHeadBackground, TexturePacker::Dialog::personalHeadBackground, "", TextureResType::PLIST );
+    auto t_personalHeadBackground = Button::create( TexturePacker::Dialog::personalHeadBackground, TexturePacker::Dialog::personalHeadBackground, "", Button::TextureResType::PLIST );
     auto t_personalHeadBackgroundSizeHalf = t_personalHeadBackground->getContentSize() * 0.5f;
     t_personalHeadBackground->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadBackgroundSizeHalf.height - t_padding ) );
     m_dialogCentBackground->addChild( t_personalHeadBackground );

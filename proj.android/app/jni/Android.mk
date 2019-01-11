@@ -20,6 +20,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/Http.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/WebViewScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/Common/BlueDeviceListener.cpp \
+                   $(LOCAL_PATH)/../../../Classes/Common/NFCDeviceListener.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/MainScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/DialogPersonalCenterLayer.cpp \
                    $(LOCAL_PATH)/../../../Classes/Main/DialogSettingsLayer.cpp \

@@ -16,7 +16,6 @@
 #include "DadGuessCardListScene.h"
 #include "DadGuessBlueScene.h"
 #include "DataTableFile.h"
-#include "BlueDeviceListener.h"
 #include "WebViewScene.h"
 
 #include "DataTableCard.h"
@@ -44,6 +43,7 @@ const char * DadGuessMainScene::sm_checkoutCardAudioUpdateKey = "CheckoutCardAud
 const long DadGuessMainScene::sm_checkoutCardAudioUpdateOverTime = 30 * 60 * 60 * 24 * 2;
 
 BlueDeviceListener * DadGuessMainScene::sm_blueDeviceScanCardListener = nullptr;
+NFCDeviceListener * DadGuessMainScene::sm_nfcDeviceScanCardListener = nullptr;
 bool DadGuessMainScene::sm_blueState = false;
 
 Http * DadGuessMainScene::sm_lastDownload = nullptr;
@@ -227,9 +227,50 @@ bool DadGuessMainScene::init( void )
     t_btnChineseHistory->setPosition( Vec2( t_center.x + t_btnChineseHistorySizeHalf.width, t_center.y  - t_btnChineseHistorySizeHalf.height + 7.0f ) );
     addChild( t_btnChineseHistory );
 
-    bool t_isWhetherSupportNFC = whetherSupportNFC();
+    // bool t_whetherSupportNFC = whetherSupportNFC();
 
-    printf( "-----------> whetherSupportNFC: %d \n", t_isWhetherSupportNFC );
+    // printf( "-----------> whetherSupportNFC: %d \n", t_whetherSupportNFC );
+
+    // if( t_whetherSupportNFC )
+    // {
+    //     bool t_whetherOpenNFC = whetherOpenNFC();
+    //     printf( "-----------> whetherOpenNFC: %d \n", t_whetherOpenNFC );
+    //     if( !t_whetherOpenNFC )
+    //     {
+    //         openNFC();
+    //     }
+    // }
+
+    //支持NFC的手机
+    m_NfcDeviceStateListener = nullptr;
+    if( whetherSupportNFC() )
+    {
+        auto t_nfcState = Button::create( whetherOpenNFC() ? TexturePacker::DadGuessMain::caicai_home_icon_nfc_on : TexturePacker::DadGuessMain::caicai_home_icon_nfc_off, "", "", Button::TextureResType::PLIST );
+        t_nfcState->setScale( adaptation() );
+        auto t_nfcStateSizeHalf = t_nfcState->getContentSize() * t_nfcState->getScale() * 0.5f;
+        t_nfcState->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_nfcStateSizeHalf.width - 45.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_nfcStateSizeHalf.height - 15.0f ) );
+        addChild( t_nfcState );
+
+        touchAnswer( t_nfcState, [this]( Ref * p_target ){
+            if( !m_enableMainButton ) return;
+            if( !whetherOpenNFC() )
+            {
+                openNFC();
+            }
+        }, adaptation() * 1.2f, adaptation() );
+
+        m_NfcDeviceStateListener = new NFCDeviceListener( [t_nfcState]( const bool p_state ){
+            t_nfcState->loadTextureNormal( p_state ? TexturePacker::DadGuessMain::caicai_home_icon_nfc_on : TexturePacker::DadGuessMain::caicai_home_icon_nfc_off, Button::TextureResType::PLIST );
+        } );
+
+        if( !sm_nfcDeviceScanCardListener )
+        {
+            sm_nfcDeviceScanCardListener = new NFCDeviceListener( nullptr, []( const int p_cardId ){
+                scanCard( p_cardId );
+            } );
+        }
+
+    }
     
     //
     auto t_btnTouched = [this]( Ref * p_target ){
@@ -332,6 +373,10 @@ bool DadGuessMainScene::init( void )
 
 DadGuessMainScene::~DadGuessMainScene( void )
 {
+    if( m_NfcDeviceStateListener != nullptr )
+    {
+        delete m_NfcDeviceStateListener;
+    }
     delete m_blueDeviceConnectedListener;
 }
 

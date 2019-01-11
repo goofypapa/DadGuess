@@ -67,6 +67,8 @@ typedef std::function<void( const std::string & p_taskId, const float p_download
 void httpDownload(  const std::string & p_taskId, const std::string & p_url, const std::string & p_filePath, HttpDownloadStartCallBack p_callBackStart, HttpDownloadEndCallBack p_callBackEnd, HttpDownloadFinalCallBack p_callBackFinal, HttpDownloadRateCallBack p_callBackRate );
 
 bool whetherSupportNFC( void );
+bool whetherOpenNFC( void );
+void openNFC( void );
 
 //shareSDK 工具
 std::string toString( __Dictionary & p_dirtionary );

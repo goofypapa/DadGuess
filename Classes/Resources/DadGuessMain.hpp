@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:df0638fa4e5a7bfe0b3787d839a75c83:7f242e399117fcc40f1e0c231af32804:a28833b13ad7ee444b0b7bae4b4f0f00$
+// $TexturePacker:SmartUpdate:afd04ee4150a9c33b600ecd0b667f803:66da4a3505e9af59098538048d686f32:a28833b13ad7ee444b0b7bae4b4f0f00$
 // ---------------------------------------
 
 #ifndef __DADGUESSMAIN_H__
@@ -46,6 +46,8 @@ public:
     static const std::string caicai_home_icon_blueteeth_no;
     static const std::string caicai_home_icon_blueteeth_yes;
     static const std::string caicai_home_icon_gohome;
+    static const std::string caicai_home_icon_nfc_off;
+    static const std::string caicai_home_icon_nfc_on;
     static const std::string caicai_home_pic_logo;
     static const std::string caicai_home_pic_product;
     static const std::string caicai_home_sky;
@@ -73,6 +75,8 @@ public:
     static cocos2d::Sprite *createCaicai_home_icon_blueteeth_noSprite();
     static cocos2d::Sprite *createCaicai_home_icon_blueteeth_yesSprite();
     static cocos2d::Sprite *createCaicai_home_icon_gohomeSprite();
+    static cocos2d::Sprite *createCaicai_home_icon_nfc_offSprite();
+    static cocos2d::Sprite *createCaicai_home_icon_nfc_onSprite();
     static cocos2d::Sprite *createCaicai_home_pic_logoSprite();
     static cocos2d::Sprite *createCaicai_home_pic_productSprite();
     static cocos2d::Sprite *createCaicai_home_skySprite();

@@ -10,6 +10,7 @@
 
 #include "BaseScene.h"
 #include "BlueDeviceListener.h"
+#include "NFCDeviceListener.h"
 #include "cocos2d.h"
 #include <map>
 #include <vector>
@@ -34,6 +35,7 @@ protected:
     static void playAudio( const DataCardAudioInfo & p_audioInfo );
     
     static BlueDeviceListener * sm_blueDeviceScanCardListener;
+    static NFCDeviceListener * sm_nfcDeviceScanCardListener;
     
     virtual void refreshSource( const DataFileInfo & p_fileInfo ) override;
     
@@ -41,9 +43,12 @@ protected:
 private:
     cocos2d::ui::Button * m_blueConnectState;
     BlueDeviceListener * m_blueDeviceConnectedListener;
+    NFCDeviceListener * m_NfcDeviceStateListener;
     cocos2d::Sprite * m_personalHead;
     DataUserInfo m_loginUser;
     DialogPersonalCenterLayer * m_dialogPersonalCenter;
+
+    std::string m_nfcStateListenId;
     
     bool m_enableMainButton;
 

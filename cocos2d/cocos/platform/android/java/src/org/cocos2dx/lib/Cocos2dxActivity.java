@@ -309,6 +309,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
 
             NfcUtils.mNfcAdapter.enableForegroundDispatch(this, NfcUtils.mPendingIntent, NfcUtils.mIntentFilter, NfcUtils.mTechList);
         }
+        NfcUtils.NFCStateChange( NfcUtils.NfcCheck( this ) != null );
 
         Cocos2dxAudioFocusManager.registerAudioFocusListener(this);
         this.hideVirtualButton();

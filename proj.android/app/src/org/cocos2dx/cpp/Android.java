@@ -1,6 +1,8 @@
 package org.cocos2dx.cpp;
 
+import android.content.Intent;
 import android.nfc.NfcAdapter;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
@@ -36,5 +38,16 @@ public class Android {
     public static boolean whetherOpenNFC()
     {
         return NfcUtils.NfcCheck( (Cocos2dxActivity)Cocos2dxActivity.getContext() ) != null;
+    }
+
+    public static void openNFC()
+    {
+        ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent setNfc = new Intent(Settings.ACTION_NFC_SETTINGS);
+                ((Cocos2dxActivity)Cocos2dxActivity.getContext()).startActivity(setNfc);
+            }
+        });
     }
 }

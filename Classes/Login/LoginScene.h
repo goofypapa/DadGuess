@@ -54,6 +54,8 @@ private:
     
     static void loginCallBack( const std::string & p_str );
     
+    static bool m_requesting;
+    
     cocos2d::Layer * m_SelectLoginType;
     cocos2d::Layer * m_LoginPhone;
     cocos2d::Layer * m_RegisterPhone;

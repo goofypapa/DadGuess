@@ -49,6 +49,7 @@ private:
     DialogPersonalCenterLayer * m_dialogPersonalCenter;
 
     std::string m_nfcStateListenId;
+    cocos2d::Size m_userHeadBorderSizeHalf;
     
     bool m_enableMainButton;
 

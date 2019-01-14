@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.4</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
@@ -50,6 +50,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>使用蓝牙外设</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>使用相册</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UIBackgroundModes</key>

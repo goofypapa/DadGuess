@@ -55,9 +55,6 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     s_self = self;
-    
-    [self player];
-    
     //监听网络状态
     [self listenNetWorkingStatus];
     
@@ -95,6 +92,7 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
     [window makeKeyAndVisible];
 
     [[UIApplication sharedApplication] setStatusBarHidden:true];
+    [UIApplication sharedApplication].idleTimerDisabled=YES;
     
     // IMPORTANT: Setting the GLView should be done after creating the RootViewController
     cocos2d::GLView *glview = cocos2d::GLViewImpl::createWithEAGLView((__bridge void *)_viewController.view);
@@ -201,59 +199,6 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
     cocos2d::Application::getInstance()->applicationDidEnterBackground();
-    
-    
-    [self stratBadgeNumberCount];
-    [self startBgTask];
-    /** 播放声音 */
-    [self.player play];
-    
-}
-
-- (AVAudioPlayer *)player{
-    if (!_player){
-        NSURL *url=[[NSBundle mainBundle]URLForResource:@"ToBeWithYou.mp3" withExtension:nil];
-        _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:nil];
-        [_player prepareToPlay];
-        //一直循环播放
-        _player.numberOfLoops = -1;
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
-        
-        [session setActive:YES error:nil];
-    }
-    return _player;
-}
-
-
-- (void)startBgTask{
-    UIApplication *application = [UIApplication sharedApplication];
-    __block    UIBackgroundTaskIdentifier bgTask;
-    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
-        //这里延迟的系统时间结束
-        [application endBackgroundTask:bgTask];
-        NSLog(@"%f",application.backgroundTimeRemaining);
-    }];
-    
-}
-
-- (void)stratBadgeNumberCount{
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
-    _badgeTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
-    dispatch_source_set_timer(_badgeTimer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 1 * NSEC_PER_SEC);
-    dispatch_source_set_event_handler(_badgeTimer, ^{
-        
-        [UIApplication sharedApplication].applicationIconBadgeNumber++;
-        //        appleLocationManager = [[CLLocationManager alloc] init];
-        //        appleLocationManager.allowsBackgroundLocationUpdates = YES;
-        //        appleLocationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        //        appleLocationManager.delegate = self;
-        //        [appleLocationManager requestAlwaysAuthorization];
-        //        [appleLocationManager startUpdatingLocation];
-        
-    });
-    dispatch_resume(_badgeTimer);
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -261,11 +206,6 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
      */
     cocos2d::Application::getInstance()->applicationWillEnterForeground();
-
-}
-
-//计时
--(void)countAction{
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -273,6 +213,8 @@ static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkSta
      Called when the application is about to terminate.
      See also applicationDidEnterBackground:.
      */
+    
+    [UIApplication sharedApplication].idleTimerDisabled=NO;
 }
 
 //---------------------------
@@ -396,4 +338,17 @@ void goSystemBlue()
     if ([[UIApplication sharedApplication] canOpenURL:url]){
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
+}
+
+bool whetherSupportNFC( void )
+{
+    return false;
+}
+bool whetherOpenNFC( void )
+{
+    return false;
+}
+void openNFC( void )
+{
+    
 }

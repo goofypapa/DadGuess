@@ -78,8 +78,8 @@ bool DadGuessMainScene::init( void )
     
     
     auto t_userHeadBorder = Button::create( TexturePacker::Main::mainUserHeadBackground, TexturePacker::Main::mainUserHeadBackground, "", Widget::TextureResType::PLIST );
-    auto t_userHeadBorderSizeHalf = t_userHeadBorder->getContentSize() * 0.5f;
-    auto t_userHeadBorderPosition = Vec2( t_origin.x + t_userHeadBorderSizeHalf.width * adaptation() + 15.0f , t_origin.y + t_visibleSizeHalf.height * 2.0f - t_userHeadBorderSizeHalf.height * adaptation() - 10.0f );
+    m_userHeadBorderSizeHalf = t_userHeadBorder->getContentSize() * 0.5f;
+    auto t_userHeadBorderPosition = Vec2( t_origin.x + m_userHeadBorderSizeHalf.width * adaptation() + 15.0f , t_origin.y + t_visibleSizeHalf.height * 2.0f - m_userHeadBorderSizeHalf.height * adaptation() - 10.0f );
     
     t_userHeadBorder->setPosition( t_userHeadBorderPosition );
     t_userHeadBorder->setScale( adaptation() );
@@ -99,8 +99,8 @@ bool DadGuessMainScene::init( void )
     m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName ) ;
     
     auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
-    m_personalHead->setPosition( Vec2( t_userHeadBorderSizeHalf.width, t_userHeadBorderSizeHalf.height ) );
-    m_personalHead->setScale( t_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+    m_personalHead->setPosition( Vec2( m_userHeadBorderSizeHalf.width, m_userHeadBorderSizeHalf.height ) );
+    m_personalHead->setScale( m_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
     t_userHeadBorder->addChild( m_personalHead );
     
     GLProgram * t_userHeadProgram = GLProgramCache::getInstance()->getGLProgram( "UserHead" );
@@ -118,7 +118,7 @@ bool DadGuessMainScene::init( void )
     t_personalName->setAlignment( TextHAlignment::LEFT );
     t_personalName->setAnchorPoint( Point( 0.0f, 0.5f ) );
     
-    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + t_userHeadBorderSizeHalf.width * adaptation() + 5.0f, t_userHeadBorderPosition.y ) );
+    t_personalName->setPosition( Vec2( t_userHeadBorderPosition.x + m_userHeadBorderSizeHalf.width * adaptation() + 5.0f, t_userHeadBorderPosition.y ) );
     
     this->addChild( t_personalName );
     
@@ -714,6 +714,8 @@ void DadGuessMainScene::refreshSource( const DataFileInfo & p_fileInfo )
         if( !t_fileInfo.fileName.empty() )
         {
             m_personalHead->setTexture( t_fileInfo.fileName );
+            auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
+            m_personalHead->setScale( m_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
         }
     }
 }

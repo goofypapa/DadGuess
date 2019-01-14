@@ -30,6 +30,7 @@ using namespace cocos2d::ui;
 #define VERIFICATIONCODE_MAXLEN 6
 
 DataUserInfo::LoginType LoginScene::m_loginType = DataUserInfo::LoginType::phone;
+bool LoginScene::m_requesting = false;
 
 cocos2d::Scene * LoginScene::CreateScene()
 {
@@ -46,7 +47,7 @@ bool LoginScene::init()
     {
         return false;
     }
-    
+    m_requesting = false;
     TexturePacker::Login::addSpriteFramesToCache();
     
     m_loginState = LoginState::SelectLogin;
@@ -675,6 +676,11 @@ void LoginScene::update( float p_delta )
 void LoginScene::loginWechat( cocos2d::Ref* pSender )
 {
     printf( "--------------> login wechat \n" );
+    if( m_requesting )
+    {
+        return;
+    }
+    m_requesting = true;
     m_loginType = DataUserInfo::LoginType::wechat;
     cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
@@ -694,6 +700,7 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
 
 void LoginScene::loginWechatCallBack( const char * p_code )
 {
+    m_requesting = false;
     if( !p_code )
     {
         return;
@@ -717,9 +724,9 @@ void LoginScene::loginWechatCallBack( const char * p_code )
         
         std::string t_access_token = t_json["access_token"].GetString();
         std::string t_openid = t_json["openid"].GetString();
-        
+        m_requesting = false;
     }, []( Http * p_http, std::string p_res ){
-        
+        m_requesting = false;
     }, false);
     
     Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
@@ -777,6 +784,10 @@ void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 
 void LoginScene::login( cocos2d::Ref* pSender )
 {
+    if( m_requesting )
+    {
+        return;
+    }
     std::string t_loginPhone = m_loginPhoneInput->getText();
     std::string t_loginPassword = m_loginPasswordInput->getText();
     
@@ -797,16 +808,24 @@ void LoginScene::login( cocos2d::Ref* pSender )
     t_parameter[ "userPwd" ] = t_loginPassword;
 
     m_loginType = DataUserInfo::LoginType::phone;
-    Http::Post( DOMAIN_NAME "/user/jwt/access.do", &t_parameter, []( Http * p_http, std::string p_res ){
+    m_requesting = true;
+    Http::Post( DOMAIN_NAME "/user/jwt/access.do", &t_parameter, [this]( Http * p_http, std::string p_res ){
         loginCallBack( p_res );
-    }, []( Http * p_http, std::string p_res ){
+        m_requesting = false;
+    }, [this]( Http * p_http, std::string p_res ){
         MessageBox( "网络异常", "" );
+        m_requesting = false;
         printf( "final: %s \n", p_res.c_str() );
     }, false);
 }
 
 void LoginScene::phoneRegister( cocos2d::Ref* pSender )
 {
+    
+    if( m_requesting )
+    {
+        return;
+    }
     
     std::string t_phone = m_RegisterPhoneInput->getText();
     std::string t_verificationCode = m_RegisterVerificationCodeInput->getText();
@@ -843,6 +862,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     t_parameter[ "userSex" ] = "2";
     t_parameter[ "userBirthday" ] = "";
     
+    m_requesting = true;
     Http::Post( DOMAIN_NAME "/user/auth/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
 
@@ -870,15 +890,21 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
             MessageBox( "手机号已注册", "" );
             return;
         }
-
+        m_requesting = false;
         printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
+        m_requesting = false;
     }, false );
 }
 
 void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
 {
+    
+    if( m_requesting )
+    {
+        return;
+    }
     std::string t_phone = m_ForgetPhoneInput->getText();
     std::string t_verificationCode = m_ForgetVerificationCodeInput->getText();
     std::string t_password = m_ForgetPasswordInput->getText();
@@ -905,6 +931,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     t_parameter[ "userMobile" ] = t_phone;
     t_parameter[ "userPwd" ] = t_password;
     
+    m_requesting = true;
     Http::Post( DOMAIN_NAME "/game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
         
@@ -927,10 +954,11 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
         }
         
         std::string t_code = t_json["code"].GetString();
-        
+        m_requesting = false;
         printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
+        m_requesting = false;
     }, false );
 }
 

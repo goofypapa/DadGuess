@@ -48,6 +48,12 @@ public abstract class BluePackage {
 
     public static void listen()
     {
+
+        if( m_broadcastReceiver != null )
+        {
+            return;
+        }
+
         m_broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -151,6 +157,31 @@ public abstract class BluePackage {
                             break;
                     }
                 }
+
+                if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(t_action)) {
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    Log.d("DEBUG", "连接到蓝牙" + device.getName() + "__" + device.getAddress() );
+                    m_device = device;
+                    if ( device.getName().equals(sm_blueName)) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                    listenSocket(m_device);
+                                }catch( Exception e ){}
+                            }
+                        }).start();
+                    }
+                }
+
+                if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(t_action)){
+                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    Log.d("DEBUG", "断开蓝牙" + device.getName() + "__" + device.getAddress() );
+                    if (device.getName().equals(sm_blueName)) {
+                        connectDeviceStateChange( 6 );
+                    }
+                }
             }
         };
 
@@ -164,11 +195,38 @@ public abstract class BluePackage {
         t_intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);//扫描开始
         t_intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);//扫描结束
 
+        t_intent.addAction(BluetoothDevice.ACTION_ACL_CONNECTED); //设备连接
+        t_intent.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED); //设备断开
+
         Cocos2dxActivity.getContext().registerReceiver(m_broadcastReceiver, t_intent);
 
 
         m_blueToolThAdapter = BluetoothAdapter.getDefaultAdapter();
 
+
+        autoConnect();
+
+    }
+
+    public static void autoConnect( )
+    {
+        Set<BluetoothDevice> pairedDevices = m_blueToolThAdapter.getBondedDevices();
+        //
+        if (pairedDevices.size() > 0) {
+            for (BluetoothDevice device : pairedDevices) {
+                if (device.getName().equals(sm_blueName)) {
+                    if( m_bluetoothDeviceList.containsKey( device.getAddress() ) )
+                    {
+                        continue;
+                    }
+
+                    //自动连接
+                    if( checkConnected( device ) ) {
+                        listenSocket( device );
+                    }
+                }
+            }
+        }
     }
 
     public static void openDevice()
@@ -205,15 +263,13 @@ public abstract class BluePackage {
                     m_bluetoothDeviceList.put(device.getAddress(), device);
                     scanedDevice(device.getAddress(), device.getName());
 
-//                    if( checkConnected( device ) ) {
-////                        setPriority( device, 100 ); //设置priority
-//                        m_bluetoothDeviceList.put(device.getAddress(), device);
-//                        scanedDevice(device.getAddress(), device.getName());
-//
-//                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
-//                    }else{
-//                        cancelPair( device );
-//                    }
+                    if( checkConnected( device ) ) {
+                        listenSocket( device );
+                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
+                    }else{
+                        m_bluetoothDeviceList.put(device.getAddress(), device);
+                        scanedDevice(device.getAddress(), device.getName());
+                    }
                 }
             }
         }
@@ -253,7 +309,7 @@ public abstract class BluePackage {
             }
             sm_connectIng = true;
 
-            listenSocket( t_device );
+            connectA2DP( t_device );
         }
     }
 
@@ -292,6 +348,8 @@ public abstract class BluePackage {
             @Override
             public void run() {
 
+                Log.d( "DEBUG", "start connect socket" );
+
                 try {
                     m_socket = m_device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 } catch (Exception e) {
@@ -311,21 +369,6 @@ public abstract class BluePackage {
                             m_socket.connect();
                         } catch (IOException e) {
                             Log.d("DEBUG", "连接Socket失败" + e.toString());
-
-                            try {
-                                Method t_m = m_device.getClass().getMethod("createRfcommSocket", new Class[] {int.class});
-                                m_socket = (BluetoothSocket) t_m.invoke(m_device, 1);
-                                m_socket.connect();
-                            } catch (Exception ae) {
-                                Log.e("BLUE",ae.toString());
-                                try{
-                                    m_socket.close();
-                                }catch (IOException ie){ }
-
-                                connectDeviceStateChange( 1 );
-                                sm_connectIng = false;
-                                return;
-                            }
                         }
                         try {
                             m_inStream = m_socket.getInputStream();
@@ -338,7 +381,8 @@ public abstract class BluePackage {
                         }
 
                         Log.d("DEBUG", "监听成功");
-                        connectA2DP(m_device);
+                        connectDeviceStateChange( 0 );
+                        sm_connectIng = false;
 
                         byte[] t_buffer = new byte[256];
                         boolean t_socketConnected = true;
@@ -369,7 +413,6 @@ public abstract class BluePackage {
                         }
 
                         Log.d("DEBUG", "断开连接");
-                        closeA2DP();
                         connectDeviceStateChange( 3 );
                         sm_connectIng = false;
                     }
@@ -418,7 +461,7 @@ public abstract class BluePackage {
             connectMethod.invoke( m_bluetoothA2dp, p_device );
 
             Log.d("DEBUG", "连接a2dp成功");
-            connectDeviceStateChange( 0 );
+//            connectDeviceStateChange( 5 );
             sm_connectIng = false;
 
         } catch (Exception e) {

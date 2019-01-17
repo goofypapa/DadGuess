@@ -88,23 +88,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //shareSDK
     __Dictionary *totalDict = __Dictionary::create();
 
-#ifdef __ANDROID_NDK__
-    //微信
+// #ifdef __ANDROID_NDK__
+//     //微信
+//     __Dictionary *wechatConf = __Dictionary::create();
+//     wechatConf->setObject(__String::create("wxd6d78ef8accb5cf4"), "AppId");
+//     wechatConf->setObject(__String::create("938ae63610eea92a61f0496bec58d708"), "AppSecret");
+//     std::stringstream wechat;
+//     wechat << cn::sharesdk::C2DXPlatTypeWeChat;
+//     totalDict->setObject(wechatConf, wechat.str());
+// #else
+//     //微信
     __Dictionary *wechatConf = __Dictionary::create();
-    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "AppId");
-    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d"), "AppSecret");
-    std::stringstream wechat;
-    wechat << cn::sharesdk::C2DXPlatTypeWeChat;
-    totalDict->setObject(wechatConf, wechat.str());
-#else
-    //微信
-    __Dictionary *wechatConf = __Dictionary::create();
-    wechatConf->setObject(__String::create("wxc6d5d8bca1f1c5a9"), "app_id");
-    wechatConf->setObject(__String::create("c5460ffde4c1c93dcc71392108bfa01d"), "app_secret");
+    wechatConf->setObject(__String::create("wxd6d78ef8accb5cf4"), "app_id");
+    wechatConf->setObject(__String::create("938ae63610eea92a61f0496bec58d708"), "app_secret");
     std::stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
     totalDict->setObject(wechatConf, wechat.str());
-#endif
+// #endif
     
     //新浪微博
 //    __Dictionary *sinaWeiboConf= __Dictionary::create();
@@ -123,7 +123,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //    qq << cn::sharesdk::C2DXPlatTypeQQPlatform;
 //    totalDict->setObject(qqConf, qq.str());
     
-    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig( "2669e9afe5b4c","de63eece79f93124a555af762ac9e65d",totalDict );
+    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig( "2970ee5899ef8","4eb673fc8993280113d9c4376535f83a",totalDict );
     
     // initialize director
     auto director = Director::getInstance();

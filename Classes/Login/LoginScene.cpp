@@ -707,8 +707,8 @@ void LoginScene::loginWechatCallBack( const char * p_code )
     }
 
     std::map< std::string, std::string > t_parameter;
-    t_parameter[ "appid" ] = "wx6e751377fd8a4f4c";
-    t_parameter[ "secret" ] = "f1d1db8212d281e7cff7d2f856b00d51";
+    t_parameter[ "appid" ] = "wxd6d78ef8accb5cf4";
+    t_parameter[ "secret" ] = "938ae63610eea92a61f0496bec58d708";
     t_parameter[ "code" ] = p_code;
     t_parameter[ "grant_type" ] = "authorization_code";
     
@@ -976,6 +976,8 @@ LoginScene::~LoginScene()
 
 void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState state, cn::sharesdk::C2DXPlatType platType, __Dictionary *result)
 {
+
+    printf( "--------> %d \n", reqID );
     
     std::string t_result = toString( *result );
     

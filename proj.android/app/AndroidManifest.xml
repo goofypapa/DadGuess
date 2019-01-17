@@ -91,17 +91,12 @@
             </intent-filter>
         </activity>
 
-        <!--<activity-->
-            <!--android:name="com.goofypapa.guess.wxapi.WXEntryActivity"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:exported="true" />-->
-
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- 网络状态监听 -->
         <receiver android:name=".NetWorkStateReceiver">

@@ -6,7 +6,7 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package cn.sharesdk.hellocpp.wxapi;
+package com.goofypapa.guess.wxapi;
 
 import android.content.Intent;
 import android.widget.Toast;

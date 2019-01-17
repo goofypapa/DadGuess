@@ -88,23 +88,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //shareSDK
     __Dictionary *totalDict = __Dictionary::create();
 
-// #ifdef __ANDROID_NDK__
-//     //微信
-//     __Dictionary *wechatConf = __Dictionary::create();
-//     wechatConf->setObject(__String::create("wxd6d78ef8accb5cf4"), "AppId");
-//     wechatConf->setObject(__String::create("938ae63610eea92a61f0496bec58d708"), "AppSecret");
-//     std::stringstream wechat;
-//     wechat << cn::sharesdk::C2DXPlatTypeWeChat;
-//     totalDict->setObject(wechatConf, wechat.str());
-// #else
-//     //微信
+#ifdef __ANDROID_NDK__
+    //微信
+    __Dictionary *wechatConf = __Dictionary::create();
+    wechatConf->setObject(__String::create("wxd6d78ef8accb5cf4"), "AppId");
+    wechatConf->setObject(__String::create("938ae63610eea92a61f0496bec58d708"), "AppSecret");
+    std::stringstream wechat;
+    wechat << cn::sharesdk::C2DXPlatTypeWeChat;
+    totalDict->setObject(wechatConf, wechat.str());
+#else
+    //微信
     __Dictionary *wechatConf = __Dictionary::create();
     wechatConf->setObject(__String::create("wxd6d78ef8accb5cf4"), "app_id");
     wechatConf->setObject(__String::create("938ae63610eea92a61f0496bec58d708"), "app_secret");
     std::stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
     totalDict->setObject(wechatConf, wechat.str());
-// #endif
+#endif
     
     //新浪微博
 //    __Dictionary *sinaWeiboConf= __Dictionary::create();

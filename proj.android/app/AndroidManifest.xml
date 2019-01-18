@@ -50,12 +50,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:multiprocess="true">
-            <!--
-            	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
-            	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-            -->
-            <meta-data android:name="AuthorizeAdapter" android:value="cn.sharesdk.hellocpp.MyAdapter" />
 
             <!--
             	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
@@ -95,7 +89,6 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- 网络状态监听 -->
@@ -105,10 +98,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
-        <meta-data android:name="Mob-AppKey" android:value="2970ee5899ef8"/>
-        <meta-data android:name="Mob-AppSecret" android:value="4eb673fc8993280113d9c4376535f83a"/>
-
     </application>
 
     <supports-screens

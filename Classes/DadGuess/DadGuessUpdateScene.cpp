@@ -28,7 +28,7 @@ const char * DadGuessUpdateScene::sm_cardListApi2 = DOMAIN_NAME "/api/card/app/l
 const char * DadGuessUpdateScene::sm_cardTypeListApi = DOMAIN_NAME "/api/card/app/type/list.do";
 
 const char * DadGuessUpdateScene::s_checkUpdateKey = "DadGuessCardCheckUpdate";
-const long DadGuessUpdateScene::s_updateOverTime = 60 * 60 * 24 * 1;
+const long DadGuessUpdateScene::s_updateOverTime = 0; //60 * 60 * 24 * 1;
 
 bool DadGuessUpdateScene::s_updateed = false;
 
@@ -598,7 +598,9 @@ void DadGuessUpdateScene::tryUpdate( void )
         }
         else if( m_checkUpdateQueue.size() )
         {
-            checkUpdateDequeue();
+            std::thread( [this](){
+               checkUpdateDequeue();
+            } ).detach();
         }
     };
     

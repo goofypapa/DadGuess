@@ -996,6 +996,44 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     }
     
     std::stringstream t_sstr;
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+
+    auto t_Dict = cn::sharesdk::C2DXShareSDK::getAuthInfo( cn::sharesdk::C2DXPlatTypeWeChat );
+    DictElement * t_Element;
+    CCDICT_FOREACH(t_Dict, t_Element)
+    {
+        const char * key = t_Element->getStrKey();
+        
+        CCString * value = (CCString *)t_Element->getObject();
+
+        printf( "-----------> %s : %s \n", key, value->getCString() );
+    }
+
+    switch ( platType ) {
+        case cn::sharesdk::C2DXPlatType::C2DXPlatTypeWeChat:
+            t_loginType = "weixin";
+            
+            //weixin:openid ,token(access_token), refresh_token,expiresIn,unionid;
+
+            t_sstr << "{";
+            t_sstr << "\"openid\": \"" << t_json["openid"].GetString() << "\", ";
+            t_sstr << "\"token\": \"" << ((CCString *)t_Dict->objectForKey( "token" ))->getCString() << "\", ";
+            t_sstr << "\"refresh_token\": \"" << "\", ";
+            t_sstr << "\"expiresIn\": \"" << 0 << "\", ";
+            t_sstr << "\"unionid\": \"" << ((CCString *)t_Dict->objectForKey( "unionID" ))->getCString() << "\"";
+            t_sstr << "}";
+            
+            t_sendStr = t_sstr.str();
+            
+            break;
+        case cn::sharesdk::C2DXPlatType::C2DXPlatTypeSinaWeibo:
+            t_loginType = "weibo";
+            break;
+        default:
+            break;
+    }
+#else
     auto t_credential = t_json["credential"].GetObject();
     
     switch ( platType ) {
@@ -1021,6 +1059,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
         default:
             break;
     }
+#endif
     
     std::map< std::string, std::string > t_parameter;
     t_parameter[ "userType" ] = "GAME_USER";
@@ -1057,6 +1096,8 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
 
 void LoginScene::loginCallBack( const std::string & p_str )
 {
+
+    printf( "------------> loginCallBack %s \n", p_str.c_str() );
     rapidjson::Document t_json;
     if( !ParseApiResult( t_json, p_str ) )
     {

@@ -125,6 +125,9 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
         {
             Http * t_http = new Http;
             std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+                
+                printf( "-----------> %s \n", p_res.c_str() );
+                
                 p_callBack( p_id, sqlStrToStr(  p_res ) );
                 delete p_id;
             }, p_success, t_http, t_dataCacheInfo.res ).detach();
@@ -158,7 +161,7 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
    std::vector<std::string> headers;
    headers.push_back("Content-Type: application/x-www-form-urlencoded; charset=UTF-8");
    // 设置请求头，如果数据为键值对则不需要设置
-
+    
    if( !token.empty() )
    {
        headers.push_back( std::string( "Authorization: " ) + token );

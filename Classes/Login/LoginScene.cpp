@@ -125,7 +125,7 @@ bool LoginScene::init()
         if( t_LoginWechat != nullptr )
         {
             t_LoginWechat->setScale( adaptation() );
-            t_LoginWechat->setPosition( Vec2( visibleSize.width / 4.0f, t_iconPosY ) );
+            t_LoginWechat->setPosition( Vec2( visibleSize.width / 3.0f, t_iconPosY ) );
             m_SelectLoginType->addChild( t_LoginWechat, 1 );
 
             touchAnswer( t_LoginWechat, [this]( Ref * p_ref ){
@@ -133,32 +133,32 @@ bool LoginScene::init()
             }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "微信", PAGE_FONT, 12 );
-            t_label->setPosition( Vec2( visibleSize.width / 4.0f, t_titlePosY ) );
+            t_label->setPosition( Vec2( visibleSize.width / 3.0f, t_titlePosY ) );
             m_SelectLoginType->addChild( t_label, 2 );
 
         }
 
-        auto t_LoginSina = Button::create( TexturePacker::Login::loginSina, TexturePacker::Login::loginSina, "", Widget::TextureResType::PLIST );
-        if( t_LoginSina != nullptr )
-        {
-            t_LoginSina->setScale( adaptation() );
-            t_LoginSina->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_iconPosY) );
-            m_SelectLoginType->addChild(t_LoginSina, 1);
-
-            touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
-                loginSina( this );
-            }, adaptation() * 1.1f, adaptation() );
-            
-            auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
-            t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
-            m_SelectLoginType->addChild( t_label, 2 );
-        }
+//        auto t_LoginSina = Button::create( TexturePacker::Login::loginSina, TexturePacker::Login::loginSina, "", Widget::TextureResType::PLIST );
+//        if( t_LoginSina != nullptr )
+//        {
+//            t_LoginSina->setScale( adaptation() );
+//            t_LoginSina->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_iconPosY) );
+//            m_SelectLoginType->addChild(t_LoginSina, 1);
+//
+//            touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
+//                loginSina( this );
+//            }, adaptation() * 1.1f, adaptation() );
+//
+//            auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
+//            t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
+//            m_SelectLoginType->addChild( t_label, 2 );
+//        }
 
         auto t_LoginPhone = Button::create( TexturePacker::Login::loginPhone, TexturePacker::Login::loginPhone, "", Widget::TextureResType::PLIST );
         if( t_LoginPhone != nullptr )
         {
             t_LoginPhone->setScale( adaptation() );
-            t_LoginPhone->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_iconPosY ) );
+            t_LoginPhone->setPosition( Vec2( visibleSize.width / 3.0f * 2.0f, t_iconPosY ) );
             m_SelectLoginType->addChild(t_LoginPhone, 1);
 
             touchAnswer( t_LoginPhone, [this]( Ref * p_ref ){
@@ -166,7 +166,7 @@ bool LoginScene::init()
             }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "手机", PAGE_FONT, 12 );
-            t_label->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_titlePosY ) );
+            t_label->setPosition( Vec2( visibleSize.width / 3.0f * 2.0f, t_titlePosY ) );
             m_SelectLoginType->addChild( t_label, 2 );
         }
     }
@@ -687,7 +687,16 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
 
 void LoginScene::loginSina( cocos2d::Ref* pSender )
 {
-    m_loginType = DataUserInfo::LoginType::sina;
+    printf( "--------------> login sina \n" );
+    // if( m_requesting )
+    // {
+    //     return;
+    // }
+    // m_requesting = true;
+    // m_loginType = DataUserInfo::LoginType::sina;
+    // cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeSinaWeibo, LoginScene::getUserResultHandler);
+
+    MessageBox( "暂不支持微博登陆", "敬请期待" );
 }
 
 void LoginScene::loginPhone( cocos2d::Ref* pSender )
@@ -979,6 +988,12 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
 
     printf( "--------> %d \n", reqID );
     
+    if( state != cn::sharesdk::C2DXResponseState::C2DXResponseStateSuccess )
+    {
+        m_requesting = false;
+        return;
+    }
+    
     std::string t_result = toString( *result );
     
     printf( "--------> getUserResultHandler: %s \n", t_result.c_str() );
@@ -992,6 +1007,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     
     if( t_json.HasParseError() )
     {
+        m_requesting = false;
         return;
     }
     
@@ -1021,6 +1037,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
             t_sstr << "\"token\": \"" << ((CCString *)t_Dict->objectForKey( "token" ))->getCString() << "\", ";
             t_sstr << "\"refresh_token\": \"" << "\", ";
             t_sstr << "\"expiresIn\": \"" << 0 << "\", ";
+            t_sstr << "\"headimgurl\": \"" << ((CCString *)t_Dict->objectForKey( "userIcon" ))->getCString() << "\", ";
             t_sstr << "\"unionid\": \"" << ((CCString *)t_Dict->objectForKey( "unionID" ))->getCString() << "\"";
             t_sstr << "}";
             
@@ -1135,6 +1152,8 @@ void LoginScene::loginCallBack( const std::string & p_str )
                     t_downloadUrl = std::string( DOMAIN_NAME ) + "/" + t_downloadUrl;
                 }
 
+                printf( "-----------------> %s \n", t_downloadUrl.c_str() );
+
                 DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
                 if( t_DataFileInfo.fileId.empty() )
                 {
@@ -1159,6 +1178,16 @@ void LoginScene::loginCallBack( const std::string & p_str )
                 DataTableUser::instance().insert( t_dataUser );
             }
             
+            Http::token = t_dataUser.token;
+            
+            printf( "token: %s \n", Http::token.c_str() );
+            std::map< std::string, std::string > t_parameter;
+            Http::Post( DOMAIN_NAME "/wechat/app/updateUserInfo.do", &t_parameter, []( Http * p_http, std::string p_res ){
+                printf( "------------> %s \n", p_res.c_str() );
+            }, []( Http * p_http, std::string p_res ){
+                
+            }, false);
+
             Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
                 if( DadGuessUpdateScene::s_updateed )
                 {

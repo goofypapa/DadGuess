@@ -334,10 +334,10 @@ void unbindNetWorkStateListener( void )
 
 void goSystemBlue()
 {
-    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
-    if ([[UIApplication sharedApplication] canOpenURL:url]){
-        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-    }
+//    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
+//    if ([[UIApplication sharedApplication] canOpenURL:url]){
+//        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+//    }
 }
 
 bool whetherSupportNFC( void )

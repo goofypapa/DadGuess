@@ -15,6 +15,9 @@ using namespace cocos2d::ui;
 
 int DadGuessCardListScrollView::sm_columns = 4;
 
+std::list< Http * > DadGuessCardListScrollView::sm_invalidDownloadList;
+std::list< Http * > DadGuessCardListScrollView::sm_downloadingList;
+
 DadGuessCardListScrollView * DadGuessCardListScrollView::createWithSize( const cocos2d::Size p_size, const std::string p_groupId )
 {
     auto t_result = create();
@@ -59,14 +62,44 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
         
         auto t_itemTexture = Director::getInstance()->getTextureCache()->getTextureForKey( t_cardList[i].second.fileName );
         
-        if( !t_itemTexture )
+        
+        Sprite * t_itemSprite = nullptr;
+        if( t_itemTexture )
         {
-            printf( "---------->: %s \n", t_cardList[i].first.toJson().c_str() );
-            continue;
+            t_itemSprite = Sprite::createWithTexture( t_itemTexture );
+        }else
+        {
+            auto t_fileInfo = DataTableFile::instance().findBySourceUrl( t_cardList[i].first.coverFileUrl );
+            
+            if( !t_fileInfo.fileId.empty() )
+            {
+                t_itemTexture = Director::getInstance()->getTextureCache()->getTextureForKey( t_fileInfo.fileName );
+                if( !t_itemTexture )
+                {
+                    t_itemTexture = Director::getInstance()->getTextureCache()->addImage( t_fileInfo.fileName );
+                }
+                t_itemSprite = Sprite::createWithTexture( t_itemTexture );
+            }else
+            {
+                const char * t_key = "DadGuess/LoadCard.png";
+                t_itemTexture = Director::getInstance()->getTextureCache()->getTextureForKey( t_key );
+                if( !t_itemTexture )
+                {
+                    t_itemTexture = Director::getInstance()->getTextureCache()->addImage( "DadGuess/LoadCard.png" );
+                }
+                t_itemSprite = Sprite::createWithTexture( t_itemTexture );
+                
+                m_downloadPool.push( std::pair< std::string, std::function< void( DataFileInfo ) > >( t_cardList[i].first.coverFileUrl, [t_itemSprite]( DataFileInfo p_file ){
+                    
+                        auto director = Director::getInstance();
+                        Scheduler *sched = director->getScheduler();
+                        sched->performFunctionInCocosThread( [=](){
+                            t_itemSprite->setTexture( p_file.fileName );
+                        } );
+                } ) );
+            }
         }
-        
-        auto t_itemSprite = Sprite::createWithTexture( t_itemTexture );
-        
+
         auto t_itemSpriteSize = t_itemSprite->getContentSize();
         
         t_itemSprite->setScale( MIN( ( t_itemSize - t_itemPadding ) / t_itemSpriteSize.width, ( t_itemSize - t_itemPadding ) / t_itemSpriteSize.height ) );
@@ -79,6 +112,8 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
         addChild( t_itemSprite );
         
     }
+    
+    loadImage();
     
     return true;
 }
@@ -136,4 +171,58 @@ void DadGuessCardListScrollView::onTouchEnded( cocos2d::Touch * p_touch, cocos2d
         
         onTouched( t_selectIndex );
     }
+}
+
+void DadGuessCardListScrollView::loadImage( void )
+{
+    if( m_downloadPool.size() )
+    {
+        auto t_download = m_downloadPool.front();
+        
+        sm_downloadingList.push_back( Http::DownloadFile( t_download.first, "", [this, t_download]( Http * p_http, DataFileInfo p_file ){
+            
+            auto t_findInvalidDownloadList = std::find( sm_invalidDownloadList.begin(), sm_invalidDownloadList.end(), p_http );
+            
+            if( t_findInvalidDownloadList != sm_invalidDownloadList.end() )
+            {
+                sm_invalidDownloadList.erase( t_findInvalidDownloadList );
+                return;
+            }
+            
+            auto t_findDownloadListIt = std::find( sm_downloadingList.begin(), sm_downloadingList.end(), p_http );
+            if( t_findDownloadListIt != sm_downloadingList.end() )
+            {
+                sm_downloadingList.erase( t_findDownloadListIt );
+            }
+            
+            t_download.second( p_file );
+            
+            m_downloadPool.pop();
+            
+            loadImage();
+        }, [this, t_download]( Http * p_http, DataFileInfo p_file ){
+            
+            auto t_findDownloadListIt = std::find( sm_downloadingList.begin(), sm_downloadingList.end(), p_http );
+            if( t_findDownloadListIt != sm_downloadingList.end() )
+            {
+                sm_downloadingList.erase( t_findDownloadListIt );
+            }
+            
+            m_downloadPool.pop();
+            loadImage();
+        }) );
+    }
+}
+
+DadGuessCardListScrollView::~DadGuessCardListScrollView()
+{
+    if( sm_downloadingList.size() )
+    {
+        for( auto item : sm_downloadingList )
+        {
+            sm_invalidDownloadList.push_back( item );
+        }
+    }
+    
+    sm_downloadingList.clear();
 }

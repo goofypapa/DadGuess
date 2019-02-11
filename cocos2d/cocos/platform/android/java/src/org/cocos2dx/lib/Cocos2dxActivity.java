@@ -258,10 +258,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         Cocos2dxEngineDataManager.init(this, mGLSurfaceView);
     }
 
-    //禁用andorid下返回按键
+    //andorid下返回按键
     @Override
     public void onBackPressed() {
-//         super.onBackPressed();//注释掉这行,back键不退出activity
+         super.onBackPressed();//注释掉这行,back键不退出activity
     }
 
     @Override

@@ -68,6 +68,50 @@ bool DadGuessUpdateScene::init( void )
     m_messageLabel->setPosition( Vec2( t_centerPos.x, t_origin.y + t_visibleSizeHalf.height * 0.3f + t_messageLabelSizeHalf.height ) );
     addChild( m_messageLabel );
     
+    
+    m_downloadMessageLayer = Layer::create();
+    addChild( m_downloadMessageLayer );
+    
+    auto t_a = DrawNode::create();
+    m_downloadMessageLayer->addChild( t_a );
+    
+    t_a->drawSolidRect(t_origin + Vec2( t_visibleSizeHalf.width * 0.5f, t_visibleSizeHalf.height * 0.5f ), t_origin + Vec2( t_visibleSizeHalf.width * 1.5f, t_visibleSizeHalf.height * 1.5f ), Color4F( 0.2f, 0.2f, 0.2f, 0.6f ));
+    
+    t_a->drawRect( t_origin + Vec2( t_visibleSizeHalf.width * 0.5f, t_visibleSizeHalf.height * 0.5f ), t_origin + Vec2( t_visibleSizeHalf.width * 1.5f, t_visibleSizeHalf.height * 1.5f ), Color4F( 0.6f, 0.6f, 0.6f, 0.6f ) );
+    
+    auto t_title = Label::createWithSystemFont( "下载", "", 12 );
+    
+    t_title->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height * 1.5f - 20.0f ) );
+    
+    m_downloadMessageLayer->addChild( t_title );
+    
+    auto t_message_1 = Label::createWithSystemFont( "检测有新资源需要下载", "", 10);
+    t_message_1->setPosition( t_origin + t_visibleSizeHalf + Vec2( 0.0f, 15.0f ) );
+    m_downloadMessageLayer->addChild( t_message_1 );
+    
+    m_downloadMessage = Label::createWithSystemFont( "", "", 10);
+    m_downloadMessage->setPosition( t_origin + t_visibleSizeHalf );
+    m_downloadMessageLayer->addChild( m_downloadMessage );
+    
+    auto t_message_3 = Label::createWithSystemFont( "请确认下载资源", "", 10);
+    t_message_3->setPosition( t_origin + t_visibleSizeHalf - Vec2( 0.0f, 15.0f ) );
+    m_downloadMessageLayer->addChild( t_message_3 );
+    
+    auto t_menuItem = MenuItemFont::create( "确认", [this]( Ref * p_target ){
+        m_downloadMessageLayer->setVisible( false );
+        m_needDownloadSize = (int)(m_downloadList.size());
+        m_alreadyDownloadSize = 0;
+        m_messageLabel->setString( "正在下载..." );
+        downloadFile();
+    });
+    t_menuItem->setFontSizeObj( 12 );
+    t_menuItem->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height * 0.5f + 20.0f ) );
+    
+    auto t_menu = Menu::create( t_menuItem, NULL );
+    t_menu->setPosition( Vec2::ZERO );
+    m_downloadMessageLayer->addChild( t_menu );
+    m_downloadMessageLayer->setVisible( false );
+    
     tryUpdate();
 
     schedule( schedule_selector(DadGuessUpdateScene::update) );
@@ -96,6 +140,7 @@ void DadGuessUpdateScene::tryUpdate( void )
         Http::HttpParameter t_parameter;
         
         m_checkUpdateHandlerList.push_back( Http::Post( sm_cardTypeListApi , &t_parameter, [this]( Http * p_http, std::string p_res ){
+            
             Document t_readdoc;
             
             t_readdoc.Parse<0>( p_res.c_str() );
@@ -254,12 +299,14 @@ void DadGuessUpdateScene::tryUpdate( void )
                 
                 std::string t_coverImageUrl = "";
                 std::string t_coverImageMd5 = "";
+                int t_coverImageSize = 0;
                 
                 if( t_item["coverImage"].IsObject() )
                 {
                     std::stringstream t_sstr;
                     t_coverImageUrl = std::string( DOMAIN_NAME ) + "/" + t_item["coverImage"]["attUrl"].GetString();
                     t_coverImageMd5 = t_item["coverImage"]["md5"].GetString();
+                    t_coverImageSize = t_item["coverImage"]["attSize"].GetInt();
                 }
                 
                 auto t_cardInfo = DataCardInfo( t_item["resourceId"].GetString(),
@@ -300,6 +347,8 @@ void DadGuessUpdateScene::tryUpdate( void )
                 bool t_needDownloadCoverImage = true;
                 if( t_oldCardInfoIt != t_localCardList.end() )
                 {
+//下载封面
+#ifdef GOOFYPAPA_OFF_LINE
                     t_needDownloadCoverImage = false;
                     t_cardInfo.activation = t_oldCardInfoIt->activation;
                     
@@ -309,6 +358,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                         DataTableFile::instance().remove( t_coverFileInfo );
                         t_needDownloadCoverImage = !t_coverImageUrl.empty() && !t_coverImageMd5.empty();
                     }
+#endif
                     
                     DataTableCard::instance().update( t_cardInfo );
                     
@@ -316,6 +366,8 @@ void DadGuessUpdateScene::tryUpdate( void )
                 }else{
                     DataTableCard::instance().insert( t_cardInfo );
                 }
+//下载文件
+#ifdef GOOFYPAPA_OFF_LINE
                 
                 if( t_needDownloadCoverImage )
                 {
@@ -323,26 +375,31 @@ void DadGuessUpdateScene::tryUpdate( void )
                     UpdateDownloadItem t_downloadItem{
                         t_coverImageUrl,
                         t_coverImageMd5,
+                        t_coverImageSize,
                         nullptr
                     };
                     m_downloadList.push( t_downloadItem );
                 }
 
-//下载音频文件
-#ifdef GOOFYPAPA_OFF_LINE
                 auto t_audioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                 
                 if( t_item["audios"].IsArray() )
                 {
                     auto & t_dataAudios = t_item["audios"];
-                    std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                    std::vector< UpdateDownloadItem > t_downloadAudioList;
                     if( t_dataAudios.IsArray() )
                     {
                         for( int i = 0; i < t_dataAudios.Capacity(); ++i )
                         {
                             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + "/" + t_dataAudios[i]["attUrl"].GetString();
                             auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                            t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                            int t_dataAudioSize = t_dataAudios[i]["attSize"].GetInt();
+                            t_downloadAudioList.push_back( UpdateDownloadItem{
+                                t_dataAudioUrl,
+                                t_dataAudioMd5,
+                                t_dataAudioSize,
+                                nullptr
+                            } );
                         }
                         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_cardInfo.id, DataCardAudioInfo::AudioType::hue );
                     }
@@ -353,12 +410,18 @@ void DadGuessUpdateScene::tryUpdate( void )
                     auto & t_dataDescAudios = t_item["descAudio"];
                     if( t_dataDescAudios.IsArray() )
                     {
-                        std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                        std::vector< UpdateDownloadItem > t_downloadAudioList;
                         for ( int i = 0; i < t_dataDescAudios.Capacity(); ++i)
                         {
                             auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + "/" + t_dataDescAudios[i]["attUrl"].GetString();
                             auto t_dataAudioMd5 = t_dataDescAudios[i]["md5"].GetString();
-                            t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                            int t_dataAudioSize = t_dataDescAudios[i]["attSize"].GetInt();
+                            t_downloadAudioList.push_back( UpdateDownloadItem{
+                                t_dataAudioUrl,
+                                t_dataAudioMd5,
+                                t_dataAudioSize,
+                                nullptr
+                            } );
                         }
                         
                         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_cardInfo.id, DataCardAudioInfo::AudioType::commentary );
@@ -368,13 +431,19 @@ void DadGuessUpdateScene::tryUpdate( void )
                 if( t_item["pronAudio"].IsObject() )
                 {
                     auto & t_dataPronAudio = t_item["pronAudio"];
-                    std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                    std::vector< UpdateDownloadItem > t_downloadAudioList;
                     
                     if( t_dataPronAudio.IsObject() )
                     {
                         auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + "/" + t_dataPronAudio["attUrl"].GetString();
                         auto t_dataAudioMd5 = t_dataPronAudio["md5"].GetString();
-                        t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                        int t_dataAudioSize = t_dataPronAudio["attSize"].GetInt();
+                        t_downloadAudioList.push_back( UpdateDownloadItem{
+                            t_dataAudioUrl,
+                            t_dataAudioMd5,
+                            t_dataAudioSize,
+                            nullptr
+                        } );
                         
                         checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_cardInfo.id, DataCardAudioInfo::AudioType::commentary );
                     }
@@ -471,6 +540,7 @@ void DadGuessUpdateScene::tryUpdate( void )
                         
                         auto t_coverImageUrl = std::string( DOMAIN_NAME ) + "/" + std::string( t_item["iconPath"].GetString() ).substr( 1 );
                         auto t_coverImageMd5 = std::string( t_item["iconMd5"].GetString() );
+                        int t_coverImageSize = t_item["attSize"].GetInt();
                         auto t_cardInfo = DataCardInfo( t_item["cardId"].GetString(),
                                                        t_item["cardType"].GetString(),
                                                        t_item["rfId"].GetInt(),
@@ -491,6 +561,8 @@ void DadGuessUpdateScene::tryUpdate( void )
                         bool t_needDownloadCoverImage = true;
                         if( t_oldCardInfoIt != t_localCardList.end() )
                         {
+//下载封面
+#ifdef GOOFYPAPA_OFF_LINE
                             t_needDownloadCoverImage = false;
                             t_cardInfo.activation = t_oldCardInfoIt->activation;
                             
@@ -500,12 +572,15 @@ void DadGuessUpdateScene::tryUpdate( void )
                                 DataTableFile::instance().remove( t_coverFileInfo );
                                 t_needDownloadCoverImage = true;
                             }
+#endif
                             DataTableCard::instance().update( t_cardInfo );
                             
                             t_localCardList.erase( t_oldCardInfoIt );
                         }else{
                             DataTableCard::instance().insert( t_cardInfo );
                         }
+//下载文件
+#ifdef GOOFYPAPA_OFF_LINE
                         
                         if( t_needDownloadCoverImage )
                         {
@@ -513,24 +588,29 @@ void DadGuessUpdateScene::tryUpdate( void )
                             UpdateDownloadItem t_downloadItem{
                                 t_coverImageUrl,
                                 t_coverImageMd5,
+                                t_coverImageSize,
                                 nullptr
                             };
                             m_downloadList.push( t_downloadItem );
                         }
 
-                        //下载音频文件
-#ifdef GOOFYPAPA_OFF_LINE
                         auto t_audioList = DataTableCardAudio::instance().list( t_cardInfo.id );
                     
                         auto & t_dataAudios = t_item["audios"];
-                        std::vector< std::pair< std::string , std::string > > t_downloadAudioList;
+                        std::vector< UpdateDownloadItem > t_downloadAudioList;
                         if( t_dataAudios.IsArray() )
                         {
                             for( int i = 0; i < t_dataAudios.Capacity(); ++i )
                             {
                                 auto t_dataAudioUrl = std::string( DOMAIN_NAME ) + t_dataAudios[i]["attUrl"].GetString();
                                 auto t_dataAudioMd5 = t_dataAudios[i]["md5"].GetString();
-                                t_downloadAudioList.push_back( std::pair< std::string , std::string >( t_dataAudioUrl, t_dataAudioMd5 ) );
+                                int t_dataAudioSize = t_dataAudios[i]["attSize"].GetInt();
+                                t_downloadAudioList.push_back( UpdateDownloadItem{
+                                    t_dataAudioUrl,
+                                    t_dataAudioMd5,
+                                    t_dataAudioSize,
+                                    nullptr
+                                } );
                             }
                             
                             checkCardAudioUpdate( t_audioList, t_downloadAudioList, t_cardInfo.id, DataCardAudioInfo::AudioType::commentary );
@@ -591,14 +671,39 @@ void DadGuessUpdateScene::tryUpdate( void )
         printf( "---------> download size: %d \n", m_downloadList.size() );
         if( m_downloadList.size() )
         {
-            m_needDownloadSize = m_downloadList.size();
-            m_alreadyDownloadSize = 0;
-            m_messageLabel->setString( "正在下载..." );
-            downloadFile();
+            
+            int downloadSize = 0;
+            
+            std::queue< UpdateDownloadItem > t_downloadList;
+            
+            while( m_downloadList.size() )
+            {
+                auto t_item = m_downloadList.front();
+                m_downloadList.pop();
+                t_downloadList.push( t_item );
+                downloadSize += t_item.size;
+            }
+            
+            m_downloadList = t_downloadList;
+            
+            m_messageLabel->setString( "" );
+            
+            printf( "download size: %d \n", downloadSize );
+            
+            
+            std::stringstream t_sstr;
+            t_sstr.setf(std::ios::fixed);
+            t_sstr.precision(2);
+            t_sstr << "资源包大小为" << ( downloadSize / 1024.0f / 1024.0f ) << " MB";
+            
+            m_downloadMessage->setString( t_sstr.str() );
+            
+            m_downloadMessageLayer->setVisible( true );
         }
         else if( m_checkUpdateQueue.size() )
         {
             std::thread( [this](){
+                usleep( 100 );
                checkUpdateDequeue();
             } ).detach();
         }
@@ -745,13 +850,14 @@ void DadGuessUpdateScene::checkUpdateResponse( Http * p_http )
     }
 }
 
-void DadGuessUpdateScene::checkCardAudioUpdate( std::vector< DataCardAudioInfo > & p_oldCardAudioList, const std::vector< std::pair< std::string, std::string > > & p_seviceCardAudioList, const std::string & p_cardId, const DataCardAudioInfo::AudioType p_audioType )
+void DadGuessUpdateScene::checkCardAudioUpdate( std::vector< DataCardAudioInfo > & p_oldCardAudioList, const std::vector< UpdateDownloadItem > & p_seviceCardAudioList, const std::string & p_cardId, const DataCardAudioInfo::AudioType p_audioType )
 {
     for( int i = 0; i < p_seviceCardAudioList.size(); ++i )
     {
         
-        auto t_dataAudioUrl = p_seviceCardAudioList[i].first;
-        auto t_dataAudioMd5 = p_seviceCardAudioList[i].second;
+        auto t_dataAudioUrl = p_seviceCardAudioList[i].url;
+        auto t_dataAudioMd5 = p_seviceCardAudioList[i].md5;
+        auto t_dataAudioSize = p_seviceCardAudioList[i].size;
         
         auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( t_dataAudioUrl );
         auto t_serviceAudioInfo = DataCardAudioInfo( "", p_cardId, t_dataAudioUrl, t_dataAudioMd5, p_audioType );
@@ -783,6 +889,7 @@ void DadGuessUpdateScene::checkCardAudioUpdate( std::vector< DataCardAudioInfo >
             UpdateDownloadItem t_downloadItem{
                 t_dataAudioUrl,
                 t_dataAudioMd5,
+                t_dataAudioSize,
                 [t_serviceAudioInfo]( const DataFileInfo & ){
                     DataTableCardAudio::instance().insert( t_serviceAudioInfo );
                 }

@@ -328,7 +328,12 @@ void MainScene::refreshSource( const DataFileInfo & p_fileInfo )
         auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
         if( !t_fileInfo.fileName.empty() )
         {
-            m_personalHead->setTexture( t_fileInfo.fileName );
+//            m_personalHead->setTexture( t_fileInfo.fileName );
+            auto director = Director::getInstance();
+            Scheduler *sched = director->getScheduler();
+            sched->performFunctionInCocosThread( [=](){
+                m_personalHead->setTexture( t_fileInfo.fileName );
+            } );
         }
     }
 }

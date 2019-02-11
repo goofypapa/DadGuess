@@ -72,7 +72,7 @@ android {
             storeFile file('/Users/benbaba/Project/goofypapa.jks')
             storePassword 'goofypapa'
         }
-        
+
         debug{
             storeFile file('goofypapa.jks')
             storePassword "goofypapa"

@@ -27,6 +27,7 @@ struct UpdateDownloadItem
 public:
     std::string url;
     std::string md5;
+    int size;
     std::function< void( const DataFileInfo & ) > _downloadCallBack;
 };
 
@@ -54,7 +55,7 @@ protected:
 private:
     
     void checkUpdateResponse( Http * p_http );
-    void checkCardAudioUpdate( std::vector< DataCardAudioInfo > & p_oldCardAudioList, const std::vector< std::pair< std::string, std::string > > & p_seviceCardAudioList, const std::string & p_cardId, const DataCardAudioInfo::AudioType p_audioType );
+    void checkCardAudioUpdate( std::vector< DataCardAudioInfo > & p_oldCardAudioList, const std::vector< UpdateDownloadItem > & p_seviceCardAudioList, const std::string & p_cardId, const DataCardAudioInfo::AudioType p_audioType );
     void downloadFile( void );
     
     static std::vector< DataCardBatchInfo > sm_cardBatchList;
@@ -64,7 +65,9 @@ private:
     
     void checkUpdateDequeue( void );
     
-    cocos2d::Label * m_messageLabel;
+    cocos2d::Label * m_messageLabel, * m_downloadMessage;
+    
+    cocos2d::Layer * m_downloadMessageLayer;
     
     int m_loadResourceCount, m_needDownloadSize, m_alreadyDownloadSize;
     

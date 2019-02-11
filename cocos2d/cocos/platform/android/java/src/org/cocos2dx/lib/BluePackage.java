@@ -40,6 +40,8 @@ public abstract class BluePackage {
 
     static String sm_data;
 
+    static int sm_connectState = -1;
+
     public static native void scanedDevice( String p_deviceAddess, String p_deviceName );
     public static native void recvData( String p_data );
     public static native void connectDeviceStateChange( int p_connectState );
@@ -161,13 +163,20 @@ public abstract class BluePackage {
                 if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(t_action)) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     Log.d("DEBUG", "连接到蓝牙" + device.getName() + "__" + device.getAddress() );
+
+                    if( sm_connectState == 0 || sm_connectIng )
+                    {
+                        Log.d("DEBUG", "已经连接到另外一台设备");
+                        return;
+                    }
+
                     m_device = device;
                     if ( device.getName().equals(sm_blueName)) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    Thread.sleep(1000);
+                                    Thread.sleep(2000);
                                     listenSocket(m_device);
                                 }catch( Exception e ){}
                             }
@@ -178,8 +187,13 @@ public abstract class BluePackage {
                 if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(t_action)){
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     Log.d("DEBUG", "断开蓝牙" + device.getName() + "__" + device.getAddress() );
-                    if (device.getName().equals(sm_blueName)) {
-                        connectDeviceStateChange( 6 );
+
+                    if( sm_connectState != 0 ){
+                        return;
+                    }
+
+                    if ( device.getAddress().equals( m_device.getAddress() ) ) {
+                        onConnectStateChange( 6 );
                     }
                 }
             }
@@ -263,13 +277,13 @@ public abstract class BluePackage {
                     m_bluetoothDeviceList.put(device.getAddress(), device);
                     scanedDevice(device.getAddress(), device.getName());
 
-                    if( checkConnected( device ) ) {
-                        listenSocket( device );
-                        Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
-                    }else{
-                        m_bluetoothDeviceList.put(device.getAddress(), device);
-                        scanedDevice(device.getAddress(), device.getName());
-                    }
+                    // if( checkConnected( device ) ) {
+                    //     listenSocket( device );
+                    //     Log.d("DEBUG", "已配对设备:" + device.getName() + ", " + device.getAddress());
+                    // }else{
+                    //     m_bluetoothDeviceList.put(device.getAddress(), device);
+                    //     scanedDevice(device.getAddress(), device.getName());
+                    // }
                 }
             }
         }
@@ -326,6 +340,8 @@ public abstract class BluePackage {
             return;
         }
 
+        Log.e( "----------->", "pair" );
+
         p_device.createBond();
     }
 
@@ -354,7 +370,7 @@ public abstract class BluePackage {
                     m_socket = m_device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
                 } catch (Exception e) {
                     Log.d("DEBUG", "创建Socket失败" + e.toString());
-                    connectDeviceStateChange( 1 );
+                    onConnectStateChange( 1 );
                     sm_connectIng = false;
 
                     return;
@@ -375,13 +391,13 @@ public abstract class BluePackage {
                         } catch (IOException e) {
                             Log.d("DEBUG", "获取流异常" + e.toString());
 
-                            connectDeviceStateChange( 2 );
+                            onConnectStateChange( 2 );
                             sm_connectIng = false;
                             return;
                         }
 
                         Log.d("DEBUG", "监听成功");
-                        connectDeviceStateChange( 0 );
+                        onConnectStateChange( 0 );
                         sm_connectIng = false;
 
                         byte[] t_buffer = new byte[256];
@@ -398,22 +414,24 @@ public abstract class BluePackage {
                             } catch (IOException e) {
                                 t_socketConnected = false;
 
-                                Log.e("ERROR", "读取信息失败" + e.toString() + "---" + m_socket.isConnected());
+                                Log.e("ERROR", "读取信息失败" + e.toString());
                             }
 
                             if (t_socketConnected) {
                                 continue;
                             }
 
-                            try {
-                                m_socket.close();
-                                m_socket = null;
-                            } catch (IOException e) {
+                            if( m_socket != null ) {
+                                try {
+                                    m_socket.close();
+                                    m_socket = null;
+                                } catch (IOException e) {
+                                }
                             }
                         }
 
                         Log.d("DEBUG", "断开连接");
-                        connectDeviceStateChange( 3 );
+                        onConnectStateChange( 3 );
                         sm_connectIng = false;
                     }
                 }).start();
@@ -425,7 +443,7 @@ public abstract class BluePackage {
 
         if( checkConnected( p_device ) )
         {
-            connectDeviceStateChange( 0 );
+            onConnectStateChange( 0 );
             sm_connectIng = false;
             //已经连接
             return;
@@ -461,13 +479,13 @@ public abstract class BluePackage {
             connectMethod.invoke( m_bluetoothA2dp, p_device );
 
             Log.d("DEBUG", "连接a2dp成功");
-//            connectDeviceStateChange( 5 );
+//            onConnectStateChange( 5 );
             sm_connectIng = false;
 
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("DEBUG", "连接a2dp失败" + e.toString());
-            connectDeviceStateChange( 4 );
+            onConnectStateChange( 4 );
             sm_connectIng = false;
         }
     }
@@ -539,5 +557,10 @@ public abstract class BluePackage {
         }
 
         return false;
+    }
+
+    private static void onConnectStateChange( int p_state ){
+        sm_connectState = p_state;
+        connectDeviceStateChange( sm_connectState );
     }
 }

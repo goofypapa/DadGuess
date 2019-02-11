@@ -157,7 +157,8 @@ bool DadGuessMainScene::init( void )
         printf( "----------> %s \n", sm_blueState ? "connected" : "not connected" );
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-        goSystemBlue();
+//        goSystemBlue();
+        MessageBox( "请到系统设置中连接蓝牙\n\"爸爸猜猜\"", "设备连接" );
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
         if( !sm_blueState )
         {
@@ -427,6 +428,15 @@ void DadGuessMainScene::scanCard( int p_rfid )
 
         if( t_needCheckAudioUpdate )
         {
+            
+            // offline
+            if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
+            {
+                AudioEngine::stopAll();
+                AudioEngine::play2d( "audio/offlineTips.mp3" );
+                return;
+            }
+            
             std::stringstream t_sstr;
             t_sstr << sm_checkoutCardAudioUpdateKey << t_cardInfo.id;
             DataTableKeyValue::instance().set( DataKeyValueInfo( t_sstr.str(), false ) );
@@ -655,6 +665,14 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
 
     if( t_audioFileInfo.fileId.empty() )
     {
+        // offline
+        if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
+        {
+            AudioEngine::stopAll();
+            AudioEngine::play2d( "audio/offlineTips.mp3" );
+            return;
+        }
+        
         auto t_http = Http::DownloadFile( p_audioInfo.fileUrl, "", [=]( Http * p_http, DataFileInfo p_fileInfo ){
             if( sm_lastDownload == p_http ){
                 playAudio( s_downloadPool[ p_http ] );

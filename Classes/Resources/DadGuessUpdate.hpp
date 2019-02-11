@@ -4,7 +4,7 @@
 //
 // https://www.codeandweb.com/texturepacker
 // 
-// $TexturePacker:SmartUpdate:16084cc22679be8b6d0925d47561d73a:5e8d24feb3243499b16fa4fb4216386c:5a3ccc56e0a2abd4cfd9e5161bd302f7$
+// $TexturePacker:SmartUpdate:77e6c5a4ade646dabce228d5c07ccb8e:c0bfb28286ee6a172422fb39d649aea3:5a3ccc56e0a2abd4cfd9e5161bd302f7$
 // ---------------------------------------
 
 #ifndef __DADGUESSUPDATE_H__
@@ -33,11 +33,13 @@ public:
     // ---------------------
     // sprite name constants
     // ---------------------
+    static const std::string button;
     static const std::string caicai_update_background;
 
     // --------------
     // Sprite objects
     // --------------
+    static cocos2d::Sprite *createButtonSprite();
     static cocos2d::Sprite *createCaicai_update_backgroundSprite();
 
 }; // class

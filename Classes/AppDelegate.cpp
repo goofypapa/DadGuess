@@ -96,6 +96,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
     std::stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWeChat;
     totalDict->setObject(wechatConf, wechat.str());
+
+        //新浪微博
+   __Dictionary *sinaWeiboConf= __Dictionary::create();
+   sinaWeiboConf->setObject(__String::create("2983242978"), "AppId");
+   sinaWeiboConf->setObject(__String::create("e1d8f32d60d0710c90a531bb68118357"), "AppSecret");
+   sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
+   std::stringstream sina;
+   sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
+   totalDict->setObject(sinaWeiboConf, sina.str());
 #else
     //微信
     __Dictionary *wechatConf = __Dictionary::create();
@@ -104,6 +113,15 @@ bool AppDelegate::applicationDidFinishLaunching() {
     std::stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
     totalDict->setObject(wechatConf, wechat.str());
+
+    //新浪微博
+   __Dictionary *sinaWeiboConf= __Dictionary::create();
+   sinaWeiboConf->setObject(__String::create("2983242978"), "app_key");
+   sinaWeiboConf->setObject(__String::create("e1d8f32d60d0710c90a531bb68118357"), "app_secret");
+   sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
+   std::stringstream sina;
+   sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
+   totalDict->setObject(sinaWeiboConf, sina.str());
 #endif
     
     //新浪微博

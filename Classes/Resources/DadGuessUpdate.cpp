@@ -28,11 +28,17 @@ void DadGuessUpdate::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
+const std::string DadGuessUpdate::button                   = "Button.png";
 const std::string DadGuessUpdate::caicai_update_background = "caicai_update_background.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
 // ---------------------------------------------------------
+Sprite* DadGuessUpdate::createButtonSprite()
+{
+    return Sprite::createWithSpriteFrameName(button);
+}
+
 Sprite* DadGuessUpdate::createCaicai_update_backgroundSprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_update_background);

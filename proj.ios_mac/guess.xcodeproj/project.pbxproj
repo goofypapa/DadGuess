@@ -52,6 +52,9 @@
 		37553A2E21E86891002EBF8C /* NFCDeviceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */; };
 		37553A37220525B0002EBF8C /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 37553A36220525B0002EBF8C /* audio */; };
 		37553A39220525C1002EBF8C /* shader in Resources */ = {isa = PBXBuildFile; fileRef = 37553A38220525C0002EBF8C /* shader */; };
+		37553A4B22115CE5002EBF8C /* iOSSMSSDK.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37553A3C22115CE5002EBF8C /* iOSSMSSDK.mm */; };
+		37553A4F22115CE5002EBF8C /* SMSSDK.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37553A4A22115CE5002EBF8C /* SMSSDK.cpp */; };
+		37553A73221166ED002EBF8C /* SMS_SDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37553A5222115EFD002EBF8C /* SMS_SDK.framework */; };
 		376A5D9F212A517900510F6C /* md5.inl in Resources */ = {isa = PBXBuildFile; fileRef = 376A5D9E212A517900510F6C /* md5.inl */; };
 		376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA0212A55B900510F6C /* DataTableFile.cpp */; };
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
@@ -231,6 +234,13 @@
 		37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NFCDeviceListener.cpp; sourceTree = "<group>"; };
 		37553A36220525B0002EBF8C /* audio */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audio; sourceTree = "<group>"; };
 		37553A38220525C0002EBF8C /* shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shader; sourceTree = "<group>"; };
+		37553A3C22115CE5002EBF8C /* iOSSMSSDK.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iOSSMSSDK.mm; sourceTree = "<group>"; };
+		37553A3D22115CE5002EBF8C /* iOSSMSSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSSMSSDK.h; sourceTree = "<group>"; };
+		37553A3E22115CE5002EBF8C /* SMSSDKType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSSDKType.h; sourceTree = "<group>"; };
+		37553A4922115CE5002EBF8C /* SMSSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSSDK.h; sourceTree = "<group>"; };
+		37553A4A22115CE5002EBF8C /* SMSSDK.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SMSSDK.cpp; sourceTree = "<group>"; };
+		37553A5222115EFD002EBF8C /* SMS_SDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SMS_SDK.framework; path = ios/share/SDK/SMSSDK/SMS_SDK.framework; sourceTree = "<group>"; };
+		37553A5C221160BC002EBF8C /* SMSSDKUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SMSSDKUI.bundle; path = ios/SMSSDKUI/SMSSDKUI.bundle; sourceTree = "<group>"; };
 		376A5D9B212A516E00510F6C /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
 		376A5D9E212A517900510F6C /* md5.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.inl; sourceTree = "<group>"; };
 		376A5DA0212A55B900510F6C /* DataTableFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableFile.cpp; sourceTree = "<group>"; };
@@ -339,6 +349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37553A73221166ED002EBF8C /* SMS_SDK.framework in Frameworks */,
 				37EA963621ABD3DB00E359E8 /* CoreBluetooth.framework in Frameworks */,
 				3705121421226C9D00F2FE1C /* libstdc++.tbd in Frameworks */,
 				3705121321226C8D00F2FE1C /* JavaScriptCore.framework in Frameworks */,
@@ -459,6 +470,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37553A5C221160BC002EBF8C /* SMSSDKUI.bundle */,
+				37553A5222115EFD002EBF8C /* SMS_SDK.framework */,
 				37EA963521ABD3DB00E359E8 /* CoreBluetooth.framework */,
 				3705121221226C8D00F2FE1C /* JavaScriptCore.framework */,
 				3705121021226C8000F2FE1C /* libicucore.tbd */,
@@ -624,6 +637,26 @@
 			path = ios;
 			sourceTree = "<group>";
 		};
+		37553A3A22115CE5002EBF8C /* SMSSDK */ = {
+			isa = PBXGroup;
+			children = (
+				37553A3B22115CE5002EBF8C /* ios */,
+				37553A3E22115CE5002EBF8C /* SMSSDKType.h */,
+				37553A4922115CE5002EBF8C /* SMSSDK.h */,
+				37553A4A22115CE5002EBF8C /* SMSSDK.cpp */,
+			);
+			path = SMSSDK;
+			sourceTree = "<group>";
+		};
+		37553A3B22115CE5002EBF8C /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				37553A3C22115CE5002EBF8C /* iOSSMSSDK.mm */,
+				37553A3D22115CE5002EBF8C /* iOSSMSSDK.h */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
 		376A5D9D212A517900510F6C /* achieve */ = {
 			isa = PBXGroup;
 			children = (
@@ -765,6 +798,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				37553A3A22115CE5002EBF8C /* SMSSDK */,
 				377750152186E196006518B4 /* DadGuess */,
 				376A5DA4212BB71600510F6C /* BaseScene.cpp */,
 				376A5DA3212BB71600510F6C /* BaseScene.h */,
@@ -984,11 +1018,13 @@
 				37553A2E21E86891002EBF8C /* NFCDeviceListener.cpp in Sources */,
 				37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */,
 				377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */,
+				37553A4B22115CE5002EBF8C /* iOSSMSSDK.mm in Sources */,
 				37EA95B121A56D7000E359E8 /* DadGuessCardListScene.cpp in Sources */,
 				37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */,
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
+				37553A4F22115CE5002EBF8C /* SMSSDK.cpp in Sources */,
 				37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */,
 				376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
@@ -1056,6 +1092,7 @@
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformConnector",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK",
 					"$(PROJECT_DIR)/ios/share/SDK/Required",
+					"$(PROJECT_DIR)/ios/share/SDK/SMSSDK",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -1106,6 +1143,7 @@
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformConnector",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK",
 					"$(PROJECT_DIR)/ios/share/SDK/Required",
+					"$(PROJECT_DIR)/ios/share/SDK/SMSSDK",
 				);
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

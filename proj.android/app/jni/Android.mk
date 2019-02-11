@@ -45,6 +45,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/DadGuess/DadGuessBlueScene.cpp \
                    $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3/sqlite3.c \
                    $(LOCAL_PATH)/../../../Classes/Login/LoginScene.cpp \
+                   $(LOCAL_PATH)/../../../Classes/SMSSDK/SMSSDK.cpp \
+                   $(LOCAL_PATH)/../../../Classes/SMSSDK/Android/SMSSDK_android.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/C2DXShareSDK.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/ShareSDKUtils.cpp \
                    $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/JSON/CCJSONConverter.cpp \
@@ -61,6 +63,8 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes \
                     $(LOCAL_PATH)/../../../Classes/DataBase/sqlite3 \
                     $(LOCAL_PATH)/../../../Classes/Resources \
                     $(LOCAL_PATH)/../../../Classes/DadGuess \
+                    $(LOCAL_PATH)/../../../Classes/SMSSDK \
+                    $(LOCAL_PATH)/../../../Classes/SMSSDK/Android \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android \
                     $(LOCAL_PATH)/../../../Classes/C2DXShareSDK/Android/JSON \

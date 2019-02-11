@@ -40,6 +40,9 @@
 -dontwarn com.mob.**
 -dontwarn **.R$*
 
+-keep class cn.smssdk.**{*;}
+-dontwarn cn.smssdk.**
+
 # Proguard Android Webivew for release. uncomment if you are using a webview in cocos2d-x
 #-keep public class android.net.http.SslError
 #-keep public class android.webkit.WebViewClient

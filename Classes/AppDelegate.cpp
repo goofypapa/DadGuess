@@ -26,6 +26,7 @@
 #include "Login/LoginScene.h"
 #include "DadGuess/DadGuessUpdateScene.h"
 #include "C2DXShareSDK.h"
+#include "SMSSDK.h"
 #include "Config.h"
 #include "DataTableUser.h"
 #include "Common.h"
@@ -47,6 +48,7 @@ using namespace CocosDenshion;
 #endif
 
 USING_NS_CC;
+using namespace smssdk;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
@@ -140,8 +142,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 //    stringstream qq;
 //    qq << cn::sharesdk::C2DXPlatTypeQQPlatform;
 //    totalDict->setObject(qqConf, qq.str());
+
+    const char * t_appKey = "2970ee5899ef8";
+    const char * t_appSecret = "4eb673fc8993280113d9c4376535f83a";
     
-    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig( "2970ee5899ef8","4eb673fc8993280113d9c4376535f83a",totalDict );
+    cn::sharesdk::C2DXShareSDK::registerAppAndSetPlatformConfig( t_appKey, t_appSecret, totalDict );
+    SMSSDK::init( t_appKey, t_appSecret, false );
     
     // initialize director
     auto director = Director::getInstance();

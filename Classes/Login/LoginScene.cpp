@@ -20,8 +20,10 @@
 #include "DataTableUser.h"
 #include "DataTableFile.h"
 #include <thread>
+#include "SMSSDK.h"
 
 USING_NS_CC;
+using namespace smssdk;
 using namespace cocos2d::ui;
 
 #define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
@@ -788,7 +790,7 @@ void LoginScene::toForgetPassword( cocos2d::Ref* pSender )
 
 void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 {
-    
+    SMSSDK::getCode( SMSSDKCodeType::TextCode, "17601017880", "86", "");
 }
 
 void LoginScene::login( cocos2d::Ref* pSender )
@@ -986,17 +988,14 @@ LoginScene::~LoginScene()
 void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState state, cn::sharesdk::C2DXPlatType platType, __Dictionary *result)
 {
 
-    printf( "--------> %d \n", reqID );
-    
     if( state != cn::sharesdk::C2DXResponseState::C2DXResponseStateSuccess )
     {
+        printf( "----------------> error state %d \n", (int)state );
         m_requesting = false;
         return;
     }
     
     std::string t_result = toString( *result );
-    
-    printf( "--------> getUserResultHandler: %s \n", t_result.c_str() );
     
     std::string t_loginType = "";
     

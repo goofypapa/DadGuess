@@ -1,6 +1,6 @@
 //
 //  DialogLayerInterface.h
-//  dadpat
+//  DadGuess
 //
 //  Created by 吴思 on 2018/8/9.
 //

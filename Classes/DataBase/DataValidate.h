@@ -1,6 +1,6 @@
 //
 //  DataValidate.hpp
-//  dadpat-mobile
+//  DadGuess-mobile
 //
 //  Created by 吴思 on 2018/7/18.
 //

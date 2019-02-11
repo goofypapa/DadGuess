@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-               BuildableName = "dadpat-desktop.app"
-               BlueprintName = "dadpat-desktop"
+               BuildableName = "DadGuess-desktop.app"
+               BlueprintName = "DadGuess-desktop"
                ReferencedContainer = "container:guess.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "dadpat-mobile.app"
-            BlueprintName = "dadpat-mobile"
+            BuildableName = "DadGuess-mobile.app"
+            BlueprintName = "DadGuess-mobile"
             ReferencedContainer = "container:guess.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
-            BuildableName = "dadpat-mobile.app"
-            BlueprintName = "dadpat-mobile"
+            BuildableName = "DadGuess-mobile.app"
+            BlueprintName = "DadGuess-mobile"
             ReferencedContainer = "container:guess.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5087E73D17EB910900C73F5D"
-            BuildableName = "dadpat-desktop.app"
-            BlueprintName = "dadpat-desktop"
+            BuildableName = "DadGuess-desktop.app"
+            BlueprintName = "DadGuess-desktop"
             ReferencedContainer = "container:guess.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

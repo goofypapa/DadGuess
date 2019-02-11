@@ -1,6 +1,6 @@
 //
 //  DadGuessCardListScrollView.cpp
-//  dadpat-mobile
+//  DadGuess-mobile
 //
 //  Created by 吴思 on 2018/11/22.
 //

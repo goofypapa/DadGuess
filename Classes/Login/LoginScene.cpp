@@ -1,6 +1,6 @@
 //
 //  Login.cpp
-//  dadpat-mobile
+//  DadGuess-mobile
 //
 //  Created by 吴思 on 7/3/18.
 //
@@ -790,7 +790,17 @@ void LoginScene::toForgetPassword( cocos2d::Ref* pSender )
 
 void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 {
-    SMSSDK::getCode( SMSSDKCodeType::TextCode, "17601017880", "86", "");
+
+    std::string t_phone = m_RegisterPhoneInput->getText();
+    if( !IsPhoneNumber( t_phone ) )
+    {
+        MessageBox( "请输入合法手机号", "" );
+        return;
+    }
+
+    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "");
+
+    printf( "-----------> aaaaa" );
 }
 
 void LoginScene::login( cocos2d::Ref* pSender )

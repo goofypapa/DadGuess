@@ -1,6 +1,6 @@
 //
 //  LoginScene.h
-//  dadpat-mobile
+//  DadGuess-mobile
 //
 //  Created by 吴思 on 7/3/18.
 //

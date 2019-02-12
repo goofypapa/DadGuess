@@ -20,7 +20,6 @@
 #include "DataTableUser.h"
 #include "DataTableFile.h"
 #include <thread>
-#include "SMSSDK.h"
 
 USING_NS_CC;
 using namespace smssdk;
@@ -50,6 +49,9 @@ bool LoginScene::init()
         return false;
     }
     m_requesting = false;
+    m_registerSendVerificationCodeCoolDown = 0;
+    m_forgetPasswordSsendVerificationCodeCoolDown = 0;
+    m_verificationCodeVerification = false;
     TexturePacker::Login::addSpriteFramesToCache();
     
     m_loginState = LoginState::SelectLogin;
@@ -73,11 +75,12 @@ bool LoginScene::init()
         this->addChild( t_backgroud, 0 );
     }
     
-    auto t_title = TexturePacker::Login::createLoginTitleSprite();
+    // auto t_title = TexturePacker::Login::createLoginTitleSprite();
+    auto t_title = Label::createWithTTF( "爸爸猜猜", PAGE_FONT, 30 );
     auto t_titleSize = t_title->getContentSize();
     if( t_title != nullptr )
     {
-        t_title->setScale( adaptation() );
+        // t_title->setScale( adaptation() );
         t_title->setPosition( Vec2(visibleSize.width/2 + origin.x, visibleSize.height + origin.y - t_titleSize.height * 0.5f - t_PaddingTop ) );
         this->addChild( t_title, 1 );
     }
@@ -367,8 +370,9 @@ bool LoginScene::init()
             m_RegisterPhoneInput->setPosition( Vec2( t_phoneLabelSize.width + 10.0f, t_phoneLabelSize.height * 0.5f ) );
             m_RegisterPhoneInput->setMaxLength( PHONE_MAXLEN );
             m_RegisterPhoneInput->setInputMode( EditBox::InputMode::NUMERIC );
-            
             t_phoneLabel->addChild( m_RegisterPhoneInput );
+
+            
         }
         
         auto t_verificationCodeLabel = Label::createWithTTF( "验证码", PAGE_FONT, 12 );
@@ -391,15 +395,18 @@ bool LoginScene::init()
             m_RegisterVerificationCodeInput->setInputMode( EditBox::InputMode::NUMERIC );
             m_RegisterVerificationCodeInput->setMaxLength( VERIFICATIONCODE_MAXLEN );
             t_verificationCodeLabel->addChild( m_RegisterVerificationCodeInput );
+
+            m_RegisterVerificationCodeInput->setDelegate( this );
         }
         
-        auto t_sendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::sendVerificationCode, this ) );
-        if( t_sendVerificationCode != nullptr )
+        m_registerSendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::registerSendVerificationCode, this ) );
+        if( m_registerSendVerificationCode != nullptr )
         {
-            t_sendVerificationCode->setFontSizeObj( 8 );
-            auto t_sendVerificationCodeSize = t_sendVerificationCode->getContentSize();
-            t_sendVerificationCode->setPosition( Vec2( t_RegisterPhoneBorderSize.width - t_sendVerificationCodeSize.width * 0.5f - 20.0f, t_RegisterPhoneBorderSize.height / 2.0f ) );
-            auto menu = Menu::create( t_sendVerificationCode, NULL );
+            m_registerSendVerificationCode->setFontSizeObj( 8 );
+            m_registerSendVerificationCode->setFontNameObj( PAGE_FONT );
+            auto t_sendVerificationCodeSize = m_registerSendVerificationCode->getContentSize();
+            m_registerSendVerificationCode->setPosition( Vec2( t_RegisterPhoneBorderSize.width - t_sendVerificationCodeSize.width * 0.5f - 20.0f, t_RegisterPhoneBorderSize.height / 2.0f ) );
+            auto menu = Menu::create( m_registerSendVerificationCode, NULL );
             menu->setPosition( Vec2::ZERO );
             t_RegisterPhoneBorder->addChild( menu, 1 );
         }
@@ -531,15 +538,16 @@ bool LoginScene::init()
             m_ForgetVerificationCodeInput->setInputMode( EditBox::InputMode::NUMERIC );
             m_ForgetVerificationCodeInput->setMaxLength( VERIFICATIONCODE_MAXLEN );
             t_verificationCodeLabel->addChild( m_ForgetVerificationCodeInput );
+            m_ForgetVerificationCodeInput->setDelegate( this );
         }
         
-        auto t_sendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::sendVerificationCode, this ) );
-        if( t_sendVerificationCode != nullptr )
+        m_forgetPasswordSsendVerificationCode = MenuItemFont::create( "发送验证码",  CC_CALLBACK_1( LoginScene::forgetPasswordSendVerificationCode, this ) );
+        if( m_forgetPasswordSsendVerificationCode != nullptr )
         {
-            t_sendVerificationCode->setFontSizeObj( 8 );
-            auto t_sendVerificationCodeSize = t_sendVerificationCode->getContentSize();
-            t_sendVerificationCode->setPosition( Vec2( t_ForgetPasswordBorderSize.width - t_sendVerificationCodeSize.width * 0.5f - 20.0f, t_ForgetPasswordBorderSize.height / 2.0f ) );
-            auto menu = Menu::create( t_sendVerificationCode, NULL );
+            m_forgetPasswordSsendVerificationCode->setFontSizeObj( 8 );
+            auto t_sendVerificationCodeSize = m_forgetPasswordSsendVerificationCode->getContentSize();
+            m_forgetPasswordSsendVerificationCode->setPosition( Vec2( t_ForgetPasswordBorderSize.width - t_sendVerificationCodeSize.width * 0.5f - 20.0f, t_ForgetPasswordBorderSize.height / 2.0f ) );
+            auto menu = Menu::create( m_forgetPasswordSsendVerificationCode, NULL );
             menu->setPosition( Vec2::ZERO );
             t_ForgetPasswordBorder->addChild( menu, 1 );
         }
@@ -653,6 +661,8 @@ bool LoginScene::init()
     };
     
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority( t_listener , this );
+
+    SMSSDK::setHandler( this );
 
     return true;
 }
@@ -788,8 +798,13 @@ void LoginScene::toForgetPassword( cocos2d::Ref* pSender )
     m_PhoneForgetPassword->setVisible( true );
 }
 
-void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
+void LoginScene::registerSendVerificationCode( cocos2d::Ref* pSender )
 {
+
+    if( m_registerSendVerificationCodeCoolDown )
+    {
+        return;
+    }
 
     std::string t_phone = m_RegisterPhoneInput->getText();
     if( !IsPhoneNumber( t_phone ) )
@@ -800,7 +815,114 @@ void LoginScene::sendVerificationCode( cocos2d::Ref* pSender )
 
     SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "");
 
-    printf( "-----------> aaaaa" );
+    m_registerSendVerificationCodeCoolDown = 60;
+
+    m_registerSendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
+
+    runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
+        m_registerSendVerificationCodeCoolDown = (int)p_value;
+
+        if( m_registerSendVerificationCodeCoolDown )
+        {
+            std::stringstream t_sstr;
+            t_sstr << "重新发送(" << m_registerSendVerificationCodeCoolDown << ")";
+            m_registerSendVerificationCode->setString( t_sstr.str() );
+        }else{
+            m_registerSendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
+            m_registerSendVerificationCode->setString( "重新发送" );
+        }
+    } ) );
+}
+
+void LoginScene::forgetPasswordSendVerificationCode( cocos2d::Ref* pSender )
+{
+    if( m_forgetPasswordSsendVerificationCodeCoolDown )
+    {
+        return;
+    }
+
+    std::string t_phone = m_ForgetPhoneInput->getText();
+    if( !IsPhoneNumber( t_phone ) )
+    {
+        MessageBox( "请输入合法手机号", "" );
+        return;
+    }
+
+    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "");
+
+    m_forgetPasswordSsendVerificationCodeCoolDown = 60;
+
+    m_forgetPasswordSsendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
+
+    runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
+        m_forgetPasswordSsendVerificationCodeCoolDown = (int)p_value;
+
+        if( m_forgetPasswordSsendVerificationCodeCoolDown )
+        {
+            std::stringstream t_sstr;
+            t_sstr << "重新发送(" << m_forgetPasswordSsendVerificationCodeCoolDown << ")";
+            m_forgetPasswordSsendVerificationCode->setString( t_sstr.str() );
+        }else{
+            m_forgetPasswordSsendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
+            m_forgetPasswordSsendVerificationCode->setString( "重新发送" );
+        }
+    } ) );
+}
+
+void LoginScene::editBoxEditingDidBegin( cocos2d::ui::EditBox *editBox )
+{
+    // printf( "------------> editBoxEditingDidBegin \n" );
+}
+void LoginScene::editBoxEditingDidEnd( cocos2d::ui::EditBox *editBox )
+{
+    // printf( "------------> editBoxEditingDidEnd \n" );
+}
+void LoginScene::editBoxTextChanged( cocos2d::ui::EditBox *editBox,const std::string &text )
+{
+    // printf( "------------> editBoxTextChanged \n" );
+}
+void LoginScene::editBoxReturn( cocos2d::ui::EditBox *editBox )
+{
+    // printf( "------------> editBoxReturn \n" );
+    
+    printf( "---------> %s \n", editBox->getText() );
+
+    auto t_verificationCode = editBox->getText();
+
+    string t_phone;
+
+    if( editBox == m_RegisterVerificationCodeInput )
+    {
+        t_phone = m_RegisterPhoneInput->getText();
+    }
+
+    if( editBox == m_ForgetVerificationCodeInput )
+    {
+        t_phone = m_ForgetPhoneInput->getText();
+    }
+
+    if( !IsPhoneNumber(t_phone) )
+    {
+        return;
+    }
+
+    m_verificationCodeVerification = false;
+    SMSSDK::commitCode( t_phone.substr( t_phone.size() - 11 ), "86", t_verificationCode );
+}
+
+void LoginScene::onComplete(SMSSDKActionType action,string result)
+{
+    printf( "-------------------Complete: %d %s \n", action, result.c_str() );
+
+    if( action == SMSSDKActionType::Action_CommitCode )
+    {
+        m_verificationCodeVerification = true;
+    }
+}
+
+void LoginScene::onError(SMSSDKActionType action,string result)
+{
+    printf( "-------------------Error: %d %s \n", action, result.c_str() );
 }
 
 void LoginScene::login( cocos2d::Ref* pSender )
@@ -869,7 +991,19 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
         MessageBox( "请输入密码", "" );
         return;
     }
-    
+
+    if( t_verificationCode.size() <= 0 )
+    {
+        MessageBox( "请输入验证码", "" );
+        return;
+    }
+
+    if( !m_verificationCodeVerification )
+    {
+        MessageBox( "验证码错误", "" );
+        return;
+    }
+
     std::map< std::string, std::string > t_parameter;
     t_parameter[ "authCode" ] = t_phone;
     t_parameter[ "authType" ] = "mobile";
@@ -887,6 +1021,7 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
     Http::Post( DOMAIN_NAME "/user/auth/register.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
 
+        m_requesting = false;
         if( !ParseApiResult( t_json, p_res ) )
         {
             return;
@@ -911,8 +1046,6 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
             MessageBox( "手机号已注册", "" );
             return;
         }
-        m_requesting = false;
-        printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
         m_requesting = false;
@@ -947,6 +1080,18 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
         MessageBox( "请输入密码", "" );
         return;
     }
+
+    if( t_verificationCode.size() <= 0 )
+    {
+        MessageBox( "请输入验证码", "" );
+        return;
+    }
+
+    if( !m_verificationCodeVerification )
+    {
+        MessageBox( "验证码错误", "" );
+        return;
+    }
     
     std::map< std::string, std::string > t_parameter;
     t_parameter[ "userMobile" ] = t_phone;
@@ -956,6 +1101,7 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
     Http::Post( DOMAIN_NAME "/game/user/updatePwd.do", &t_parameter, []( Http * p_http, std::string p_res ){
         rapidjson::Document t_json;
         
+        m_requesting = false;
         if( !ParseApiResult( t_json, p_res ) )
         {
             return;
@@ -973,10 +1119,6 @@ void LoginScene::forgetPassword( cocos2d::Ref* pSender  )
             MessageBox( "未知错误", "" );
             return;
         }
-        
-        std::string t_code = t_json["code"].GetString();
-        m_requesting = false;
-        printf( "success: %s \n", p_res.c_str() );
     }, []( Http * p_http, std::string p_res ){
         printf( "final: %s \n", p_res.c_str() );
         m_requesting = false;

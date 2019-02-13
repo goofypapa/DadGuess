@@ -122,25 +122,11 @@ bool DadGuessMainScene::init( void )
     
     this->addChild( t_personalName );
     
-    
-//    auto t_homeButton = Button::create( TexturePacker::DadGuessMain::caicai_home_icon_gohome, TexturePacker::DadGuessMain::caicai_home_icon_gohome, "", Button::TextureResType::PLIST );
-//    t_homeButton->setScale( adaptation() );
-//    auto t_homeButtonSizeHalf = t_homeButton->getContentSize() * t_homeButton->getScale() * 0.5f;
-//
-//    t_homeButton->setPosition( Vec2( t_origin.x + t_homeButtonSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_homeButtonSizeHalf.height - 15.0f ) );
-//
-//    addChild( t_homeButton );
-    
-//    touchAnswer( t_homeButton, [this]( Ref * p_target ){
-//        Director::getInstance()->replaceScene( MainScene::create() );
-//        DadGuessUpdateScene::unCacheResource();
-//    }, adaptation() * 1.2f, adaptation());
-    
     auto t_logo = TexturePacker::DadGuessMain::createCaicai_home_pic_logoSprite();
     t_logo->setScale( adaptation() );
     auto t_logoSizeHalf = t_logo->getContentSize() * t_logo->getScale() * 0.5f;
     
-    t_logo->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_logoSizeHalf.height - 5.0f ) );
+    t_logo->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_logoSizeHalf.height - 15.0f ) );
     
     addChild( t_logo );
 
@@ -174,73 +160,112 @@ bool DadGuessMainScene::init( void )
     auto t_product = TexturePacker::DadGuessMain::createCaicai_home_pic_productSprite();
     auto t_productSizeHalf = t_product->getContentSize() * 0.5f;
     
-    float t_adaptation = t_visibleSizeHalf.height * 0.35f / t_productSizeHalf.height;
+    float t_adaptation = t_visibleSizeHalf.height * 0.45f / t_productSizeHalf.height;
     t_product->setScale( t_adaptation );
     
     t_product->setPosition( Vec2( t_center.x, t_origin.y + t_productSizeHalf.height * t_product->getScale() ) );
     addChild( t_product );
     
+    // //
+    // auto t_btnAnimal = Button::create( TexturePacker::DadGuessMain::caicai_home_animal, TexturePacker::DadGuessMain::caicai_home_animal, "", Button::TextureResType::PLIST );
+    // t_btnAnimal->setScale( t_adaptation );
+    // auto t_btnAnimalSizeHalf = t_btnAnimal->getContentSize() * t_btnAnimal->getScale() * 0.5f;
+    
+    // t_btnAnimal->setPosition( Vec2( t_center.x - t_btnAnimalSizeHalf.width - 15.0f, t_center.y + t_btnAnimalSizeHalf.height  + 22.0f ) );
+    // addChild( t_btnAnimal );
+    
+    // //
+    // auto t_btnAbc = Button::create( TexturePacker::DadGuessMain::caicai_home_abc, TexturePacker::DadGuessMain::caicai_home_abc, "", Button::TextureResType::PLIST );
+    // t_btnAbc->setScale( t_adaptation );
+    // auto t_btnAbcSizeHalf = t_btnAbc->getContentSize() * t_btnAbc->getScale() * 0.5f;
+    
+    // t_btnAbc->setPosition( Vec2( t_center.x + t_btnAbcSizeHalf.width - 3.0f, t_center.y  + t_btnAbcSizeHalf.height + 15.0f ) );
+    // addChild( t_btnAbc );
+    
+    // //
+    // auto t_btnSky = Button::create( TexturePacker::DadGuessMain::caicai_home_sky, TexturePacker::DadGuessMain::caicai_home_sky, "", Button::TextureResType::PLIST );
+    // t_btnSky->setScale( t_adaptation  );
+    // auto t_btnSkySizeHalf = t_btnSky->getContentSize() * t_btnSky->getScale() * 0.5f;
+    
+    // t_btnSky->setPosition( Vec2( t_center.x - t_btnSkySizeHalf.width * 3.0f - 25.0f, t_center.y + 10.0f ) );
+    // addChild( t_btnSky );
+    
+    // //
+    // auto t_btnEart = Button::create( TexturePacker::DadGuessMain::caicai_home_earth, TexturePacker::DadGuessMain::caicai_home_earth, "", Button::TextureResType::PLIST );
+    // t_btnEart->setScale( t_adaptation  );
+    // auto t_btnEartSizeHalf = t_btnEart->getContentSize() * t_btnEart->getScale() * 0.5f;
+    
+    // t_btnEart->setPosition( Vec2( t_center.x + t_btnEartSizeHalf.width * 3.0f + 3.0f, t_center.y + 10.0f ) );
+    // addChild( t_btnEart );
+    
+    // //
+    // auto t_btnHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_history, TexturePacker::DadGuessMain::caicai_home_history, "", Button::TextureResType::PLIST );
+    // t_btnHistory->setScale( t_adaptation  );
+    // auto t_btnHistorySizeHalf = t_btnHistory->getContentSize() * t_btnHistory->getScale() * 0.5f;
+    
+    // t_btnHistory->setPosition( Vec2( t_center.x - t_btnHistorySizeHalf.width - 20.0f, t_center.y  - t_btnHistorySizeHalf.height + 4.0f ) );
+    // addChild( t_btnHistory );
+    
+    // //
+    // auto t_btnChineseHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_chinese, TexturePacker::DadGuessMain::caicai_home_chinese, "", Button::TextureResType::PLIST );
+    // t_btnChineseHistory->setScale( t_adaptation );
+    // auto t_btnChineseHistorySizeHalf = t_btnChineseHistory->getContentSize() * t_btnChineseHistory->getScale() * 0.5f;
+    
+    // t_btnChineseHistory->setPosition( Vec2( t_center.x + t_btnChineseHistorySizeHalf.width, t_center.y  - t_btnChineseHistorySizeHalf.height + 7.0f ) );
+    // addChild( t_btnChineseHistory );
+
+
+    float t_iconPosY =  t_center.y;
+    float t_iconPosX = t_visibleSizeHalf.width * 0.2f;
+    float t_iconSpaceX = ( t_visibleSizeHalf.width - t_iconPosX ) * 2.0f / 6.0f;
+    float t_iconScale = t_adaptation * 1.0f;
     //
     auto t_btnAnimal = Button::create( TexturePacker::DadGuessMain::caicai_home_animal, TexturePacker::DadGuessMain::caicai_home_animal, "", Button::TextureResType::PLIST );
-    t_btnAnimal->setScale( t_adaptation );
+    t_btnAnimal->setScale( t_iconScale );
     auto t_btnAnimalSizeHalf = t_btnAnimal->getContentSize() * t_btnAnimal->getScale() * 0.5f;
     
-    t_btnAnimal->setPosition( Vec2( t_center.x - t_btnAnimalSizeHalf.width - 15.0f, t_center.y + t_btnAnimalSizeHalf.height  + 22.0f ) );
+    t_btnAnimal->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 0.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnAnimal );
     
     //
     auto t_btnAbc = Button::create( TexturePacker::DadGuessMain::caicai_home_abc, TexturePacker::DadGuessMain::caicai_home_abc, "", Button::TextureResType::PLIST );
-    t_btnAbc->setScale( t_adaptation );
+    t_btnAbc->setScale( t_iconScale );
     auto t_btnAbcSizeHalf = t_btnAbc->getContentSize() * t_btnAbc->getScale() * 0.5f;
     
-    t_btnAbc->setPosition( Vec2( t_center.x + t_btnAbcSizeHalf.width - 3.0f, t_center.y  + t_btnAbcSizeHalf.height + 15.0f ) );
+    t_btnAbc->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 1.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnAbc );
     
     //
     auto t_btnSky = Button::create( TexturePacker::DadGuessMain::caicai_home_sky, TexturePacker::DadGuessMain::caicai_home_sky, "", Button::TextureResType::PLIST );
-    t_btnSky->setScale( t_adaptation  );
+    t_btnSky->setScale( t_iconScale  );
     auto t_btnSkySizeHalf = t_btnSky->getContentSize() * t_btnSky->getScale() * 0.5f;
     
-    t_btnSky->setPosition( Vec2( t_center.x - t_btnSkySizeHalf.width * 3.0f - 25.0f, t_center.y + 10.0f ) );
+    t_btnSky->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 2.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnSky );
     
     //
     auto t_btnEart = Button::create( TexturePacker::DadGuessMain::caicai_home_earth, TexturePacker::DadGuessMain::caicai_home_earth, "", Button::TextureResType::PLIST );
-    t_btnEart->setScale( t_adaptation  );
+    t_btnEart->setScale( t_iconScale  );
     auto t_btnEartSizeHalf = t_btnEart->getContentSize() * t_btnEart->getScale() * 0.5f;
     
-    t_btnEart->setPosition( Vec2( t_center.x + t_btnEartSizeHalf.width * 3.0f + 3.0f, t_center.y + 10.0f ) );
+    t_btnEart->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 3.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnEart );
     
     //
     auto t_btnHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_history, TexturePacker::DadGuessMain::caicai_home_history, "", Button::TextureResType::PLIST );
-    t_btnHistory->setScale( t_adaptation  );
+    t_btnHistory->setScale( t_iconScale  );
     auto t_btnHistorySizeHalf = t_btnHistory->getContentSize() * t_btnHistory->getScale() * 0.5f;
     
-    t_btnHistory->setPosition( Vec2( t_center.x - t_btnHistorySizeHalf.width - 20.0f, t_center.y  - t_btnHistorySizeHalf.height + 4.0f ) );
+    t_btnHistory->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 4.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnHistory );
     
     //
     auto t_btnChineseHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_chinese, TexturePacker::DadGuessMain::caicai_home_chinese, "", Button::TextureResType::PLIST );
-    t_btnChineseHistory->setScale( t_adaptation );
+    t_btnChineseHistory->setScale( t_iconScale );
     auto t_btnChineseHistorySizeHalf = t_btnChineseHistory->getContentSize() * t_btnChineseHistory->getScale() * 0.5f;
     
-    t_btnChineseHistory->setPosition( Vec2( t_center.x + t_btnChineseHistorySizeHalf.width, t_center.y  - t_btnChineseHistorySizeHalf.height + 7.0f ) );
+    t_btnChineseHistory->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 5.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnChineseHistory );
-
-    // bool t_whetherSupportNFC = whetherSupportNFC();
-
-    // printf( "-----------> whetherSupportNFC: %d \n", t_whetherSupportNFC );
-
-    // if( t_whetherSupportNFC )
-    // {
-    //     bool t_whetherOpenNFC = whetherOpenNFC();
-    //     printf( "-----------> whetherOpenNFC: %d \n", t_whetherOpenNFC );
-    //     if( !t_whetherOpenNFC )
-    //     {
-    //         openNFC();
-    //     }
-    // }
 
     //支持NFC的手机
     m_NfcDeviceStateListener = nullptr;
@@ -286,7 +311,7 @@ bool DadGuessMainScene::init( void )
     for( int i = 0; i < sizeof( t_btnList ) / sizeof( Button * ); ++i )
     {
         t_btnList[i]->setTag( i );
-        touchAnswer( t_btnList[i], t_btnTouched, t_adaptation * 1.2f, t_adaptation );
+        touchAnswer( t_btnList[i], t_btnTouched, t_iconScale * 1.2f, t_iconScale );
     }
 
     BlueDeviceListener::listen();
@@ -327,6 +352,19 @@ bool DadGuessMainScene::init( void )
                     // s_scanCardList[t_rfid] = false;
                     s_scanCardList.clear();
                 }
+            }
+        } );
+
+        //监听手机状态
+        bindPhoneStateListener( []( PhoneStateListener::PhoneState p_phoneState ){
+            switch( p_phoneState )
+            {
+                case PhoneStateListener::PhoneState::IDLE:
+                    AudioEngine::resumeAll();
+                break;
+                default:
+                    AudioEngine::pauseAll();
+                break;
             }
         } );
     }
@@ -699,6 +737,12 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         if( p_audioInfo.cardId.compare( s_prvePlayAudio.cardId ) != 0 && AudioEngine::getState( s_soloPlayId ) == AudioEngine::AudioState::PLAYING )
         {
             AudioEngine::stop( s_soloPlayId );
+        }
+
+        if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
+        {
+            //手机正在通话 或响铃
+            return;
         }
 
         AudioEngine::play2d( t_audioFileInfo.fileName );

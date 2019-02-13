@@ -51,6 +51,8 @@ static AppController *s_self;
 static NetWorkStateListener::NetWorkState s_netWorkState = NetWorkStateListener::NetWorkState::NotReachable;
 static std::function< void ( NetWorkStateListener::NetWorkState ) > s_networkStateListener = nullptr;
 
+static PhoneStateListener::PhoneState s_phoneState = PhoneStateListener::PhoneState::IDLE;
+static std::function< void ( PhoneStateListener::PhoneState ) > s_phoneStateListener = nullptr;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -330,6 +332,21 @@ void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWor
 void unbindNetWorkStateListener( void )
 {
     s_networkStateListener = nullptr;
+}
+
+PhoneStateListener::PhoneState getPhoneState( void )
+{
+    return s_phoneState;
+}
+
+void bindPhoneStateListener( std::function< void( PhoneStateListener::PhoneState ) > p_phoneStateListener )
+{
+    s_phoneStateListener = p_phoneStateListener;
+}
+
+void unbindPhoneStateListener( void )
+{
+    s_phoneStateListener = nullptr;
 }
 
 void goSystemBlue()

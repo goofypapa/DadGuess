@@ -365,6 +365,13 @@ void WebViewScene::refreshSource( const DataFileInfo & p_dataInfo )
 
 void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string & p_finishCallBack )
 {
+
+    if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
+    {
+        //手机正在通话 或响铃
+        return;
+    }
+
     auto t_audioFile = DataTableFile::instance().findBySourceUrl( p_audioUrl );
     if( !t_audioFile.fileId.empty() )
     {

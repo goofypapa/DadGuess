@@ -68,6 +68,9 @@ private:
     
     static bool m_requesting;
 
+
+    std::string m_verificationCode, m_verificationCodePhone;
+
     bool m_verificationCodeVerification;
     int m_registerSendVerificationCodeCoolDown, m_forgetPasswordSsendVerificationCodeCoolDown;
 

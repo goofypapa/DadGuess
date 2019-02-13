@@ -88,6 +88,16 @@ NetWorkStateListener::NetWorkState getNetWorkState( void );
 void bindNetWorkStateListener( std::function< void( NetWorkStateListener::NetWorkState ) > );
 void unbindNetWorkStateListener( void );
 
+namespace PhoneStateListener
+{
+    enum PhoneState{ IDLE = 0, RINGING, OFFHOOK };
+}
+
+PhoneStateListener::PhoneState getPhoneState( void );
+
+void bindPhoneStateListener( std::function< void( PhoneStateListener::PhoneState ) >  );
+void unbindPhoneStateListener( void );
+
 cocos2d::Color4F createColor4FWithStr( const std::string & p_colorStr, const float p_alpha = 1.0f );
 
 //跳转到系统蓝牙设置页面

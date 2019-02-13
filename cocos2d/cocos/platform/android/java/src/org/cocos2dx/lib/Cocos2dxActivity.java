@@ -42,6 +42,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.preference.PreferenceManager.OnActivityResultListener;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     private boolean showVirtualButton = false;
 
     private NetBroadcastReceiver netWorkStateReceiver;
+    private PhoneBroadcastReceiver phoneWorkStateReceiver;
 
     public Cocos2dxGLSurfaceView getGLSurfaceView(){
         return  mGLSurfaceView;
@@ -321,6 +324,16 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         IntentFilter filter = new IntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStateReceiver, filter);
+
+
+//        TELEPHONY_SERVICE
+        if( phoneWorkStateReceiver == null ){
+            phoneWorkStateReceiver = new PhoneBroadcastReceiver();
+        }
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (telephonyManager != null) {
+            telephonyManager.listen( phoneWorkStateReceiver, PhoneStateListener.LISTEN_CALL_STATE);
+        }
 
         Cocos2dxEngineDataManager.resume();
     }

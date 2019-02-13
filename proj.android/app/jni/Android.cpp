@@ -87,6 +87,24 @@ NetWorkStateListener::NetWorkState getNetWorkState( void )
     return s_netWorkState;
 }
 
+
+//
+static PhoneStateListener::PhoneState s_phoneState = PhoneStateListener::PhoneState::IDLE;
+static std::function< void( PhoneStateListener::PhoneState ) > s_phoneListener = nullptr;
+void bindPhoneStateListener( std::function< void( PhoneStateListener::PhoneState ) > p_phoneStateListener  )
+{
+    s_phoneListener = p_phoneStateListener;
+}
+void unbindPhoneStateListener( void )
+{
+    s_phoneListener = nullptr;
+}
+
+PhoneStateListener::PhoneState getPhoneState( void )
+{
+    return s_phoneState;
+}
+
 static std::map< std::string, std::pair< HttpCallBack, HttpCallBack > > s_httpRequestPool;
 static std::mutex s_httpRequestMutex;
 void httpGet( const std::string & p_url, const std::string & p_token, const std::string & p_requestId, HttpCallBack p_callBackSuccess, HttpCallBack p_callBackFinal )
@@ -220,6 +238,41 @@ extern "C"
         if( s_networkStateListener )
         {
             s_networkStateListener( s_netWorkState );
+        }
+    }
+
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_PhoneBroadcastReceiver_phoneStateChange(JNIEnv *env, jobject clazz, jint phoneState)
+    {
+        PhoneStateListener::PhoneState t_phoneState = PhoneStateListener::PhoneState::IDLE;
+
+        switch( phoneState )
+        {
+            case 0:
+                t_phoneState = PhoneStateListener::PhoneState::IDLE;
+            break;
+            case 1:
+                t_phoneState = PhoneStateListener::PhoneState::RINGING;
+            break;
+            case 2:
+                t_phoneState = PhoneStateListener::PhoneState::OFFHOOK;
+            break;
+            default:
+                t_phoneState = PhoneStateListener::PhoneState::IDLE;
+            break;
+        }
+
+        if( s_phoneState == t_phoneState )
+        {
+            return;
+        }
+
+        s_phoneState = t_phoneState;
+
+        printf( "-------------> %d \n", (int)s_phoneState );
+
+        if( s_networkStateListener )
+        {
+            s_phoneListener( s_phoneState );
         }
     }
 

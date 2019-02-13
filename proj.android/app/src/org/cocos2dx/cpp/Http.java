@@ -32,7 +32,7 @@ public class Http {
 
     public Http( String p_url, String p_data, String p_token, String p_requestId )
     {
-        m_url = p_url;
+        m_url = p_url.replace( "http://", "https://" );
         m_data = p_data;
         m_token = p_token;
         m_requestId = p_requestId;
@@ -123,12 +123,12 @@ public class Http {
 
                     if( m_requestType.equals("POST") )
                     {
-                        byte[] t_data = m_data.getBytes();
+                        byte[] t_data = m_data.getBytes("UTF-8");
 
                         t_httpURLConnection.setDoOutput(true);                 //打开输出流，以便向服务器提交数据
                         t_httpURLConnection.setUseCaches(false);               //使用Post方式不能使用缓存
                         //设置请求体的类型是文本类型
-                        t_httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        t_httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
                         //设置请求体的长度
                         t_httpURLConnection.setRequestProperty("Content-Length", String.valueOf(t_data.length));
                         //获得输出流，向服务器写入数据

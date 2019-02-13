@@ -12,6 +12,7 @@
 #include "Http.h"
 #include "DataTableFile.h"
 #include "Config.h"
+#include "C2DXShareSDK.h"
 
 USING_NS_CC;
 using namespace cocos2d::ui;
@@ -327,10 +328,21 @@ bool DialogPersonalCenterLayer::init( void )
 
 
     //注销登陆
-    touchAnswer( t_logout, []( Ref * p_ref ){
+    touchAnswer( t_logout, [this]( Ref * p_ref ){
         DataTableUser::instance().logout();
 
         auto t_loginUser = DataTableUser::instance().getActivation();
+
+        switch (m_loginUser.loginType)
+        {
+            case DataUserInfo::LoginType::wechat:
+                cn::sharesdk::C2DXShareSDK::cancelAuthorize( cn::sharesdk::C2DXPlatTypeWeChat );
+            break;
+
+            default:
+                break;
+        }
+        // cn::sharesdk::C2DXShareSDK::
 
         Http::Post( DOMAIN_NAME "/user/auth/logout.do", nullptr, []( Http * p_http, std::string p_res ){
 
@@ -393,11 +405,16 @@ void DialogPersonalCenterLayer::hide()
 
     if( t_oldUserInfo.userName != m_loginUser.userName || t_oldUserInfo.userSex != m_loginUser.userSex || t_oldUserInfo.userBirthday != m_loginUser.userBirthday )
     {
+        std::stringstream t_userSex;
+        t_userSex << m_loginUser.userSex;
+
         std::map< std::string, std::string > t_parameter;
         t_parameter["userId"] = m_loginUser.userId;
         t_parameter["userName"] = m_loginUser.userName;
-        t_parameter["userMobile"] = "";
-        t_parameter["userEmail"] = "";
+        t_parameter["userSex"] = t_userSex.str();
+        
+        // t_parameter["userMobile"] = "";
+        // t_parameter["userEmail"] = "";
         
         Http::Post( DOMAIN_NAME "/user/update.do", &t_parameter, []( Http * p_http, std::string p_str ){
             printf( "/user/update.do success: %s \n", p_str.c_str() );

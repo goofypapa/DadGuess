@@ -52,6 +52,8 @@ bool LoginScene::init()
     m_registerSendVerificationCodeCoolDown = 0;
     m_forgetPasswordSsendVerificationCodeCoolDown = 0;
     m_verificationCodeVerification = false;
+    m_verificationCode = "";
+    m_verificationCodePhone = "";
     TexturePacker::Login::addSpriteFramesToCache();
     
     m_loginState = LoginState::SelectLogin;
@@ -693,6 +695,7 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
         return;
     }
     m_requesting = true;
+
     m_loginType = DataUserInfo::LoginType::wechat;
     cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
@@ -855,17 +858,19 @@ void LoginScene::forgetPasswordSendVerificationCode( cocos2d::Ref* pSender )
     m_forgetPasswordSsendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
 
     runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
-        m_forgetPasswordSsendVerificationCodeCoolDown = (int)p_value;
 
-        if( m_forgetPasswordSsendVerificationCodeCoolDown )
+        int t_s = (int)p_value;
+        if( t_s )
         {
             std::stringstream t_sstr;
-            t_sstr << "重新发送(" << m_forgetPasswordSsendVerificationCodeCoolDown << ")";
+            t_sstr << "重新发送(" << t_s << ")";
             m_forgetPasswordSsendVerificationCode->setString( t_sstr.str() );
         }else{
             m_forgetPasswordSsendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
             m_forgetPasswordSsendVerificationCode->setString( "重新发送" );
         }
+
+        m_forgetPasswordSsendVerificationCodeCoolDown = t_s;
     } ) );
 }
 
@@ -905,6 +910,14 @@ void LoginScene::editBoxReturn( cocos2d::ui::EditBox *editBox )
     {
         return;
     }
+
+    if( m_verificationCode.compare( t_verificationCode ) == 0 && m_verificationCodePhone.compare( t_phone ) == 0 )
+    {
+        return;
+    }
+
+    m_verificationCode = t_verificationCode;
+    m_verificationCodePhone = t_phone;
 
     m_verificationCodeVerification = false;
     SMSSDK::commitCode( t_phone.substr( t_phone.size() - 11 ), "86", t_verificationCode );
@@ -998,11 +1011,12 @@ void LoginScene::phoneRegister( cocos2d::Ref* pSender )
         return;
     }
 
-    if( !m_verificationCodeVerification )
+    if( !m_verificationCodeVerification || m_verificationCodePhone.compare( t_phone ) != 0 )
     {
         MessageBox( "验证码错误", "" );
         return;
     }
+
 
     std::map< std::string, std::string > t_parameter;
     t_parameter[ "authCode" ] = t_phone;
@@ -1148,6 +1162,8 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     }
     
     std::string t_result = toString( *result );
+
+    printf( "wechat: %s \n", t_result.c_str() );
     
     std::string t_loginType = "";
     
@@ -1167,15 +1183,14 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
     auto t_Dict = cn::sharesdk::C2DXShareSDK::getAuthInfo( cn::sharesdk::C2DXPlatTypeWeChat );
-    DictElement * t_Element;
-    CCDICT_FOREACH(t_Dict, t_Element)
-    {
-        const char * key = t_Element->getStrKey();
-        
-        CCString * value = (CCString *)t_Element->getObject();
+    // DictElement * t_Element;
+    // CCDICT_FOREACH(t_Dict, t_Element)
+    // {
+    //     const char * key = t_Element->getStrKey();
+    //     CCString * value = (CCString *)t_Element->getObject();
 
-        printf( "-----------> %s : %s \n", key, value->getCString() );
-    }
+    //     printf( "-----------> %s : %s \n", key, value->getCString() );
+    // }
 
     switch ( platType ) {
         case cn::sharesdk::C2DXPlatType::C2DXPlatTypeWeChat:
@@ -1285,7 +1300,7 @@ void LoginScene::loginCallBack( const std::string & p_str )
             DataUserInfo t_dataUser;
             
             t_dataUser.userId = t_user["userId"].GetString();
-            t_dataUser.userName = t_user["userName"].GetString();
+            t_dataUser.userName = t_user["userName"].GetType() == rapidjson::kNullType ? "" : t_user["userName"].GetString();
             t_dataUser.loginName = t_user["loginName"].GetType() == rapidjson::kNullType ? "" : t_user["loginName"].GetString();
             t_dataUser.userBirthday = t_user["userBirthday"].GetType() == rapidjson::kNullType ? "" : t_user["userBirthday"].GetString();
             t_dataUser.headImg = "";
@@ -1332,12 +1347,12 @@ void LoginScene::loginCallBack( const std::string & p_str )
             Http::token = t_dataUser.token;
             
             printf( "token: %s \n", Http::token.c_str() );
-            std::map< std::string, std::string > t_parameter;
-            Http::Post( DOMAIN_NAME "/wechat/app/updateUserInfo.do", &t_parameter, []( Http * p_http, std::string p_res ){
-                printf( "------------> %s \n", p_res.c_str() );
-            }, []( Http * p_http, std::string p_res ){
+            // std::map< std::string, std::string > t_parameter;
+            // Http::Post( DOMAIN_NAME "/wechat/app/updateUserInfo.do", &t_parameter, []( Http * p_http, std::string p_res ){
+            //     printf( "------------> %s \n", p_res.c_str() );
+            // }, []( Http * p_http, std::string p_res ){
                 
-            }, false);
+            // }, false);
 
             Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
                 if( DadGuessUpdateScene::s_updateed )

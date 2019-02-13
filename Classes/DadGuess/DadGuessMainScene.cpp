@@ -775,9 +775,13 @@ void DadGuessMainScene::refreshSource( const DataFileInfo & p_fileInfo )
         auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
         if( !t_fileInfo.fileName.empty() )
         {
-            m_personalHead->setTexture( t_fileInfo.fileName );
-            auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
-            m_personalHead->setScale( m_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+            auto director = Director::getInstance();
+            Scheduler *sched = director->getScheduler();
+            sched->performFunctionInCocosThread( [this, t_fileInfo](){
+                m_personalHead->setTexture( t_fileInfo.fileName );
+                auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
+                m_personalHead->setScale( m_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+            } );
         }
     }
 }

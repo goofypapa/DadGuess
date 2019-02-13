@@ -47,7 +47,7 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
     m_groupId = p_groupId;
     auto & t_cardList = DadGuessUpdateScene::s_cardList[m_groupId];
     
-    int t_rowCount = (int)ceil(t_cardList.size() / sm_columns);
+    int t_rowCount = (int)ceil(t_cardList.size() / (float)sm_columns);
     float t_itemSize = p_contentSize.width / sm_columns;
     float t_itemPadding = 2.0f;
     

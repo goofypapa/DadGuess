@@ -219,7 +219,7 @@ bool DialogPersonalCenterLayer::init( void )
     t_redioButtonBoy->addChild( t_boyLabel );
     
     touchAnswer( t_redioButtonGirl, [this, t_girlRedioButton, t_boyRedioButton]( Ref * p_ref ){
-        m_loginUser.userSex = 2;
+        m_loginUser.userSex = 0;
         refreshSexRedio( t_girlRedioButton, t_boyRedioButton );
     });
     
@@ -447,7 +447,7 @@ void DialogPersonalCenterLayer::refreshSexRedio( Ref * p_girlRedio, Ref * p_boyR
 {
     auto girlRedioSprite = ( Sprite* )p_girlRedio;
     auto boyRedioSprite = ( Sprite* )p_boyRedio;
-    if( m_loginUser.userSex == 2 )
+    if( m_loginUser.userSex == 0 )
     {
         girlRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonSelectedOrange ) );
         boyRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonNormal ) );

@@ -425,6 +425,11 @@ void DadGuessMainScene::scanCard( int p_rfid )
     static std::map< std::string, std::vector< DataCardAudioInfo > > s_cardAudioPool;
     
     printf( "-------> scan: %d \n", p_rfid );
+    if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
+    {
+        //手机正在通话 或响铃
+        return;
+    }
     
     auto t_cardInfo = DataTableCard::instance().find( p_rfid );
 
@@ -466,7 +471,6 @@ void DadGuessMainScene::scanCard( int p_rfid )
 
         if( t_needCheckAudioUpdate )
         {
-            
             // offline
             if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
             {
@@ -698,6 +702,12 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
     static DataCardAudioInfo s_prvePlayAudio;
 
     static std::map< Http *, DataCardAudioInfo > s_downloadPool;
+
+    if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
+    {
+        //手机正在通话 或响铃
+        return;
+    }
     
     auto t_audioFileInfo = DataTableFile::instance().findBySourceUrl( p_audioInfo.fileUrl );
 
@@ -737,12 +747,6 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         if( p_audioInfo.cardId.compare( s_prvePlayAudio.cardId ) != 0 && AudioEngine::getState( s_soloPlayId ) == AudioEngine::AudioState::PLAYING )
         {
             AudioEngine::stop( s_soloPlayId );
-        }
-
-        if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
-        {
-            //手机正在通话 或响铃
-            return;
         }
 
         AudioEngine::play2d( t_audioFileInfo.fileName );

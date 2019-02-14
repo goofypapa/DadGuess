@@ -98,6 +98,11 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         return sContext;
     }
 
+    /** 上次点击返回键的时间 */
+    private long lastBackPressed;
+    /** 两次点击的间隔时间 */
+    private static final int QUIT_INTERVAL = 2000;
+
     //横屏
     public static void ChangeLand(){
         sContext.setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE );
@@ -264,6 +269,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     //andorid下返回按键
     @Override
     public void onBackPressed() {
+        Log.e( "-------------->>", "onBackPressed" );
          super.onBackPressed();//注释掉这行,back键不退出activity
     }
 

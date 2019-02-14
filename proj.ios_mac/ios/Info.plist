@@ -42,9 +42,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MOBAppKey</key>
-	<string>2669e9afe5b4c</string>
+	<string>2970ee5899ef8</string>
 	<key>MOBAppSecret</key>
-	<string>de63eece79f93124a555af762ac9e65d</string>
+	<string>4eb673fc8993280113d9c4376535f83a</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

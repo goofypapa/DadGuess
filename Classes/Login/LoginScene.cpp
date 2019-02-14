@@ -823,17 +823,19 @@ void LoginScene::registerSendVerificationCode( cocos2d::Ref* pSender )
     m_registerSendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
 
     runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
-        m_registerSendVerificationCodeCoolDown = (int)p_value;
+        int t_s = (int)p_value;
 
-        if( m_registerSendVerificationCodeCoolDown )
+        if( t_s )
         {
             std::stringstream t_sstr;
-            t_sstr << "重新发送(" << m_registerSendVerificationCodeCoolDown << ")";
+            t_sstr << "重新发送(" << t_s << ")";
             m_registerSendVerificationCode->setString( t_sstr.str() );
         }else{
             m_registerSendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
             m_registerSendVerificationCode->setString( "重新发送" );
         }
+
+        m_registerSendVerificationCodeCoolDown = t_s;
     } ) );
 }
 
@@ -1158,6 +1160,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     {
         printf( "----------------> error state %d \n", (int)state );
         m_requesting = false;
+        MessageBox( "登陆失败", "" );
         return;
     }
     

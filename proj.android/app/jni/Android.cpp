@@ -268,9 +268,7 @@ extern "C"
 
         s_phoneState = t_phoneState;
 
-        printf( "-------------> %d \n", (int)s_phoneState );
-
-        if( s_networkStateListener )
+        if( s_phoneListener )
         {
             s_phoneListener( s_phoneState );
         }

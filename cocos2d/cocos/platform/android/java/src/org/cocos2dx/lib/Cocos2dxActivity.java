@@ -45,6 +45,7 @@ import android.preference.PreferenceManager.OnActivityResultListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -62,6 +63,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLContext;
 
 import android.content.pm.ActivityInfo;
+import android.widget.Toast;
 
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
 
@@ -97,11 +99,6 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     public static Context getContext() {
         return sContext;
     }
-
-    /** 上次点击返回键的时间 */
-    private long lastBackPressed;
-    /** 两次点击的间隔时间 */
-    private static final int QUIT_INTERVAL = 2000;
 
     //横屏
     public static void ChangeLand(){
@@ -266,11 +263,30 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         Cocos2dxEngineDataManager.init(this, mGLSurfaceView);
     }
 
-    //andorid下返回按键
+//    //andorid下返回按键
+//    @Override
+//    public void onBackPressed() {
+//        Log.e( "-------------->>", "onBackPressed" );
+//         super.onBackPressed();//注释掉这行,back键不退出activity
+//    }
+
+
+    private long mkeyTime = 0;
     @Override
-    public void onBackPressed() {
-        Log.e( "-------------->>", "onBackPressed" );
-         super.onBackPressed();//注释掉这行,back键不退出activity
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //二次返回退出
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mkeyTime) > 2000) {
+                mkeyTime = System.currentTimeMillis();
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_LONG).show();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 
     @Override

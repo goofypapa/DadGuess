@@ -121,6 +121,11 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
 void DadGuessCardListScrollView::onTouched( const int p_index )
 {
     auto & t_cardList = DadGuessUpdateScene::s_cardList[m_groupId];
+    
+    if( p_index >= t_cardList.size() )
+    {
+        return;
+    }
 
     if( m_groupId.compare( DataCardBatchInfo::s_batchIdList[0] ) == 0 )
     {

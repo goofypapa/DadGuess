@@ -547,6 +547,7 @@ bool LoginScene::init()
         if( m_forgetPasswordSsendVerificationCode != nullptr )
         {
             m_forgetPasswordSsendVerificationCode->setFontSizeObj( 8 );
+            m_forgetPasswordSsendVerificationCode->setFontNameObj( PAGE_FONT );
             auto t_sendVerificationCodeSize = m_forgetPasswordSsendVerificationCode->getContentSize();
             m_forgetPasswordSsendVerificationCode->setPosition( Vec2( t_ForgetPasswordBorderSize.width - t_sendVerificationCodeSize.width * 0.5f - 20.0f, t_ForgetPasswordBorderSize.height / 2.0f ) );
             auto menu = Menu::create( m_forgetPasswordSsendVerificationCode, NULL );
@@ -694,9 +695,15 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
     {
         return;
     }
-    m_requesting = true;
+    // m_requesting = true;
 
     m_loginType = DataUserInfo::LoginType::wechat;
+
+    if( cn::sharesdk::C2DXShareSDK::isAuthorizedValid( cn::sharesdk::C2DXPlatTypeWeChat ) )
+    {
+        cn::sharesdk::C2DXShareSDK::cancelAuthorize( cn::sharesdk::C2DXPlatTypeWeChat );
+    }
+    
     cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeWeChat, LoginScene::getUserResultHandler);
 }
 
@@ -816,11 +823,9 @@ void LoginScene::registerSendVerificationCode( cocos2d::Ref* pSender )
         return;
     }
 
-    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "");
+    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "10084985");
 
     m_registerSendVerificationCodeCoolDown = 60;
-
-    m_registerSendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
 
     runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
         int t_s = (int)p_value;
@@ -830,6 +835,7 @@ void LoginScene::registerSendVerificationCode( cocos2d::Ref* pSender )
             std::stringstream t_sstr;
             t_sstr << "重新发送(" << t_s << ")";
             m_registerSendVerificationCode->setString( t_sstr.str() );
+            m_registerSendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
         }else{
             m_registerSendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
             m_registerSendVerificationCode->setString( "重新发送" );
@@ -853,11 +859,9 @@ void LoginScene::forgetPasswordSendVerificationCode( cocos2d::Ref* pSender )
         return;
     }
 
-    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "");
+    SMSSDK::getCode( SMSSDKCodeType::TextCode, t_phone.substr( t_phone.size() - 11 ), "86", "10084986");
 
     m_forgetPasswordSsendVerificationCodeCoolDown = 60;
-
-    m_forgetPasswordSsendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
 
     runAction( ActionFloat::create( 60.0f, 60.0f, 0.0f, [this]( float p_value ){
 
@@ -867,6 +871,7 @@ void LoginScene::forgetPasswordSendVerificationCode( cocos2d::Ref* pSender )
             std::stringstream t_sstr;
             t_sstr << "重新发送(" << t_s << ")";
             m_forgetPasswordSsendVerificationCode->setString( t_sstr.str() );
+            m_forgetPasswordSsendVerificationCode->setColor( Color3B( 204, 204, 204 ) );
         }else{
             m_forgetPasswordSsendVerificationCode->setColor( Color3B( 255, 255, 255 ) );
             m_forgetPasswordSsendVerificationCode->setString( "重新发送" );
@@ -1160,7 +1165,6 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
     {
         printf( "----------------> error state %d \n", (int)state );
         m_requesting = false;
-        MessageBox( "登陆失败", "" );
         return;
     }
     

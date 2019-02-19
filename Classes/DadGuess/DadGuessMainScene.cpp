@@ -14,6 +14,7 @@
 #include "MainScene.h"
 #include "DadGuessUpdateScene.h"
 #include "DadGuessCardListScene.h"
+#include "DadGuessCardListScrollView.h"
 #include "DadGuessBlueScene.h"
 #include "DataTableFile.h"
 #include "WebViewScene.h"
@@ -303,6 +304,7 @@ bool DadGuessMainScene::init( void )
         if( !m_enableMainButton ) return;
         int t_tag = ((Button *)p_target)->getTag();
         
+        DadGuessCardListScrollView::s_percentVertical = 0.0f;
         Director::getInstance()->replaceScene( DadGuessCardListScene::createScene( DataCardBatchInfo::s_batchIdList[t_tag] ) );
     };
     
@@ -488,7 +490,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
             {
                 
                 Http::Post( sm_cardAudioInfoApi, &t_httpParameter, [=]( Http * p_http, const std::string & p_res ){
-                    printf( "-----------> %s \n", p_res.c_str() );
+//                    printf( "-----------> %s \n", p_res.c_str() );
                     Document t_readdoc;
                     
                     t_readdoc.Parse<0>( p_res.c_str() );

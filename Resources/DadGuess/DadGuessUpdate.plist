@@ -4,21 +4,6 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Button.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{372,139}</string>
-                <key>spriteSourceSize</key>
-                <string>{372,139}</string>
-                <key>textureRect</key>
-                <string>{{2211,1},{372,139}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
             <key>caicai_update_background.png</key>
             <dict>
                 <key>aliases</key>
@@ -26,11 +11,11 @@
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{2208,1242}</string>
+                <string>{1920,1080}</string>
                 <key>spriteSourceSize</key>
-                <string>{2208,1242}</string>
+                <string>{1920,1080}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{2208,1242}}</string>
+                <string>{{1,1},{1920,1080}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -46,9 +31,9 @@
             <key>realTextureFileName</key>
             <string>DadGuessUpdate.png</string>
             <key>size</key>
-            <string>{2351,1244}</string>
+            <string>{1922,1082}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:77e6c5a4ade646dabce228d5c07ccb8e:c0bfb28286ee6a172422fb39d649aea3:5a3ccc56e0a2abd4cfd9e5161bd302f7$</string>
+            <string>$TexturePacker:SmartUpdate:ac2e6dfecaac160169d4da49d08eb29f:6efb209bd84768c897dd1918d80b801c:5a3ccc56e0a2abd4cfd9e5161bd302f7$</string>
             <key>textureFileName</key>
             <string>DadGuessUpdate.png</string>
         </dict>

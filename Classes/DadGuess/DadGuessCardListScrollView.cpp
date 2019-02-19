@@ -17,6 +17,7 @@ int DadGuessCardListScrollView::sm_columns = 4;
 
 std::list< Http * > DadGuessCardListScrollView::sm_invalidDownloadList;
 std::list< Http * > DadGuessCardListScrollView::sm_downloadingList;
+float DadGuessCardListScrollView::s_percentVertical = 0.0f;
 
 DadGuessCardListScrollView * DadGuessCardListScrollView::createWithSize( const cocos2d::Size p_size, const std::string p_groupId )
 {
@@ -107,7 +108,7 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
         int t_row = (int)floor( i / sm_columns );
         int t_column = i % sm_columns;
 
-        t_itemSprite->setPosition( Vec2( t_itemSize * ( t_column + 0.5f ), t_innerContainerHeight - t_itemSize * ( t_row + 0.5f ) ) );
+        t_itemSprite->setPosition( Vec2( t_itemSize * ( t_column + 0.5f ), t_innerContainerHeight - t_itemSize * ( t_row + 0.5f ) + ( p_contentSize.height > t_innerContainerHeight ? p_contentSize.height - t_innerContainerHeight : 0.0f ) ) );
 
         addChild( t_itemSprite );
         
@@ -116,6 +117,12 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
     loadImage();
     
     return true;
+}
+
+void DadGuessCardListScrollView::onEnter()
+{
+    ui::ScrollView::onEnter();
+    jumpToPercentVertical( isnormal( s_percentVertical ) ? s_percentVertical : 0.0f );
 }
 
 void DadGuessCardListScrollView::onTouched( const int p_index )
@@ -154,15 +161,19 @@ void DadGuessCardListScrollView::onTouchMoved( cocos2d::Touch * p_touch, cocos2d
 void DadGuessCardListScrollView::onTouchEnded( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent)
 {
     ScrollView::onTouchEnded( p_touch, p_unusedEvent );
-    
+    s_percentVertical = getScrolledPercentVertical();
+    s_percentVertical = isnormal( s_percentVertical ) ? s_percentVertical : 0.0f;
     auto t_beginPos = m_touchBeginLocationList[p_touch->getID()];
     m_touchBeginLocationList.erase( p_touch->getID() );
+
+
+    printf( "---------------> touched: %f %f %f \n ", t_beginPos.x, t_beginPos.y, s_percentVertical );
     
     if( t_beginPos.distance( p_touch->getLocation() ) < 2.0f )
     {
         auto t_coutentHieght = getContentSize().height;
         auto t_postion = convertToNodeSpace( t_beginPos );
-        auto t_offsetV = ( getScrolledPercentVertical() / 100.0f ) * ( getInnerContainerSize().height - t_coutentHieght ) ;
+        auto t_offsetV = ( s_percentVertical / 100.0f ) * ( getInnerContainerSize().height - t_coutentHieght ) ;
         
         auto t_realPos = Vec2( t_postion.x, getContentSize().height - t_postion.y + t_offsetV );
         

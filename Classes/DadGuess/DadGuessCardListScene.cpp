@@ -83,7 +83,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     auto t_groupLogoSizeHalf = t_groupLogo->getContentSize() * 0.5f;
     t_groupLogo->setScale( t_visibleSizeHalf.height * 0.6f / t_groupLogoSizeHalf.height );
     auto t_groupLogoSizeScaleHalf = t_groupLogo->getContentSize() * t_groupLogo->getScale() * 0.5f;
-    auto t_groupLogoPos = Vec2( t_origin.x + t_visibleSizeHalf.width * 0.5f, t_origin.y + t_visibleSizeHalf.height * 1.05f );
+    auto t_groupLogoPos = Vec2( t_origin.x + t_visibleSizeHalf.width * 0.5f, t_origin.y + t_visibleSizeHalf.height * 1.05f + 15.0f );
     t_groupLogo->setPosition( t_groupLogoPos );
     addChild( t_groupLogo );
     
@@ -114,21 +114,21 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
         addChild( t_menu );
    
     
-        auto t_unlockPromptTitle = Label::createWithSystemFont( "# 扫卡解锁 #", "", 12 );
-        auto t_unlockPromptTitlePos = Vec2( t_groupLogoPos.x, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height - t_unlockPromptTitle->getContentSize().height * 0.5f - 2.0f );
-        t_unlockPromptTitle->setPosition( t_unlockPromptTitlePos );
-        addChild( t_unlockPromptTitle );
+        // auto t_unlockPromptTitle = Label::createWithSystemFont( "# 扫卡解锁 #", "", 12 );
+        // auto t_unlockPromptTitlePos = Vec2( t_groupLogoPos.x, t_groupLogoPos.y - t_groupLogoSizeScaleHalf.height - t_unlockPromptTitle->getContentSize().height * 0.5f - 2.0f );
+        // t_unlockPromptTitle->setPosition( t_unlockPromptTitlePos );
+        // addChild( t_unlockPromptTitle );
         
-        auto t_unlockPrompt = Label::createWithSystemFont( "用此套卡片里的任意一张卡片在小鼓上方扫过即可激活该套所有卡片" , "", 10 );
-        t_unlockPrompt->setDimensions( t_visibleSizeHalf.width * 0.8f , 30.0f );
-        t_unlockPrompt->setPosition( Vec2( t_groupLogoPos.x, t_unlockPromptTitlePos.y - 24.0f ) );
-        t_unlockPrompt->setAlignment( TextHAlignment::CENTER );
-        addChild( t_unlockPrompt );
+        // auto t_unlockPrompt = Label::createWithSystemFont( "用此套卡片里的任意一张卡片在小鼓上方扫过即可激活该套所有卡片" , "", 10 );
+        // t_unlockPrompt->setDimensions( t_visibleSizeHalf.width * 0.8f , 30.0f );
+        // t_unlockPrompt->setPosition( Vec2( t_groupLogoPos.x, t_unlockPromptTitlePos.y - 24.0f ) );
+        // t_unlockPrompt->setAlignment( TextHAlignment::CENTER );
+        // addChild( t_unlockPrompt );
     }
     
     auto t_contentPromptTitle = Label::createWithSystemFont( "内容简介", "", 16 );
     auto t_contentPromptTitleSizeHalf = t_contentPromptTitle->getContentSize() * 0.5f;
-    auto t_contentPromptTitlePos = Vec2( t_origin.x + t_visibleSizeHalf.width * 1.5f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_contentPromptTitleSizeHalf.height - 18.0f );
+    auto t_contentPromptTitlePos = Vec2( t_origin.x + t_visibleSizeHalf.width * 0.5f, t_groupLogoPos.y - t_groupLogoSizeHalf.height * t_groupLogo->getScale() - t_contentPromptTitleSizeHalf.height - 5.0f );
     t_contentPromptTitle->setPosition( t_contentPromptTitlePos );
     
     addChild( t_contentPromptTitle );
@@ -142,7 +142,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     
     auto t_cardPreviewTitle = Label::createWithSystemFont( "卡片预览", "", 12 );
     auto t_cardPreviewTitleSizeHalf = t_cardPreviewTitle->getContentSize() * 0.5f;
-    auto t_cardPreviewTitlePos = Vec2( t_origin.x + t_visibleSizeHalf.width * 1.5f, t_contentPromptPos.y - t_contentPromptSize.height * 0.5f - t_cardPreviewTitleSizeHalf.height );
+    auto t_cardPreviewTitlePos = Vec2( t_origin.x + t_visibleSizeHalf.width * 1.5f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_cardPreviewTitleSizeHalf.height - 20.0f );
     t_cardPreviewTitle->setPosition( t_cardPreviewTitlePos );
     
     addChild( t_cardPreviewTitle );
@@ -161,7 +161,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
 //
 //    addChild( t_cardListArea );
     
-    auto t_cardListScrollView = DadGuessCardListScrollView::createWithSize( Size( t_visibleSizeHalf.width - t_cardListPadding * 2.0f, t_cardPreviewTitlePos.y - t_cardPreviewTitleSizeHalf.height - 3.0f - t_origin.y - t_cardListPadding ), p_groupId );
+    auto t_cardListScrollView = DadGuessCardListScrollView::createWithSize( Size( t_visibleSizeHalf.width - t_cardListPadding * 2.0f, t_cardPreviewTitlePos.y - t_cardPreviewTitleSizeHalf.height - 5.0f - t_origin.y - t_cardListPadding ), p_groupId );
     
     t_cardListScrollView->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width + t_cardListPadding, t_origin.y + t_cardListPadding ) );
     

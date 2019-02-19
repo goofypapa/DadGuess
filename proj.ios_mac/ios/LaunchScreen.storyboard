@@ -40,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchScreenBackground.png" width="2208" height="1242"/>
+        <image name="LaunchScreenBackground.png" width="1920" height="1080"/>
     </resources>
 </document>

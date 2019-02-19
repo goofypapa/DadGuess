@@ -141,7 +141,7 @@ void DadGuessUpdateScene::tryUpdate( void )
         
         m_checkUpdateHandlerList.push_back( Http::Post( sm_cardTypeListApi , &t_parameter, [this]( Http * p_http, std::string p_res ){
             
-            printf( "-------------> %s \n", p_res.c_str() );
+//            printf( "-------------> %s \n", p_res.c_str() );
 
             Document t_readdoc;
             

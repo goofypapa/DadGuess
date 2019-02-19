@@ -1,6 +1,6 @@
 // ---------------------------------------
 // Sprite definitions for DadGuessUpdate
-// Generated with TexturePacker 4.11.1
+// Generated with TexturePacker 4.12.0
 //
 // https://www.codeandweb.com/texturepacker
 // ---------------------------------------
@@ -28,17 +28,11 @@ void DadGuessUpdate::removeSpriteFramesFromCache()
 // ---------------------
 // sprite name constants
 // ---------------------
-const std::string DadGuessUpdate::button                   = "Button.png";
 const std::string DadGuessUpdate::caicai_update_background = "caicai_update_background.png";
 
 // ---------------------------------------------------------
 // convenience functions returing pointers to Sprite objects
 // ---------------------------------------------------------
-Sprite* DadGuessUpdate::createButtonSprite()
-{
-    return Sprite::createWithSpriteFrameName(button);
-}
-
 Sprite* DadGuessUpdate::createCaicai_update_backgroundSprite()
 {
     return Sprite::createWithSpriteFrameName(caicai_update_background);

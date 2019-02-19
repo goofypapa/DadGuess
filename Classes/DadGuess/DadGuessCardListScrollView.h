@@ -23,10 +23,13 @@ class DadGuessCardListScrollView : public cocos2d::ui::ScrollView
 {
 public:
     static DadGuessCardListScrollView * createWithSize( const cocos2d::Size p_size, const std::string p_groupId );
+    static float s_percentVertical;
 protected:
     CREATE_FUNC( DadGuessCardListScrollView );
     
     virtual bool init( void ) override;
+
+    virtual void onEnter() override;
     
     virtual bool initWithSize( const cocos2d::Size & p_contentSize, const std::string p_groupId );
     
@@ -40,6 +43,7 @@ protected:
     void loadImage( void );
     
     virtual ~DadGuessCardListScrollView();
+
 private:
     static int sm_columns;
     std::string m_groupId;

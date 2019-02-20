@@ -59,11 +59,8 @@ public class Android {
 
     public static void goChrome( String p_url )
     {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse( p_url );
-        intent.setData(content_url);
-        intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
+        Uri uri = Uri.parse( p_url );
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         ((Cocos2dxActivity)Cocos2dxActivity.getContext()).startActivity(intent);
     }
 }

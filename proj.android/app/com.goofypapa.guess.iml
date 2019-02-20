@@ -403,7 +403,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant_run_merged_manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint_jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged-not-compiled-resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_manifests" />
@@ -430,7 +429,6 @@
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Foursquare-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Pinterest-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Alipay-3.1.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/MobTools-2017.1024.1907.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/MobTools-2018.1219.1608.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Kakao-Core-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Instagram-3.1.1.jar:unspecified@jar" level="project" />
@@ -463,7 +461,6 @@
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Twitter-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Core-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Wechat-Favorite-3.1.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/MobCommons-2017.1024.1907.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-FacebookMessenger-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-QQ-3.1.1.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:/Users/benbaba/Project/DadGuess/proj.android/app/libs/ShareSDK-Flickr-3.1.1.jar:unspecified@jar" level="project" />

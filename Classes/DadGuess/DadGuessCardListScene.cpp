@@ -126,7 +126,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
         // addChild( t_unlockPrompt );
     }
     
-    auto t_contentPromptTitle = Label::createWithSystemFont( "内容简介", "", 16 );
+    auto t_contentPromptTitle = Label::createWithSystemFont( "内容简介", "", 12 );
     auto t_contentPromptTitleSizeHalf = t_contentPromptTitle->getContentSize() * 0.5f;
     auto t_contentPromptTitlePos = Vec2( t_origin.x + t_visibleSizeHalf.width * 0.5f, t_groupLogoPos.y - t_groupLogoSizeHalf.height * t_groupLogo->getScale() - t_contentPromptTitleSizeHalf.height - 5.0f );
     t_contentPromptTitle->setPosition( t_contentPromptTitlePos );

@@ -166,9 +166,6 @@ void DadGuessCardListScrollView::onTouchEnded( cocos2d::Touch * p_touch, cocos2d
     auto t_beginPos = m_touchBeginLocationList[p_touch->getID()];
     m_touchBeginLocationList.erase( p_touch->getID() );
 
-
-    printf( "---------------> touched: %f %f %f \n ", t_beginPos.x, t_beginPos.y, s_percentVertical );
-    
     if( t_beginPos.distance( p_touch->getLocation() ) < 2.0f )
     {
         auto t_coutentHieght = getContentSize().height;

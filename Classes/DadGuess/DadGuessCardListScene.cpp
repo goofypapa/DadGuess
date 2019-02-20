@@ -99,7 +99,22 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
         t_buyButton->drawSolidRect( t_buyButtonDrawBeginPos, Vec2( t_groupLogoPos.x + t_buyButtonSizeHalf.width, t_buyButtonDrawBeginPos.y + t_buyButtonSizeHalf.height * 2.0f ) , Color4F( 254.0f / 255.0f, 208.0f / 255.0f, 63.0f / 255.0f, 1.0f ) );
         addChild( t_buyButton );
         
-        auto t_buyLabel = MenuItemFont::create( "点击购买此套卡片", []( Ref * p_target ){
+        auto t_buyLabel = MenuItemFont::create( "点击购买此套卡片", [p_groupId]( Ref * p_target ){
+            
+            if( p_groupId == "animal" )
+            {
+                goChrome( "https://h5.youzan.com/wscshop/goods/2ocwex463rym6?banner_id=f.77959558~goods~1~DwwlL4X5&reft=1550628873062&spm=f.77959558" );
+            }
+
+            if( p_groupId == "ABC" )
+            {
+                goChrome( "https://detail.youzan.com/show/goods?alias=2g0dmtgn565m6&banner_id=f.77959558~goods~1~8yWjakL3&reft=1550627588362&spm=f.77959558" );
+            }
+
+            if( p_groupId == "astronomy" || p_groupId == "earth" || p_groupId == "historyChronology" || p_groupId == "worldHistory" )
+            {
+                goChrome( "https://h5.youzan.com/wscshop/goods/3nua3ck5zx2j2?banner_id=f.77959558~goods~1~LaqUR2l3&reft=1550630144758&spm=f.77959558" );
+            }
             
         } );
         t_buyLabel->setFontSizeObj( 12 );

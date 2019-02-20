@@ -1,6 +1,7 @@
 package org.cocos2dx.cpp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.provider.Settings;
 import android.util.Log;
@@ -49,5 +50,20 @@ public class Android {
                 ((Cocos2dxActivity)Cocos2dxActivity.getContext()).startActivity(setNfc);
             }
         });
+    }
+
+    public static void goSystemBlue()
+    {
+
+    }
+
+    public static void goChrome( String p_url )
+    {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse( p_url );
+        intent.setData(content_url);
+        intent.setClassName("com.android.browser","com.android.browser.BrowserActivity");
+        ((Cocos2dxActivity)Cocos2dxActivity.getContext()).startActivity(intent);
     }
 }

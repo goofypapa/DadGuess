@@ -206,6 +206,22 @@ void openNFC( void )
     }
 }
 
+void goSystemBlue( void )
+{
+
+}
+
+void goChrome( const std::string & p_url )
+{
+    JniMethodInfo info;
+    bool ret = JniHelper::getStaticMethodInfo(info,"org/cocos2dx/cpp/Android","goChrome","(Ljava/lang/String;)V");
+    if(ret)
+    {
+        jstring t_url = info.env->NewStringUTF( p_url.c_str() );
+        info.env->CallStaticVoidMethod( info.classID, info.methodID, t_url );
+    }
+}
+
 extern "C"
 {
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_NetBroadcastReceiver_netStateChange(JNIEnv *env, jobject clazz, jint netState)

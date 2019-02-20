@@ -369,3 +369,9 @@ void openNFC( void )
 {
     
 }
+
+void goChrome( const std::string & p_url )
+{
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithUTF8String:p_url.c_str()]];
+    [[UIApplication sharedApplication]openURL:URL];
+}

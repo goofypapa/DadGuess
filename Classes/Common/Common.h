@@ -103,5 +103,8 @@ cocos2d::Color4F createColor4FWithStr( const std::string & p_colorStr, const flo
 //跳转到系统蓝牙设置页面
 void goSystemBlue( void );
 
+//跳转到浏览器
+void goChrome( const std::string & p_url );
+
 
 #endif //__COMMON_H__

@@ -24,6 +24,9 @@ class DadGuessCardListScrollView : public cocos2d::ui::ScrollView
 public:
     static DadGuessCardListScrollView * createWithSize( const cocos2d::Size p_size, const std::string p_groupId );
     static float s_percentVertical;
+    
+    bool cancelDownloadImage( void );
+    
 protected:
     CREATE_FUNC( DadGuessCardListScrollView );
     
@@ -41,8 +44,6 @@ protected:
 //    virtual void onTouchCancelled( cocos2d::Touch * p_touch, cocos2d::Event * p_unusedEvent) override;
     
     void loadImage( void );
-    
-    virtual ~DadGuessCardListScrollView();
 
 private:
     static int sm_columns;

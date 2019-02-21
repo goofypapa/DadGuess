@@ -7,8 +7,8 @@ android {
         applicationId "com.goofypapa.guess"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 2
-        versionName "1.1.1"
+        versionCode 3
+        versionName "1.1.2"
 
         externalNativeBuild {
             if (PROP_BUILD_TYPE == 'ndk-build') {

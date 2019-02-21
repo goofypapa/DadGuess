@@ -188,10 +188,10 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     t_btnBack->setPosition( Vec2( t_origin.x + t_btnBackSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_btnBackSizeHalf.height - 15.0f ) );
     addChild( t_btnBack );
     
-    touchAnswer( t_btnBack , []( Ref * p_target ){
+    touchAnswer( t_btnBack , [t_cardListScrollView]( Ref * p_target ){
+        t_cardListScrollView->cancelDownloadImage();
         Director::getInstance()->replaceScene( DadGuessMainScene::create() );
     }, adaptation() * 1.2f, adaptation() );
-
     
     return true;
 }

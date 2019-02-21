@@ -28,6 +28,7 @@ using namespace experimental;
 
 
 WebViewScene * WebViewScene::sm_instance = nullptr;
+std::map< Http *, bool > WebViewScene::sm_downloadIngList;
 
 cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId )
 {
@@ -44,6 +45,7 @@ cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const b
 bool WebViewScene::init( void )
 {
     m_firstLoad = true;
+    m_backed = false;
     sm_instance = this;
     return true;
 }
@@ -215,6 +217,14 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
         {
             if( t_item.compare( "back" ) == 0 )
             {
+
+                if( m_backed )
+                {
+                    return;
+                }
+
+                m_backed = true;
+
                 if( m_webOrientation ){
                     setAppOrientation( false );
                 }
@@ -492,30 +502,35 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
     s_downloadList[ p_audioUrl ] = p_loadAudioCallBack;
     
     
-    Http::DownloadFile( p_audioUrl, "mp3", [this]( Http * p_http, DataFileInfo p_fileInfo ){
+    auto * t_http = Http::DownloadFile( p_audioUrl, "mp3", [this]( Http * p_http, DataFileInfo p_fileInfo ){
         
-        if( s_downloadList.find( p_fileInfo.sourceUrl ) != s_downloadList.end() && s_downloadList[p_fileInfo.sourceUrl] != nullptr )
+        if( sm_downloadIngList.find( p_http ) == sm_downloadIngList.end() )
         {
-            s_downloadList[p_fileInfo.sourceUrl]( p_fileInfo );
+            return;
         }
+        
+        sm_downloadIngList.erase( p_http );
         
         auto t_it = s_downloadList.find( p_fileInfo.sourceUrl );
         if( t_it != s_downloadList.end() )
         {
+
+            if( t_it->second != nullptr )
+            {
+                (t_it->second)( p_fileInfo );
+            }
+
             s_downloadList.erase( t_it );
         }
         
-        if( !p_fileInfo.fileId.empty() )
+    }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
+        
+        if( sm_downloadIngList.find( p_http ) == sm_downloadIngList.end() )
         {
-            if( DataTableFile::instance().find( p_fileInfo.fileId ).fileId.empty() )
-            {
-                DataTableFile::instance().insert( p_fileInfo );
-            }else{
-                DataTableFile::instance().update( p_fileInfo );
-            }
+            return;
         }
         
-    }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
+        sm_downloadIngList.erase( p_http );
         
         auto t_it = s_downloadList.find( p_fileInfo.sourceUrl );
         if( t_it != s_downloadList.end() )
@@ -523,6 +538,8 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
             s_downloadList.erase( t_it );
         }
     } );
+    
+    sm_downloadIngList[t_http] = true;
 }
 
 void WebViewScene::deleteAudio( const std::string & p_audioUrl )
@@ -558,6 +575,10 @@ std::string WebViewScene::urlRepair( std::string p_url )
 
 WebViewScene::~WebViewScene()
 {
+    //清空下载回调列表
+    s_downloadList.clear();
+    sm_downloadIngList.clear();
+
     sm_instance = nullptr;
     std::stringstream t_splistName;
     

@@ -53,6 +53,9 @@ protected:
 private:
 
     static WebViewScene * sm_instance;
+    static std::map< Http *, bool > sm_downloadIngList;
+
+    bool m_backed;
 
     cocos2d::experimental::ui::WebView * m_webview;
     std::string m_dir, m_groupId;

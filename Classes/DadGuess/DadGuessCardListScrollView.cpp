@@ -139,6 +139,7 @@ void DadGuessCardListScrollView::onTouched( const int p_index )
         setAppOrientation( true );
     }
 
+    cancelDownloadImage();
     Director::getInstance()->replaceScene( WebViewScene::createWithDir( m_groupId, m_groupId.compare( DataCardBatchInfo::s_batchIdList[0] ) == 0, t_cardList[p_index].first.id ) );
 }
 
@@ -227,7 +228,7 @@ void DadGuessCardListScrollView::loadImage( void )
     }
 }
 
-DadGuessCardListScrollView::~DadGuessCardListScrollView()
+bool DadGuessCardListScrollView::cancelDownloadImage( void )
 {
     if( sm_downloadingList.size() )
     {
@@ -237,5 +238,5 @@ DadGuessCardListScrollView::~DadGuessCardListScrollView()
         }
     }
     
-    sm_downloadingList.clear();
+    return true;
 }

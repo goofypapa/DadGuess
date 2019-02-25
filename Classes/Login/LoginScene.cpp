@@ -205,7 +205,7 @@ bool LoginScene::init()
         
         auto t_spaceLine = DrawNode::create();
         t_LoginPhoneBorder->addChild( t_spaceLine );
-        t_spaceLine->drawLine( Vec2( 15.0f, t_LoginPhoneBorderSize.height * 0.5f ), Vec2( t_LoginPhoneBorderSize.width - 15.0f, t_LoginPhoneBorderSize.height * 0.5f ), Color4F( (float)0x3A / (float)0xFF, (float)0xB5 / (float)0xFF, (float)0xFF / (float)0xFF, 1.0f ) );
+        t_spaceLine->drawLine( Vec2( 15.0f, t_LoginPhoneBorderSize.height * 0.5f ), Vec2( t_LoginPhoneBorderSize.width - 15.0f, t_LoginPhoneBorderSize.height * 0.5f ), createColor4FWithStr( "#3AB5FF", 1.0f ) );
         
         auto t_phoneLabel = Label::createWithTTF( "手机号", PAGE_FONT, 12 );
         auto t_phoneLabelSize = t_phoneLabel->getContentSize();
@@ -350,9 +350,9 @@ bool LoginScene::init()
         
         auto t_spaceLine = DrawNode::create();
         t_RegisterPhoneBorder->addChild( t_spaceLine );
-        t_spaceLine->drawLine( Vec2( 15.0f, t_RegisterPhoneBorderSize.height / 3.0f ), Vec2( t_RegisterPhoneBorderSize.width - 15.0f, t_RegisterPhoneBorderSize.height / 3.0f ), Color4F( (float)0x3A / (float)0xFF, (float)0xB5 / (float)0xFF, (float)0xFF / (float)0xFF, 1.0f ) );
+        t_spaceLine->drawLine( Vec2( 15.0f, t_RegisterPhoneBorderSize.height / 3.0f ), Vec2( t_RegisterPhoneBorderSize.width - 15.0f, t_RegisterPhoneBorderSize.height / 3.0f ), createColor4FWithStr( "#3AB5FF", 1.0f ) );
         
-        t_spaceLine->drawLine( Vec2( 15.0f, t_RegisterPhoneBorderSize.height / 1.5f ), Vec2( t_RegisterPhoneBorderSize.width - 15.0f, t_RegisterPhoneBorderSize.height / 1.5f ), Color4F( (float)0x3A / (float)0xFF, (float)0xB5 / (float)0xFF, (float)0xFF / (float)0xFF, 1.0f ) );
+        t_spaceLine->drawLine( Vec2( 15.0f, t_RegisterPhoneBorderSize.height / 1.5f ), Vec2( t_RegisterPhoneBorderSize.width - 15.0f, t_RegisterPhoneBorderSize.height / 1.5f ), createColor4FWithStr( "#3AB5FF", 1.0f ) );
         
         auto t_phoneLabel = Label::createWithTTF( "手机号", PAGE_FONT, 12 );
         auto t_phoneLabelSize = t_phoneLabel->getContentSize();
@@ -493,9 +493,9 @@ bool LoginScene::init()
 
         auto t_spaceLine = DrawNode::create();
         t_ForgetPasswordBorder->addChild( t_spaceLine );
-        t_spaceLine->drawLine( Vec2( 15.0f, t_ForgetPasswordBorderSize.height / 3.0f ), Vec2( t_ForgetPasswordBorderSize.width - 15.0f, t_ForgetPasswordBorderSize.height / 3.0f ), Color4F( (float)0x3A / (float)0xFF, (float)0xB5 / (float)0xFF, (float)0xFF / (float)0xFF, 1.0f ) );
+        t_spaceLine->drawLine( Vec2( 15.0f, t_ForgetPasswordBorderSize.height / 3.0f ), Vec2( t_ForgetPasswordBorderSize.width - 15.0f, t_ForgetPasswordBorderSize.height / 3.0f ), createColor4FWithStr( "#3AB5FF", 1.0f ) );
         
-        t_spaceLine->drawLine( Vec2( 15.0f, t_ForgetPasswordBorderSize.height / 1.5f ), Vec2( t_ForgetPasswordBorderSize.width - 15.0f, t_ForgetPasswordBorderSize.height / 1.5f ), Color4F( (float)0x3A / (float)0xFF, (float)0xB5 / (float)0xFF, (float)0xFF / (float)0xFF, 1.0f ) );
+        t_spaceLine->drawLine( Vec2( 15.0f, t_ForgetPasswordBorderSize.height / 1.5f ), Vec2( t_ForgetPasswordBorderSize.width - 15.0f, t_ForgetPasswordBorderSize.height / 1.5f ), createColor4FWithStr( "#3AB5FF", 1.0f ) );
         
 
         auto t_phoneLabel = Label::createWithTTF( "手机号", PAGE_FONT, 12 );

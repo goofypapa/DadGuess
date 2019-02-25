@@ -37,7 +37,7 @@ bool DialogPersonalCenterLayer::init( void )
     
     m_vague = DrawNode::create();
     m_vague->setPosition( -Vec2( visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y ) );
-    m_vague->drawSolidRect( origin, origin + visibleSize, Color4F( 0.0f, 0.0f, 0.0f, 0.6f ) );
+    m_vague->drawSolidRect( origin, origin + visibleSize, createColor4FWithStr( "#000000", 0.6f ) );
     m_vague->setVisible( false );
     this->addChild( m_vague );
     

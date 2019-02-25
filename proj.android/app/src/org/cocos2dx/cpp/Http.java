@@ -134,6 +134,9 @@ public class Http {
                         //获得输出流，向服务器写入数据
                         OutputStream t_outputStream = t_httpURLConnection.getOutputStream();
                         t_outputStream.write(t_data);
+
+                        t_outputStream.flush();
+                        t_outputStream.close();
                     }
 
                     int t_response = t_httpURLConnection.getResponseCode();            //获得服务器的响应码
@@ -154,6 +157,8 @@ public class Http {
                             m_result += t_line;
                         }
 
+                        t_inptStream.close();
+
                         Log.d( "-------->", m_result );
 
                         ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
@@ -163,6 +168,9 @@ public class Http {
                             }
                         });
                     }
+
+                    t_httpURLConnection.disconnect();
+
                 }catch (IOException e) {
                     m_result = e.getMessage().toString();
                     ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {

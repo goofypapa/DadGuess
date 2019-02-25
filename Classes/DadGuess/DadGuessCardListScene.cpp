@@ -96,7 +96,7 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
         
         auto t_buyButtonSizeHalf = Size( t_groupLogoSizeScaleHalf.width * 0.972f, t_groupLogoSizeScaleHalf.height * 0.175f );
         
-        t_buyButton->drawSolidRect( t_buyButtonDrawBeginPos, Vec2( t_groupLogoPos.x + t_buyButtonSizeHalf.width, t_buyButtonDrawBeginPos.y + t_buyButtonSizeHalf.height * 2.0f ) , Color4F( 254.0f / 255.0f, 208.0f / 255.0f, 63.0f / 255.0f, 1.0f ) );
+        t_buyButton->drawSolidRect( t_buyButtonDrawBeginPos, Vec2( t_groupLogoPos.x + t_buyButtonSizeHalf.width, t_buyButtonDrawBeginPos.y + t_buyButtonSizeHalf.height * 2.0f ) , createColor4FWithStr( "#FED03F", 1.0f ) );
         addChild( t_buyButton );
         
         auto t_buyLabel = MenuItemFont::create( "点击购买此套卡片", [p_groupId]( Ref * p_target ){
@@ -163,16 +163,16 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     addChild( t_cardPreviewTitle );
     
     auto t_cardPreviewTitleLine = DrawNode::create();
-    t_cardPreviewTitleLine->drawLine( Vec2( t_origin.x + t_visibleSizeHalf.width * 1.05f, t_cardPreviewTitlePos.y ) , Vec2( t_origin.x + t_cardPreviewTitlePos.x - t_visibleSizeHalf.width * 0.03f - t_cardPreviewTitleSizeHalf.width , t_cardPreviewTitlePos.y ), Color4F( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    t_cardPreviewTitleLine->drawLine( Vec2( t_origin.x + t_visibleSizeHalf.width * 1.05f, t_cardPreviewTitlePos.y ) , Vec2( t_origin.x + t_cardPreviewTitlePos.x - t_visibleSizeHalf.width * 0.03f - t_cardPreviewTitleSizeHalf.width , t_cardPreviewTitlePos.y ), createColor4FWithStr("#FFFFFF", 1.0f) );
     
-    t_cardPreviewTitleLine->drawLine(  Vec2( t_origin.x + t_cardPreviewTitlePos.x + t_visibleSizeHalf.width * 0.03f + t_cardPreviewTitleSizeHalf.width , t_cardPreviewTitlePos.y ), Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_visibleSizeHalf.width * 0.05f, t_cardPreviewTitlePos.y ), Color4F( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    t_cardPreviewTitleLine->drawLine(  Vec2( t_origin.x + t_cardPreviewTitlePos.x + t_visibleSizeHalf.width * 0.03f + t_cardPreviewTitleSizeHalf.width , t_cardPreviewTitlePos.y ), Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_visibleSizeHalf.width * 0.05f, t_cardPreviewTitlePos.y ), createColor4FWithStr("#FFFFFF", 1.0f) );
     
     addChild( t_cardPreviewTitleLine );
     
     
     auto t_cardListPadding = t_visibleSizeHalf.width * 0.05f;
 //    auto t_cardListArea = DrawNode::create();
-//    t_cardListArea->drawRect( Vec2( t_origin.x + t_visibleSizeHalf.width + t_cardListPadding, t_origin.y + t_cardListPadding ) , Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_cardListPadding, t_cardPreviewTitlePos.y - t_cardPreviewTitleSizeHalf.height - 3.0f ), Color4F( 1.0f, 0.0f, 0.0f, 1.0f ) );
+//    t_cardListArea->drawRect( Vec2( t_origin.x + t_visibleSizeHalf.width + t_cardListPadding, t_origin.y + t_cardListPadding ) , Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_cardListPadding, t_cardPreviewTitlePos.y - t_cardPreviewTitleSizeHalf.height - 3.0f ), createColor4FWithStr("#FFFFFF", 1.0f) );
 //
 //    addChild( t_cardListArea );
     

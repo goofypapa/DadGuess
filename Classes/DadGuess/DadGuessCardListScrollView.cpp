@@ -19,6 +19,8 @@ std::list< Http * > DadGuessCardListScrollView::sm_invalidDownloadList;
 std::list< Http * > DadGuessCardListScrollView::sm_downloadingList;
 float DadGuessCardListScrollView::s_percentVertical = 0.0f;
 
+std::mutex DadGuessCardListScrollView::sm_downloadMutex;
+
 DadGuessCardListScrollView * DadGuessCardListScrollView::createWithSize( const cocos2d::Size p_size, const std::string p_groupId )
 {
     auto t_result = create();
@@ -37,6 +39,8 @@ bool DadGuessCardListScrollView::init( void )
     {
         return false;
     }
+
+    m_cancelDownload = false;
     
     return true;
 }
@@ -189,17 +193,27 @@ void DadGuessCardListScrollView::onTouchEnded( cocos2d::Touch * p_touch, cocos2d
 
 void DadGuessCardListScrollView::loadImage( void )
 {
+
+    sm_downloadMutex.lock();
+    if( m_cancelDownload )
+    {
+        sm_downloadMutex.unlock();
+        return;
+    }
+
     if( m_downloadPool.size() )
     {
         auto t_download = m_downloadPool.front();
         
         sm_downloadingList.push_back( Http::DownloadFile( t_download.first, "", [this, t_download]( Http * p_http, DataFileInfo p_file ){
-            
+                        
+            sm_downloadMutex.lock();
             auto t_findInvalidDownloadList = std::find( sm_invalidDownloadList.begin(), sm_invalidDownloadList.end(), p_http );
             
             if( t_findInvalidDownloadList != sm_invalidDownloadList.end() )
             {
                 sm_invalidDownloadList.erase( t_findInvalidDownloadList );
+                sm_downloadMutex.unlock();
                 return;
             }
             
@@ -210,26 +224,44 @@ void DadGuessCardListScrollView::loadImage( void )
             }
             
             t_download.second( p_file );
-            
+
+            if( m_cancelDownload )
+            {
+                sm_downloadMutex.unlock();
+                return;
+            }
+
+            sm_downloadMutex.unlock();
+
             m_downloadPool.pop();
             
             loadImage();
         }, [this, t_download]( Http * p_http, DataFileInfo p_file ){
-            
+            sm_downloadMutex.lock();
             auto t_findDownloadListIt = std::find( sm_downloadingList.begin(), sm_downloadingList.end(), p_http );
             if( t_findDownloadListIt != sm_downloadingList.end() )
             {
                 sm_downloadingList.erase( t_findDownloadListIt );
             }
-            
+            sm_downloadMutex.unlock();
+
+            if( m_cancelDownload )
+            {
+                return;
+            }
+
             m_downloadPool.pop();
             loadImage();
         }) );
     }
+
+    sm_downloadMutex.unlock();
 }
 
 bool DadGuessCardListScrollView::cancelDownloadImage( void )
 {
+    sm_downloadMutex.lock();
+    m_cancelDownload = true;
     if( sm_downloadingList.size() )
     {
         for( auto item : sm_downloadingList )
@@ -237,6 +269,8 @@ bool DadGuessCardListScrollView::cancelDownloadImage( void )
             sm_invalidDownloadList.push_back( item );
         }
     }
+
+    sm_downloadMutex.unlock();
     
     return true;
 }

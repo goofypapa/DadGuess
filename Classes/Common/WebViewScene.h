@@ -14,6 +14,7 @@
 #include <map>
 #include <stack>
 #include <functional>
+#include <mutex>
 #include "DataTableFile.h"
 #include "BaseScene.h"
 #include "Http.h"
@@ -49,11 +50,15 @@ protected:
     
     void stopAllAudio( void );
     
-    virtual ~WebViewScene( void );
 private:
+
+    void cancelDownload( void );
+    void destroy( void );
 
     static WebViewScene * sm_instance;
     static std::map< Http *, bool > sm_downloadIngList;
+
+    static std::mutex sm_downloadMutex;
 
     bool m_backed;
 

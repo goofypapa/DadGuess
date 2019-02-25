@@ -30,6 +30,8 @@ using namespace experimental;
 WebViewScene * WebViewScene::sm_instance = nullptr;
 std::map< Http *, bool > WebViewScene::sm_downloadIngList;
 
+std::mutex WebViewScene::sm_downloadMutex;
+
 cocos2d::Scene * WebViewScene::createWithDir( const std::string & p_dir, const bool p_orientation, const std::string & p_resourceId )
 {
     auto t_res = create();
@@ -228,13 +230,15 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                 if( m_webOrientation ){
                     setAppOrientation( false );
                 }
-                stopAllAudio();
+                cancelDownload();
                 if( m_resourceId.empty() )
                 {
                     Director::getInstance()->replaceScene( MainScene::create() );
                 }else{
                     Director::getInstance()->replaceScene( DadGuessCardListScene::createScene( m_groupId ) );
                 }
+
+                destroy();
             }
             
             if( t_item.compare( "stopAllAudio" ) == 0 )
@@ -251,7 +255,9 @@ bool WebViewScene::initWithDir( const std::string & p_dir, const bool p_orientat
                     return;
                 }
                 
+                sm_downloadMutex.lock();
                 loadAudio( urlRepair( t_funcList[1] ), nullptr);
+                sm_downloadMutex.unlock();
             }
             
             if( t_funcList[0].compare( "playAudio" ) == 0 )
@@ -433,9 +439,11 @@ void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string 
     
     m_playCallBackList[p_audioUrl] = p_finishCallBack;
     
+    sm_downloadMutex.lock();
     loadAudio( p_audioUrl, [this]( DataFileInfo p_audioFile ){
         playAudio( p_audioFile.sourceUrl, "" );
     });
+    sm_downloadMutex.unlock();
 }
 
 void WebViewScene::stopAudio( const std::string & p_audioUrl )
@@ -502,10 +510,13 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
     s_downloadList[ p_audioUrl ] = p_loadAudioCallBack;
     
     
-    auto * t_http = Http::DownloadFile( p_audioUrl, "mp3", [this]( Http * p_http, DataFileInfo p_fileInfo ){
+    auto * t_http = Http::DownloadFile( p_audioUrl, "", [this]( Http * p_http, DataFileInfo p_fileInfo ){
         
+        sm_downloadMutex.lock();
+
         if( sm_downloadIngList.find( p_http ) == sm_downloadIngList.end() )
         {
+            sm_downloadMutex.unlock();
             return;
         }
         
@@ -522,11 +533,15 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
 
             s_downloadList.erase( t_it );
         }
+
+        sm_downloadMutex.unlock();
         
     }, [this]( Http * p_http, DataFileInfo p_fileInfo ){
         
+        sm_downloadMutex.lock();
         if( sm_downloadIngList.find( p_http ) == sm_downloadIngList.end() )
         {
+            sm_downloadMutex.unlock();
             return;
         }
         
@@ -537,6 +552,7 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
         {
             s_downloadList.erase( t_it );
         }
+        sm_downloadMutex.unlock();
     } );
     
     sm_downloadIngList[t_http] = true;
@@ -573,13 +589,22 @@ std::string WebViewScene::urlRepair( std::string p_url )
     return "https://" + p_url;
 }
 
-WebViewScene::~WebViewScene()
+void WebViewScene::cancelDownload( void )
 {
     //清空下载回调列表
+    sm_downloadMutex.lock();
     s_downloadList.clear();
     sm_downloadIngList.clear();
 
     sm_instance = nullptr;
+
+    sm_downloadMutex.unlock();
+}
+
+void WebViewScene::destroy( void )
+{
+    stopAllAudio();
+
     std::stringstream t_splistName;
     
     t_splistName << "Web/" << m_dir << ".plist";

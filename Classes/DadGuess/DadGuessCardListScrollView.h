@@ -18,6 +18,7 @@
 #include <vector>
 #include <queue>
 #include <functional>
+#include <mutex>
 
 class DadGuessCardListScrollView : public cocos2d::ui::ScrollView
 {
@@ -48,9 +49,12 @@ protected:
 private:
     static int sm_columns;
     std::string m_groupId;
+
+    static std::mutex sm_downloadMutex;
     
     static std::list< Http * > sm_invalidDownloadList;
     static std::list< Http * > sm_downloadingList;
+    bool m_cancelDownload;
     
     std::map< int, cocos2d::Vec2 > m_touchBeginLocationList;
     

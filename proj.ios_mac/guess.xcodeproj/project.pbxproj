@@ -1117,7 +1117,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.guess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.audioTest;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1167,7 +1167,7 @@
 					"$(_COCOS_LIB_IOS_END)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.guess;
+				PRODUCT_BUNDLE_IDENTIFIER = com.goofypapa.audioTest;
 				SDKROOT = iphoneos;
 				STRIP_PNG_TEXT = NO;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -28,7 +28,8 @@ std::mutex Http::sm_downloadMutex;
 
 std::string Http::token = "";
 
-const int Http::sm_overtime = 60 * 60 * 24 * 1;
+//const int Http::sm_overtime = 60 * 60 * 24 * 1; //一天
+const int Http::sm_overtime = 60 * 20; //20分钟
 
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
@@ -125,8 +126,6 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
         {
             Http * t_http = new Http;
             std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
-                
-                printf( "-----------> %s \n", p_res.c_str() );
                 
                 p_callBack( p_id, sqlStrToStr(  p_res ) );
                 delete p_id;

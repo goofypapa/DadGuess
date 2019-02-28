@@ -20,6 +20,7 @@
 #include "DataTableUser.h"
 #include "DataTableFile.h"
 #include <thread>
+#include "WebViewScene.h"
 
 USING_NS_CC;
 using namespace smssdk;
@@ -729,46 +730,46 @@ void LoginScene::loginPhone( cocos2d::Ref* pSender )
     m_LoginPhone->setVisible( true );
 }
 
-void LoginScene::loginWechatCallBack( const char * p_code )
-{
-    m_requesting = false;
-    if( !p_code )
-    {
-        return;
-    }
+// void LoginScene::loginWechatCallBack( const char * p_code )
+// {
+//     m_requesting = false;
+//     if( !p_code )
+//     {
+//         return;
+//     }
 
-    std::map< std::string, std::string > t_parameter;
-    t_parameter[ "appid" ] = "wxd6d78ef8accb5cf4";
-    t_parameter[ "secret" ] = "938ae63610eea92a61f0496bec58d708";
-    t_parameter[ "code" ] = p_code;
-    t_parameter[ "grant_type" ] = "authorization_code";
+//     std::map< std::string, std::string > t_parameter;
+//     t_parameter[ "appid" ] = "wxd6d78ef8accb5cf4";
+//     t_parameter[ "secret" ] = "938ae63610eea92a61f0496bec58d708";
+//     t_parameter[ "code" ] = p_code;
+//     t_parameter[ "grant_type" ] = "authorization_code";
     
     
-    Http::Post( "https://api.weixin.qq.com/sns/oauth2/access_token", &t_parameter, []( Http * p_http, std::string p_res ){
-        printf( " tocken: %s \n", p_res.c_str() );
+//     Http::Post( "https://api.weixin.qq.com/sns/oauth2/access_token", &t_parameter, []( Http * p_http, std::string p_res ){
+//         printf( " tocken: %s \n", p_res.c_str() );
         
-        rapidjson::Document t_json;
-        if( !ParseApiResult( t_json, p_res ) )
-        {
-            return;
-        }
+//         rapidjson::Document t_json;
+//         if( !ParseApiResult( t_json, p_res ) )
+//         {
+//             return;
+//         }
         
-        std::string t_access_token = t_json["access_token"].GetString();
-        std::string t_openid = t_json["openid"].GetString();
-        m_requesting = false;
-    }, []( Http * p_http, std::string p_res ){
-        m_requesting = false;
-    }, false);
+//         std::string t_access_token = t_json["access_token"].GetString();
+//         std::string t_openid = t_json["openid"].GetString();
+//         m_requesting = false;
+//     }, []( Http * p_http, std::string p_res ){
+//         m_requesting = false;
+//     }, false);
     
-    Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
-        if( DadGuessUpdateScene::s_updateed )
-        {
-            Director::getInstance()->replaceScene( DadGuessMainScene::create() );
-        }else{
-            Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
-        }
-    });
-}
+//     // Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+//     //     if( DadGuessUpdateScene::s_updateed )
+//     //     {
+//     //         Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+//     //     }else{
+//     //         Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+//     //     }
+//     // });
+// }
 
 void LoginScene::loginBack()
 {
@@ -1362,12 +1363,14 @@ void LoginScene::loginCallBack( const std::string & p_str )
             // }, false);
 
             Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
-                if( DadGuessUpdateScene::s_updateed )
-                {
-                    Director::getInstance()->replaceScene( DadGuessMainScene::create() );
-                }else{
-                    Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
-                }
+                setAppOrientation( true );
+                Director::getInstance()->replaceScene( WebViewScene::createWithDir( "Web_AudioTest", true ) );
+                // if( DadGuessUpdateScene::s_updateed )
+                // {
+                //     Director::getInstance()->replaceScene( DadGuessMainScene::create() );
+                // }else{
+                //     Director::getInstance()->replaceScene( DadGuessUpdateScene::create() );
+                // }
             });
 
             return;

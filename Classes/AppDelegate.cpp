@@ -31,6 +31,8 @@
 #include "DataTableUser.h"
 #include "Common.h"
 #include "BaseScene.h"
+#include "WebViewScene.h"
+#include "Http.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -198,7 +200,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     if( t_isLogin )
     {
-        t_startScene = DadGuessUpdateScene::create();
+        auto t_loginUser = DataTableUser::instance().getActivation();
+        Http::token = t_loginUser.token;
+        
+        printf( "--------------> token: %s \n", Http::token.c_str() );
+        
+        setAppOrientation( true );
+        t_startScene = WebViewScene::createWithDir( "Web_AudioTest", true );
     }else{
         t_startScene = LoginScene::CreateScene();
     }

@@ -60,6 +60,7 @@
 		376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 376A5DA4212BB71600510F6C /* BaseScene.cpp */; };
 		377750192186E991006518B4 /* DadGuessUpdateScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 377750172186E991006518B4 /* DadGuessUpdateScene.cpp */; };
 		37775023218809CF006518B4 /* DataTableCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37775021218809CF006518B4 /* DataTableCard.cpp */; };
+		379927C0222CD84000C34B98 /* PlayManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 379927BE222CD84000C34B98 /* PlayManager.cpp */; };
 		379D957E2106D5CD006DA6C1 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 379D957D2106D5CD006DA6C1 /* GameController.framework */; };
 		379D95802106D5E9006DA6C1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 379D957F2106D5E9006DA6C1 /* MediaPlayer.framework */; };
 		379D958B21080A8E006DA6C1 /* Cloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 379D958921080A8E006DA6C1 /* Cloud.png */; };
@@ -251,6 +252,8 @@
 		377750182186E991006518B4 /* DadGuessUpdateScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DadGuessUpdateScene.h; sourceTree = "<group>"; };
 		37775021218809CF006518B4 /* DataTableCard.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableCard.cpp; sourceTree = "<group>"; };
 		37775022218809CF006518B4 /* DataTableCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableCard.h; sourceTree = "<group>"; };
+		379927BE222CD84000C34B98 /* PlayManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayManager.cpp; sourceTree = "<group>"; };
+		379927BF222CD84000C34B98 /* PlayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayManager.h; sourceTree = "<group>"; };
 		379D957D2106D5CD006DA6C1 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		379D957F2106D5E9006DA6C1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
 		379D958921080A8E006DA6C1 /* Cloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cloud.png; sourceTree = "<group>"; };
@@ -712,6 +715,8 @@
 		37D7DAE321198F0700A101E8 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				379927BE222CD84000C34B98 /* PlayManager.cpp */,
+				379927BF222CD84000C34B98 /* PlayManager.h */,
 				37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */,
 				37553A2C21E86891002EBF8C /* NFCDeviceListener.h */,
 				376A5D9D212A517900510F6C /* achieve */,
@@ -1023,6 +1028,7 @@
 				37B0B969219BAF6100A870E9 /* DataTableCardBatch.cpp in Sources */,
 				3705125921226E7D00F2FE1C /* C2DXShareSDK.cpp in Sources */,
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
+				379927C0222CD84000C34B98 /* PlayManager.cpp in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
 				37553A4F22115CE5002EBF8C /* SMSSDK.cpp in Sources */,
 				37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */,

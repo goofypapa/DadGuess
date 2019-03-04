@@ -697,6 +697,12 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
     }
     // m_requesting = true;
 
+    if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
+    {
+        MessageBox( "网络异常", "" );
+        return;
+    }
+
     m_loginType = DataUserInfo::LoginType::wechat;
 
     if( cn::sharesdk::C2DXShareSDK::isAuthorizedValid( cn::sharesdk::C2DXPlatTypeWeChat ) )

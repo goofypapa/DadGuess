@@ -126,7 +126,7 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
             Http * t_http = new Http;
             std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
                 
-                printf( "-----------> %s \n", p_res.c_str() );
+                // printf( "-----------> %s \n", p_res.c_str() );
                 
                 p_callBack( p_id, sqlStrToStr(  p_res ) );
                 delete p_id;

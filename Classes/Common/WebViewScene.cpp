@@ -21,6 +21,8 @@
 
 #include "DadGuessCardListScene.h"
 
+#include "PlayManager.h"
+
 USING_NS_CC;
 using namespace  rapidjson;
 using namespace cocos2d::ui;
@@ -405,8 +407,8 @@ void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string 
         {
             m_playCallBackList[ t_audioFile.sourceUrl ] = p_finishCallBack;
         }
-        
-        AudioEngine::setFinishCallback( t_playId, [this]( int p_playId, const std::string p_audio ){
+
+        PlayManager::Manage( t_playId, [this]( int p_playId, const std::string p_audio ){
             
             std::string t_audio = "";
             for( auto t_item : s_playList )
@@ -484,7 +486,7 @@ void WebViewScene::_stopAllAudio( void )
 
 void WebViewScene::stopAllAudio( void )
 {
-    AudioEngine::stopAll();
+    PlayManager::StopAll();
     s_playList.clear();
     s_downloadList.clear();
 }

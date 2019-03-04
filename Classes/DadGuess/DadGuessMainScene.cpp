@@ -29,6 +29,8 @@
 #include "json/writer.h"
 #include "json/stringbuffer.h"
 
+#include "PlayManager.h"
+
 #include <unistd.h>
 
 #define PAGE_FONT "fonts/HuaKangFangYuanTIW7-GB_0.ttf"
@@ -60,7 +62,7 @@ bool DadGuessMainScene::init( void )
     //加载贴图
     TexturePacker::Main::addSpriteFramesToCache();
     TexturePacker::Dialog::addSpriteFramesToCache();
-    
+
     m_enableMainButton = true;
     
     auto t_visibleSizeHalf = Director::getInstance()->getVisibleSize() * 0.5f;
@@ -325,17 +327,19 @@ bool DadGuessMainScene::init( void )
             sm_blueState = p_connected;
             if( !sm_blueState )
             {
-                AudioEngine::stopAll();
+                PlayManager::StopAll();
             }
         }, [this]( const std::vector< unsigned char > & p_data ){
             static std::map< int, bool > s_scanCardList;
-            
+            static double s_prveScanCardTime = 0.0f;
             if( p_data[0] == 0xAB && ( p_data[1] == 0x03 || p_data[1] == 0x04 ) )
             {
                 int t_rfid = ( p_data[2] << 8 ) + p_data[3];
 
                 if( p_data[1] == 0x03 )
                 {
+
+                    //过滤重复的03上报
                     if( s_scanCardList.find( t_rfid ) == s_scanCardList.end() )
                     {
                         s_scanCardList[t_rfid] = false;
@@ -346,7 +350,28 @@ bool DadGuessMainScene::init( void )
                         return;
                     }
                     s_scanCardList[t_rfid] = true;
+
+                    //过滤短时间多次刷卡
+                    timeval t_time;
+                    gettimeofday( &t_time, NULL );
+                    double t_timeD = (double)t_time.tv_sec + ( (double)t_time.tv_usec / 1000000.0f );
+                    if( t_timeD - s_prveScanCardTime < 1.0f )
+                    {
+                        return;
+                    }
+                    printf( "-----------> scan card time space: %f \n", t_timeD - s_prveScanCardTime );
+                    s_prveScanCardTime = t_timeD;
+
+                    AudioEngine::play2d( "audio/scan.mp3" );
+
                     DadGuessMainScene::scanCard( t_rfid );
+
+                    // //延迟300毫秒
+                    // std::thread( [t_rfid](){
+                    //     usleep( 300000 );
+                    //     DadGuessMainScene::scanCard( t_rfid );
+                    // } ).detach();
+
                 }
 
                 if( p_data[1] == 0x04 )
@@ -430,6 +455,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
     if( getPhoneState() != PhoneStateListener::PhoneState::IDLE )
     {
         //手机正在通话 或响铃
+        printf( "-------> Phone State Is Not IDLE \n" );
         return;
     }
     
@@ -437,6 +463,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
 
     if( t_cardInfo.id.empty() )
     {
+        printf( "-------> CardId Is Empty \n" );
         return;
     }
     
@@ -476,8 +503,9 @@ void DadGuessMainScene::scanCard( int p_rfid )
             // offline
             if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
             {
-                AudioEngine::stopAll();
-                AudioEngine::play2d( "audio/offlineTips.mp3" );
+                PlayManager::StopAll();
+                int t_playId = AudioEngine::play2d( "audio/offlineTips.mp3" );
+                PlayManager::Manage( t_playId );
                 return;
             }
             
@@ -687,6 +715,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
     
     if( t_index == 0 )
     {
+        printf( "---------> Audio Size Is %d \n", t_index );
         return;
     }
     
@@ -718,7 +747,7 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         // offline
         if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
         {
-            AudioEngine::stopAll();
+            PlayManager::StopAll();
             AudioEngine::play2d( "audio/offlineTips.mp3" );
             return;
         }
@@ -741,9 +770,11 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
     printf( "-------> play: %s \n", t_audioFileInfo.fileName.c_str() );
     if( p_audioInfo.audioType == DataCardAudioInfo::AudioType::commentary )
     {
-        AudioEngine::stopAll();
+        PlayManager::StopAll();
         s_soloPlayId = AudioEngine::play2d( t_audioFileInfo.fileName );
         s_prvePlayAudio = p_audioInfo;
+
+        PlayManager::Manage( s_soloPlayId );
     }else{
         
         if( p_audioInfo.cardId.compare( s_prvePlayAudio.cardId ) != 0 && AudioEngine::getState( s_soloPlayId ) == AudioEngine::AudioState::PLAYING )
@@ -751,7 +782,8 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
             AudioEngine::stop( s_soloPlayId );
         }
 
-        AudioEngine::play2d( t_audioFileInfo.fileName );
+        int t_playId = AudioEngine::play2d( t_audioFileInfo.fileName );
+        PlayManager::Manage( t_playId );
 
         // std::thread( [t_audioFileInfo](){
         //     usleep( 500 * 1000 );

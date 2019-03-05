@@ -32,7 +32,8 @@ public class Http {
 
     public Http( String p_url, String p_data, String p_token, String p_requestId )
     {
-        m_url = p_url.replace( "http://", "https://" );
+//        m_url = p_url.replace( "http://", "https://" );
+        m_url = p_url;
         m_data = p_data;
         m_token = p_token;
         m_requestId = p_requestId;

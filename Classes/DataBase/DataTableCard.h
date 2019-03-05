@@ -18,6 +18,7 @@
 "rfid INTEGER NOT NULL, "\
 "coverFileUrl TEXT NOT NULL, "\
 "coverFileMd5 TEXT NOT NULL, "\
+"isGift INTEGER NOT NULL, "\
 "activation INTEGER NOT NULL "\
 ")"
 #define DataTableCardDrapSql "DROP TABLE " DataTableCardName
@@ -28,13 +29,13 @@ class DataCardInfo : public DataBaseInfo
 public:
     DataCardInfo();
     
-    DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileUrl, const std::string & p_coverFileMd5 );
+    DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileUrl, const std::string & p_coverFileMd5, const bool p_isGift );
     
     virtual std::string toJson( void ) const override;
     
     std::string id, batchId, coverFileUrl, coverFileMd5;
     int rfid;
-    bool activation;
+    bool isGift, activation;
 };
 
 class DataTableCard

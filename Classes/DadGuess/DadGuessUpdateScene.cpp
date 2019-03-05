@@ -310,12 +310,13 @@ void DadGuessUpdateScene::tryUpdate( void )
                     t_coverImageMd5 = t_item["coverImage"]["md5"].GetString();
                     t_coverImageSize = t_item["coverImage"]["attSize"].GetInt();
                 }
-                
+
                 auto t_cardInfo = DataCardInfo( t_item["resourceId"].GetString(),
                                                t_item["ownerId"].GetString(),
                                                t_item["rfId"].GetInt(),
                                                t_coverImageUrl,
-                                               t_coverImageMd5
+                                               t_coverImageMd5,
+                                               atoi( t_item["isGift"].GetString() ) == 1
                                                );
                 
                 bool t_batchIsExist = false;
@@ -547,7 +548,8 @@ void DadGuessUpdateScene::tryUpdate( void )
                                                        t_item["cardType"].GetString(),
                                                        t_item["rfId"].GetInt(),
                                                        t_coverImageUrl,
-                                                       t_coverImageMd5
+                                                       t_coverImageMd5,
+                                                       atoi( t_item["isGift"].GetString() ) == 1
                                                        );
                         
                         auto t_oldCardInfoIt = t_localCardList.begin();

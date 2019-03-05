@@ -468,9 +468,9 @@ void DadGuessMainScene::scanCard( int p_rfid )
     }
     
     auto t_cardBatchInfo = DataTableCardBatch::instance().find( t_cardInfo.batchId );
-    
+
     //激活分组
-    if( !t_cardBatchInfo.activation )
+    if( !t_cardInfo.isGift && !t_cardBatchInfo.activation )
     {
         DataTableCardBatch::instance().activation( t_cardBatchInfo );
     }

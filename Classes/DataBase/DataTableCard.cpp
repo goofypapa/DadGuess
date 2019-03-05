@@ -9,12 +9,12 @@
 #include <sstream>
 
 
-DataCardInfo::DataCardInfo() : DataCardInfo( "", "", -1, "", "" )
+DataCardInfo::DataCardInfo() : DataCardInfo( "", "", -1, "", "", false )
 {
     
 }
 
-DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileUrl, const std::string & p_coverFileMd5 ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), coverFileUrl( p_coverFileUrl ), coverFileMd5( p_coverFileMd5 ), activation( false )
+DataCardInfo::DataCardInfo( const std::string & p_id, const std::string & p_batchId, const int p_rfid, const std::string & p_coverFileUrl, const std::string & p_coverFileMd5, const bool p_isGift ) : id( p_id ), batchId( p_batchId ), rfid( p_rfid ), coverFileUrl( p_coverFileUrl ), coverFileMd5( p_coverFileMd5 ), isGift( p_isGift ), activation( false )
 {
     
 }
@@ -30,6 +30,7 @@ std::string DataCardInfo::toJson( void ) const
     t_sstr << "\"rfid\": " << rfid << ", ";
     t_sstr << "\"coverFileUrl\": \"" << coverFileUrl << "\", ";
     t_sstr << "\"coverFileMd5\": \"" << coverFileMd5 << "\", ";
+    t_sstr << "\"isGift\": " << ( isGift == 1 ? "true" : "false" ) << " ";
     t_sstr << "\"activation\": " << ( activation == 1 ? "true" : "false" ) << " ";
     
     t_sstr << " }";
@@ -58,12 +59,13 @@ bool DataTableCard::insert( const DataCardInfo & p_cardInfo ) const
 {
     std::stringstream t_ssql;
     
-    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, coverFileUrl, coverFileMd5, activation ) VALUES( "
+    t_ssql << "INSERT INTO " << DataTableCardName << "( id, batchId, rfid, coverFileUrl, coverFileMd5, isGift, activation ) VALUES( "
     << "\"" << p_cardInfo.id << "\", "
     << "\"" << p_cardInfo.batchId << "\", "
     << "\"" << p_cardInfo.rfid << "\", "
     << "\"" << p_cardInfo.coverFileUrl << "\", "
     << "\"" << p_cardInfo.coverFileMd5 << "\", "
+    << ( p_cardInfo.isGift ? 1 : 0 ) << ", "
     << ( p_cardInfo.activation ? 1 : 0 ) << " "
     << ");";
     std::string t_sql = t_ssql.str();
@@ -195,6 +197,18 @@ bool DataTableCard::update( const DataCardInfo & p_cardInfo ) const
         
         t_ssql << "coverFileMd5 = \"" << p_cardInfo.coverFileMd5 << "\"";
     }
+
+    if( p_cardInfo.isGift != t_oldInfo.isGift )
+    {
+        if( t_needUpdate )
+        {
+            t_ssql << ", ";
+        }else{
+            t_needUpdate = true;
+        }
+        
+        t_ssql << "isGift = " << ( p_cardInfo.isGift ? "1" : "0" );
+    }
     
     if( !t_needUpdate )
     {
@@ -245,7 +259,7 @@ bool DataTableCard::init( void ) const
 
 DataCardInfo DataTableCard::dataRowToDataCardInfo( std::map<std::string, std::string> & p_dataRow ) const
 {
-    auto t_result = DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["coverFileUrl"], p_dataRow["coverFileMd5"] );
+    auto t_result = DataCardInfo( p_dataRow["id"], p_dataRow["batchId"], atoi( p_dataRow["rfid"].c_str() ), p_dataRow["coverFileUrl"], p_dataRow["coverFileMd5"], atoi( p_dataRow["isGift"].c_str() ) == 1 );
     t_result.activation = atoi( p_dataRow["activation"].c_str() ) == 1;
     return t_result;
 }

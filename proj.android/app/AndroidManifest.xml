@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:launchMode="singleTop"
         android:resizeableActivity="false"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
         
         <!-- Tell Cocos2dxActivity the name of our .so -->

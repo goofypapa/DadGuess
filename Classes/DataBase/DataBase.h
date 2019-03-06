@@ -18,6 +18,7 @@ class DataBase
 {
 public:
 
+    static const std::string sm_dbVersion;
     typedef std::vector< std::map<std::string, std::string> > QueryBack;
 
     static DataBase & instance( void );

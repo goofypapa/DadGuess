@@ -6,6 +6,8 @@ USING_NS_CC;
 
 DataBase::QueryBack * DataBase::m_queryBack = nullptr;
 
+const std::string DataBase::sm_dbVersion = "v1.1";
+
 std::mutex DataBase::sm_mutex;
 
 DataBase & DataBase::instance( void )
@@ -77,7 +79,7 @@ bool DataBase::init( void )
 
     auto t_writePath = FileUtils::getInstance()->getWritablePath();
     
-    int t_openRes = sqlite3_open( ( t_writePath + "goofypapa_db" ).c_str(), &m_dataBase );
+    int t_openRes = sqlite3_open( ( t_writePath + "goofypapa_db_" + sm_dbVersion ).c_str(), &m_dataBase );
     if( t_openRes )
     {
         printf( "sqlite open final\n" );

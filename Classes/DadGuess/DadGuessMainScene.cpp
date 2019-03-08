@@ -820,6 +820,8 @@ void DadGuessMainScene::refreshSource( const DataFileInfo & p_fileInfo )
                 auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
                 m_personalHead->setScale( m_userHeadBorderSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
             } );
+
+            m_dialogPersonalCenter->refreshPersonalHead( t_fileInfo.fileName );
         }
     }
 }

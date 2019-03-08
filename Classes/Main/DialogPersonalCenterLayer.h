@@ -22,6 +22,8 @@ public:
     void hide();
     
     std::function<void()> hideCallBack;
+
+    void refreshPersonalHead( const std::string & p_filePath );
     
 protected:
     virtual bool init( void ) override;
@@ -35,7 +37,8 @@ private:
     DataUserInfo m_loginUser;
     
     cocos2d::DrawNode * m_vague;
-    cocos2d::Sprite * m_dialogCentBackground;
+    cocos2d::Size m_personalHeadBackgroundSizeHalf;
+    cocos2d::Sprite * m_dialogCentBackground, * m_personalHead;
     cocos2d::ui::Button * m_dialogCentSaveButton;
     cocos2d::ui::EditBox * m_nameEditBox;
     cocos2d::Vec2 m_dialogCentBackgroundHiedPos, m_dialogCentBackgroundShowPos, m_dialogCentSaveButtonHidePos, m_dialogCentSaveButtonShowPos, m_nameEditBoxShowPos, m_nameEditBoxHidePos;

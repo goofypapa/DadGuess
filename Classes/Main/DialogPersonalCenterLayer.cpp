@@ -76,8 +76,8 @@ bool DialogPersonalCenterLayer::init( void )
     float t_padding = t_DialogCentBackgroundSize.width * 0.06f;
     
     auto t_personalHeadBackground = Button::create( TexturePacker::Dialog::personalHeadBackground, TexturePacker::Dialog::personalHeadBackground, "", Button::TextureResType::PLIST );
-    auto t_personalHeadBackgroundSizeHalf = t_personalHeadBackground->getContentSize() * 0.5f;
-    t_personalHeadBackground->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - t_personalHeadBackgroundSizeHalf.height - t_padding ) );
+    m_personalHeadBackgroundSizeHalf = t_personalHeadBackground->getContentSize() * 0.5f;
+    t_personalHeadBackground->setPosition( Vec2( m_personalHeadBackgroundSizeHalf.width + t_padding, t_DialogCentBackgroundSize.height - m_personalHeadBackgroundSizeHalf.height - t_padding ) );
     m_dialogCentBackground->addChild( t_personalHeadBackground );
 
     touchAnswer( t_personalHeadBackground, [this]( Ref * p_ref ){
@@ -88,19 +88,19 @@ bool DialogPersonalCenterLayer::init( void )
     auto t_personalHeadBorder = TexturePacker::Dialog::createPersonalHeadBorderSprite();
     auto t_personalHeadBorderSizeHalf = t_personalHeadBorder->getContentSize() * 0.5f;
 
-    t_personalHeadBorder->setScale( t_personalHeadBackgroundSizeHalf.width * 0.82f / t_personalHeadBorderSizeHalf.width );
-    t_personalHeadBorder->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width, t_personalHeadBackgroundSizeHalf.height ) );
+    t_personalHeadBorder->setScale( m_personalHeadBackgroundSizeHalf.width * 0.82f / t_personalHeadBorderSizeHalf.width );
+    t_personalHeadBorder->setPosition( Vec2( m_personalHeadBackgroundSizeHalf.width, m_personalHeadBackgroundSizeHalf.height ) );
     t_personalHeadBackground->addChild( t_personalHeadBorder );
 
     
     auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
-    auto t_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName );
-    auto t_personalHeadSizeHalf = t_personalHead->getContentSize() * 0.5f;
+    m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName );
+    auto t_personalHeadSizeHalf = m_personalHead->getContentSize() * 0.5f;
 
-    t_personalHead->setScale( t_personalHeadBackgroundSizeHalf.width * 0.8f / t_personalHeadSizeHalf.width );
+    m_personalHead->setScale( m_personalHeadBackgroundSizeHalf.width * 0.8f / t_personalHeadSizeHalf.width );
 
-    t_personalHead->setPosition( Vec2( t_personalHeadBackgroundSizeHalf.width, t_personalHeadBackgroundSizeHalf.height ) );
-    t_personalHeadBackground->addChild( t_personalHead );
+    m_personalHead->setPosition( Vec2( m_personalHeadBackgroundSizeHalf.width, m_personalHeadBackgroundSizeHalf.height ) );
+    t_personalHeadBackground->addChild( m_personalHead );
 
     GLProgram * t_userHeadProgram = GLProgramCache::getInstance()->getGLProgram( "UserHead" );
     if( !t_userHeadProgram )
@@ -110,10 +110,10 @@ bool DialogPersonalCenterLayer::init( void )
     }
 
     GLProgramState * t_userHeadProgramState = GLProgramState::getOrCreateWithGLProgram( t_userHeadProgram );
-    t_personalHead->setGLProgramState( t_userHeadProgramState );
+    m_personalHead->setGLProgramState( t_userHeadProgramState );
     
     
-    float t_listPosX = t_personalHeadBackgroundSizeHalf.width * 2.0f + t_padding * 1.6f;
+    float t_listPosX = m_personalHeadBackgroundSizeHalf.width * 2.0f + t_padding * 1.6f;
     
     auto t_nameLabel = Label::createWithTTF( "姓名:", PAGE_FONT, 16 );
     auto t_nameLabelSizeHalf = t_nameLabel->getContentSize() * 0.5f * fontScale;
@@ -456,4 +456,17 @@ void DialogPersonalCenterLayer::refreshSexRedio( Ref * p_girlRedio, Ref * p_boyR
         girlRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonNormal ) );
         boyRedioSprite->setSpriteFrame( SpriteFrameCache::getInstance()->getSpriteFrameByName( TexturePacker::Dialog::redioButtonSelectedBlue ) );
     }
+}
+
+void DialogPersonalCenterLayer::refreshPersonalHead( const std::string & p_filePath )
+{
+    auto t_filePath = p_filePath;
+
+    auto director = Director::getInstance();
+    Scheduler *sched = director->getScheduler();
+    sched->performFunctionInCocosThread( [this, t_filePath](){
+                m_personalHead->setTexture( t_filePath );
+                auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
+                m_personalHead->setScale( m_personalHeadBackgroundSizeHalf.height * 0.93f / t_personalHeadSizeHelf.height );
+            } );
 }

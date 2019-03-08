@@ -201,7 +201,7 @@ std::string toString( __Dictionary & p_dirtionary )
         {
             __String *key = (__String *)allKeys -> getObjectAtIndex(i);
             Ref * obj = p_dirtionary.objectForKey(key -> getCString());
-            
+
             t_result << "\"" << key->getCString() << "\"" << ":" << toString( obj );
             
             if( i < allKeys->count() - 1 )
@@ -224,7 +224,17 @@ std::string toString( Ref * p_obj )
     
     if (dynamic_cast<__String *>( p_obj ))
     {
-        t_result << "\"" << dynamic_cast<__String *>( p_obj ) -> getCString() << "\"";
+
+        std::string t_str = dynamic_cast<__String *>( p_obj ) -> getCString();
+
+        size_t t_it = 0;
+        while( ( t_it = t_str.find("\"", t_it ) ) != std::string::npos )
+        {
+            t_str = t_str.replace( t_it, 1, "\\\"" );
+            t_it += 2;
+        }
+
+        t_result << "\"" << t_str << "\"";
     }
     else if (dynamic_cast<__Integer *>( p_obj ))
     {

@@ -203,10 +203,14 @@ Http *  Http::DownloadFile( const std::string & p_url, const std::string & p_fil
     std::string t_taskUUID = createUUID();
     std::string t_fileSuffixName = p_fileSuffixName;
     
-    if( t_fileSuffixName.empty() )
+    
+    auto t_filePathParse = split( p_url, "/" );
+    auto t_fileName = t_filePathParse.size() > 0 ? t_filePathParse[t_filePathParse.size() - 1] : "";
+    
+    auto t_fileNameParse = split( t_fileName, "." );
+    if( t_fileNameParse.size() > 1 )
     {
-        auto t_tmp = split( p_url, "." );
-        t_fileSuffixName = t_tmp[t_tmp.size() - 1];
+        t_fileSuffixName = t_fileNameParse[t_fileNameParse.size() - 1];
     }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

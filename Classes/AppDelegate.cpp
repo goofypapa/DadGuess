@@ -99,14 +99,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
     wechat << cn::sharesdk::C2DXPlatTypeWeChat;
     totalDict->setObject(wechatConf, wechat.str());
 
-        //新浪微博
+    //新浪微博
    __Dictionary *sinaWeiboConf= __Dictionary::create();
-   sinaWeiboConf->setObject(__String::create("2983242978"), "AppId");
-   sinaWeiboConf->setObject(__String::create("e1d8f32d60d0710c90a531bb68118357"), "AppSecret");
-   sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
-   std::stringstream sina;
-   sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
-   totalDict->setObject(sinaWeiboConf, sina.str());
+    sinaWeiboConf->setObject(__String::create("197904272"), "AppKey");
+    sinaWeiboConf->setObject(__String::create("1645c87956e28423b05a595f2e100d26"), "AppSecret");
+    sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "RedirectUrl");
+    sinaWeiboConf->setObject(__String::create("true"), "ShareByAppClient");
+    sinaWeiboConf->setObject(__String::create("true"), "Enable");
+    stringstream sina;
+    sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
+    totalDict->setObject(sinaWeiboConf, sina.str());
 #else
     //微信
     __Dictionary *wechatConf = __Dictionary::create();
@@ -118,30 +120,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     //新浪微博
    __Dictionary *sinaWeiboConf= __Dictionary::create();
-   sinaWeiboConf->setObject(__String::create("2983242978"), "app_key");
-   sinaWeiboConf->setObject(__String::create("e1d8f32d60d0710c90a531bb68118357"), "app_secret");
-   sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
+   sinaWeiboConf->setObject(__String::create("197904272"), "app_key");
+   sinaWeiboConf->setObject(__String::create("1645c87956e28423b05a595f2e100d26"), "app_secret");
+   sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "redirect_uri");
    std::stringstream sina;
    sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
    totalDict->setObject(sinaWeiboConf, sina.str());
 #endif
-    
-    //新浪微博
-//    __Dictionary *sinaWeiboConf= __Dictionary::create();
-//    sinaWeiboConf->setObject(__String::create("568898243"), "app_key");
-//    sinaWeiboConf->setObject(__String::create("38a4f8204cc784f81f9f0daaf31e0 2e3"), "app_secret");
-//    sinaWeiboConf->setObject(__String::create("http://www.sharesdk.cn"), "re direct_uri");
-//    stringstream sina;
-//    sina << cn::sharesdk::C2DXPlatTypeSinaWeibo;
-//    totalDict->setObject(sinaWeiboConf, sina.str());
-
-    //QQ
-//    __Dictionary *qqConf = __Dictionary::create();
-//    qqConf->setObject(__String::create("100371282"), "app_id");
-//    qqConf->setObject(__String::create("aed9b0303e3ed1e27bae87c33761161d"),  "app_key");
-//    stringstream qq;
-//    qq << cn::sharesdk::C2DXPlatTypeQQPlatform;
-//    totalDict->setObject(qqConf, qq.str());
 
     const char * t_appKey = "2970ee5899ef8";
     const char * t_appSecret = "4eb673fc8993280113d9c4376535f83a";

@@ -132,7 +132,7 @@ bool LoginScene::init()
         if( t_LoginWechat != nullptr )
         {
             t_LoginWechat->setScale( adaptation() );
-            t_LoginWechat->setPosition( Vec2( visibleSize.width / 3.0f, t_iconPosY ) );
+            t_LoginWechat->setPosition( Vec2( visibleSize.width / 4.0f, t_iconPosY ) );
             m_SelectLoginType->addChild( t_LoginWechat, 1 );
 
             touchAnswer( t_LoginWechat, [this]( Ref * p_ref ){
@@ -140,32 +140,32 @@ bool LoginScene::init()
             }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "微信", PAGE_FONT, 12 );
-            t_label->setPosition( Vec2( visibleSize.width / 3.0f, t_titlePosY ) );
+            t_label->setPosition( Vec2( visibleSize.width / 4.0f, t_titlePosY ) );
             m_SelectLoginType->addChild( t_label, 2 );
 
         }
 
-//        auto t_LoginSina = Button::create( TexturePacker::Login::loginSina, TexturePacker::Login::loginSina, "", Widget::TextureResType::PLIST );
-//        if( t_LoginSina != nullptr )
-//        {
-//            t_LoginSina->setScale( adaptation() );
-//            t_LoginSina->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_iconPosY) );
-//            m_SelectLoginType->addChild(t_LoginSina, 1);
-//
-//            touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
-//                loginSina( this );
-//            }, adaptation() * 1.1f, adaptation() );
-//
-//            auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
-//            t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
-//            m_SelectLoginType->addChild( t_label, 2 );
-//        }
+       auto t_LoginSina = Button::create( TexturePacker::Login::loginSina, TexturePacker::Login::loginSina, "", Widget::TextureResType::PLIST );
+       if( t_LoginSina != nullptr )
+       {
+           t_LoginSina->setScale( adaptation() );
+           t_LoginSina->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_iconPosY) );
+           m_SelectLoginType->addChild(t_LoginSina, 1);
+
+           touchAnswer( t_LoginSina, [this]( Ref * p_ref ){
+               loginSina( this );
+           }, adaptation() * 1.1f, adaptation() );
+
+           auto t_label = Label::createWithTTF( "微博", PAGE_FONT, 12 );
+           t_label->setPosition( Vec2( visibleSize.width / 4.0f * 2.0f, t_titlePosY ) );
+           m_SelectLoginType->addChild( t_label, 2 );
+       }
 
         auto t_LoginPhone = Button::create( TexturePacker::Login::loginPhone, TexturePacker::Login::loginPhone, "", Widget::TextureResType::PLIST );
         if( t_LoginPhone != nullptr )
         {
             t_LoginPhone->setScale( adaptation() );
-            t_LoginPhone->setPosition( Vec2( visibleSize.width / 3.0f * 2.0f, t_iconPosY ) );
+            t_LoginPhone->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_iconPosY ) );
             m_SelectLoginType->addChild(t_LoginPhone, 1);
 
             touchAnswer( t_LoginPhone, [this]( Ref * p_ref ){
@@ -173,7 +173,7 @@ bool LoginScene::init()
             }, adaptation() * 1.1f, adaptation() );
             
             auto t_label = Label::createWithTTF( "手机", PAGE_FONT, 12 );
-            t_label->setPosition( Vec2( visibleSize.width / 3.0f * 2.0f, t_titlePosY ) );
+            t_label->setPosition( Vec2( visibleSize.width / 4.0f * 3.0f, t_titlePosY ) );
             m_SelectLoginType->addChild( t_label, 2 );
         }
     }
@@ -695,7 +695,6 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
     {
         return;
     }
-    // m_requesting = true;
 
     if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
     {
@@ -703,6 +702,7 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
         return;
     }
 
+    // m_requesting = true;
     m_loginType = DataUserInfo::LoginType::wechat;
 
     if( cn::sharesdk::C2DXShareSDK::isAuthorizedValid( cn::sharesdk::C2DXPlatTypeWeChat ) )
@@ -716,15 +716,27 @@ void LoginScene::loginWechat( cocos2d::Ref* pSender )
 void LoginScene::loginSina( cocos2d::Ref* pSender )
 {
     printf( "--------------> login sina \n" );
-    // if( m_requesting )
-    // {
-    //     return;
-    // }
-    // m_requesting = true;
-    // m_loginType = DataUserInfo::LoginType::sina;
-    // cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeSinaWeibo, LoginScene::getUserResultHandler);
+    if( m_requesting )
+    {
+        return;
+    }
 
-    MessageBox( "暂不支持微博登陆", "敬请期待" );
+    if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
+    {
+        MessageBox( "网络异常", "" );
+        return;
+    }
+
+    // m_requesting = true;
+    m_loginType = DataUserInfo::LoginType::sina;
+
+    if( cn::sharesdk::C2DXShareSDK::isAuthorizedValid( cn::sharesdk::C2DXPlatTypeSinaWeibo ) )
+    {
+        cn::sharesdk::C2DXShareSDK::cancelAuthorize( cn::sharesdk::C2DXPlatTypeSinaWeibo );
+    }
+
+    cn::sharesdk::C2DXShareSDK::getUserInfo(cn::sharesdk::C2DXPlatTypeSinaWeibo, LoginScene::getUserResultHandler);
+
 }
 
 void LoginScene::loginPhone( cocos2d::Ref* pSender )
@@ -1195,7 +1207,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
-    auto t_Dict = cn::sharesdk::C2DXShareSDK::getAuthInfo( cn::sharesdk::C2DXPlatTypeWeChat );
+    auto t_Dict = cn::sharesdk::C2DXShareSDK::getAuthInfo( platType );
     // DictElement * t_Element;
     // CCDICT_FOREACH(t_Dict, t_Element)
     // {
@@ -1225,6 +1237,17 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
             break;
         case cn::sharesdk::C2DXPlatType::C2DXPlatTypeSinaWeibo:
             t_loginType = "weibo";
+
+            t_sstr << "{";
+            t_sstr << "\"userID\": \"" << ((CCString *)t_Dict->objectForKey( "userID" ))->getCString() << "\", ";
+            t_sstr << "\"token\": \"" << ((CCString *)t_Dict->objectForKey( "token" ))->getCString() << "\", ";
+            t_sstr << "\"userName\": \"" << ((CCString *)t_Dict->objectForKey( "userName" ))->getCString() << "\", ";
+            t_sstr << "\"userGender\": \"" << ((CCString *)t_Dict->objectForKey( "userGender" ))->getCString() << "\", ";
+            t_sstr << "\"userIcon\": \"" << ((CCString *)t_Dict->objectForKey( "userIcon" ))->getCString() << "\"";
+            t_sstr << "}";
+            
+            t_sendStr = t_sstr.str();
+
             break;
         default:
             break;
@@ -1251,6 +1274,7 @@ void LoginScene::getUserResultHandler(int reqID, cn::sharesdk::C2DXResponseState
             break;
         case cn::sharesdk::C2DXPlatType::C2DXPlatTypeSinaWeibo:
             t_loginType = "weibo";
+            t_sendStr = t_result;
             break;
         default:
             break;
@@ -1324,6 +1348,17 @@ void LoginScene::loginCallBack( const std::string & p_str )
 
             std::string t_downloadUrl = t_user["headImg"].GetType() == rapidjson::kNullType ? "" : t_user["headImg"].GetString();
 
+            //判断用户头像格式
+            auto t_urlParse = split(t_downloadUrl, '/' );
+            auto t_fileName = t_urlParse[t_urlParse.size() - 1];
+            
+            auto t_fileNameParse = split(t_fileName, '.' );
+            auto t_suffix = t_fileNameParse.size() > 1 ? t_fileNameParse[t_fileNameParse.size() - 1] : "";
+            if( !( t_suffix.compare( "jpg" ) == 0 || t_suffix.compare( "jpeg" ) == 0 || t_suffix.compare( "png" ) == 0 || t_suffix.empty() ) )
+            {
+                t_downloadUrl = "";
+            }
+            
             if( !t_downloadUrl.empty() )
             {
                 if( t_downloadUrl.find( "http" ) == std::string::npos )
@@ -1334,6 +1369,7 @@ void LoginScene::loginCallBack( const std::string & p_str )
                 printf( "-----------------> %s \n", t_downloadUrl.c_str() );
 
                 DataFileInfo t_DataFileInfo = DataTableFile::instance().findBySourceUrl( t_downloadUrl );
+                
                 if( t_DataFileInfo.fileId.empty() )
                 {
                     Http::DownloadFile( t_downloadUrl, "png", [t_dataUser]( Http * p_http, DataFileInfo p_fineInfo ){

@@ -25,7 +25,7 @@ import com.mob.tools.utils.UIHandler;
 
 public class ShareSDKUtils {
 	public static boolean DEBUG = true;
-	private static boolean disableSSO = true; 
+	private static boolean disableSSO = false; 
 	
 	private static Context context;
 	private static Hashon hashon;

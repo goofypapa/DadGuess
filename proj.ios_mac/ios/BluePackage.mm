@@ -18,6 +18,8 @@ const char * Service_UUID = "FAA0";
 const char * Characteristic_UUID = "FAA1";
 const char * DeviceNamePrefix = "爸爸猜猜";
 
+NSTimer * m_timer = nil;
+
 @implementation BluePackage
 
 -(CBCentralManager *)cmgr
@@ -53,10 +55,17 @@ const char * DeviceNamePrefix = "爸爸猜猜";
         case 5:
         {
             NSLog(@"CBCentralManagerStatePoweredOn");//蓝牙已开启
-            // 在中心管理者成功开启后再进行一些操作
-            // 搜索外设
-            [self.cMgr scanForPeripheralsWithServices:nil // 通过某些服务筛选外设
-                                              options:nil]; // dict,条件
+            
+            if( m_timer != nil )
+            {
+                [m_timer invalidate];
+                m_timer = nil;
+            }
+            
+            // 创建定时器
+            m_timer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(scan) userInfo:nil repeats:YES];
+            // 将定时器添加到runloop中，否则定时器不会启动
+            [[NSRunLoop mainRunLoop] addTimer:m_timer forMode:NSRunLoopCommonModes];
             
             // 搜索成功之后,会调用我们找到外设的代理方法
             // - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI; //找到外设
@@ -130,6 +139,13 @@ const char * DeviceNamePrefix = "爸爸猜猜";
     NSLog(@"%s, line = %d, %@=连接成功", __FUNCTION__, __LINE__, peripheral.name);
     // 连接成功之后,可以进行服务和特征的发现
     
+    //取消搜索
+    if( m_timer != nil )
+    {
+        [m_timer invalidate];
+        m_timer = nil;
+    }
+    
     [self.cMgr stopScan];
     
     //  设置外设的代理
@@ -139,8 +155,8 @@ const char * DeviceNamePrefix = "爸爸猜猜";
     // 这里会触发外设的代理方法 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
     [self.peripheral discoverServices:nil];
     
-    
     BlueDeviceListener::_onConnectStateChanged( true );
+    
 }
 // 外设连接失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -152,8 +168,12 @@ const char * DeviceNamePrefix = "爸爸猜猜";
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"%s, line = %d, %@=断开连接", __FUNCTION__, __LINE__, peripheral.name);
-    [self.cMgr scanForPeripheralsWithServices:nil // 通过某些服务筛选外设
-                                      options:nil]; // dict,条件
+    
+    // 创建定时器
+    m_timer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(scan) userInfo:nil repeats:YES];
+    // 将定时器添加到runloop中，否则定时器不会启动
+    [[NSRunLoop mainRunLoop] addTimer:m_timer forMode:NSRunLoopCommonModes];
+    
     BlueDeviceListener::_onConnectStateChanged( false );
 }
 
@@ -260,6 +280,17 @@ const char * DeviceNamePrefix = "爸爸猜猜";
         NSLog(@"Error changing notification state: %@",[error localizedDescription]);
     }
     //其实这里貌似不用些什么（我是没有写只是判断了连接状态）
+}
+
+
+-(void)scan{
+    
+    [self.cMgr stopScan];
+    
+    // 在中心管理者成功开启后再进行一些操作
+    // 搜索外设
+    [self.cMgr scanForPeripheralsWithServices:nil // 通过某些服务筛选外设
+                                      options:nil]; // dict,条件
 }
 
 @end

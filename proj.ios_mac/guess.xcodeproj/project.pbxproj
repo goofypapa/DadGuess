@@ -48,6 +48,8 @@
 		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
+		3749D3C92236262B00B35623 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
+		3749D3CA2236264800B35623 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3752EC9A21A4F66000F549A3 /* Reachability.m */; };
 		37553A2E21E86891002EBF8C /* NFCDeviceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37553A2D21E86891002EBF8C /* NFCDeviceListener.cpp */; };
 		37553A37220525B0002EBF8C /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 37553A36220525B0002EBF8C /* audio */; };
@@ -100,8 +102,6 @@
 		37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EA963F21AD099900E359E8 /* BlueDeviceListener.cpp */; };
 		3EACC98F19EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
 		3EACC99019EE6D4300EB3C5E /* res in Resources */ = {isa = PBXBuildFile; fileRef = 3EACC98E19EE6D4300EB3C5E /* res */; };
-		46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
-		46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10517EB98FF00D1A890 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 503AE10317EB98FF00D1A890 /* main.cpp */; };
 		503AE11B17EB9C5A00D1A890 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503AE11A17EB9C5A00D1A890 /* IOKit.framework */; };
@@ -1035,7 +1035,6 @@
 				376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
 				37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */,
-				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				3710E0BD21C210210052CFF0 /* DataTableKeyValue.cpp in Sources */,
 				37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */,
 				376A5DA5212BB71700510F6C /* BaseScene.cpp in Sources */,
@@ -1044,6 +1043,7 @@
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				37B0B97D21A3F9E600A870E9 /* DadGuessMain.cpp in Sources */,
 				37EA95B521A6AC1500E359E8 /* DadGuessCardListScrollView.cpp in Sources */,
+				3749D3C92236262B00B35623 /* AppDelegate.cpp in Sources */,
 				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,
 				37775023218809CF006518B4 /* DataTableCard.cpp in Sources */,
@@ -1060,7 +1060,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				3749D3CA2236264800B35623 /* AppDelegate.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

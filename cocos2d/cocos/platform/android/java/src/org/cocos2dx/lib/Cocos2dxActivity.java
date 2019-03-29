@@ -390,7 +390,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
          Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
          Cocos2dxHelper.onPause();
 //         //锁屏或后台播放音频
-//         mGLSurfaceView.onPause();
+         mGLSurfaceView.onPause();
          Cocos2dxEngineDataManager.pause();
         unregisterReceiver(netWorkStateReceiver);
     }

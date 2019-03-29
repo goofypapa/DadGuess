@@ -50,6 +50,10 @@ private:
     static int sm_columns;
     std::string m_groupId;
 
+    cocos2d::Size m_innerContainerSize;
+    float m_paddingTop, m_paddingH;
+    float m_groudPadding, m_groudWidth, m_groudHeight;
+
     static std::mutex sm_downloadMutex;
     
     static std::list< Http * > sm_invalidDownloadList;

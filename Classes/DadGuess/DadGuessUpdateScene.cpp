@@ -816,7 +816,8 @@ void DadGuessUpdateScene::tryUpdate( void )
     }
 
     //没有网络不更新
-    if( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN )
+    bool t_netWorkConnected = getNetWorkState() == NetWorkStateListener::NetWorkState::WiFi || getNetWorkState() == NetWorkStateListener::NetWorkState::WWAN;
+    if( !t_netWorkConnected )
     {
         m_needCehckUpdate = false;
     }
@@ -825,6 +826,12 @@ void DadGuessUpdateScene::tryUpdate( void )
     if( t_isFirstOpen || !t_keyValue.getBooleanValue() )
     {
         m_needCehckUpdate = true;
+    }
+
+    if( m_needCehckUpdate && !t_netWorkConnected )
+    {
+        m_messageLabel->setString( "无法连接到互联网，请检查网络设置。" );
+        return;
     }
     
     while( !m_checkUpdateQueue.empty() )

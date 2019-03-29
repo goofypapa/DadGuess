@@ -339,24 +339,30 @@ extern "C"
         NFCDeviceListener::NfcStateChange( s_NFCState );
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpResponse(JNIEnv *env, jobject clazz, jboolean p_state, jstring p_requestId, jstring p_res)
+    JNIEXPORT void JNICALL Java_org_cocos2dx_cpp_Http_HttpResponse(JNIEnv *env, jobject clazz, jboolean p_state, jstring p_requestId, jstring p_resHandler, jstring p_resBody)
     {
+
         std::string t_requestId = jstringToChar( env, p_requestId );
-        std::string t_res = jstringToChar( env, p_res );
+        std::string t_resHandler = jstringToChar( env, p_resHandler );
+        std::string t_resBody = jstringToChar( env, p_resBody );
         auto t_it = s_httpRequestPool.find( t_requestId );
         if( t_it == s_httpRequestPool.end() )
         {
             return;
         }
 
+        printf( "---------------> p_state: %d", p_state );
+
         auto t_callBack = t_it->second.second;
         if( p_state != 0 )
         {
             t_callBack = t_it->second.first;
+        }else{
+            return;
         }
 
         std::thread( [=](){
-            t_callBack( t_requestId, t_res );
+            t_callBack( t_requestId, t_resHandler, t_resBody );
         } ).detach();
 
         s_httpRequestMutex.lock();

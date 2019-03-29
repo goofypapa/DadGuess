@@ -13,6 +13,9 @@
 #include <map>
 #include <vector>
 #include "DataTableCard.h"
+#include "Http.h"
+#include <functional>
+#include <mutex>
 
 class DadGuessCardListScene : public BaseScene
 {

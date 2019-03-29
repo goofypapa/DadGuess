@@ -15,6 +15,7 @@
 #include <mutex>
 #include "cocos/network/CCDownloader.h"
 #include "DataTableFile.h"
+#include "DataTableWebServiceDataCache.h"
 
 class Http
 {
@@ -26,6 +27,8 @@ public:
     typedef std::function<void( Http * p_http, DataFileInfo p_fileInfo, long, long )> DownloadFileProgressCallBack;
 
     static std::string token;
+
+    static DataWebServiceDataCacheInfo GetCache( const std::string & p_url, HttpParameter * p_parameter );
 
     static Http * Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache = true );
     static Http * Post( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache = true );
@@ -44,6 +47,9 @@ public:
     static const int sm_overtime;
 
 private:
+
+
+    bool _cacheResponse( const std::string & p_requestId, const std::string & p_resHandelr, const std::string & p_resBody );
 
     static std::string parseParameter( HttpParameter * p_parameter );
     static DataFileInfo convertToFileInfo( const cocos2d::network::DownloadTask & p_downloadTask );

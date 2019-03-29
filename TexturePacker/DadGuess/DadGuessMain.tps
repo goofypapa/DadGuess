@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.11.1</string>
+        <string>4.12.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -191,16 +191,30 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">main/caicai_back.png</key>
+            <key type="filename">main/buyButton.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
+                <rect>98,24,195,47</rect>
                 <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
+                <rect>98,24,195,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/caicai_back.png</key>
+            <key type="filename">main/caicai_icon_goback.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,24,48,48</rect>
+                <key>scale9Paddings</key>
+                <rect>24,24,48,48</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -341,34 +355,52 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">main/caicai_icon_goback.png</key>
+            <key type="filename">main/guess_card_group_icon_ABC.png</key>
+            <key type="filename">main/guess_card_group_icon_animal.png</key>
+            <key type="filename">main/guess_card_group_icon_astronomy.png</key>
+            <key type="filename">main/guess_card_group_icon_earth.png</key>
+            <key type="filename">main/guess_card_group_icon_historyChronology.png</key>
+            <key type="filename">main/guess_card_group_icon_worldHistory.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>24,24,48,48</rect>
+                <rect>106,32,211,63</rect>
                 <key>scale9Paddings</key>
-                <rect>24,24,48,48</rect>
+                <rect>106,32,211,63</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">main/caicai_xq_cover_abc.png</key>
-            <key type="filename">main/caicai_xq_cover_animal.png</key>
-            <key type="filename">main/caicai_xq_cover_chinese.png</key>
-            <key type="filename">main/caicai_xq_cover_earth.png</key>
-            <key type="filename">main/caicai_xq_cover_history.png</key>
-            <key type="filename">main/caicai_xq_cover_sky.png</key>
+            <key type="filename">main/guess_card_list_back.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>140,163,279,325</rect>
+                <rect>29,29,57,57</rect>
                 <key>scale9Paddings</key>
-                <rect>140,163,279,325</rect>
+                <rect>29,29,57,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">main/guess_card_list_bg_ABC.png</key>
+            <key type="filename">main/guess_card_list_bg_animal.png</key>
+            <key type="filename">main/guess_card_list_bg_astronomy.png</key>
+            <key type="filename">main/guess_card_list_bg_earth.png</key>
+            <key type="filename">main/guess_card_list_bg_historyChronology.png</key>
+            <key type="filename">main/guess_card_list_bg_worldHistory.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,45,90,90</rect>
+                <key>scale9Paddings</key>
+                <rect>45,45,90,90</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -387,19 +419,27 @@
             <filename>main/caicai_home_pic_logo.png</filename>
             <filename>main/caicai_home_pic_product.png</filename>
             <filename>main/caicai_home_sky.png</filename>
-            <filename>main/caicai_xq_cover_abc.png</filename>
-            <filename>main/caicai_xq_cover_animal.png</filename>
-            <filename>main/caicai_xq_cover_chinese.png</filename>
-            <filename>main/caicai_xq_cover_earth.png</filename>
-            <filename>main/caicai_xq_cover_history.png</filename>
-            <filename>main/caicai_xq_cover_sky.png</filename>
-            <filename>main/caicai_back.png</filename>
             <filename>main/caicai_bluesearch_pic_blue.png</filename>
             <filename>main/caicai_bluesearch_pic_fontbj.png</filename>
             <filename>main/caicai_icon_goback.png</filename>
             <filename>main/caicai_bluesearch_pic_background.png</filename>
             <filename>main/caicai_home_icon_nfc_off.png</filename>
             <filename>main/caicai_home_icon_nfc_on.png</filename>
+            <filename>main/guess_card_list_back.png</filename>
+            <filename>main/caicai_back.png</filename>
+            <filename>main/guess_card_list_bg_astronomy.png</filename>
+            <filename>main/guess_card_list_bg_ABC.png</filename>
+            <filename>main/guess_card_list_bg_animal.png</filename>
+            <filename>main/guess_card_list_bg_earth.png</filename>
+            <filename>main/guess_card_list_bg_historyChronology.png</filename>
+            <filename>main/guess_card_list_bg_worldHistory.png</filename>
+            <filename>main/guess_card_group_icon_ABC.png</filename>
+            <filename>main/guess_card_group_icon_earth.png</filename>
+            <filename>main/guess_card_group_icon_animal.png</filename>
+            <filename>main/guess_card_group_icon_worldHistory.png</filename>
+            <filename>main/guess_card_group_icon_historyChronology.png</filename>
+            <filename>main/guess_card_group_icon_astronomy.png</filename>
+            <filename>main/buyButton.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

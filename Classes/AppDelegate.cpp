@@ -198,22 +198,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
-#if USE_AUDIO_ENGINE
-    AudioEngine::pauseAll();
-#elif USE_SIMPLE_AUDIO_ENGINE
-    SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-    SimpleAudioEngine::getInstance()->pauseAllEffects();
-#endif
+// #if USE_AUDIO_ENGINE
+//     AudioEngine::pauseAll();
+// #elif USE_SIMPLE_AUDIO_ENGINE
+//     SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+//     SimpleAudioEngine::getInstance()->pauseAllEffects();
+// #endif
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
-#if USE_AUDIO_ENGINE
-    AudioEngine::resumeAll();
-#elif USE_SIMPLE_AUDIO_ENGINE
-    SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-    SimpleAudioEngine::getInstance()->resumeAllEffects();
-#endif
+// #if USE_AUDIO_ENGINE
+//     AudioEngine::resumeAll();
+// #elif USE_SIMPLE_AUDIO_ENGINE
+//     SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+//     SimpleAudioEngine::getInstance()->resumeAllEffects();
+// #endif
 }

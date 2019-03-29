@@ -13,7 +13,7 @@
 USING_NS_CC;
 using namespace cocos2d::ui;
 
-int DadGuessCardListScrollView::sm_columns = 4;
+int DadGuessCardListScrollView::sm_columns = 6;
 
 std::list< Http * > DadGuessCardListScrollView::sm_invalidDownloadList;
 std::list< Http * > DadGuessCardListScrollView::sm_downloadingList;
@@ -52,13 +52,19 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
     m_groupId = p_groupId;
     auto & t_cardList = DadGuessUpdateScene::s_cardList[m_groupId];
     
+
+    m_paddingTop = 11.0f;
+    m_paddingH = 15.0f;
+
     int t_rowCount = (int)ceil(t_cardList.size() / (float)sm_columns);
-    float t_itemSize = p_contentSize.width / sm_columns;
-    float t_itemPadding = 2.0f;
+
+    m_groudPadding = 10.0f;
+    m_groudWidth = ( p_contentSize.width - m_paddingH * 2.0f - m_groudPadding ) / sm_columns - m_groudPadding;
+    m_groudHeight = m_groudWidth * 1.36f;
+
+    m_innerContainerSize = Size( p_contentSize.width, m_paddingTop + t_rowCount * m_groudHeight + m_groudPadding * t_rowCount ); 
     
-    float t_innerContainerHeight = t_rowCount * t_itemSize;
-    
-    setInnerContainerSize( Size( p_contentSize.width, t_innerContainerHeight ) );
+    setInnerContainerSize( m_innerContainerSize );
     
     setDirection( ScrollView::Direction::VERTICAL );
     
@@ -106,13 +112,12 @@ bool DadGuessCardListScrollView::initWithSize( const cocos2d::Size & p_contentSi
         }
 
         auto t_itemSpriteSize = t_itemSprite->getContentSize();
-        
-        t_itemSprite->setScale( MIN( ( t_itemSize - t_itemPadding ) / t_itemSpriteSize.width, ( t_itemSize - t_itemPadding ) / t_itemSpriteSize.height ) );
-        
+        t_itemSprite->setScale( m_groudHeight / t_itemSpriteSize.height );
+        auto t_itemSpriteRealSizeHalf = Size( t_itemSpriteSize.width * t_itemSprite->getScale(), t_itemSpriteSize.height * t_itemSprite->getScale() ) * 0.5f;
         int t_row = (int)floor( i / sm_columns );
         int t_column = i % sm_columns;
 
-        t_itemSprite->setPosition( Vec2( t_itemSize * ( t_column + 0.5f ), t_innerContainerHeight - t_itemSize * ( t_row + 0.5f ) + ( p_contentSize.height > t_innerContainerHeight ? p_contentSize.height - t_innerContainerHeight : 0.0f ) ) );
+        t_itemSprite->setPosition( Vec2( m_paddingH + m_groudWidth * ( t_column + 0.5f ) + m_groudPadding * ( t_column + 1 ), m_innerContainerSize.height - m_groudHeight * ( t_row + 0.5f ) - ( m_groudPadding * t_row + 1 ) + ( p_contentSize.height > m_innerContainerSize.height ? p_contentSize.height - m_innerContainerSize.height : 0.0f ) - m_paddingTop ) );
 
         addChild( t_itemSprite );
         
@@ -177,13 +182,26 @@ void DadGuessCardListScrollView::onTouchEnded( cocos2d::Touch * p_touch, cocos2d
         auto t_postion = convertToNodeSpace( t_beginPos );
         auto t_offsetV = ( s_percentVertical / 100.0f ) * ( getInnerContainerSize().height - t_coutentHieght ) ;
         
-        auto t_realPos = Vec2( t_postion.x, getContentSize().height - t_postion.y + t_offsetV );
-        
+        auto t_realPos = Vec2( t_postion.x - m_paddingH , getContentSize().height - t_postion.y + t_offsetV - m_paddingTop );
+
+
+        auto t_itemWidth = m_groudWidth + m_groudPadding;
+        auto t_itemHeight = m_groudHeight + m_groudPadding;
+
+        if( t_realPos.x < 0 || t_realPos.x >= t_itemWidth * sm_columns || t_realPos.y < 0 )
+        {
+            return;
+        }
+
+        if( fmod( t_realPos.x, t_itemWidth ) < m_groudPadding || fmod( t_realPos.y, t_itemHeight ) > m_groudHeight )
+        {
+            return;
+        }
+
         auto t_contentSize = getContentSize();
-        float t_itemWidthHeight = t_contentSize.width / sm_columns;
         
-        int t_row = (int)floor( t_realPos.y / t_itemWidthHeight );
-        int t_column = (int)floor( t_realPos.x / t_itemWidthHeight );
+        int t_row = (int)floor( t_realPos.y / t_itemHeight );
+        int t_column = (int)floor( t_realPos.x / t_itemWidth );
         
         auto t_selectIndex = t_row * sm_columns + t_column;
         

@@ -15,14 +15,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
 
 public class Http {
-    String m_url, m_data, m_token, m_requestId, m_result, m_requestType;
+    String m_url, m_data, m_token, m_requestId, m_responseHandler, m_responseBody, m_requestType;
     boolean m_requesting;
 
     String m_filePath;
 
-    public static native void HttpResponse( boolean p_state, String p_requestId, String p_res );
+    public static native void HttpResponse( boolean p_state, String p_requestId, String p_resHandler, String p_resBody );
 
     public static native void HttpDownloadStart( String p_taskId, int p_fileSize );
     public static native void HttpDownloadEnd( String p_taskId );
@@ -38,7 +40,7 @@ public class Http {
         m_token = p_token;
         m_requestId = p_requestId;
         m_requesting = false;
-        m_result = null;
+        m_responseBody = null;
     }
 
     public void post( )
@@ -140,6 +142,19 @@ public class Http {
                         t_outputStream.close();
                     }
 
+                    Map<String, List<String>> map = t_httpURLConnection.getHeaderFields();
+                    m_responseHandler = "{";
+                    int t_cout = 0;
+                    for (Map.Entry<String, List<String>> entry : map.entrySet()) {
+//                        System.out.println("Key : " + entry.getKey() +
+//                                " ,Value : " + entry.getValue());
+                        if( t_cout++ > 0 ){
+                            m_responseHandler += ",";
+                        }
+                        m_responseHandler += "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"";
+                    }
+                    m_responseHandler += "}";
+
                     int t_response = t_httpURLConnection.getResponseCode();            //获得服务器的响应码
                     if(t_response == HttpURLConnection.HTTP_OK) {
                         InputStream t_inptStream = t_httpURLConnection.getInputStream();
@@ -150,22 +165,22 @@ public class Http {
 
                         while( (t_line = t_reader.readLine()) != null )
                         {
-                            if( m_result == null )
+                            if( m_responseBody == null )
                             {
-                                m_result = t_line;
+                                m_responseBody = t_line;
                                 continue;
                             }
-                            m_result += t_line;
+                            m_responseBody += t_line;
                         }
 
                         t_inptStream.close();
 
-                        Log.d( "-------->", m_result );
-
                         ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpResponse( true, m_requestId, m_result );
+                                Log.e( "------->> m_responseHandler: ", m_responseHandler );
+                                Log.e( "------->> m_responseBody: ", m_responseBody );
+                                HttpResponse( true, m_requestId, m_responseHandler, m_responseBody );
                             }
                         });
                     }
@@ -173,13 +188,19 @@ public class Http {
                     t_httpURLConnection.disconnect();
 
                 }catch (IOException e) {
-                    m_result = e.getMessage().toString();
-                    ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            HttpResponse( false, m_requestId, m_result );
-                        }
-                    });
+
+                    String err = e.getMessage().toString();
+
+                    Log.e( "------->> e.getMessage: ", err );
+
+//                    //会崩溃
+//                    m_responseBody = err;
+//                    ((Cocos2dxActivity)Cocos2dxActivity.getContext()).runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            HttpResponse( false, m_requestId, "", m_responseBody );
+//                        }
+//                    });
                 }
             }
         } ).start();

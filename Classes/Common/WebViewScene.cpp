@@ -454,7 +454,16 @@ void WebViewScene::stopAudio( const std::string & p_audioUrl )
     if( t_it != s_playList.end() )
     {
         AudioEngine::stop( s_playList[p_audioUrl] );
+        s_playList.erase( t_it );
     }
+
+    sm_downloadMutex.lock();
+    auto t_downloadIt = s_downloadList.find( p_audioUrl );
+    if( t_downloadIt != s_downloadList.end() )
+    {
+        s_downloadList.erase( t_downloadIt );
+    }
+    sm_downloadMutex.unlock();
 }
 
 void WebViewScene::_stopAllAudio( void )
@@ -481,14 +490,21 @@ void WebViewScene::_stopAllAudio( void )
     sm_instance->m_webview->evaluateJS( t_sstr.str() );
 
     sm_instance->m_playCallBackList.clear();
+
+    sm_downloadMutex.lock();
     sm_instance->s_playList.clear();
+    sm_instance->s_downloadList.clear();
+    sm_downloadMutex.unlock();
 }
 
 void WebViewScene::stopAllAudio( void )
 {
     PlayManager::StopAll();
+
+    sm_downloadMutex.lock();
     s_playList.clear();
     s_downloadList.clear();
+    sm_downloadMutex.unlock();
 }
 
 void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void( DataFileInfo p_audioFile )> p_loadAudioCallBack )

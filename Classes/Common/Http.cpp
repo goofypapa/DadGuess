@@ -14,8 +14,10 @@
 #include <vector>
 #include "md5.hpp"
 #include "BaseScene.h"
-#include "DataTableWebServiceDataCache.h"
 #include <thread>
+#include "external/json/document.h"
+#include "DataTableUser.h"
+#include "LoginScene.h"
 
 USING_NS_CC;
 using namespace network;
@@ -30,6 +32,18 @@ std::string Http::token = "";
 
 const int Http::sm_overtime = 60 * 60 * 24 * 1;
 
+
+DataWebServiceDataCacheInfo Http::GetCache( const std::string & p_url, HttpParameter * p_parameter )
+{
+    std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
+    std::string t_cacheKey = strToSqlStr( p_url + t_data );
+
+    printf( "---------> t_cacheKey : %s \n", t_cacheKey.c_str() );
+
+    return DataTableWebServiceDataCache::instance().find( t_cacheKey );
+}
+
+
 Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCallBack p_success, HttpCallBack p_final, const bool p_enableCache )
 {
     std::string t_data = p_parameter ? parseParameter( p_parameter ) : "" ;
@@ -43,10 +57,10 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
         if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
         {
             Http * t_http = new Http;
-            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
-                p_callBack( p_id, sqlStrToStr(  p_res ) );
+            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_resHandler, const std::string & p_resBody ){
+                p_callBack( p_id, sqlStrToStr(  p_resBody ) );
                 delete p_id;
-            }, p_success, t_http, t_dataCacheInfo.res ).detach();
+            }, p_success, t_http, "", t_dataCacheInfo.res ).detach();
             return t_http;
         }
     }
@@ -76,10 +90,13 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
     }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    httpGet( t_requerstUrl, token, createUUID(), [t_http]( std::string p_requestId, std::string p_res ){
-        t_http->getSuccessCallBack()( t_http, p_res );
-    }, [t_http]( std::string p_requestId, std::string p_res ){
-        t_http->getFinalCallBack()( t_http, p_res );
+    httpGet( t_requerstUrl, token, createUUID(), [t_http]( std::string p_requestId, std::string p_resHandler, std::string p_resBody ){
+
+        t_http->_cacheResponse( p_requestId, p_resHandler, p_resBody );
+
+        t_http->getSuccessCallBack()( t_http, p_resBody );
+    }, [t_http]( std::string p_requestId, std::string p_resHandler, std::string p_resBody ){
+        t_http->getFinalCallBack()( t_http, p_resBody );
     } );
 #else
 
@@ -121,16 +138,17 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
         time_t t_curTime;
         time(&t_curTime);
         auto t_dataCacheInfo = DataTableWebServiceDataCache::instance().find( t_cacheKey );
+
         if( !t_dataCacheInfo.id.empty() && ( t_curTime - t_dataCacheInfo.date < sm_overtime || ( getNetWorkState() != NetWorkStateListener::NetWorkState::WiFi && getNetWorkState() != NetWorkStateListener::NetWorkState::WWAN ) ) )
         {
             Http * t_http = new Http;
-            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_res ){
+            std::thread( []( HttpCallBack p_callBack, Http * p_id, const std::string & p_resHandler, const std::string & p_resBody ){
                 
                 // printf( "-----------> %s \n", p_res.c_str() );
                 
-                p_callBack( p_id, sqlStrToStr(  p_res ) );
+                p_callBack( p_id, sqlStrToStr(  p_resBody ) );
                 delete p_id;
-            }, p_success, t_http, t_dataCacheInfo.res ).detach();
+            }, p_success, t_http, "", t_dataCacheInfo.res ).detach();
             return t_http;
         }
     }
@@ -141,10 +159,14 @@ Http * Http::Post( const std::string & p_url, HttpParameter * p_parameter, HttpC
     t_http->m_success = p_success;
     t_http->m_final = p_final;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    httpPost( p_url, t_data, token, createUUID(), [t_http]( std::string p_requestId, std::string p_res ){
-        t_http->getSuccessCallBack()( t_http, p_res );
-    }, [t_http]( std::string p_requestId, std::string p_res ){
-        t_http->getFinalCallBack()( t_http, p_res );
+
+    httpPost( p_url, t_data, token, createUUID(), [t_http]( const std::string & p_requestId, const std::string & p_resHandler, const std::string & p_resBody ){
+
+        t_http->_cacheResponse( p_requestId, p_resHandler, p_resBody );
+        // 
+        t_http->getSuccessCallBack()( t_http, p_resBody );
+    }, [t_http]( const std::string & p_requestId, const std::string & p_resHandler, const std::string & p_resBody ){
+        t_http->getFinalCallBack()( t_http, p_resBody );
     } );
 #else
 
@@ -453,24 +475,7 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
         m_final( this, t_strResponse );
     }else{
 
-        if( sm_cacheKeyList.find( this ) != sm_cacheKeyList.end() )
-        {
-            time_t t_curTime;
-            time(&t_curTime);
-            
-            auto t_url = sm_cacheKeyList[this];
-            auto t_cacheInfo = DataWebServiceDataCacheInfo( createUUID(), t_url, strToSqlStr( t_strResponse ), t_curTime );
-            auto t_oldCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cacheKeyList[this] );
-
-            if( t_oldCacheInfo.id.empty() )
-            {
-                DataTableWebServiceDataCache::instance().insert( t_cacheInfo );
-            }else{
-                DataTableWebServiceDataCache::instance().update( t_cacheInfo );
-            }
-
-            sm_cacheKeyList.erase( this );
-        }
+        _cacheResponse( "", "", t_strResponse );
 
         m_success( this, t_strResponse );
     }
@@ -539,4 +544,91 @@ DataFileInfo Http::convertToFileInfo( const cocos2d::network::DownloadTask & p_d
     }
 
     return t_fileInfo;
+}
+
+bool Http::_cacheResponse( const std::string & p_requestId, const std::string & p_resHandler, const std::string & p_resBody )
+{
+
+    rapidjson::Document t_json;
+
+    // t_json.Parse( p_resHandler.c_str() );
+
+    // if( t_json.HasParseError() )
+    // {
+    //     return false;
+    // }
+
+    // if( !t_json.IsObject() )
+    // {
+    //     return false;
+    // }
+
+    // if( t_json.HasMember( "JWT_NEW_AUTHORIZATION" ) )
+    // {
+    //     auto t_token = t_json["JWT_NEW_AUTHORIZATION"].GetString();
+    //     auto t_userInfo = DataTableUser::instance().getActivation();
+    //     t_userInfo.token = t_token;
+    //     DataTableUser::instance().update( t_userInfo );
+    //     token = t_token;
+
+    //     printf( "-------------> replace token: %s \n", t_token );
+    // }
+    
+    t_json.Parse( p_resBody.c_str() );
+    
+    if( t_json.HasParseError() )
+    {
+        return false;
+    }
+    
+    if( !t_json.IsObject() )
+    {
+        return false;
+    }
+
+    if( !t_json.HasMember( "success" ) )
+    {
+        return false;
+    }
+
+    bool t_success = t_json["success"].GetBool();
+    if( !t_success )
+    {
+        if( std::string( t_json["code"].GetString() ).compare( "JWT_ERROR_AUTHORIZATION" ) == 0 )
+        {
+            Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+                DataTableUser::instance().logout();
+                token = "";
+                Director::getInstance()->replaceScene( LoginScene::create() );
+            });
+        }
+        return false;
+    }
+
+    // printf( "---------------> handler: %s \n", p_resHandler.c_str() );
+    // printf( "---------------> body: %s \n", p_resBody.c_str() );
+
+    if( sm_cacheKeyList.find( this ) != sm_cacheKeyList.end() )
+    {
+        
+        time_t t_curTime;
+        time(&t_curTime);
+        
+        auto t_url = sm_cacheKeyList[this];
+
+        auto t_cacheInfo = DataWebServiceDataCacheInfo( createUUID(), t_url, strToSqlStr( p_resBody ), t_curTime );
+        auto t_oldCacheInfo = DataTableWebServiceDataCache::instance().find( sm_cacheKeyList[this] );
+
+        if( t_oldCacheInfo.id.empty() )
+        {
+            DataTableWebServiceDataCache::instance().insert( t_cacheInfo );
+        }else{
+            DataTableWebServiceDataCache::instance().update( t_cacheInfo );
+        }
+
+        sm_cacheKeyList.erase( this );
+        return true;
+    }
+
+    return false;
 }

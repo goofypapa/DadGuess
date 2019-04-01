@@ -211,11 +211,19 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             profileHelper = &_audioPathProfileHelperMap[profile->name];
             profileHelper->profile = *profile;
         }
+
+
+        // log( "-------------->> play2d 1" );
+
         
-        if (_audioIDInfoMap.size() >= _maxInstances) {
-            log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
-            break;
-        }
+        // if (_audioIDInfoMap.size() >= _maxInstances) {
+        //     log("Fail to play %s cause by limited max instance of AudioEngine",filePath.c_str());
+        //     break;
+        // }
+
+        // log( "-------------->> play2d 2" );
+
+
         if (profileHelper)
         {
              if(profileHelper->profile.maxInstances != 0 && profileHelper->audioIDs.size() >= profileHelper->profile.maxInstances){

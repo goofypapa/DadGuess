@@ -472,13 +472,17 @@ void WebViewScene::_stopAllAudio( void )
     {
         return;
     }
+
+    sm_downloadMutex.lock();
     sm_instance->s_downloadList.clear();
+    sm_downloadMutex.unlock();
 
     if( sm_instance->s_playList.size() <= 0 )
     {
         return;
     }
 
+    sm_downloadMutex.lock();
     std::stringstream t_sstr;
     for( auto t_item : sm_instance->s_playList )
     {
@@ -491,9 +495,8 @@ void WebViewScene::_stopAllAudio( void )
 
     sm_instance->m_playCallBackList.clear();
 
-    sm_downloadMutex.lock();
     sm_instance->s_playList.clear();
-    sm_instance->s_downloadList.clear();
+
     sm_downloadMutex.unlock();
 }
 
@@ -524,9 +527,8 @@ void WebViewScene::loadAudio( const std::string & p_audioUrl, std::function<void
             return;
         }
     }
-    
+
     s_downloadList[ p_audioUrl ] = p_loadAudioCallBack;
-    
     
     auto * t_http = Http::DownloadFile( p_audioUrl, "", [this]( Http * p_http, DataFileInfo p_fileInfo ){
         

@@ -69,20 +69,20 @@ bool DadGuessCardListScene::initWithGroupId( const std::string & p_groupId )
     addChild( t_background );
 
     auto t_btnBack = Button::create( TexturePacker::DadGuessMain::guess_card_list_back, TexturePacker::DadGuessMain::guess_card_list_back, "", Button::TextureResType::PLIST );
-    t_btnBack->setScale( adaptation() );
+    // t_btnBack->setScale( adaptation() );
     auto t_btnBackSizeHalf = t_btnBack->getContentSize() * t_btnBack->getScale() * 0.5f;
     t_btnBack->setPosition( Vec2( t_origin.x + t_btnBackSizeHalf.width + 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_btnBackSizeHalf.height - 15.0f ) );
     addChild( t_btnBack );
 
     auto t_cardGroupIcon = Button::create( t_dataInfo[p_groupId][3], t_dataInfo[p_groupId][3], "", Button::TextureResType::PLIST );
-    t_cardGroupIcon->setScale( adaptation() );
+    // t_cardGroupIcon->setScale( adaptation() );
     auto t_cardGroupIconSizeHalf = t_cardGroupIcon->getContentSize() * t_cardGroupIcon->getScale() * 0.5f;
     t_cardGroupIcon->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_cardGroupIconSizeHalf.width - 15.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_cardGroupIconSizeHalf.height - 15.0f ) );
 
     if( !t_groupInfo.activation )
     {
         auto t_buyButton = Button::create( TexturePacker::DadGuessMain::buyButton, TexturePacker::DadGuessMain::buyButton, "", Button::TextureResType::PLIST );
-        t_buyButton->setScale( adaptation() );
+        // t_buyButton->setScale( adaptation() );
         auto t_buyButtonSizeHalf = t_buyButton->getContentSize() * t_buyButton->getScale() * 0.5f;
         t_buyButton->setPosition( Vec2( t_origin.x + t_visibleSizeHalf.width * 2.0f - t_buyButtonSizeHalf.width - 25.0f, t_origin.y + t_visibleSizeHalf.height * 2.0f - t_cardGroupIconSizeHalf.height - 15.0f ) );
         

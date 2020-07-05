@@ -104,6 +104,10 @@ static std::function< void ( PhoneStateListener::PhoneState ) > s_phoneStateList
     [eaglview setMultipleTouchEnabled:YES];
     cocos2d::Director::getInstance()->setOpenGLView(glview);
     
+    
+    //后台运行player
+    [self player];
+    
     //run the cocos2d-x game scene
     app->run();
 
@@ -200,6 +204,11 @@ static std::function< void ( PhoneStateListener::PhoneState ) > s_phoneStateList
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, called instead of applicationWillTerminate: when the user quits.
      */
+    
+    [self startBgTask];
+    /** 播放声音 */
+    [self.player play];
+    
     cocos2d::Application::getInstance()->applicationDidEnterBackground();
 }
 
@@ -272,6 +281,34 @@ static std::function< void ( PhoneStateListener::PhoneState ) > s_phoneStateList
     
 }
 
+//----------------------------
+
+- (AVAudioPlayer *)player{
+    if (!_player){
+        NSURL *url=[[NSBundle mainBundle]URLForResource:@"empty.wav" withExtension:nil];
+        _player = [[AVAudioPlayer alloc]initWithContentsOfURL:url error:nil];
+        [_player prepareToPlay];
+        //一直循环播放
+        _player.numberOfLoops = -1;
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+        
+        [session setActive:YES error:nil];
+    }
+    return _player;
+}
+
+
+- (void)startBgTask{
+    UIApplication *application = [UIApplication sharedApplication];
+    __block    UIBackgroundTaskIdentifier bgTask;
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        //这里延迟的系统时间结束
+        [application endBackgroundTask:bgTask];
+        NSLog(@"%f",application.backgroundTimeRemaining);
+    }];
+    
+}
 //----------------------------
 
 
@@ -347,31 +384,4 @@ void bindPhoneStateListener( std::function< void( PhoneStateListener::PhoneState
 void unbindPhoneStateListener( void )
 {
     s_phoneStateListener = nullptr;
-}
-
-void goSystemBlue()
-{
-//    NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
-//    if ([[UIApplication sharedApplication] canOpenURL:url]){
-//        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-//    }
-}
-
-bool whetherSupportNFC( void )
-{
-    return false;
-}
-bool whetherOpenNFC( void )
-{
-    return false;
-}
-void openNFC( void )
-{
-    
-}
-
-void goChrome( const std::string & p_url )
-{
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithUTF8String:p_url.c_str()]];
-    [[UIApplication sharedApplication]openURL:URL];
 }

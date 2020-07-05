@@ -10,7 +10,6 @@
 #include "MainScene.h"
 #include <sstream>
 #include "Http.h"
-#include "AudioEngine.h"
 #include "Config.h"
 
 #include "json/document.h"
@@ -21,6 +20,7 @@
 
 #include "DadGuessCardListScene.h"
 
+#include "PlayAudio.h"
 #include "PlayManager.h"
 
 USING_NS_CC;
@@ -397,10 +397,10 @@ void WebViewScene::playAudio( const std::string & p_audioUrl, const std::string 
         auto t_it = s_playList.find( t_audioFile.fileName );
         if( t_it != s_playList.end() )
         {
-            AudioEngine::stop( s_playList[t_audioFile.fileName] );
+            PlayAudio::stop( s_playList[t_audioFile.fileName] );
         }
        
-        auto t_playId = AudioEngine::play2d( t_audioFile.fileName );
+        auto t_playId = PlayAudio::play( t_audioFile.fileName );
         s_playList[t_audioFile.sourceUrl] = t_playId;
         
         if( !p_finishCallBack.empty() )
@@ -453,7 +453,7 @@ void WebViewScene::stopAudio( const std::string & p_audioUrl )
     auto t_it = s_playList.find( p_audioUrl );
     if( t_it != s_playList.end() )
     {
-        AudioEngine::stop( s_playList[p_audioUrl] );
+        PlayAudio::stop( s_playList[p_audioUrl] );
         s_playList.erase( t_it );
     }
 
@@ -486,7 +486,7 @@ void WebViewScene::_stopAllAudio( void )
     std::stringstream t_sstr;
     for( auto t_item : sm_instance->s_playList )
     {
-        AudioEngine::stop( t_item.second );
+        PlayAudio::stop( t_item.second );
         t_sstr << sm_instance->m_playCallBackList[t_item.first] << "(\"" << t_item.first << "\");";
     }
 

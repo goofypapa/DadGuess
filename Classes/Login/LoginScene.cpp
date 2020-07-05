@@ -1422,7 +1422,7 @@ void LoginScene::loginCallBack( const std::string & p_str )
         return;
     }
     
-    std::string t_code = t_json["code"].GetString();
+    std::string t_code = t_json["code"].IsString() ? t_json["code"].GetString() : "";
     
     if( t_code == "USER_ERROR_PASSWORD" || t_code == "USER_NOT_FOUND" )
     {

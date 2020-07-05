@@ -1,5 +1,6 @@
 #include "PlayManager.h"
-#include "AudioEngine.h"
+#include "PlayAudio.h"
+#include "cocos2d.h"
 
 USING_NS_CC;
 using namespace experimental;
@@ -11,7 +12,7 @@ std::map< int, PlayManager::FinishCallBack > PlayManager::sm_finishCallBackList;
 int PlayManager::Manage( const int p_playId, PlayManager::FinishCallBack p_finishCallBack )
 {
     sm_finishCallBackList[p_playId] = p_finishCallBack;
-    AudioEngine::setFinishCallback( p_playId, []( int p_playId, const std::string p_audio ){
+    PlayAudio::setFinishCallback( p_playId, []( int p_playId, const std::string p_audio ){
 
         sm_ManageStopMutex.lock();
         auto t_it = sm_finishCallBackList.find( p_playId );
@@ -37,7 +38,7 @@ void PlayManager::StopAll( void )
     sm_ManageStopMutex.lock();
     for( auto t_it : sm_finishCallBackList )
     {
-        AudioEngine::stop( t_it.first );
+        PlayAudio::stop( t_it.first );
     }
     sm_finishCallBackList.clear();
     sm_ManageStopMutex.unlock();

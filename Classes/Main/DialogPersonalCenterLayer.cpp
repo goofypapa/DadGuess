@@ -94,9 +94,14 @@ bool DialogPersonalCenterLayer::init( void )
 
     
     auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
-    m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName );
+    m_personalHead = Sprite::create( t_fileInfo.fileName );
+    
+    if(!m_personalHead)
+    {
+        m_personalHead = Sprite::create( "DefaultHead.png" );
+    }
+    
     auto t_personalHeadSizeHalf = m_personalHead->getContentSize() * 0.5f;
-
     m_personalHead->setScale( m_personalHeadBackgroundSizeHalf.width * 0.8f / t_personalHeadSizeHalf.width );
 
     m_personalHead->setPosition( Vec2( m_personalHeadBackgroundSizeHalf.width, m_personalHeadBackgroundSizeHalf.height ) );

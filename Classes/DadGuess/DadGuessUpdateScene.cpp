@@ -831,6 +831,14 @@ void DadGuessUpdateScene::tryUpdate( void )
     if( m_needCehckUpdate && !t_netWorkConnected )
     {
         m_messageLabel->setString( "无法连接到互联网，请检查网络设置。" );
+        
+        bindNetWorkStateListener([this](NetWorkStateListener::NetWorkState p_state){
+            if(p_state == NetWorkStateListener::NetWorkState::WiFi || p_state == NetWorkStateListener::NetWorkState::WWAN){
+                Director::getInstance()->getScheduler()->performFunctionInCocosThread([this](){
+                    tryUpdate();
+                });
+            }
+        });
         return;
     }
     

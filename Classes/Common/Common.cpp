@@ -18,7 +18,9 @@ float adaptation( Vec2 p_sourcePixel )
     
     static Vec2 t_phonePixel = Director::getInstance()->getOpenGLView()->getFrameSize();
 
-    static float t_result = MIN( t_phonePixel.x / p_sourcePixel.x , t_phonePixel.y / p_sourcePixel.y );
+    float t_result = MIN( t_phonePixel.x / p_sourcePixel.x , t_phonePixel.y / p_sourcePixel.y );
+    
+    printf( "----> %f %f \n", t_phonePixel.x, t_phonePixel.y );
     
     return t_result;
 }

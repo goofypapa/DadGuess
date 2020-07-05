@@ -117,7 +117,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     std::stringstream wechat;
     wechat << cn::sharesdk::C2DXPlatTypeWechatPlatform;
     totalDict->setObject(wechatConf, wechat.str());
-
+    
     //新浪微博
    __Dictionary *sinaWeiboConf= __Dictionary::create();
    sinaWeiboConf->setObject(__String::create("197904272"), "app_key");

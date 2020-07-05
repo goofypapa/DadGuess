@@ -11,6 +11,11 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include "PlayAudio.h"
+#include "AudioEngine.h"
+
+using namespace cocos2d;
+using namespace cocos2d::experimental;
 
 #include <functional>
 
@@ -220,6 +225,64 @@ void goChrome( const std::string & p_url )
         jstring t_url = info.env->NewStringUTF( p_url.c_str() );
         info.env->CallStaticVoidMethod( info.classID, info.methodID, t_url );
     }
+}
+
+int PlayAudio::play( const std::string & p_audioPath )
+{
+    return AudioEngine::play2d( p_audioPath );
+}
+
+void PlayAudio::pause( const int p_playId )
+{
+    AudioEngine::pause( p_playId );
+}
+
+void PlayAudio::pauseAll()
+{
+    AudioEngine::pauseAll();
+}
+
+void PlayAudio::resume( const int p_playId )
+{
+    AudioEngine::resume( p_playId );
+}
+
+void PlayAudio::resumeAll()
+{
+    AudioEngine::resumeAll();
+}
+
+void PlayAudio::stop( const int p_playId )
+{
+    AudioEngine::stop( p_playId );
+}
+
+void PlayAudio::stopAll( const int p_playId )
+{
+    AudioEngine::stopAll();
+}
+
+PlayAudio::AudioState PlayAudio::getState( const int p_playId )
+{
+    AudioEngine::AudioState t_state = AudioEngine::getState( p_playId );
+    switch( t_state )
+    {
+        case AudioEngine::AudioState::ERROR:
+            return PlayAudio::AudioState::ERROR;
+        case AudioEngine::AudioState::INITIALIZING:
+            return PlayAudio::AudioState::INITIALIZING;
+        case AudioEngine::AudioState::PLAYING:
+            return PlayAudio::AudioState::PLAYING;
+        case AudioEngine::AudioState::PAUSED:
+            return PlayAudio::AudioState::PAUSED;
+    }
+
+    return PlayAudio::AudioState::ERROR;
+}
+
+void PlayAudio::setFinishCallback( int p_playId, const FINISH_CALLBACK_FUNC & p_finishCallbackFunc )
+{
+    AudioEngine::setFinishCallback( p_playId, p_finishCallbackFunc );
 }
 
 extern "C"

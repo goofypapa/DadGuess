@@ -18,8 +18,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		294D0D641D0D56D500F7F5D4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 294D0D631D0D56D500F7F5D4 /* CoreText.framework */; };
-		370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 370511DB211ABEA800F2FE1C /* DialogSettingsLayer.cpp */; };
-		370511E0211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 370511DE211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp */; };
 		3705121121226C8000F2FE1C /* libicucore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3705121021226C8000F2FE1C /* libicucore.tbd */; };
 		3705121321226C8D00F2FE1C /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3705121221226C8D00F2FE1C /* JavaScriptCore.framework */; };
 		3705121421226C9D00F2FE1C /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDB32105E22D0088EC29 /* libstdc++.tbd */; };
@@ -46,6 +44,9 @@
 		3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3710E0B521BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp */; };
 		3710E0BD21C210210052CFF0 /* DataTableKeyValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3710E0BB21C210210052CFF0 /* DataTableKeyValue.cpp */; };
 		373335A52179C3BC0087D425 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 373335A32179C3BC0087D425 /* Web */; };
+		37358CBC2252EFAD00D857CC /* empty.wav in Resources */ = {isa = PBXBuildFile; fileRef = 37358CBB2252EFAD00D857CC /* empty.wav */; };
+		37358CC62252F5E300D857CC /* CPPBridging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37358CC52252F5E300D857CC /* CPPBridging.mm */; };
+		37358CC82252F65900D857CC /* PlayAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37358CC72252F65900D857CC /* PlayAudio.mm */; };
 		373CDF0420FEE98200D77EF2 /* MessageBoxBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */; };
 		373CDF0C2100376400D77EF2 /* Empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 373CDF0B2100376400D77EF2 /* Empty.png */; };
 		3749D3C92236262B00B35623 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46880B8419C43A87006E1F66 /* AppDelegate.cpp */; };
@@ -87,10 +88,12 @@
 		37C2DDBB2106B5590088EC29 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDBA2106B5590088EC29 /* SystemConfiguration.framework */; };
 		37C2DDBD2106B5840088EC29 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37C2DDBC2106B5840088EC29 /* CoreTelephony.framework */; };
 		37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37C2DFB72112FA650086F680 /* RootViewControllerV.mm */; };
+		37CCC1FE23FD68B4009582D3 /* DialogSettingsLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37CCC1F923FD68B4009582D3 /* DialogSettingsLayer.cpp */; };
+		37CCC1FF23FD68B4009582D3 /* DialogPersonalCenterLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37CCC1FA23FD68B4009582D3 /* DialogPersonalCenterLayer.cpp */; };
+		37CCC20023FD68B4009582D3 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37CCC1FB23FD68B4009582D3 /* MainScene.cpp */; };
 		37D7DAEC21198F0700A101E8 /* Common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE421198F0700A101E8 /* Common.cpp */; };
 		37D7DAED21198F0700A101E8 /* Message.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE521198F0700A101E8 /* Message.cpp */; };
 		37D7DAEE21198F0700A101E8 /* WebViewScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAE921198F0700A101E8 /* WebViewScene.cpp */; };
-		37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37D7DAF121198F1200A101E8 /* MainScene.cpp */; };
 		37E2AE7C212C0D3E00DB6912 /* DefaultHead.png in Resources */ = {isa = PBXBuildFile; fileRef = 37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */; };
 		37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */; };
 		37E6FCCA20F6F46E0047F458 /* DataBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37E6FCC720F6F46E0047F458 /* DataBase.cpp */; };
@@ -185,11 +188,6 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		294D0D631D0D56D500F7F5D4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
-		370511DB211ABEA800F2FE1C /* DialogSettingsLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DialogSettingsLayer.cpp; sourceTree = "<group>"; };
-		370511DC211ABEA800F2FE1C /* DialogSettingsLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DialogSettingsLayer.h; sourceTree = "<group>"; };
-		370511DE211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DialogPersonalCenterLayer.cpp; sourceTree = "<group>"; };
-		370511DF211BCB0F00F2FE1C /* DialogPersonalCenterLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DialogPersonalCenterLayer.h; sourceTree = "<group>"; };
-		370511E1211BCC0500F2FE1C /* DialogLayerInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DialogLayerInterface.h; sourceTree = "<group>"; };
 		3705121021226C8000F2FE1C /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/usr/lib/libicucore.tbd; sourceTree = DEVELOPER_DIR; };
 		3705121221226C8D00F2FE1C /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		3705121B21226DFB00F2FE1C /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
@@ -226,6 +224,10 @@
 		3710E0BB21C210210052CFF0 /* DataTableKeyValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableKeyValue.cpp; sourceTree = "<group>"; };
 		3710E0BC21C210210052CFF0 /* DataTableKeyValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableKeyValue.h; sourceTree = "<group>"; };
 		373335A32179C3BC0087D425 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
+		37358CBB2252EFAD00D857CC /* empty.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = empty.wav; sourceTree = "<group>"; };
+		37358CBD2252F04800D857CC /* PlayAudio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayAudio.h; sourceTree = "<group>"; };
+		37358CC52252F5E300D857CC /* CPPBridging.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CPPBridging.mm; sourceTree = "<group>"; };
+		37358CC72252F65900D857CC /* PlayAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayAudio.mm; sourceTree = "<group>"; };
 		373CDF0220FEE98200D77EF2 /* MessageBoxBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageBoxBG.png; sourceTree = "<group>"; };
 		373CDF0920FF311600D77EF2 /* DataValidate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataValidate.h; sourceTree = "<group>"; };
 		373CDF0B2100376400D77EF2 /* Empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Empty.png; sourceTree = "<group>"; };
@@ -292,6 +294,13 @@
 		37C2DDBC2106B5840088EC29 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.4.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		37C2DFB72112FA650086F680 /* RootViewControllerV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RootViewControllerV.mm; sourceTree = "<group>"; };
 		37C2DFB82112FA650086F680 /* RootViewControllerV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewControllerV.h; sourceTree = "<group>"; };
+		37CCC1F723FD68B4009582D3 /* DialogPersonalCenterLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogPersonalCenterLayer.h; sourceTree = "<group>"; };
+		37CCC1F823FD68B4009582D3 /* DialogSettingsLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogSettingsLayer.h; sourceTree = "<group>"; };
+		37CCC1F923FD68B4009582D3 /* DialogSettingsLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogSettingsLayer.cpp; sourceTree = "<group>"; };
+		37CCC1FA23FD68B4009582D3 /* DialogPersonalCenterLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogPersonalCenterLayer.cpp; sourceTree = "<group>"; };
+		37CCC1FB23FD68B4009582D3 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
+		37CCC1FC23FD68B4009582D3 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		37CCC1FD23FD68B4009582D3 /* DialogLayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogLayerInterface.h; sourceTree = "<group>"; };
 		37D0408620F8457A00C34F12 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		37D7DAE421198F0700A101E8 /* Common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Common.cpp; sourceTree = "<group>"; };
 		37D7DAE521198F0700A101E8 /* Message.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Message.cpp; sourceTree = "<group>"; };
@@ -299,8 +308,6 @@
 		37D7DAE721198F0700A101E8 /* WebViewScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewScene.h; sourceTree = "<group>"; };
 		37D7DAE921198F0700A101E8 /* WebViewScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebViewScene.cpp; sourceTree = "<group>"; };
 		37D7DAEA21198F0700A101E8 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		37D7DAF121198F1200A101E8 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
-		37D7DAF221198F1200A101E8 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
 		37E2AE7B212C0D3E00DB6912 /* DefaultHead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultHead.png; sourceTree = "<group>"; };
 		37E6FCC520F6F46E0047F458 /* DataTableUser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataTableUser.cpp; sourceTree = "<group>"; };
 		37E6FCC620F6F46E0047F458 /* DataTableUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableUser.h; sourceTree = "<group>"; };
@@ -435,6 +442,9 @@
 		1AF87B461F6F77D6007BE51C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				37358CC72252F65900D857CC /* PlayAudio.mm */,
+				37358CC52252F5E300D857CC /* CPPBridging.mm */,
+				37358CBB2252EFAD00D857CC /* empty.wav */,
 				37EA963221ABD1CD00E359E8 /* BluePackage.h */,
 				37EA963321ABD1CD00E359E8 /* BluePackage.mm */,
 				37EA95BF21A7EB6300E359E8 /* LaunchScreen.storyboard */,
@@ -712,6 +722,20 @@
 			path = sqlite3;
 			sourceTree = "<group>";
 		};
+		37CCC1F623FD68B4009582D3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				37CCC1F723FD68B4009582D3 /* DialogPersonalCenterLayer.h */,
+				37CCC1F823FD68B4009582D3 /* DialogSettingsLayer.h */,
+				37CCC1F923FD68B4009582D3 /* DialogSettingsLayer.cpp */,
+				37CCC1FA23FD68B4009582D3 /* DialogPersonalCenterLayer.cpp */,
+				37CCC1FB23FD68B4009582D3 /* MainScene.cpp */,
+				37CCC1FC23FD68B4009582D3 /* MainScene.h */,
+				37CCC1FD23FD68B4009582D3 /* DialogLayerInterface.h */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		37D7DAE321198F0700A101E8 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -731,22 +755,9 @@
 				37D7DAEA21198F0700A101E8 /* Common.h */,
 				37EA963721ABD52F00E359E8 /* BlueDeviceListener.h */,
 				37EA963F21AD099900E359E8 /* BlueDeviceListener.cpp */,
+				37358CBD2252F04800D857CC /* PlayAudio.h */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		37D7DAF021198F1200A101E8 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				37D7DAF121198F1200A101E8 /* MainScene.cpp */,
-				37D7DAF221198F1200A101E8 /* MainScene.h */,
-				370511DB211ABEA800F2FE1C /* DialogSettingsLayer.cpp */,
-				370511DC211ABEA800F2FE1C /* DialogSettingsLayer.h */,
-				370511DE211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp */,
-				370511DF211BCB0F00F2FE1C /* DialogPersonalCenterLayer.h */,
-				370511E1211BCC0500F2FE1C /* DialogLayerInterface.h */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		37E6FCC420F6F46E0047F458 /* DataBase */ = {
@@ -803,12 +814,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				37CCC1F623FD68B4009582D3 /* Main */,
 				37553A3A22115CE5002EBF8C /* SMSSDK */,
 				377750152186E196006518B4 /* DadGuess */,
 				376A5DA4212BB71600510F6C /* BaseScene.cpp */,
 				376A5DA3212BB71600510F6C /* BaseScene.h */,
 				3705124421226E7D00F2FE1C /* C2DXShareSDK */,
-				37D7DAF021198F1200A101E8 /* Main */,
 				37D7DAE321198F0700A101E8 /* Common */,
 				379D95E621081D47006DA6C1 /* Resources */,
 				37D0408620F8457A00C34F12 /* Config.h */,
@@ -901,7 +912,7 @@
 						DevelopmentTeam = A72S287J4X;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.GameCenter.iOS = {
 								enabled = 0;
@@ -970,6 +981,7 @@
 				379D95F421084A68006DA6C1 /* Login.png in Resources */,
 				37553A37220525B0002EBF8C /* audio in Resources */,
 				370A78A32112975000252E8D /* Dialog.png in Resources */,
+				37358CBC2252EFAD00D857CC /* empty.wav in Resources */,
 				3705123B21226DFB00F2FE1C /* ShareSDK.bundle in Resources */,
 				37EA95C021A7EB6300E359E8 /* LaunchScreen.storyboard in Resources */,
 				D8B23D5D20EB61D100EB4F2E /* Back.png in Resources */,
@@ -1015,7 +1027,6 @@
 				1AF87B781F6F77F7007BE51C /* AppController.mm in Sources */,
 				37D7DAED21198F0700A101E8 /* Message.cpp in Sources */,
 				D8B23D5720EB3F5700EB4F2E /* LoginScene.cpp in Sources */,
-				37D7DAF521198F1200A101E8 /* MainScene.cpp in Sources */,
 				37B0B97221A3EC9100A870E9 /* DadGuessMainScene.cpp in Sources */,
 				3710E0B821BFBA050052CFF0 /* DataTableWebServiceDataCache.cpp in Sources */,
 				37EA963421ABD1CD00E359E8 /* BluePackage.mm in Sources */,
@@ -1030,7 +1041,9 @@
 				1AF87B8B1F6F782A007BE51C /* RootViewController.mm in Sources */,
 				379927C0222CD84000C34B98 /* PlayManager.cpp in Sources */,
 				37C2DFB92112FA650086F680 /* RootViewControllerV.mm in Sources */,
+				37CCC1FE23FD68B4009582D3 /* DialogSettingsLayer.cpp in Sources */,
 				37553A4F22115CE5002EBF8C /* SMSSDK.cpp in Sources */,
+				37358CC62252F5E300D857CC /* CPPBridging.mm in Sources */,
 				37EA964121AD099900E359E8 /* BlueDeviceListener.cpp in Sources */,
 				376A5DA2212A55B900510F6C /* DataTableFile.cpp in Sources */,
 				379D95F721097457006DA6C1 /* Dialog.cpp in Sources */,
@@ -1041,15 +1054,16 @@
 				37C2DD6721056A5C0088EC29 /* sqlite3.c in Sources */,
 				37B0B97521A3EF0700A870E9 /* DadGuessUpdate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
+				37CCC1FF23FD68B4009582D3 /* DialogPersonalCenterLayer.cpp in Sources */,
 				37B0B97D21A3F9E600A870E9 /* DadGuessMain.cpp in Sources */,
+				37CCC20023FD68B4009582D3 /* MainScene.cpp in Sources */,
 				37EA95B521A6AC1500E359E8 /* DadGuessCardListScrollView.cpp in Sources */,
 				3749D3C92236262B00B35623 /* AppDelegate.cpp in Sources */,
-				370511DD211ABEA800F2FE1C /* DialogSettingsLayer.cpp in Sources */,
 				379D95E921081D98006DA6C1 /* Main.cpp in Sources */,
 				37775023218809CF006518B4 /* DataTableCard.cpp in Sources */,
 				37B0B96F21A265C100A870E9 /* DadGuessService.cpp in Sources */,
-				370511E0211BCB0F00F2FE1C /* DialogPersonalCenterLayer.cpp in Sources */,
 				37E6FCC920F6F46E0047F458 /* DataTableUser.cpp in Sources */,
+				37358CC82252F65900D857CC /* PlayAudio.mm in Sources */,
 				37B0B96C219D019500A870E9 /* DataTableCardAudio.cpp in Sources */,
 				3752EC9B21A4F66000F549A3 /* Reachability.m in Sources */,
 				3705125521226E7D00F2FE1C /* C2DXiOSShareSDK.mm in Sources */,
@@ -1088,6 +1102,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEVELOPMENT_TEAM = A72S287J4X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1118,6 +1133,7 @@
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/SinaWeiboSDK",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/WeChatSDK",
 				);
+				MARKETING_VERSION = 1.5;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
@@ -1139,6 +1155,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEVELOPMENT_TEAM = A72S287J4X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1168,6 +1185,7 @@
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/SinaWeiboSDK",
 					"$(PROJECT_DIR)/ios/share/SDK/ShareSDK/Support/PlatformSDK/WeChatSDK",
 				);
+				MARKETING_VERSION = 1.5;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",

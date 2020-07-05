@@ -23,7 +23,7 @@
 #include "DataTableCardAudio.h"
 #include "DataTableKeyValue.h"
 
-#include "AudioEngine.h"
+#include "PlayAudio.h"
 
 #include "json/document.h"
 #include "json/writer.h"
@@ -99,7 +99,12 @@ bool DadGuessMainScene::init( void )
     
     auto t_fileInfo = DataTableFile::instance().find( m_loginUser.headImg );
     
-    m_personalHead = t_fileInfo.fileId.empty() ? Sprite::create( "DefaultHead.png" ) : Sprite::create( t_fileInfo.fileName ) ;
+    m_personalHead = Sprite::create( t_fileInfo.fileName ) ;
+    
+    if(!m_personalHead)
+    {
+        m_personalHead = Sprite::create( "DefaultHead.png" );
+    }
     
     auto t_personalHeadSizeHelf = m_personalHead->getContentSize() * 0.5f;
     m_personalHead->setPosition( Vec2( m_userHeadBorderSizeHalf.width, m_userHeadBorderSizeHalf.height ) );
@@ -233,7 +238,7 @@ bool DadGuessMainScene::init( void )
     //
     auto t_btnAbc = Button::create( TexturePacker::DadGuessMain::caicai_home_abc, TexturePacker::DadGuessMain::caicai_home_abc, "", Button::TextureResType::PLIST );
     t_btnAbc->setScale( t_iconScale );
-    auto t_btnAbcSizeHalf = t_btnAbc->getContentSize() * t_btnAbc->getScale() * 0.5f;
+//    auto t_btnAbcSizeHalf = t_btnAbc->getContentSize() * t_btnAbc->getScale() * 0.5f;
     
     t_btnAbc->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 1.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnAbc );
@@ -241,7 +246,7 @@ bool DadGuessMainScene::init( void )
     //
     auto t_btnSky = Button::create( TexturePacker::DadGuessMain::caicai_home_sky, TexturePacker::DadGuessMain::caicai_home_sky, "", Button::TextureResType::PLIST );
     t_btnSky->setScale( t_iconScale  );
-    auto t_btnSkySizeHalf = t_btnSky->getContentSize() * t_btnSky->getScale() * 0.5f;
+//    auto t_btnSkySizeHalf = t_btnSky->getContentSize() * t_btnSky->getScale() * 0.5f;
     
     t_btnSky->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 2.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnSky );
@@ -249,7 +254,7 @@ bool DadGuessMainScene::init( void )
     //
     auto t_btnEart = Button::create( TexturePacker::DadGuessMain::caicai_home_earth, TexturePacker::DadGuessMain::caicai_home_earth, "", Button::TextureResType::PLIST );
     t_btnEart->setScale( t_iconScale  );
-    auto t_btnEartSizeHalf = t_btnEart->getContentSize() * t_btnEart->getScale() * 0.5f;
+//    auto t_btnEartSizeHalf = t_btnEart->getContentSize() * t_btnEart->getScale() * 0.5f;
     
     t_btnEart->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 3.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnEart );
@@ -257,7 +262,7 @@ bool DadGuessMainScene::init( void )
     //
     auto t_btnHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_history, TexturePacker::DadGuessMain::caicai_home_history, "", Button::TextureResType::PLIST );
     t_btnHistory->setScale( t_iconScale  );
-    auto t_btnHistorySizeHalf = t_btnHistory->getContentSize() * t_btnHistory->getScale() * 0.5f;
+//    auto t_btnHistorySizeHalf = t_btnHistory->getContentSize() * t_btnHistory->getScale() * 0.5f;
     
     t_btnHistory->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 4.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnHistory );
@@ -265,7 +270,7 @@ bool DadGuessMainScene::init( void )
     //
     auto t_btnChineseHistory = Button::create( TexturePacker::DadGuessMain::caicai_home_chinese, TexturePacker::DadGuessMain::caicai_home_chinese, "", Button::TextureResType::PLIST );
     t_btnChineseHistory->setScale( t_iconScale );
-    auto t_btnChineseHistorySizeHalf = t_btnChineseHistory->getContentSize() * t_btnChineseHistory->getScale() * 0.5f;
+//    auto t_btnChineseHistorySizeHalf = t_btnChineseHistory->getContentSize() * t_btnChineseHistory->getScale() * 0.5f;
     
     t_btnChineseHistory->setPosition( Vec2( t_iconPosX + t_iconSpaceX * 5.5f, t_iconPosY + t_btnAnimalSizeHalf.height ) );
     addChild( t_btnChineseHistory );
@@ -336,9 +341,26 @@ bool DadGuessMainScene::init( void )
             {
                 int t_rfid = ( p_data[2] << 8 ) + p_data[3];
 
+                if( t_rfid == 0x01 << 8 ||
+                    t_rfid == 0x02 << 8 ||
+                    t_rfid == 0x03 << 8 ||
+                    t_rfid == 0x04 << 8 ||
+                    t_rfid == 0x05 << 8 ||
+                    t_rfid == 0x06 << 8 ||
+                    t_rfid == 0x07 << 8 ||
+                    t_rfid == 0x08 << 8 )
+                {
+                    std::stringstream t_sstr;
+                    t_sstr << "audio/" << ( t_rfid >> 8 ) << ".ogg";
+
+                    printf( "-------->> play %s \r\n", t_sstr.str().c_str() );
+
+                    PlayAudio::play( t_sstr.str() );
+                    return;
+                }
+
                 if( p_data[1] == 0x03 )
                 {
-
                     //过滤重复的03上报
                     if( s_scanCardList.find( t_rfid ) == s_scanCardList.end() )
                     {
@@ -362,7 +384,7 @@ bool DadGuessMainScene::init( void )
                     printf( "-----------> scan card time space: %f \n", t_timeD - s_prveScanCardTime );
                     s_prveScanCardTime = t_timeD;
 
-                    AudioEngine::play2d( "audio/scan.mp3" );
+                    PlayAudio::play( "audio/scan.mp3" );
 
                     DadGuessMainScene::scanCard( t_rfid );
 
@@ -387,10 +409,10 @@ bool DadGuessMainScene::init( void )
             switch( p_phoneState )
             {
                 case PhoneStateListener::PhoneState::IDLE:
-                    AudioEngine::resumeAll();
+                    PlayAudio::resumeAll();
                 break;
                 default:
-                    AudioEngine::pauseAll();
+                    PlayAudio::pauseAll();
                 break;
             }
         } );
@@ -504,7 +526,7 @@ void DadGuessMainScene::scanCard( int p_rfid )
             if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
             {
                 PlayManager::StopAll();
-                int t_playId = AudioEngine::play2d( "audio/offlineTips.mp3" );
+                int t_playId = PlayAudio::play( "audio/offlineTips.mp3" );
                 PlayManager::Manage( t_playId );
                 return;
             }
@@ -748,7 +770,7 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
         if( getNetWorkState() != NetWorkStateListener::WiFi && getNetWorkState() != NetWorkStateListener::WWAN )
         {
             PlayManager::StopAll();
-            AudioEngine::play2d( "audio/offlineTips.mp3" );
+            PlayAudio::play( "audio/offlineTips.mp3" );
             return;
         }
         
@@ -766,23 +788,21 @@ void DadGuessMainScene::playAudio( const DataCardAudioInfo & p_audioInfo )
 
     WebViewScene::_stopAllAudio();
 
-
-    printf( "-------> play: %s \n", t_audioFileInfo.fileName.c_str() );
     if( p_audioInfo.audioType == DataCardAudioInfo::AudioType::commentary )
     {
         PlayManager::StopAll();
-        s_soloPlayId = AudioEngine::play2d( t_audioFileInfo.fileName );
+        s_soloPlayId = PlayAudio::play( t_audioFileInfo.fileName );
         s_prvePlayAudio = p_audioInfo;
 
         PlayManager::Manage( s_soloPlayId );
     }else{
         
-        if( p_audioInfo.cardId.compare( s_prvePlayAudio.cardId ) != 0 && AudioEngine::getState( s_soloPlayId ) == AudioEngine::AudioState::PLAYING )
+        if( p_audioInfo.cardId.compare( s_prvePlayAudio.cardId ) != 0 && PlayAudio::getState( s_soloPlayId ) == PlayAudio::AudioState::PLAYING )
         {
-            AudioEngine::stop( s_soloPlayId );
+            PlayAudio::stop( s_soloPlayId );
         }
 
-        int t_playId = AudioEngine::play2d( t_audioFileInfo.fileName );
+        int t_playId = PlayAudio::play( t_audioFileInfo.fileName );
         PlayManager::Manage( t_playId );
 
         // std::thread( [t_audioFileInfo](){

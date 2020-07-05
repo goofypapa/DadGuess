@@ -81,7 +81,7 @@ Http * Http::Get( const std::string & p_url, HttpParameter * p_parameter, HttpCa
         {
             t_url << p_url << "?";
         }else{
-            t_url << p_url << "&";
+             t_url << p_url << "&";
         }
 
         t_url << t_data;
@@ -476,8 +476,9 @@ void Http::http_handshakeResponse( network::HttpClient * p_sender, network::Http
     }else{
 
         _cacheResponse( "", "", t_strResponse );
-
+        
         m_success( this, t_strResponse );
+        
     }
     
     delete this;
@@ -514,7 +515,22 @@ std::string Http::parseParameter( HttpParameter * p_parameter )
     for( auto item : (*p_parameter) )
     {
 
-        sstr << item.first << "=" << item.second;
+        if( item.second.find( "&" ) != std::string::npos )
+        {
+            
+            auto t_list = split( item.second, "&");
+            
+            std::stringstream t_sstr;
+            for( int i = 0; i < t_list.size(); ++i )
+            {
+                t_sstr << ( i != 0 ? "%26" : "" ) << t_list.at( i );
+            }
+            
+            sstr << item.first << "=" << t_sstr.str();
+        }else{
+            sstr << item.first << "=" << item.second;
+        }
+
         
         if( ++t_index != p_parameter->size() )
         {
@@ -594,7 +610,7 @@ bool Http::_cacheResponse( const std::string & p_requestId, const std::string & 
     bool t_success = t_json["success"].GetBool();
     if( !t_success )
     {
-        if( std::string( t_json["code"].GetString() ).compare( "JWT_ERROR_AUTHORIZATION" ) == 0 )
+        if( t_json["code"].IsString() && std::string( t_json["code"].GetString() ).compare( "JWT_ERROR_AUTHORIZATION" ) == 0 )
         {
             Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
                 DataTableUser::instance().logout();
